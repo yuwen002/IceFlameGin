@@ -14,6 +14,7 @@
             logger：日志记录器相关的代码。
             utils：通用的工具函数或帮助类。
     migrations 目录用于存放数据库迁移文件，包括升级和回滚脚本。
+    routers 目录用于存放路由设置相关的代码。
     web 目录用于存放与 Web 相关的代码。
         handlers 目录用于存放处理请求的处理函数。
         static 目录用于存放静态资源文件，例如 CSS、JavaScript 等。
