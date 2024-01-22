@@ -1,4 +1,4 @@
-module ice__flame_gin
+module ice_flame_gin
 
 go 1.20
 

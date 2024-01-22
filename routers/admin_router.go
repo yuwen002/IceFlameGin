@@ -1,6 +1,9 @@
 package routers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"ice_flame_gin/internal/app/controllers/admin"
+)
 
 // setupAdminRoutes
 //
@@ -10,11 +13,9 @@ import "github.com/gin-gonic/gin"
 // @Date 2024-01-21 22:28:27
 // @param router
 func setupAdminRoutes(router *gin.Engine) {
-	admin := router.Group("/admin")
+	r := router.Group("/admin")
 	{
-		admin.GET("/", adminIndex)
-		admin.GET("/users", adminUsers)
-		admin.POST("/users", adminCreateUser)
+		r.GET("/", admin.UcSystemMaster.Login)
 		// 添加更多后台路由...
 	}
 }
