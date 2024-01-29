@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>IceFlame | Login</title>
+    <title>IceFlame | {{ .title }}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -23,19 +23,19 @@
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">登录开始您的会话</p>
 
-            <form action="/static/admin/index3.html" method="post">
+            <form id="login-form" action="/static/admin/index3.html" method="post">
                 <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Email">
+                    <input type="tel" id="username" name="username" class="form-control" placeholder="Tel" required>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                            <span class="fas fa-phone"></span>
                         </div>
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="password" class="form-control" placeholder="Password" required>
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -57,6 +57,7 @@
                     </div>
                     <!-- /.col -->
                 </div>
+                <div class="alert alert-danger" id="error-msg" style="display: none;"></div>
             </form>
 
             <p class="mb-1">
@@ -73,10 +74,48 @@
 
 <!-- jQuery -->
 <script src="/static/admin/plugins/jquery/jquery.min.js"></script>
+<script src="/static/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="/static/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/admin/dist/js/adminlte.min.js"></script>
+<script>
+    $(function () {
+        $('#login-form').validate({
+            rules: {
+                username: {
+                    required: true,
+                    tel: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                username: {
+                    required: "Please enter your phone number"
+                },
+                password: {
+                    required: "Please enter a password",
+                    minlength: "Your password must be at least 6 characters long"
+                },
+            },
+            errorPlacement: function (error, element) {
+                // 显示错误消息
+                error.appendTo("#error-msg");
+                $("#error-msg").show(); // 显示错误提示框
+            },
+            highlight: function(element) {
+                $(element).addClass('is-invalid'); // 添加 AdminLTE 样式类
+            },
+            unhighlight: function(element) {
+                $(element).removeClass('is-invalid'); // 移除 AdminLTE 样式类
+            },
+            errorClass: 'invalid-feedback' // 使用 AdminLTE 样式类
+        });
+    });
+</script>
 </body>
 </html>
 {{end}}

@@ -12,3 +12,7 @@ type cUcSystemMaster struct{}
 func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 	system.Render(ctx, "admin/login.html", gin.H{"title": "后台登入"})
 }
+
+func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
+
+}
