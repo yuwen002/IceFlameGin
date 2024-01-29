@@ -8,6 +8,6 @@ import (
 func main() {
 	r := routers.RegisterRouters()
 	config.LoadTemplates(r)
-	//监听端口默认为8080
+	//监听端口默认为8000
 	r.Run(":8000")
 }

@@ -2,7 +2,7 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"ice_flame_gin/internal/system"
 )
 
 var UcSystemMaster = cUcSystemMaster{}
@@ -10,7 +10,5 @@ var UcSystemMaster = cUcSystemMaster{}
 type cUcSystemMaster struct{}
 
 func (c *cUcSystemMaster) Login(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Hello, World!",
-	})
+	system.Render(ctx, "admin/login.html", gin.H{"title": "后台登入"})
 }
