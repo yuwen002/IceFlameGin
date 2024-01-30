@@ -26,21 +26,28 @@
             <p class="login-box-msg">登录开始您的会话</p>
 
             <form id="login-form" action="/static/admin/index3.html" method="post">
-                <div class="input-group mb-3">
-                    <input type="tel" id="username" name="username" class="form-control" placeholder="Tel" required>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-phone"></span>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="tel" id="tel" name="username" class="form-control" placeholder="Tel">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-phone"></span>
+                            </div>
                         </div>
                     </div>
+                    <label id="tel-error" class="error invalid-feedback" for="tel"></label>
                 </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" required>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
+
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="password"  name="password" id="password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
                         </div>
                     </div>
+                    <label id="password-error" class="error invalid-feedback" for="password"></label>
                 </div>
                 <div class="row">
                     <div class="col-8">
@@ -94,25 +101,21 @@
             },
             messages: {
                 username: {
-                    required: "Please enter your phone number"
+                    required: "请输入电话号码"
                 },
                 password: {
                     required: "Please enter a password",
                     minlength: "Your password must be at least 6 characters long"
                 },
             },
-            errorPlacement: function (error, element) {
-                // 显示错误消息
-                error.appendTo("#error-msg");
-                $("#error-msg").show(); // 显示错误提示框
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent().parent());
             },
-            highlight: function(element) {
-                $(element).addClass('is-invalid'); // 添加 AdminLTE 样式类
-            },
-            unhighlight: function(element) {
-                $(element).removeClass('is-invalid'); // 移除 AdminLTE 样式类
-            },
-            errorClass: 'invalid-feedback' // 使用 AdminLTE 样式类
+            submitHandler: function(form) {
+                // 当表单验证通过时调用此函数
+                alert('登录成功');
+                // 如果电话号码验证通过，可以进行页面跳转或其他操作
+            }
         });
     });
 </script>
