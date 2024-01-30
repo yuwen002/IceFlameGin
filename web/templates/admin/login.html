@@ -28,7 +28,7 @@
             <form id="login-form" action="/static/admin/index3.html" method="post">
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="tel" id="tel" name="username" class="form-control" placeholder="Tel">
+                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="Tel">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-phone"></span>
@@ -90,22 +90,27 @@
     $(function () {
         $('#login-form').validate({
             rules: {
-                username: {
+                tel: {
                     required: true,
-                    tel: true
+                    minlength: 5,
+                    maxlength: 32
                 },
                 password: {
                     required: true,
-                    minlength: 6
+                    minlength: 6,
+                    maxlength: 32
                 }
             },
             messages: {
-                username: {
-                    required: "请输入电话号码"
+                tel: {
+                    required: "请输入电话号码",
+                    minlength: "用户名长度不能小于6位",
+                    maxlength: "用户名长度不能大于32位"
                 },
                 password: {
-                    required: "Please enter a password",
-                    minlength: "Your password must be at least 6 characters long"
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于6位",
+                    maxlength: "密码长度不能大于32位"
                 },
             },
             errorPlacement: function(error, element) {
