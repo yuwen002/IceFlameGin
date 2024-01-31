@@ -16,6 +16,7 @@ func setupAdminRoutes(router *gin.Engine) {
 	r := router.Group("/admin")
 	{
 		r.GET("/", admin.UcSystemMaster.Login)
+		r.POST("/login", admin.UcSystemMaster.HandleLogin)
 		// 添加更多后台路由...
 	}
 }

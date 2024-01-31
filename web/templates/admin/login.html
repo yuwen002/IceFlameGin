@@ -24,8 +24,10 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">登录开始您的会话</p>
-
-            <form id="login-form" action="/static/admin/index3.html" method="post">
+            {{if .error}}
+            <p style="color: red;">{{.error}}</p>
+            {{end}}
+            <form id="login-form" action="/admin/login" method="post">
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input type="tel" id="tel" name="tel" class="form-control" placeholder="Tel">
@@ -97,7 +99,7 @@
                 },
                 password: {
                     required: true,
-                    minlength: 6,
+                    // minlength: 6,
                     maxlength: 32
                 }
             },
@@ -109,7 +111,7 @@
                 },
                 password: {
                     required: "请输入密码",
-                    minlength: "密码长度不能小于6位",
+                    // minlength: "密码长度不能小于6位",
                     maxlength: "密码长度不能大于32位"
                 },
             },
@@ -119,7 +121,7 @@
             submitHandler: function(form) {
                 // 当表单验证通过时调用此函数
                 alert('登录成功');
-                // 如果电话号码验证通过，可以进行页面跳转或其他操作
+                form.submit();
             }
         });
     });
