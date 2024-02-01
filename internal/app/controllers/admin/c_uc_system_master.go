@@ -10,6 +10,14 @@ var UcSystemMaster = cUcSystemMaster{}
 
 type cUcSystemMaster struct{}
 
+// Login
+//
+// @Title 后台登入页
+// @Description 后台登入显示页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-01 10:56:34
+// @receiver c
+// @param ctx
 func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 	system.Render(ctx, "admin/login.html", gin.H{"title": "后台登入"})
 }
