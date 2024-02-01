@@ -5,7 +5,7 @@ import (
 )
 
 // UcAccount
-// @Description: 中户中心主表
+// @Description: 用户中心主表
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-01 15:33:18
 type UcAccount struct {
