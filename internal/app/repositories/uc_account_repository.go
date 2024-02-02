@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"gorm.io/gorm"
+	"ice_flame_gin/internal/app/db"
 	"ice_flame_gin/internal/app/models/uc_center"
 )
 
@@ -11,6 +12,19 @@ import (
 // @Date 2024-02-01 16:34:24
 type UcAccountRepository struct {
 	DB *gorm.DB
+}
+
+// NewUcAccountRepository
+//
+// @Title NewUcAccountRepository
+// @Description: 创建一个新的UcAccountRepository实例，并使用已初始化的DB
+// @Author liuxingyu
+// @Date 2024-02-03 00:58:14
+// @return *UcAccountRepository
+func NewUcAccountRepository() *UcAccountRepository {
+	return &UcAccountRepository{
+		DB: db.DB, // 直接使用全局的DB实例
+	}
 }
 
 // InsertAccount 插入用户账户

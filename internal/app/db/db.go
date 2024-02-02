@@ -5,9 +5,24 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"ice_flame_gin/config"
+	"log"
 )
 
 var DB *gorm.DB
+
+// init
+//
+// @Title init
+// @Description: 自动初始化数据库
+// @Author liuxingyu
+// @Date 2024-02-03 00:54:07
+func init() {
+	// 当包被导入时，自动调用InitDB()函数来初始化数据库连接
+	err := InitDB()
+	if err != nil {
+		log.Fatalf("初始化数据库失败: %v", err)
+	}
+}
 
 // InitDB
 //
