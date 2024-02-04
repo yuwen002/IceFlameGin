@@ -83,6 +83,7 @@ func (g *GormCore) UpdateByID(id uint, data interface{}) error {
 }
 
 func (g *GormCore) Query(condition string) ([]interface{}, error) {
+
 	var users []User
 	err := g.db.Where(condition).Find(&users).Error
 	if err != nil {
