@@ -32,6 +32,10 @@ func (repo *UcAccountRepository) InsertAccount(account *uc_center.UcAccount) err
 	return repo.DB.Create(account).Error
 }
 
+func (repo *UcAccountRepository) GetById() {
+	//db.NewGormCore().GetByID(1, )
+}
+
 // GetAccountByUsername 根据用户名获取用户账户
 func (repo *UcAccountRepository) GetAccountByUsername(username string) (*uc_center.UcAccount, error) {
 	account := &uc_center.UcAccount{}

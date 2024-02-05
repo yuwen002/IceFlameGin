@@ -17,6 +17,19 @@ type GormCore struct {
 	db *gorm.DB
 }
 
+// NewGormCore
+//
+// @Title NewGormCore
+// @Description: 创建并返回一个新的GormCore实例
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-05 17:50:14
+// @return *GormCore
+func NewGormCore() *GormCore {
+	return &GormCore{
+		db: DB, // 假设db.DB是你初始化后的全局*gorm.DB实例
+	}
+}
+
 // Insert
 //
 // @Title Insert
@@ -82,16 +95,34 @@ func (g *GormCore) UpdateByID(id uint, data interface{}) error {
 	return g.db.Model(data).Where("id = ?", id).Updates(data).Error
 }
 
-func (g *GormCore) Query(condition string) ([]interface{}, error) {
-
-	var users []User
-	err := g.db.Where(condition).Find(&users).Error
+// Query
+//
+// @Title Query
+// @Description:  条件查询数据
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-05 15:25:15
+// @receiver g
+// @param condition
+// @param out
+// @return error
+func (g *GormCore) Query(condition string, out interface{}) error {
+	err := g.db.Where(condition).Find(out).Error
 	if err != nil {
-		return nil, err
+		return err
 	}
-	result := make([]interface{}, len(users))
-	for i := range users {
-		result[i] = &users[i]
-	}
-	return result, nil
+	return nil
+}
+
+// GetByID
+//
+// @Title GetByID
+// @Description
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-05 16:38:25
+// @receiver g
+// @param id
+// @param out
+// @return error
+func (g *GormCore) GetByID(id int, out interface{}) error {
+	return g.db.Where("id = ?", id).First(out).Error
 }
