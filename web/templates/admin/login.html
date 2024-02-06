@@ -30,7 +30,7 @@
             <form id="login-form" action="/admin/login" method="post">
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="Tel">
+                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="Tel" value="{{.tel}}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-phone"></span>
@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
+                            <input type="checkbox" id="remember" name="remember"  {{if .checked}}checked{{end}}>
                             <label for="remember">
                                 记住我
                             </label>
@@ -120,7 +120,6 @@
             },
             submitHandler: function(form) {
                 // 当表单验证通过时调用此函数
-                alert('登录成功');
                 form.submit();
             }
         });

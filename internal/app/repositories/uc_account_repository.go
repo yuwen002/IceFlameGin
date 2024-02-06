@@ -34,12 +34,9 @@ func (repo *UcAccountRepository) InsertAccount(account *uc_center.UcAccount) err
 }
 
 func (repo *UcAccountRepository) GetById() {
-	user := struct {
-		Id       uint
-		Username string
-	}{}
-	db.NewGormCore().GetByID(1, &user)
-	fmt.Println(user)
+	var account uc_center.UcAccount
+	db.NewGormCore().GetByID(1, &account)
+	fmt.Println(account)
 }
 
 // GetAccountByUsername 根据用户名获取用户账户

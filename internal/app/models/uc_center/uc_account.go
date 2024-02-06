@@ -1,7 +1,7 @@
 package uc_center
 
 import (
-	"time"
+	"ice_flame_gin/internal/pkg/utils"
 )
 
 // UcAccount
@@ -16,8 +16,8 @@ type UcAccount struct {
 	Tel            string `gorm:"size:20"`
 	Status         int8   `gorm:"default:0"`
 	RealNameType   int8   `gorm:"default:1"`
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
+	CreatedAt      utils.CustomTime
+	UpdatedAt      utils.CustomTime
 }
 
 // TableName

@@ -31,6 +31,21 @@ func NewGormCore() *GormCore {
 	}
 }
 
+// SetDefaultTable
+//
+// @Title SetDefaultTable
+// @Description: 设置默认表名
+// @Author liuxingyu
+// @Date 2024-02-06 17:47:57
+// @receiver g
+// @param tableName
+// @return *GormCore
+func (g *GormCore) SetDefaultTable(tableName string) *GormCore {
+	// 设置默认表名并返回新的 GormCore 对象
+	g.db = g.db.Table(tableName)
+	return g
+}
+
 // Insert
 //
 // @Title Insert
