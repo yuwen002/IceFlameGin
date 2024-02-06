@@ -2,6 +2,7 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
+	"ice_flame_gin/internal/app/repositories"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/system"
 )
@@ -19,6 +20,7 @@ type cUcSystemMaster struct{}
 // @receiver c
 // @param ctx
 func (c *cUcSystemMaster) Login(ctx *gin.Context) {
+	repositories.NewUcAccountRepository().GetById()
 	system.Render(ctx, "admin/login.html", gin.H{"title": "后台登入"})
 }
 

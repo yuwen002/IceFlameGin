@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	"ice_flame_gin/internal/app/models/uc_center"
@@ -33,7 +34,12 @@ func (repo *UcAccountRepository) InsertAccount(account *uc_center.UcAccount) err
 }
 
 func (repo *UcAccountRepository) GetById() {
-	//db.NewGormCore().GetByID(1, )
+	user := struct {
+		Id       uint
+		Username string
+	}{}
+	db.NewGormCore().GetByID(1, &user)
+	fmt.Println(user)
 }
 
 // GetAccountByUsername 根据用户名获取用户账户

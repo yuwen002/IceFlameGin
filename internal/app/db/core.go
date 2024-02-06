@@ -9,6 +9,7 @@ type DatabaseCore interface {
 	InsertAndGetID(data interface{}) (uint, error)
 	Update(condition string, data interface{}) error
 	Query(condition string) ([]interface{}, error)
+	GetByID(id int, out interface{}) error
 }
 
 // GormCore
