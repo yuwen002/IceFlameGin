@@ -113,6 +113,7 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
+		fmt.Println(form.Terms)
 		fmt.Println(errMsg)
 		// 保存错误的表单数据，以便在注册页面中填充数据
 		ctx.Set("formData", form)

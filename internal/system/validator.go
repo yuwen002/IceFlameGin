@@ -91,14 +91,20 @@ func GetCustomErrorMsg(fieldName string, tagName string, form interface{}) strin
 	}
 
 	f, _ := t.FieldByName(fieldName)
-	tag := f.Tag.Get("msg")
+	tag := f.Tag.Get("binding")
+	// 解析标签中的验证条件
+	tagConditions := strings.Split(tag, ",")
 
+	tagMsg := f.Tag.Get("msg")
 	// 解析标签中的错误消息
-	tagMsgs := strings.Split(tag, "|")
-	for _, msg := range tagMsgs {
-		msgParts := strings.SplitN(msg, ":", 2)
-		if len(msgParts) == 2 && msgParts[0] == tagName {
-			return msgParts[1]
+	tagMsgs := strings.Split(tagMsg, "|")
+
+	// 根据字段名和具体验证条件进行匹配
+	for i, condition := range tagConditions {
+		// 检查是否包含字段名和验证条件
+		if strings.Contains(condition, tagName) {
+			// 返回匹配的错误消息
+			return tagMsgs[i]
 		}
 	}
 
