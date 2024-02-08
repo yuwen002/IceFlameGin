@@ -1,4 +1,4 @@
-package uc_center
+package models
 
 import (
 	"ice_flame_gin/internal/pkg/utils"

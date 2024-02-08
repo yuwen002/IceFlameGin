@@ -1,6 +1,9 @@
 package db
 
-import "gorm.io/gorm"
+import (
+	"errors"
+	"gorm.io/gorm"
+)
 
 // DatabaseCore
 // @Description: 数据库核心类接口
@@ -141,4 +144,27 @@ func (g *GormCore) Query(condition string, out interface{}) error {
 // @return error
 func (g *GormCore) GetByID(id int, out interface{}) error {
 	return g.db.Where("id = ?", id).First(out).Error
+}
+
+// QueryOne
+//
+// @Title QueryOne
+// @Description: 条件查询一条数据
+// @Author liuxingyu
+// @Date 2024-02-08 01:30:02
+// @receiver g
+// @param out
+// @param condition
+// @param args
+// @return error
+func (g *GormCore) QueryOne(out interface{}, condition string, args ...interface{}) error {
+	err := g.db.Where(condition, args...).First(out).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// 查询未找到数据
+			return nil
+		}
+		return err
+	}
+	return nil
 }

@@ -9,9 +9,9 @@ type DatabaseConfig struct {
 }
 
 var DBConfig = DatabaseConfig{
-	Host:     "localhost",
+	Host:     "82.157.248.230",
 	Port:     3306,
-	Username: "root",
-	Password: "password",
-	DBName:   "myapp",
+	Username: "go_test",
+	Password: "XLx8EhRTEkF5fLLr",
+	DBName:   "go_test",
 }

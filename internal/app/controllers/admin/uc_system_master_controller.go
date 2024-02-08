@@ -2,8 +2,11 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
+	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	services "ice_flame_gin/internal/app/services/s_uc_center"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/system"
+	"net/http"
 )
 
 var UcSystemMaster = cUcSystemMaster{}
@@ -31,19 +34,36 @@ func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 // HandleLogin
 //
 // @Title HandleLogin
-// @Description:
+// @Description: 后台登入页,处理验证页面
 // @Author liuxingyu
 // @Date 2024-02-06 23:35:18
 // @receiver c
 // @param ctx
 func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 	var form validators.AdminLoginForm
+	// 解析表单数据
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrorMsg(err, form)
+		// 渲染带有错误信息的登录页面
 		system.Render(ctx, "admin/login.html", gin.H{
 			"title": "后台登入",
 			"error": errMsg,
+		})
+		return
+	}
+
+	// 调用登录服务进行验证
+	output := services.NewUcSystemMasterService().LoginTelPassword(dto.LoginTelPasswordInput{
+		Tel:      form.Tel,
+		Password: form.Password,
+	})
+
+	// 验证不通过，渲染带有错误信息的登录页面
+	if output.Code != 0 {
+		system.Render(ctx, "admin/login.html", gin.H{
+			"title": "后台登入",
+			"error": "用户名密码错误",
 		})
 		return
 	}
@@ -54,7 +74,13 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 	if form.Remember {
 		ctx.SetCookie(cookieName, form.Tel, 24*3600, "/", "", false, true)
 	} else {
+		// 删除cookie
 		ctx.SetCookie(cookieName, "", -1, "/", "", false, true)
 	}
 
+	// 输出登入成功的JSON
+	ctx.JSON(http.StatusOK, gin.H{
+		"code":    0,
+		"message": "登入成功",
+	})
 }
