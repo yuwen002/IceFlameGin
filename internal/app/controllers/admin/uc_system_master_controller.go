@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
@@ -109,7 +108,6 @@ func (c *cUcSystemMaster) Register(ctx *gin.Context) {
 // @receiver c
 // @param ctx
 func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
-	fmt.Println("ccccccccc")
 	var form validators.AdminRegisterForm
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
@@ -121,7 +119,6 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 		})
 		return
 	}
-	fmt.Println("aaaaaaaaaaa")
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"code":    0,
