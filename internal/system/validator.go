@@ -57,6 +57,7 @@ func GetCustomErrorMsg(fieldName string, tagName string, form interface{}) strin
 	if t.Kind() == reflect.Ptr {
 		t = t.Elem()
 	}
+
 	f, _ := t.FieldByName(fieldName)
 	tag := f.Tag.Get("msg")
 
@@ -70,8 +71,8 @@ func GetCustomErrorMsg(fieldName string, tagName string, form interface{}) strin
 	}
 
 	// 默认返回标签中的错误消息
-	if len(tagMsgs) > 1 {
-		return tagMsgs[1]
+	if len(tagMsgs) > 0 {
+		return tagMsgs[0]
 	}
 
 	// 默认返回默认错误消息

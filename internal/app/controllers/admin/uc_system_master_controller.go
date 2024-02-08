@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
@@ -85,9 +86,45 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 	})
 }
 
+// Register
+//
+// @Title Register
+// @Description: 管理员注册显示页面
+// @Author liuxingyu
+// @Date 2024-02-09 01:02:45
+// @receiver c
+// @param ctx
 func (c *cUcSystemMaster) Register(ctx *gin.Context) {
 	system.Render(ctx, "admin/register.html", gin.H{
-		"title": "",
-		"error": "用户名密码错误",
+		"title": "管理员注册",
+	})
+}
+
+// HandleRegister
+//
+// @Title HandleRegister
+// @Description: 管理员注册页,处理验证页面
+// @Author liuxingyu
+// @Date 2024-02-09 01:03:20
+// @receiver c
+// @param ctx
+func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
+	fmt.Println("ccccccccc")
+	var form validators.AdminRegisterForm
+	if err := ctx.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrorMsg(err, form)
+		// 渲染带有错误信息的登录页面
+		system.Render(ctx, "admin/register.html", gin.H{
+			"title": "后台登入",
+			"error": errMsg,
+		})
+		return
+	}
+	fmt.Println("aaaaaaaaaaa")
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"code":    0,
+		"message": "注册成功",
 	})
 }

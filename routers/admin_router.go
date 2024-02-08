@@ -19,6 +19,6 @@ func setupAdminRoutes(router *gin.Engine) {
 		r.GET("/login", admin.UcSystemMaster.Login)
 		r.POST("/login", admin.UcSystemMaster.HandleLogin)
 		r.GET("register", admin.UcSystemMaster.Register)
-		r.POST("register")
+		r.POST("register", admin.UcSystemMaster.HandleRegister)
 	}
 }
