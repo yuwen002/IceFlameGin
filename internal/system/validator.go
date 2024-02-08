@@ -6,6 +6,38 @@ import (
 	"strings"
 )
 
+// GetValidationErrors
+//
+// @Title GetValidationErrors
+// @Description: 获取验证错误信息
+// @Author liuxingyu
+// @Date 2024-02-09 01:59:07
+// @param err
+// @param form
+// @return map[string]string
+func GetValidationErrors(err error, form interface{}) map[string]string {
+	errorMap := make(map[string]string)
+
+	// 判断是否为验证错误
+	if v, ok := err.(validator.ValidationErrors); ok {
+		for _, e := range v {
+			fieldName := e.Field()
+			tagName := e.Tag()
+
+			// 根据字段和标签获取自定义错误消息
+			msg := GetCustomErrorMsg(fieldName, tagName, form)
+
+			// 将错误信息添加到映射中
+			errorMap[fieldName] = msg
+		}
+	} else {
+		// 非验证错误，直接使用默认错误信息
+		errorMap["non-field-error"] = err.Error()
+	}
+
+	return errorMap
+}
+
 // GetValidationErrorMsg
 //
 // @Title GetValidationErrorMsg
