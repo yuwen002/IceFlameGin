@@ -84,3 +84,10 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 		"message": "登入成功",
 	})
 }
+
+func (c *cUcSystemMaster) Register(ctx *gin.Context) {
+	system.Render(ctx, "admin/register.html", gin.H{
+		"title": "",
+		"error": "用户名密码错误",
+	})
+}

@@ -8,7 +8,7 @@ import (
 )
 
 //	sUcSystemMaster
-//	@Description:
+//	@Description:  表示 UcSystemMaster 服务
 //
 // @Author liuxingyu
 // @Date 2024-02-08 21:50:16
@@ -19,10 +19,10 @@ type sUcSystemMaster struct {
 // NewUcSystemMasterService
 //
 // @Title NewUcSystemMasterService
-// @Description:
+// @Description: 创建一个新的 UcSystemMaster 服务实例
 // @Author liuxingyu
 // @Date 2024-02-08 21:12:49
-// @return *sUcSystemMaster
+// @return *sUcSystemMaster 返回一个指向 UcSystemMaster 服务实例的指针
 func NewUcSystemMasterService() *sUcSystemMaster {
 	return &sUcSystemMaster{
 		prefix: "SA_",
@@ -32,7 +32,7 @@ func NewUcSystemMasterService() *sUcSystemMaster {
 // LoginTelPassword
 //
 // @Title LoginTelPassword
-// @Description:
+// @Description: 管理员电话密码登入
 // @Author liuxingyu
 // @Date 2024-02-08 21:46:35
 // @receiver s
@@ -71,3 +71,7 @@ func (s sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.
 		Data:    out,
 	}
 }
+
+//func (s sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
+//
+//}
