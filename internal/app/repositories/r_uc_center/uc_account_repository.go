@@ -7,7 +7,7 @@ import (
 )
 
 // UcAccountRepository
-// @Description:
+// @Description: 用户中心总表
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-01 16:34:24
 type UcAccountRepository struct {
