@@ -13,6 +13,7 @@ type DatabaseCore interface {
 	Update(condition string, data interface{}) error
 	Query(condition string) ([]interface{}, error)
 	GetByID(id int, out interface{}) error
+	QueryOne(out interface{}, condition string, args ...interface{}) error
 }
 
 // GormCore

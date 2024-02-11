@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
@@ -113,15 +112,28 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
-		fmt.Println(form.Terms)
-		fmt.Println(errMsg)
-		// 保存错误的表单数据，以便在注册页面中填充数据
-		ctx.Set("formData", form)
 
 		// 渲染带有错误信息的注册页面，并传递之前提交的表单数据
 		system.Render(ctx, "admin/register.html", gin.H{
 			"title":    "管理员注册",
 			"error":    errMsg,
+			"formData": form, // 将错误的表单数据传递给模板
+		})
+		return
+	}
+
+	output := services.NewUcSystemMasterService().Register(dto.RegisterSystemMasterInput{
+		Password: form.Password,
+		Tel:      form.Tel,
+		Name:     form.Name,
+	})
+
+	// 用户注册失败
+	if output.Code != 0 {
+		// 渲染带有错误信息的注册页面，并传递之前提交的表单数据
+		system.Render(ctx, "admin/register.html", gin.H{
+			"title":    "管理员注册",
+			"error":    "注册失败，请联系管理员",
 			"formData": form, // 将错误的表单数据传递给模板
 		})
 		return

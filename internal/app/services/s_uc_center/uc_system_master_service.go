@@ -72,6 +72,28 @@ func (s sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.
 	}
 }
 
-//func (s sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
+// Register
 //
-//}
+// @Title Register
+// @Description: 管理员用户注册
+// @Author liuxingyu
+// @Date 2024-02-11 00:04:28
+// @receiver s
+// @param in
+// @return *system.SysResponse
+func (s sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
+	err := repositories.NewUcSystemMasterRepository().Insert(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "数据写入成功",
+		Data:    nil,
+	}
+}

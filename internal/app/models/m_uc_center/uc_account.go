@@ -10,7 +10,7 @@ import (
 // @Date 2024-02-01 15:33:18
 type UcAccount struct {
 	ID             uint   `gorm:"primaryKey"`
-	IdentityCardID uint   `gorm:"index"`
+	IdentityCardID string `gorm:"index"`
 	Username       string `gorm:"size:40"`
 	PasswordHash   string `gorm:"size:60"`
 	Tel            string `gorm:"size:20"`
