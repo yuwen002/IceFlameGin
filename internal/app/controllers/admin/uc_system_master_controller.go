@@ -6,6 +6,7 @@ import (
 	services "ice_flame_gin/internal/app/services/s_uc_center"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/system"
+	"ice_flame_gin/routers/paths"
 	"net/http"
 )
 
@@ -139,8 +140,6 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"code":    0,
-		"message": "注册成功",
-	})
+	// 跳转到登入页面
+	system.RedirectPost(paths.AdminLogin)
 }
