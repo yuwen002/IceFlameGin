@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
@@ -95,8 +96,27 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 // @receiver c
 // @param ctx
 func (c *cUcSystemMaster) Register(ctx *gin.Context) {
+	// 从会话中获取错误信息
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(ctx, "err", &errMsg)
+	if err != nil {
+		//	@todo 准备跳转到404
+	}
+	fmt.Println(errMsg)
+
+	var form validators.AdminRegisterForm
+	err = system.GetDataFromFlash(ctx, "form", &form)
+	if err != nil {
+		// @todo 准备跳转到404
+	}
+
+	fail := system.GetFlashedData(ctx, "fail")
+
 	system.Render(ctx, "admin/register.html", gin.H{
 		"title": "管理员注册",
+		"error": errMsg,
+		"fail":  fail,
+		"form":  form,
 	})
 }
 
@@ -110,19 +130,20 @@ func (c *cUcSystemMaster) Register(ctx *gin.Context) {
 // @param ctx
 func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 	var form validators.AdminRegisterForm
+	var path string
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
-
-		// 渲染带有错误信息的注册页面，并传递之前提交的表单数据
-		system.Render(ctx, "admin/register.html", gin.H{
-			"title":    "管理员注册",
-			"error":    errMsg,
-			"formData": form, // 将错误的表单数据传递给模板
-		})
+		// 将错误信息存储到会话中
+		system.AddDataToFlash(ctx, errMsg, "err")
+		system.AddDataToFlash(ctx, form, "form")
+		// 跳转注册页
+		path = paths.AdminRoot + paths.AdminRegister
+		ctx.Redirect(http.StatusFound, path)
 		return
 	}
 
+	//  注册用户
 	output := services.NewUcSystemMasterService().Register(dto.RegisterSystemMasterInput{
 		Password: form.Password,
 		Tel:      form.Tel,
@@ -131,15 +152,10 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 
 	// 用户注册失败
 	if output.Code != 0 {
-		// 渲染带有错误信息的注册页面，并传递之前提交的表单数据
-		system.Render(ctx, "admin/register.html", gin.H{
-			"title":    "管理员注册",
-			"error":    "注册失败，请联系管理员",
-			"formData": form, // 将错误的表单数据传递给模板
-		})
+		system.AddFlashData(ctx, "注册失败，请联系管理员", "fail")
 		return
 	}
 
 	// 跳转到登入页面
-	system.RedirectPost(paths.AdminLogin)
+	system.RedirectPost(ctx, path)
 }

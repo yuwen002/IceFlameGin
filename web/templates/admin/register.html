@@ -24,10 +24,13 @@
     <div class="card">
         <div class="card-body register-card-body">
             <p class="login-box-msg">注册新会员</p>
+            {{if .fail}}
+            <p style="color: red;">{{.fail}}</p>
+            {{end}}
             <form id="register_form" action="/admin/register" method="post">
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="text" id="name" name="name" class="form-control" placeholder="姓名" value="{{.formData.Name}}">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="姓名" value="{{if .form}}{{.form.Name}}{{end}}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -41,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="电话" value="{{.formData.Tel}}">
+                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="电话" value="{{if .form}}{{.form.Tel}}{{end}}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-phone"></span>
@@ -84,7 +87,7 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
-                            <input type="checkbox" id="terms" name="terms" value="agree" {{if .formData.Terms}}checked{{end}}>
+                            <input type="checkbox" id="terms" name="terms" value="agree" {{if .form}}{{if .form.Terms}}checked{{end}}{{end}}>
                             <label for="terms">
                                 我同意这些<a href="#">条款</a>
                             </label>
@@ -92,7 +95,7 @@
                         {{if .error}}
                         <span class="text-danger">{{index .error "Terms"}}</span>
                         {{end}}
-                        <label id="terms-error" class="error invalid-feedback" for="terms">{{ if eq .error.Field "terms" }}{{ .error.Message }}{{ end }}</label>
+                        <label id="terms-error" class="error invalid-feedback" for="terms"></label>
                     </div>
                     <!-- /.col -->
                     <div class="col-4">

@@ -1,4 +1,4 @@
-package config
+package autoload
 
 import "github.com/gin-gonic/gin"
 

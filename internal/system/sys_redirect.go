@@ -10,13 +10,11 @@ import (
 // @Title RedirectGet
 // @Description: 创建通用的 GET 重定向函数
 // @Author liuxingyu
-// @Date 2024-02-11 23:43:24
-// @param target
-// @return gin.HandlerFunc
-func RedirectGet(target string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, target)
-	}
+// @Date 2024-02-13 03:29:05
+// @param ctx
+// @param path
+func RedirectGet(ctx *gin.Context, path string) {
+	ctx.Redirect(http.StatusMovedPermanently, path)
 }
 
 // RedirectPost
@@ -24,13 +22,11 @@ func RedirectGet(target string) gin.HandlerFunc {
 // @Title RedirectPost
 // @Description: 创建通用的 POST 重定向函数
 // @Author liuxingyu
-// @Date 2024-02-11 23:43:43
-// @param target
-// @return gin.HandlerFunc
-func RedirectPost(target string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Redirect(http.StatusFound, target)
-	}
+// @Date 2024-02-13 03:28:36
+// @param ctx
+// @param path
+func RedirectPost(ctx *gin.Context, path string) {
+	ctx.Redirect(http.StatusFound, path)
 }
 
 // Redirect

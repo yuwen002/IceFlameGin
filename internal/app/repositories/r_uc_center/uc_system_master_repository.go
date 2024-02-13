@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"errors"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -31,7 +32,7 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 	tx := repo.DB.Begin()
 
 	// 写入uc_account主表数据
-	id, err := db.NewGormCore().SetDefaultTable("uc_account").InsertAndGetID(models.UcAccount{
+	id, err := db.NewGormCore().SetDefaultTable("uc_account").InsertAndGetID(&models.UcAccount{
 		Username:     "SA_" + data.Tel,
 		PasswordHash: data.Password,
 		Tel:          data.Tel,
@@ -41,9 +42,14 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 		tx.Rollback()
 		return err
 	}
+	if id == 0 {
+		// 回滚事务
+		tx.Rollback()
+		return errors.New("account数据库插入错误")
+	}
 
 	// 写入uc_system_master数据
-	err = db.NewGormCore().SetDefaultTable("uc_system_master").Insert(models.UcSystemMaster{
+	err = db.NewGormCore().SetDefaultTable("uc_system_master").Insert(&models.UcSystemMaster{
 		AccountID: id,
 		Name:      data.Name,
 		Tel:       data.Tel,

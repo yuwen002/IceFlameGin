@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/pkg/utils"
@@ -41,6 +42,9 @@ func NewUcSystemMasterService() *sUcSystemMaster {
 func (s sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.SysResponse {
 	tel := s.prefix + in.Tel
 	out, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
+	fmt.Println(out)
+
+	fmt.Println(out.CreatedAt)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,

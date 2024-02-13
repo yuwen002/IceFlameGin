@@ -3,6 +3,7 @@ package db
 import (
 	"errors"
 	"gorm.io/gorm"
+	"reflect"
 )
 
 // DatabaseCore
@@ -79,10 +80,21 @@ func (g *GormCore) InsertAndGetID(data interface{}) (uint, error) {
 		return 0, result.Error
 	}
 
-	var id uint
-	if err := g.db.Model(data).Pluck("id", &id).Error; err != nil {
-		return 0, err
+	// 检查插入的记录是否包含自增主键 ID
+	if result.RowsAffected == 0 {
+		return 0, errors.New("no record inserted")
 	}
+
+	// 使用反射获取插入记录的 ID
+	value := reflect.ValueOf(data)
+	if value.Kind() == reflect.Ptr {
+		value = value.Elem()
+	}
+	idField := value.FieldByName("ID")
+	if !idField.IsValid() {
+		return 0, errors.New("failed to get ID from inserted record")
+	}
+	id := uint(idField.Uint())
 
 	return id, nil
 }
