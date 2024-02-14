@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/controllers/admin"
 	"ice_flame_gin/routers/paths"
+	"net/http"
 )
 
 // setupAdminRoutes
@@ -21,5 +22,11 @@ func setupAdminRoutes(router *gin.Engine) {
 		r.POST(paths.AdminHandleLogin, admin.UcSystemMaster.HandleLogin)
 		r.GET(paths.AdminRegister, admin.UcSystemMaster.Register)
 		r.POST(paths.AdminHandleRegister, admin.UcSystemMaster.HandleRegister)
+		r.GET(paths.AdminForgotPassword, admin.UcSystemMaster.ForgotPassword)
+
 	}
+	// 设置一个处理 404 中间件函数
+	r.Use(func(c *gin.Context) {
+		c.HTML(http.StatusNotFound, "admin/error/404.html", nil)
+	})
 }

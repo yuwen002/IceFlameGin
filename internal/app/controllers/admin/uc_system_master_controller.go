@@ -9,6 +9,7 @@ import (
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
 	"net/http"
+	"path/filepath"
 )
 
 var UcSystemMaster = cUcSystemMaster{}
@@ -30,7 +31,11 @@ func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 	if err == nil {
 		tel = cookie.Value
 	}
-	system.Render(ctx, "admin/login.html", gin.H{"title": "后台登入", "tel": tel, "checked": tel != ""})
+	system.Render(ctx, "admin/login.html", gin.H{
+		"title":   "后台登入",
+		"tel":     tel,
+		"checked": tel != "",
+	})
 }
 
 // HandleLogin
@@ -158,4 +163,54 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 
 	// 跳转到登入页面
 	system.RedirectPost(ctx, path)
+}
+
+// ForgotPassword
+//
+// @Title ForgotPassword
+// @Description: 忘记密码
+// @Author liuxingyu
+// @Date 2024-02-15 01:50:20
+// @receiver c
+// @param ctx
+func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
+	files, err1 := filepath.Glob("./web/templates/*.html")
+	if err1 != nil {
+		// 处理错误
+	}
+	fmt.Println("file:", files)
+	// 从会话中获取错误信息
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(ctx, "err", &errMsg)
+	if err != nil {
+		//	@todo 准备跳转到404
+	}
+	fmt.Println(errMsg)
+
+	var form validators.AdminRegisterForm
+	err = system.GetDataFromFlash(ctx, "form", &form)
+	if err != nil {
+		// @todo 准备跳转到404
+	}
+	system.Render(ctx, "admin/forgot_password.html", gin.H{
+		"title": "忘记密码",
+		"error": errMsg,
+		"form":  form,
+	})
+}
+
+func (c *cUcSystemMaster) HandleForgotPassword(ctx *gin.Context) {
+	var form validators.AdminForgotPassword
+	var path string
+	if err := ctx.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		system.AddDataToFlash(ctx, errMsg, "err")
+		system.AddDataToFlash(ctx, form, "form")
+		// 跳转忘记密码页
+		path = paths.AdminRoot + paths.AdminForgotPassword
+		ctx.Redirect(http.StatusFound, path)
+		return
+	}
 }

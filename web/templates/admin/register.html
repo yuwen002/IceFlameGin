@@ -18,7 +18,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
     <div class="register-logo">
-        <a href="/static/admin/index2.html"><b>Admin</b>LTE</a>
+        <a href="/admin"><b>ICE</b>Flame</a>
     </div>
 
     <div class="card">
@@ -27,7 +27,7 @@
             {{if .fail}}
             <p style="color: red;">{{.fail}}</p>
             {{end}}
-            <form id="register_form" action="/admin/register" method="post">
+            <form id="register-form" action="/admin/register" method="post">
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input type="text" id="name" name="name" class="form-control" placeholder="姓名" value="{{if .form}}{{.form.Name}}{{end}}">
@@ -41,6 +41,20 @@
                     <span class="text-danger">{{index .error "Name"}}</span>
                     {{end}}
                     <label id="name-error" class="error invalid-feedback" for="name"></label>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" value="{{if .form}}{{.form.Email}}{{end}}">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {{if .error}}
+                    <span class="text-danger">{{index .error "Email"}}</span>
+                    {{end}}
+                    <label id="email-error" class="error invalid-feedback" for="email"></label>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
@@ -119,71 +133,71 @@
 <!-- AdminLTE App -->
 <script src="/static/admin/dist/js/adminlte.min.js"></script>
 <script>
-    // $(function () {
-    //     $('#register_form').validate({
-    //         rules: {
-    //             name: {
-    //                 required: true,
-    //                 minlength: 2,
-    //                 maxlength: 20
-    //             },
-    //             tel: {
-    //                 required: true,
-    //                 digits: true,
-    //                 minlength: 5,
-    //                 maxlength: 15
-    //             },
-    //             password: {
-    //                 required: true,
-    //                 minlength: 6,
-    //                 maxlength: 32
-    //             },
-    //             retype_password: {
-    //                 required: true,
-    //                 equalTo: "#password"
-    //             },
-    //             terms: {
-    //                 required: true
-    //             }
-    //         },
-    //         messages: {
-    //             name: {
-    //                 required: "请输入姓名",
-    //                 minlength: "姓名长度不能小于2位",
-    //                 maxlength: "姓名长度不能大于50位"
-    //             },
-    //             tel: {
-    //                 required: "请输入电话号码",
-    //                 digits: "电话号码只能包含数字",
-    //                 minlength: "电话号码长度不能小于5位",
-    //                 maxlength: "电话号码长度不能大于15位"
-    //             },
-    //             password: {
-    //                 required: "请输入密码",
-    //                 minlength: "密码长度不能小于6位",
-    //                 maxlength: "密码长度不能大于32位"
-    //             },
-    //             retype_password: {
-    //                 required: "请重复输入密码",
-    //                 equalTo: "两次输入的密码不一致"
-    //             },
-    //             terms: {
-    //                 required: "请同意条款"
-    //             }
-    //         },
-    //         errorPlacement: function (error, element) {
-    //             if (element.attr("name") === "terms") {
-    //                 error.insertAfter(element.parent());
-    //             } else {
-    //                 error.insertAfter(element);
-    //             }
-    //         },
-    //         submitHandler: function (form) {
-    //             // 当表单验证通过时调用此函数
-    //             form.submit();
-    //         }
-    //     });
-    // });
+    $(function () {
+        $('#register-form').validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 20
+                },
+                tel: {
+                    required: true,
+                    digits: true,
+                    minlength: 5,
+                    maxlength: 15
+                },
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 32
+                },
+                retype_password: {
+                    required: true,
+                    equalTo: "#password"
+                },
+                terms: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: "请输入姓名",
+                    minlength: "姓名长度不能小于2位",
+                    maxlength: "姓名长度不能大于50位"
+                },
+                tel: {
+                    required: "请输入电话号码",
+                    digits: "电话号码只能包含数字",
+                    minlength: "电话号码长度不能小于5位",
+                    maxlength: "电话号码长度不能大于15位"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于6位",
+                    maxlength: "密码长度不能大于32位"
+                },
+                retype_password: {
+                    required: "请重复输入密码",
+                    equalTo: "两次输入的密码不一致"
+                },
+                terms: {
+                    required: "请同意条款"
+                }
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") === "terms") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+                // 当表单验证通过时调用此函数
+                form.submit();
+            }
+        });
+    });
 </script>
 </body>
 </html>

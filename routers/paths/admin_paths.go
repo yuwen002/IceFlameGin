@@ -7,4 +7,5 @@ const (
 	AdminHandleLogin    = "/login"
 	AdminRegister       = "/register"
 	AdminHandleRegister = "/register"
+	AdminForgotPassword = "/forgot-password"
 )

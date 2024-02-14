@@ -13,6 +13,7 @@ type UcSystemMaster struct {
 	ID          uint `gorm:"primaryKey"`
 	AccountID   uint
 	Name        string
+	Email       string
 	Tel         string
 	SuperMaster uint `gorm:"default:0"`
 	CreatedAt   utils.CustomTime
