@@ -5,3 +5,11 @@ database:
     username: root
     password: password123
     name: mydatabase
+
+# 电子邮件配置信息
+email:
+  smtp:
+    host: smtp.163.com
+    port: 25
+    username: yuwen002@163.com
+    password: my_password

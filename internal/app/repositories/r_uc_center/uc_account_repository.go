@@ -44,5 +44,9 @@ func (repo *UcAccountRepository) GetAccountByTel(tel string) (*models.UcAccount,
 	if err != nil {
 		return nil, err
 	}
+
+	if account.ID == 0 {
+		return nil, nil
+	}
 	return &account, nil
 }

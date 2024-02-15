@@ -3,6 +3,7 @@ package paths
 // // 定义 admin 模块的路径常量
 const (
 	AdminRoot           = "/admin"
+	Admin404            = "/page-not-found"
 	AdminLogin          = "/login"
 	AdminHandleLogin    = "/login"
 	AdminRegister       = "/register"

@@ -28,6 +28,15 @@ func NewUcSystemMasterRepository() *UcSystemMasterRepository {
 	return &UcSystemMasterRepository{DB: db.DB}
 }
 
+// Insert
+//
+// @Title Insert
+// @Description: 写入用户数据
+// @Author liuxingyu
+// @Date 2024-02-15 22:52:32
+// @receiver repo
+// @param data
+// @return error
 func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput) error {
 	tx := repo.DB.Begin()
 
@@ -68,4 +77,29 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 	}
 
 	return nil
+}
+
+// GetByEmail
+//
+// @Title GetByEmail
+// @Description: 按Email获取用户信息
+// @Author liuxingyu
+// @Date 2024-02-15 23:01:52
+// @receiver repo
+// @param email
+// @return *models.UcSystemMaster
+// @return error
+func (repo *UcSystemMasterRepository) GetByEmail(email string) (*models.UcSystemMaster, error) {
+	var systemMaster models.UcSystemMaster
+	condition := "email = ?"
+	err := db.NewGormCore().QueryOne(&systemMaster, condition, email)
+	if err != nil {
+		return nil, err
+	}
+
+	if systemMaster.ID == 0 {
+		return nil, nil
+	}
+
+	return &systemMaster, nil
 }

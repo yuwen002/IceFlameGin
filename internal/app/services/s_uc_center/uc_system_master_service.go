@@ -39,12 +39,10 @@ func NewUcSystemMasterService() *sUcSystemMaster {
 // @receiver s
 // @param in
 // @return *system.ApiResponse
-func (s sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.SysResponse {
+func (s *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.SysResponse {
 	tel := s.prefix + in.Tel
 	out, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
-	fmt.Println(out)
 
-	fmt.Println(out.CreatedAt)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -85,8 +83,44 @@ func (s sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.
 // @receiver s
 // @param in
 // @return *system.SysResponse
-func (s sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
-	err := repositories.NewUcSystemMasterRepository().Insert(in)
+func (s *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
+	// 查询电话号是否被注册
+	telAccount, err := repositories.NewUcAccountRepository().GetAccountByTel(in.Tel)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if telAccount != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "用户已存在",
+			Data:    nil,
+		}
+	}
+
+	//  查询email是否被使用
+	emailSystemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(in.Email)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if emailSystemMaster != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "用户Email已存在",
+			Data:    nil,
+		}
+	}
+
+	err = repositories.NewUcSystemMasterRepository().Insert(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -98,6 +132,64 @@ func (s sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysR
 	return &system.SysResponse{
 		Code:    0,
 		Message: "数据写入成功",
+		Data:    nil,
+	}
+}
+
+// ForgotPassword
+//
+// @Title ForgotPassword
+// @Description: 忘记密码，并处理发送邮件
+// @Author liuxingyu
+// @Date 2024-02-15 22:44:36
+// @receiver s
+// @param in
+// @return *system.SysResponse
+func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput) *system.SysResponse {
+	// 查询Email信息
+	systemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(in.Email)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if systemMaster == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "用户Email不存在",
+			Data:    nil,
+		}
+	}
+
+	// 配置
+	config := utils.GoEmailConfig{
+		SMTPHost:     "smtp.163.com",
+		SMTPPort:     25,
+		SMTPUsername: "yuwen002@163.com",
+		SMTPPassword: "",
+		From:         "yuwen002@163.com",
+		To:           "2719757@qq.com",
+		Subject:      "Gin Email Test",
+		Body:         "<p>This is the email body. Click <a href=\"https://www.example.com\">here</a> to visit our website.</p>",
+		ContentType:  "text/html",
+	}
+
+	err = config.SendMail()
+	fmt.Println(err)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "邮件发送不成功",
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "邮件发送成功",
 		Data:    nil,
 	}
 }

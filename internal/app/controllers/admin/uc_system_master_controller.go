@@ -9,7 +9,6 @@ import (
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
 	"net/http"
-	"path/filepath"
 )
 
 var UcSystemMaster = cUcSystemMaster{}
@@ -174,23 +173,20 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 // @receiver c
 // @param ctx
 func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
-	files, err1 := filepath.Glob("./web/templates/*.html")
-	if err1 != nil {
-		// 处理错误
-	}
-	fmt.Println("file:", files)
 	// 从会话中获取错误信息
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(ctx, "err", &errMsg)
+	path := paths.AdminLogin + paths.Admin404
 	if err != nil {
-		//	@todo 准备跳转到404
+		system.RedirectGet(ctx, path)
+		return
 	}
-	fmt.Println(errMsg)
 
 	var form validators.AdminRegisterForm
 	err = system.GetDataFromFlash(ctx, "form", &form)
 	if err != nil {
-		// @todo 准备跳转到404
+		system.RedirectGet(ctx, path)
+		return
 	}
 	system.Render(ctx, "admin/forgot_password.html", gin.H{
 		"title": "忘记密码",
@@ -199,6 +195,14 @@ func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
 	})
 }
 
+// HandleForgotPassword
+//
+// @Title HandleForgotPassword
+// @Description: 忘记密码处理页面，并发送邮件
+// @Author liuxingyu
+// @Date 2024-02-15 19:45:21
+// @receiver c
+// @param ctx
 func (c *cUcSystemMaster) HandleForgotPassword(ctx *gin.Context) {
 	var form validators.AdminForgotPassword
 	var path string
@@ -213,4 +217,10 @@ func (c *cUcSystemMaster) HandleForgotPassword(ctx *gin.Context) {
 		ctx.Redirect(http.StatusFound, path)
 		return
 	}
+
+	output := services.NewUcSystemMasterService().ForgotPassword(dto.ForgotPasswordSystemMasterInput{
+		Email: "yuwen002@163.com",
+	})
+	fmt.Println(output)
+	return
 }

@@ -19,4 +19,14 @@ type RegisterSystemMasterInput struct {
 	Password string
 	Tel      string
 	Name     string
+	Email    string
+}
+
+// ForgotPasswordSystemMasterInput
+//
+// @Description: 用户忘记密码
+// @Author liuxingyu
+// @Date 2024-02-15 19:48:44
+type ForgotPasswordSystemMasterInput struct {
+	Email string
 }

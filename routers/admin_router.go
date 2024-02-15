@@ -17,12 +17,16 @@ import (
 func setupAdminRoutes(router *gin.Engine) {
 	r := router.Group(paths.AdminRoot)
 	{
+		r.GET(paths.Admin404, func(c *gin.Context) {
+			c.AbortWithStatus(404)
+		})
 		r.GET("/", admin.UcSystemMaster.Login)
 		r.GET(paths.AdminLogin, admin.UcSystemMaster.Login)
 		r.POST(paths.AdminHandleLogin, admin.UcSystemMaster.HandleLogin)
 		r.GET(paths.AdminRegister, admin.UcSystemMaster.Register)
 		r.POST(paths.AdminHandleRegister, admin.UcSystemMaster.HandleRegister)
 		r.GET(paths.AdminForgotPassword, admin.UcSystemMaster.ForgotPassword)
+		r.POST(paths.AdminForgotPassword, admin.UcSystemMaster.HandleForgotPassword)
 
 	}
 	// 设置一个处理 404 中间件函数
