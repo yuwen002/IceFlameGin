@@ -2,6 +2,9 @@ package utils
 
 import (
 	"crypto/md5"
+	"crypto/sha1"
+	"crypto/sha256"
+	"crypto/sha512"
 	"encoding/hex"
 )
 
@@ -23,4 +26,49 @@ func Md5(data string) string {
 	hashString := hex.EncodeToString(hashBytes)
 
 	return hashString
+}
+
+// HashWithSHA1
+//
+// @Title HashWithSHA1
+// @Description: 使用 SHA-1 进行哈希计算
+// @Author liuxingyu
+// @Date 2024-02-16 18:30:10
+// @param data
+// @return string
+func HashWithSHA1(data string) string {
+	hash := sha1.New()
+	hash.Write([]byte(data))
+	hashBytes := hash.Sum(nil)
+	return hex.EncodeToString(hashBytes)
+}
+
+// HashWithSHA256
+//
+// @Title HashWithSHA256
+// @Description: 使用 SHA-256 进行哈希计算
+// @Author liuxingyu
+// @Date 2024-02-16 18:20:15
+// @param data
+// @return string
+func HashWithSHA256(data string) string {
+	hash := sha256.New()
+	hash.Write([]byte(data))
+	hashBytes := hash.Sum(nil)
+	return hex.EncodeToString(hashBytes)
+}
+
+// HashSHA512
+//
+// @Title HashSHA512
+// @Description: 使用 SHA-512 进行哈希计算
+// @Author liuxingyu
+// @Date 2024-02-16 18:21:35
+// @param data
+// @return string
+func HashSHA512(data string) string {
+	hash := sha512.New()
+	hash.Write([]byte(data))
+	hashBytes := hash.Sum(nil)
+	return hex.EncodeToString(hashBytes)
 }

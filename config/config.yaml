@@ -1,3 +1,4 @@
+# 数据库配置信息
 database:
   default:
     host: localhost
@@ -13,3 +14,21 @@ email:
     port: 25
     username: yuwen002@163.com
     password: my_password
+
+# session配置信息
+session:
+  type: cookie
+  secret: 1234567890
+  cookie:
+    name: ice_flame
+  redis:
+    name: ice_flame
+    address: localhost:6379
+    db: 0
+    password: ""
+    prefix_length: 10
+    network: "tcp"
+  memcached:
+    name: ice_flame
+    address: localhost:11211
+
