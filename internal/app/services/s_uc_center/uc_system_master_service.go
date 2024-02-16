@@ -1,7 +1,7 @@
 package services
 
 import (
-	"fmt"
+	config2 "ice_flame_gin/config"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/pkg/utils"
@@ -164,21 +164,23 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 		}
 	}
 
+	// 邮件内容信息 @todo 待完成
+	body := "<p>This is the email body. Click <a href=\"https://www.example.com\">here</a> to visit our website.</p>"
 	// 配置
+	email := config2.GlobalConfig.Email["smtp"]
 	config := utils.GoEmailConfig{
-		SMTPHost:     "smtp.163.com",
-		SMTPPort:     25,
-		SMTPUsername: "yuwen002@163.com",
-		SMTPPassword: "",
-		From:         "yuwen002@163.com",
-		To:           "2719757@qq.com",
-		Subject:      "Gin Email Test",
-		Body:         "<p>This is the email body. Click <a href=\"https://www.example.com\">here</a> to visit our website.</p>",
+		SMTPHost:     email.Host,
+		SMTPPort:     email.Port,
+		SMTPUsername: email.Username,
+		SMTPPassword: email.Password,
+		From:         email.Username,
+		To:           in.Email,
+		Subject:      "Ice Flame 后台用户密码找回",
+		Body:         body,
 		ContentType:  "text/html",
 	}
 
 	err = config.SendMail()
-	fmt.Println(err)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,

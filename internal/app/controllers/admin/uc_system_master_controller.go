@@ -11,9 +11,13 @@ import (
 	"net/http"
 )
 
-var UcSystemMaster = cUcSystemMaster{}
+var UcSystemMaster = cUcSystemMaster{
+	pageNotFound: paths.AdminRoot + paths.Admin404,
+}
 
-type cUcSystemMaster struct{}
+type cUcSystemMaster struct {
+	pageNotFound string
+}
 
 // Login
 //
@@ -104,14 +108,15 @@ func (c *cUcSystemMaster) Register(ctx *gin.Context) {
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(ctx, "err", &errMsg)
 	if err != nil {
-		//	@todo 准备跳转到404
+		system.RedirectGet(ctx, c.pageNotFound)
+		return
 	}
-	fmt.Println(errMsg)
 
 	var form validators.AdminRegisterForm
 	err = system.GetDataFromFlash(ctx, "form", &form)
 	if err != nil {
-		// @todo 准备跳转到404
+		system.RedirectGet(ctx, c.pageNotFound)
+		return
 	}
 
 	fail := system.GetFlashedData(ctx, "fail")
@@ -139,8 +144,16 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
-		system.AddDataToFlash(ctx, errMsg, "err")
-		system.AddDataToFlash(ctx, form, "form")
+		errFlash := system.AddDataToFlash(ctx, errMsg, "err")
+		if errFlash != nil {
+			system.RedirectGet(ctx, c.pageNotFound)
+			return
+		}
+		errFlash = system.AddDataToFlash(ctx, form, "form")
+		if errFlash != nil {
+			system.RedirectGet(ctx, c.pageNotFound)
+			return
+		}
 		// 跳转注册页
 		path = paths.AdminRoot + paths.AdminRegister
 		ctx.Redirect(http.StatusFound, path)
@@ -176,22 +189,26 @@ func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
 	// 从会话中获取错误信息
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(ctx, "err", &errMsg)
-	path := paths.AdminLogin + paths.Admin404
 	if err != nil {
-		system.RedirectGet(ctx, path)
+		system.RedirectGet(ctx, c.pageNotFound)
 		return
 	}
 
-	var form validators.AdminRegisterForm
+	var form validators.AdminForgotPassword
 	err = system.GetDataFromFlash(ctx, "form", &form)
 	if err != nil {
-		system.RedirectGet(ctx, path)
+		system.RedirectGet(ctx, c.pageNotFound)
 		return
 	}
+
+	msg := system.GetFlashedData(ctx, "msg")
+	fmt.Println(msg)
+
 	system.Render(ctx, "admin/forgot_password.html", gin.H{
 		"title": "忘记密码",
 		"error": errMsg,
 		"form":  form,
+		"msg":   msg,
 	})
 }
 
@@ -206,15 +223,24 @@ func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
 func (c *cUcSystemMaster) HandleForgotPassword(ctx *gin.Context) {
 	var form validators.AdminForgotPassword
 	var path string
+	path = paths.AdminRoot + paths.AdminForgotPassword
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
-		system.AddDataToFlash(ctx, errMsg, "err")
-		system.AddDataToFlash(ctx, form, "form")
+		errFlash := system.AddDataToFlash(ctx, errMsg, "err")
+		if errFlash != nil {
+			system.RedirectGet(ctx, c.pageNotFound)
+			return
+		}
+		errFlash = system.AddDataToFlash(ctx, form, "form")
+		if errFlash != nil {
+			system.RedirectGet(ctx, c.pageNotFound)
+			return
+		}
+
 		// 跳转忘记密码页
-		path = paths.AdminRoot + paths.AdminForgotPassword
-		ctx.Redirect(http.StatusFound, path)
+		system.RedirectGet(ctx, path)
 		return
 	}
 
@@ -222,5 +248,15 @@ func (c *cUcSystemMaster) HandleForgotPassword(ctx *gin.Context) {
 		Email: "yuwen002@163.com",
 	})
 	fmt.Println(output)
+	if output.Code == 1 {
+		system.AddFlashData(ctx, output.Message, "msg")
+		// 跳转忘记密码页
+		system.RedirectGet(ctx, path)
+		return
+	}
+
+	system.AddFlashData(ctx, "发送邮件成功，请查看邮件。", "msg")
+	// 跳转忘记密码页
+	system.RedirectGet(ctx, path)
 	return
 }

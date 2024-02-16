@@ -38,10 +38,10 @@ type DatabaseInfo struct {
 // @Author liuxingyu
 // @Date 2024-02-16 17:19:13
 type EmailInfo struct {
-	SMTPServer string `yaml:"smtp_server"`
-	Port       int    `yaml:"port"`
-	Username   string `yaml:"username"`
-	Password   string `yaml:"password"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
 }
 
 // SessionInfo
@@ -77,11 +77,16 @@ type SessionInfo struct {
 // @Date 2024-02-16 17:50:24
 func ParseConfig() {
 	// 打开文件
-	file, err := os.Open("config.yaml")
+	file, err := os.Open("./config/config.yaml")
 	if err != nil {
 		log.Fatalf("无法打开配置文件：%v", err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
 
 	// 读取文件内容
 	data, err := os.ReadFile(file.Name())
@@ -109,9 +114,9 @@ type DatabaseConfig struct {
 }
 
 var DBConfig = DatabaseConfig{
-	Host:     "82.157.248.230",
+	Host:     "",
 	Port:     3306,
 	Username: "go_test",
-	Password: "XLx8EhRTEkF5fLLr",
+	Password: "",
 	DBName:   "go_test",
 }
