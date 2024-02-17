@@ -31,8 +31,10 @@ type GormCore struct {
 // @Date 2024-02-05 17:50:14
 // @return *GormCore
 func NewGormCore() *GormCore {
+	// 默认链接default数据库
+	firstDB := DB["default"]
 	return &GormCore{
-		db: DB, // 假设db.DB是你初始化后的全局*gorm.DB实例
+		db: firstDB, // db.DB是初始化后的全局*gorm.DB实例
 	}
 }
 

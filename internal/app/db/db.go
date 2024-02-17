@@ -8,7 +8,7 @@ import (
 	"log"
 )
 
-var DB *gorm.DB
+var DB map[string]*gorm.DB
 
 // init
 //
@@ -32,21 +32,40 @@ func init() {
 // @Date 2024-02-01 16:21:35
 // @return error
 func InitDB() error {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
-		config.DBConfig.Username,
-		config.DBConfig.Password,
-		config.DBConfig.Host,
-		config.DBConfig.Port,
-		config.DBConfig.DBName,
-	)
+	//  初始化数据库连接
+	DB = make(map[string]*gorm.DB)
 
-	var err error
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		return err
+	dbConfigs := config.GlobalConfig.Database
+	for dbName, dbConfig := range dbConfigs {
+		dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
+			dbConfig.Username,
+			dbConfig.Password,
+			dbConfig.Host,
+			dbConfig.Port,
+			dbConfig.Name,
+		)
+
+		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		if err != nil {
+			return err
+		}
+
+		DB[dbName] = db
 	}
 
 	return nil
+}
+
+// GetDB
+//
+// @Title GetDB
+// @Description:
+// @Author liuxingyu
+// @Date 2024-02-17 11:42:13
+// @param dbName
+// @return *gorm.DB
+func GetDB(dbName string) *gorm.DB {
+	return DB[dbName]
 }
 
 // CloseDB
@@ -56,8 +75,8 @@ func InitDB() error {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-01 16:22:03
 func CloseDB() {
-	if DB != nil {
-		db, _ := DB.DB()
-		db.Close()
+	for _, db := range DB {
+		sqlDB, _ := db.DB()
+		sqlDB.Close()
 	}
 }

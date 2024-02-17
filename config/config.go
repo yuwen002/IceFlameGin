@@ -104,19 +104,3 @@ func ParseConfig() {
 func init() {
 	ParseConfig()
 }
-
-type DatabaseConfig struct {
-	Host     string
-	Port     int
-	Username string
-	Password string
-	DBName   string
-}
-
-var DBConfig = DatabaseConfig{
-	Host:     "",
-	Port:     3306,
-	Username: "go_test",
-	Password: "",
-	DBName:   "go_test",
-}
