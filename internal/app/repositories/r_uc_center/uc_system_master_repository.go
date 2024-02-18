@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"errors"
+	"gorm.io/gen/examples/dal/query"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -94,6 +95,7 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 // @return *models.UcSystemMaster
 // @return error
 func (repo *UcSystemMasterRepository) GetByEmail(email string) (*model.UcSystemMaster, error) {
+	query.SetDefault(repo.DB)
 	var systemMaster model.UcSystemMaster
 	condition := "email = ?"
 	err := db.NewGormCore().QueryOne(&systemMaster, condition, email)

@@ -5,10 +5,12 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"ice_flame_gin/config"
+	"ice_flame_gin/internal/app/models/query"
 	"log"
 )
 
 var DB map[string]*gorm.DB
+var Q query.Query
 
 // init
 //
@@ -54,6 +56,19 @@ func InitDB() error {
 	}
 
 	return nil
+}
+
+// GetDB
+//
+// @Title GetDB
+// @Description:
+// @Author liuxingyu
+// @Date 2024-02-17 11:42:13
+// @param dbName
+// @return *gorm.DB
+func GetDB(dbName string) *query.Query {
+	db := DB[dbName]
+	return query.Use(db)
 }
 
 // CloseDB
