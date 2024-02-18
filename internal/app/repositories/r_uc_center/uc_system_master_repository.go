@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
-	models "ice_flame_gin/internal/app/models/m_uc_center"
+	"ice_flame_gin/internal/app/models/model"
 )
 
 //	UcSystemMasterRepository
@@ -14,7 +14,8 @@ import (
 // @Author liuxingyu
 // @Date 2024-02-08 23:31:58
 type UcSystemMasterRepository struct {
-	DB *gorm.DB
+	DBs map[string]*gorm.DB
+	DB  *gorm.DB
 }
 
 // NewUcSystemMasterRepository
@@ -25,7 +26,10 @@ type UcSystemMasterRepository struct {
 // @Date 2024-02-08 23:36:52
 // @return *UcSystemMasterRepository 创建一个新的 UcSystemMasterRepository 仓库实例
 func NewUcSystemMasterRepository() *UcSystemMasterRepository {
-	return &UcSystemMasterRepository{DB: db.DB}
+	return &UcSystemMasterRepository{
+		DBs: db.DB,
+		DB:  db.DB["default"], //默认使用default
+	}
 }
 
 // Insert
@@ -41,7 +45,7 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 	tx := repo.DB.Begin()
 
 	// 写入uc_account主表数据
-	id, err := db.NewGormCore().SetDefaultTable("uc_account").InsertAndGetID(&models.UcAccount{
+	id, err := db.NewGormCore().SetDefaultTable("uc_account").InsertAndGetID(&model.UcAccount{
 		Username:     "SA_" + data.Tel,
 		PasswordHash: data.Password,
 		Tel:          data.Tel,
@@ -58,7 +62,7 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 	}
 
 	// 写入uc_system_master数据
-	err = db.NewGormCore().SetDefaultTable("uc_system_master").Insert(&models.UcSystemMaster{
+	err = db.NewGormCore().SetDefaultTable("uc_system_master").Insert(&model.UcSystemMaster{
 		AccountID: id,
 		Name:      data.Name,
 		Tel:       data.Tel,
@@ -89,8 +93,8 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 // @param email
 // @return *models.UcSystemMaster
 // @return error
-func (repo *UcSystemMasterRepository) GetByEmail(email string) (*models.UcSystemMaster, error) {
-	var systemMaster models.UcSystemMaster
+func (repo *UcSystemMasterRepository) GetByEmail(email string) (*model.UcSystemMaster, error) {
+	var systemMaster model.UcSystemMaster
 	condition := "email = ?"
 	err := db.NewGormCore().QueryOne(&systemMaster, condition, email)
 	if err != nil {

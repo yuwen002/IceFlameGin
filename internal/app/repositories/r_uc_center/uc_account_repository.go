@@ -3,7 +3,7 @@ package repositories
 import (
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
-	models "ice_flame_gin/internal/app/models/m_uc_center"
+	"ice_flame_gin/internal/app/models/model"
 )
 
 // UcAccountRepository
@@ -11,7 +11,7 @@ import (
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-01 16:34:24
 type UcAccountRepository struct {
-	DB *gorm.DB
+	DBs map[string]*gorm.DB
 }
 
 // NewUcAccountRepository
@@ -23,7 +23,7 @@ type UcAccountRepository struct {
 // @return *UcAccountRepository
 func NewUcAccountRepository() *UcAccountRepository {
 	return &UcAccountRepository{
-		DB: db.DB, // 直接使用全局的DB实例
+		DBs: db.DB, // 直接使用全局的DB实例
 	}
 }
 
@@ -37,8 +37,8 @@ func NewUcAccountRepository() *UcAccountRepository {
 // @param tel
 // @return *r_uc_center.UcAccount
 // @return error
-func (repo *UcAccountRepository) GetAccountByTel(tel string) (*models.UcAccount, error) {
-	var account models.UcAccount
+func (repo *UcAccountRepository) GetAccountByTel(tel string) (*model.UcAccount, error) {
+	var account model.UcAccount
 	condition := "username = ?"
 	err := db.NewGormCore().QueryOne(&account, condition, tel)
 	if err != nil {

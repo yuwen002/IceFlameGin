@@ -76,7 +76,7 @@ func (g *GormCore) Insert(data interface{}) error {
 // @param data
 // @return uint
 // @return error
-func (g *GormCore) InsertAndGetID(data interface{}) (uint, error) {
+func (g *GormCore) InsertAndGetID(data interface{}) (uint32, error) {
 	result := g.db.Create(data)
 	if result.Error != nil {
 		return 0, result.Error
@@ -96,7 +96,7 @@ func (g *GormCore) InsertAndGetID(data interface{}) (uint, error) {
 	if !idField.IsValid() {
 		return 0, errors.New("failed to get ID from inserted record")
 	}
-	id := uint(idField.Uint())
+	id := uint32(idField.Uint())
 
 	return id, nil
 }

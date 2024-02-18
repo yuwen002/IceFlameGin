@@ -56,18 +56,6 @@ func InitDB() error {
 	return nil
 }
 
-// GetDB
-//
-// @Title GetDB
-// @Description:
-// @Author liuxingyu
-// @Date 2024-02-17 11:42:13
-// @param dbName
-// @return *gorm.DB
-func GetDB(dbName string) *gorm.DB {
-	return DB[dbName]
-}
-
 // CloseDB
 //
 // @Title CloseDB
