@@ -10,7 +10,7 @@ import (
 )
 
 var DB map[string]*gorm.DB
-var Q query.Query
+var Q *query.Query
 
 // init
 //
@@ -24,6 +24,8 @@ func init() {
 	if err != nil {
 		log.Fatalf("初始化数据库失败: %v", err)
 	}
+	//  初始化默认值
+	Q = GetDB("default")
 }
 
 // InitDB
@@ -61,11 +63,11 @@ func InitDB() error {
 // GetDB
 //
 // @Title GetDB
-// @Description:
+// @Description: query
 // @Author liuxingyu
 // @Date 2024-02-17 11:42:13
 // @param dbName
-// @return *gorm.DB
+// @return *query.Query
 func GetDB(dbName string) *query.Query {
 	db := DB[dbName]
 	return query.Use(db)

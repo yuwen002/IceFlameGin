@@ -20,7 +20,8 @@ type DatabaseCore interface {
 // GormCore
 // @Description: 基于GORM的数据库核心类，该结构体实现了 DatabaseCore 接口中定义的方法
 type GormCore struct {
-	db *gorm.DB
+	db  *gorm.DB
+	dbs map[string]*gorm.DB
 }
 
 // NewGormCore
@@ -34,7 +35,8 @@ func NewGormCore() *GormCore {
 	// 默认链接default数据库
 	firstDB := DB["default"]
 	return &GormCore{
-		db: firstDB, // db.DB是初始化后的全局*gorm.DB实例
+		db:  firstDB, // db.DB是初始化后的全局*gorm.DB实例
+		dbs: DB,
 	}
 }
 
