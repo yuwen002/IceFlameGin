@@ -7,18 +7,21 @@ database:
   # enter the required data table or leave it blank.You can input : orders,users,goods
   tables:
     - uc_system_master
-  # specify a directory for output
+  # 生成的查询类代码的输出路径，默认./query
   outPath: "./internal/app/models/query"
-  # query code file name, default: gen.go
+  # 生成的文件名，默认gen.go
   outFile: ""
   # generate unit test for query code
   withUnitTest: false
-  # generated model code's package name
+  # 是否为DAO包生成单元测试代码，默认：false
   modelPkgName: ""
-  # generate with pointer when field is nullable
+  # 数据库中的字段可为空，则生成struct字段为指针类型
   fieldNullable: false
-  # generate field with gorm index tag
+  # 为结构体生成gorm index tag，如gorm:"index:idx_name"，默认：false
   fieldWithIndexTag: true
-  # generate field with gorm column type tag
+  # 为结构体生成gorm type tag，如：gorm:"type:varchar(12)"，默认：false
   fieldWithTypeTag: true
+  # detect integer field's unsigned type, adjust generated data type
   fieldSignable: true
+  # 如果数据库中字段有默认值，则生成指针类型的字段，以避免零值（zero-value）
+  fieldCoverable: true
