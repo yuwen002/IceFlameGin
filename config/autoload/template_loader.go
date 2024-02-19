@@ -2,10 +2,19 @@ package autoload
 
 import (
 	"github.com/gin-gonic/gin"
+	"html/template"
+	"ice_flame_gin/internal/system"
 	"path/filepath"
 )
 
 func LoadTemplates(r *gin.Engine) {
+	// 注册模板函数
+	r.SetFuncMap(template.FuncMap{
+		"GetOldInput": func(c *gin.Context, key string) string {
+			return system.GetOldInput(c, key)
+		},
+	})
+
 	// 加载模板一级目录
 	files1, err := filepath.Glob("./web/templates/**/*.html")
 	if err != nil {
