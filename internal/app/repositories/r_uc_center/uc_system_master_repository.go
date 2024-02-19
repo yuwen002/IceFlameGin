@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"errors"
-	"gorm.io/gen/examples/dal/query"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -28,8 +27,7 @@ type UcSystemMasterRepository struct {
 // @return *UcSystemMasterRepository 创建一个新的 UcSystemMasterRepository 仓库实例
 func NewUcSystemMasterRepository() *UcSystemMasterRepository {
 	return &UcSystemMasterRepository{
-		DBs: db.DB,
-		DB:  db.DB["default"], //默认使用default
+		DB: db.DB["default"], //默认使用default
 	}
 }
 
@@ -45,11 +43,12 @@ func NewUcSystemMasterRepository() *UcSystemMasterRepository {
 func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput) error {
 	tx := repo.DB.Begin()
 
+	account := "SA_" + data.Tel
 	// 写入uc_account主表数据
 	id, err := db.NewGormCore().SetDefaultTable("uc_account").InsertAndGetID(&model.UcAccount{
-		Username:     "SA_" + data.Tel,
+		Username:     account,
 		PasswordHash: data.Password,
-		Tel:          data.Tel,
+		Tel:          account,
 	})
 	if err != nil {
 		// 回滚事务
@@ -67,6 +66,7 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 		AccountID: id,
 		Name:      data.Name,
 		Tel:       data.Tel,
+		Email:     data.Email,
 	})
 	if err != nil {
 		// 回滚事务
@@ -95,7 +95,6 @@ func (repo *UcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput)
 // @return *models.UcSystemMaster
 // @return error
 func (repo *UcSystemMasterRepository) GetByEmail(email string) (*model.UcSystemMaster, error) {
-	query.SetDefault(repo.DB)
 	var systemMaster model.UcSystemMaster
 	condition := "email = ?"
 	err := db.NewGormCore().QueryOne(&systemMaster, condition, email)

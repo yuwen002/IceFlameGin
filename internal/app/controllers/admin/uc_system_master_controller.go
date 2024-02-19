@@ -139,7 +139,7 @@ func (c *cUcSystemMaster) Register(ctx *gin.Context) {
 // @param ctx
 func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 	var form validators.AdminRegisterForm
-	var path string
+	path := paths.AdminRoot + paths.AdminRegister
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
@@ -155,8 +155,7 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 			return
 		}
 		// 跳转注册页
-		path = paths.AdminRoot + paths.AdminRegister
-		ctx.Redirect(http.StatusFound, path)
+		system.RedirectGet(ctx, path)
 		return
 	}
 
@@ -165,16 +164,18 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 		Password: form.Password,
 		Tel:      form.Tel,
 		Name:     form.Name,
+		Email:    form.Email,
 	})
 
 	// 用户注册失败
 	if output.Code != 0 {
-		system.AddFlashData(ctx, "注册失败，请联系管理员", "fail")
+		system.AddFlashData(ctx, output.Message, "fail")
+		system.RedirectGet(ctx, path)
 		return
 	}
 
 	// 跳转到登入页面
-	system.RedirectPost(ctx, path)
+	system.RedirectGet(ctx, paths.AdminRoot+paths.AdminLogin)
 }
 
 // ForgotPassword

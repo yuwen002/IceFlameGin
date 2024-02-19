@@ -85,7 +85,8 @@ func (s *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system
 // @return *system.SysResponse
 func (s *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
 	// 查询电话号是否被注册
-	telAccount, err := repositories.NewUcAccountRepository().GetAccountByTel(in.Tel)
+	tel := "SA_" + in.Tel
+	telAccount, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -93,7 +94,6 @@ func (s *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.Sys
 			Data:    nil,
 		}
 	}
-
 	if telAccount != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -116,6 +116,16 @@ func (s *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.Sys
 		return &system.SysResponse{
 			Code:    1,
 			Message: "用户Email已存在",
+			Data:    nil,
+		}
+	}
+
+	// 密码加密
+	in.Password, err = utils.PasswordHash(in.Password)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
 			Data:    nil,
 		}
 	}

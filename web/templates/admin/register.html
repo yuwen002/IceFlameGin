@@ -141,6 +141,10 @@
                     minlength: 2,
                     maxlength: 20
                 },
+                email:{
+                    required: true,
+                    email: true
+                },
                 tel: {
                     required: true,
                     digits: true,
@@ -165,6 +169,10 @@
                     required: "请输入姓名",
                     minlength: "姓名长度不能小于2位",
                     maxlength: "姓名长度不能大于50位"
+                },
+                email: {
+                    required: "请输入邮箱",
+                    email: "请输入有效的邮箱地址"
                 },
                 tel: {
                     required: "请输入电话号码",
