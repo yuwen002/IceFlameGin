@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"reflect"
+	"strconv"
 )
 
 // AddFlashData
@@ -131,4 +133,46 @@ func GetOldInput(c *gin.Context, key string) string {
 	}
 
 	return ""
+}
+
+// SetStructOldInput
+//
+// @Title SetStructOldInput
+// @Description: struct表单提交函数，写入数据
+// @Author liuxingyu
+// @Date 2024-02-20 23:57:42
+// @param c
+// @param s
+func SetStructOldInput(c *gin.Context, s interface{}) {
+	// 通过反射获取结构体的值
+	v := reflect.ValueOf(s)
+
+	// 遍历结构体的字段
+	for i := 0; i < v.NumField(); i++ {
+		// 获取字段名称对应的表单标签
+		fieldName := v.Type().Field(i).Tag.Get("form")
+
+		// 获取字段的值
+		fieldValue := v.Field(i).Interface()
+
+		// 将字段值转换为字符串类型
+		var valueStr string
+		switch fieldValue := fieldValue.(type) {
+		case int:
+			valueStr = strconv.Itoa(fieldValue)
+		case float64:
+			valueStr = strconv.FormatFloat(fieldValue, 'f', -1, 64)
+		case bool:
+			valueStr = strconv.FormatBool(fieldValue)
+		case string:
+			valueStr = fieldValue
+		default:
+			// 如果无法转换为字符串，可以根据需要进行适当的处理
+			// 这里我们选择跳过该字段
+			continue
+		}
+
+		// 将字段名和字段值保存到会话中
+		SetOldInput(c, fieldName, valueStr)
+	}
 }
