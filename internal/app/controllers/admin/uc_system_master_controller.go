@@ -56,7 +56,6 @@ func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 	var form validators.AdminLoginForm
 	path := paths.AdminRoot + paths.AdminLogin
-	fmt.Println(form)
 	// 解析表单数据
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
@@ -203,7 +202,6 @@ func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
 	}
 
 	msg := system.GetFlashedData(ctx, "msg")
-	fmt.Println(msg)
 
 	system.Render(ctx, "admin/forgot_password.html", gin.H{
 		"title": "忘记密码",
