@@ -68,7 +68,7 @@ func (s *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system
 	}
 
 	return &system.SysResponse{
-		Code:    1,
+		Code:    0,
 		Message: "success",
 		Data:    out,
 	}

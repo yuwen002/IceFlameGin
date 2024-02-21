@@ -30,6 +30,9 @@ type cUcSystemMaster struct {
 func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 	tel := ""
 	// 获取“记住我”cookie中保存的用户名
+
+	// 获取错误信息
+	errMsg := system.GetFlashedData(ctx, "error")
 	cookie, err := ctx.Request.Cookie("admin_tel")
 	if err == nil {
 		tel = cookie.Value
@@ -38,6 +41,7 @@ func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 		"title":   "后台登入",
 		"tel":     tel,
 		"checked": tel != "",
+		"error":   errMsg,
 	})
 }
 
@@ -51,15 +55,14 @@ func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 // @param ctx
 func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 	var form validators.AdminLoginForm
+	path := paths.AdminRoot + paths.AdminLogin
+	fmt.Println(form)
 	// 解析表单数据
 	if err := ctx.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrorMsg(err, form)
-		// 渲染带有错误信息的登录页面
-		system.Render(ctx, "admin/login.html", gin.H{
-			"title": "后台登入",
-			"error": errMsg,
-		})
+		system.AddFlashData(ctx, errMsg, "error")
+		system.RedirectGet(ctx, path)
 		return
 	}
 
@@ -68,13 +71,10 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 		Tel:      form.Tel,
 		Password: form.Password,
 	})
-
 	// 验证不通过，渲染带有错误信息的登录页面
 	if output.Code != 0 {
-		system.Render(ctx, "admin/login.html", gin.H{
-			"title": "后台登入",
-			"error": "用户名密码错误",
-		})
+		system.AddFlashData(ctx, "用户名密码错误", "error")
+		system.RedirectGet(ctx, path)
 		return
 	}
 
