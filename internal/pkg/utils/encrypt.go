@@ -1,11 +1,16 @@
 package utils
 
 import (
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/md5"
+	"crypto/rand"
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/hex"
+	"errors"
+	"io"
 )
 
 // Md5
@@ -71,4 +76,116 @@ func HashSHA512(data string) string {
 	hash.Write([]byte(data))
 	hashBytes := hash.Sum(nil)
 	return hex.EncodeToString(hashBytes)
+}
+
+// EncryptAES128
+//
+// @Title EncryptAES128
+// @Description: 使用AES-128对数据进行加密
+// @Author liuxingyu
+// @Date 2024-02-22 00:09:04
+// @param key
+// @param plaintext
+// @return []byte
+// @return error
+func EncryptAES128(key []byte, plaintext []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	ciphertext := make([]byte, aes.BlockSize+len(plaintext))
+	iv := ciphertext[:aes.BlockSize]
+	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+		return nil, err
+	}
+
+	mode := cipher.NewCBCEncrypter(block, iv)
+	mode.CryptBlocks(ciphertext[aes.BlockSize:], plaintext)
+
+	return ciphertext, nil
+}
+
+// DecryptAES128
+//
+// @Title DecryptAES128
+// @Description: 使用AES-128对数据进行解密
+// @Author liuxingyu
+// @Date 2024-02-22 00:09:58
+// @param key
+// @param ciphertext
+// @return []byte
+// @return error
+func DecryptAES128(key []byte, ciphertext []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(ciphertext) < aes.BlockSize {
+		return nil, errors.New("ciphertext is too short")
+	}
+	iv := ciphertext[:aes.BlockSize]
+	ciphertext = ciphertext[aes.BlockSize:]
+
+	mode := cipher.NewCBCDecrypter(block, iv)
+	mode.CryptBlocks(ciphertext, ciphertext)
+
+	return ciphertext, nil
+}
+
+// EncryptAES256
+//
+// @Title EncryptAES256
+// @Description: 使用AES-256对数据进行加密
+// @Author liuxingyu
+// @Date 2024-02-22 00:10:16
+// @param key
+// @param plaintext
+// @return []byte
+// @return error
+func EncryptAES256(key []byte, plaintext []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	ciphertext := make([]byte, aes.BlockSize+len(plaintext))
+	iv := ciphertext[:aes.BlockSize]
+	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+		return nil, err
+	}
+
+	mode := cipher.NewCBCEncrypter(block, iv)
+	mode.CryptBlocks(ciphertext[aes.BlockSize:], plaintext)
+
+	return ciphertext, nil
+}
+
+// DecryptAES256
+//
+// @Title DecryptAES256
+// @Description: 使用AES-256对数据进行解密
+// @Author liuxingyu
+// @Date 2024-02-22 00:10:33
+// @param key
+// @param ciphertext
+// @return []byte
+// @return error
+func DecryptAES256(key []byte, ciphertext []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(ciphertext) < aes.BlockSize {
+		return nil, errors.New("ciphertext is too short")
+	}
+	iv := ciphertext[:aes.BlockSize]
+	ciphertext = ciphertext[aes.BlockSize:]
+
+	mode := cipher.NewCBCDecrypter(block, iv)
+	mode.CryptBlocks(ciphertext, ciphertext)
+
+	return ciphertext, nil
 }

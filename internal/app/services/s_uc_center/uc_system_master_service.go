@@ -1,11 +1,14 @@
 package services
 
 import (
+	"encoding/hex"
+	"fmt"
 	config2 "ice_flame_gin/config"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
+	"time"
 )
 
 //	sUcSystemMaster
@@ -14,7 +17,8 @@ import (
 // @Author liuxingyu
 // @Date 2024-02-08 21:50:16
 type sUcSystemMaster struct {
-	prefix string
+	prefix    string
+	aes128Key string
 }
 
 // NewUcSystemMasterService
@@ -26,7 +30,8 @@ type sUcSystemMaster struct {
 // @return *sUcSystemMaster 返回一个指向 UcSystemMaster 服务实例的指针
 func NewUcSystemMasterService() *sUcSystemMaster {
 	return &sUcSystemMaster{
-		prefix: "SA_",
+		prefix:    "SA_",
+		aes128Key: "IceFlame-G84bWx5",
 	}
 }
 
@@ -174,8 +179,24 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 		}
 	}
 
-	// 邮件内容信息 @todo 待完成
-	body := "<p>This is the email body. Click <a href=\"https://www.example.com\">here</a> to visit our website.</p>"
+	// 当前时间戳
+	timestamp := time.Now().Unix()
+	// 构建明文
+	plaintext := in.Email + "|" + fmt.Sprint(timestamp)
+	// 加密
+	ciphertext, err := utils.EncryptAES128([]byte(s.aes128Key), []byte(plaintext))
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "加密失败:" + err.Error(),
+			Data:    nil,
+		}
+	}
+
+	// 将密文转换为十六进制字符串进行打印
+	ciphertextHex := hex.EncodeToString(ciphertext)
+	// 邮件内容信息 @todo 网址需要调整
+	body := "<p>这是邮件内容。点击 <a href=\"https://www.example.com/reset-password?token=" + ciphertextHex + "\">此处</a> 重置您的密码。</p>"
 	// 配置
 	email := config2.GlobalConfig.Email["smtp"]
 	config := utils.GoEmailConfig{
@@ -204,4 +225,15 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 		Message: "邮件发送成功",
 		Data:    nil,
 	}
+}
+
+func (s *sUcSystemMaster) PasswordRecovery() {
+	// 解密
+	decryptedText, err := utils.DecryptAES128([]byte(s.aes128Key), ciphertext)
+	if err != nil {
+		fmt.Println("解密失败:", err)
+		return
+	}
+
+	fmt.Println("解密后的明文:", string(decryptedText))
 }
