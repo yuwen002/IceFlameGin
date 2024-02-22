@@ -1,9 +1,10 @@
 package services
 
 import (
+	"bytes"
 	"encoding/hex"
 	"fmt"
-	config2 "ice_flame_gin/config"
+	"ice_flame_gin/config"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/pkg/utils"
@@ -198,7 +199,7 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 	// 邮件内容信息 @todo 网址需要调整
 	body := "<p>这是邮件内容。点击 <a href=\"https://www.example.com/reset-password?token=" + ciphertextHex + "\">此处</a> 重置您的密码。</p>"
 	// 配置
-	email := config2.GlobalConfig.Email["smtp"]
+	email := config.GlobalConfig.Email["smtp"]
 	config := utils.GoEmailConfig{
 		SMTPHost:     email.Host,
 		SMTPPort:     email.Port,
@@ -227,13 +228,63 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 	}
 }
 
-func (s *sUcSystemMaster) PasswordRecovery() {
+// PasswordRecovery
+//
+// @Title PasswordRecovery
+// @Description
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-22 10:24:39
+// @receiver s
+// @param ciphertext
+// @return *system.SysResponse
+func (s *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysResponse {
 	// 解密
-	decryptedText, err := utils.DecryptAES128([]byte(s.aes128Key), ciphertext)
+	decryptedText, err := utils.DecryptAES128([]byte(s.aes128Key), []byte(ciphertext))
 	if err != nil {
-		fmt.Println("解密失败:", err)
-		return
+		return &system.SysResponse{
+			Code:    1,
+			Message: "解密失败:" + err.Error(),
+			Data:    nil,
+		}
 	}
 
-	fmt.Println("解密后的明文:", string(decryptedText))
+	result := bytes.Split(decryptedText, []byte(","))
+	email := result[0]
+	timestamp := result[1]
+
+	// 将时间戳转换为整数
+	t, err := utils.ToInt64(timestamp)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "时间戳解析错误:" + err.Error(),
+			Data:    nil,
+		}
+	}
+
+	// 将时间戳转换为时间类型
+	createdAt := time.Unix(t, 0)
+	// 获取当前时间
+	now := time.Now()
+	// 计算时间差
+	diff := now.Sub(createdAt)
+	// 判断时间差是否超过2小时
+	if diff > 2*time.Hour {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "密码重置超时:" + err.Error(),
+			Data:    nil,
+		}
+	}
+
+	data := struct {
+		Email string `json:"email"`
+	}{
+		Email: string(email),
+	}
+	return &system.SysResponse{
+		Code:    0,
+		Message: "",
+		Data:    data,
+	}
 }
