@@ -25,19 +25,19 @@ type cUcSystemMaster struct {
 // @Description 后台登入显示页面
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-01 10:56:34
-// @receiver c
-// @param ctx
-func (c *cUcSystemMaster) Login(ctx *gin.Context) {
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) Login(c *gin.Context) {
 	tel := ""
 	// 获取“记住我”cookie中保存的用户名
 
 	// 获取错误信息
-	errMsg := system.GetFlashedData(ctx, "error")
-	cookie, err := ctx.Request.Cookie("admin_tel")
+	errMsg := system.GetFlashedData(c, "error")
+	cookie, err := c.Request.Cookie("admin_tel")
 	if err == nil {
 		tel = cookie.Value
 	}
-	system.Render(ctx, "admin/login.html", gin.H{
+	system.Render(c, "admin/login.html", gin.H{
 		"title":   "后台登入",
 		"tel":     tel,
 		"checked": tel != "",
@@ -51,17 +51,17 @@ func (c *cUcSystemMaster) Login(ctx *gin.Context) {
 // @Description: 后台登入页,处理验证页面
 // @Author liuxingyu
 // @Date 2024-02-06 23:35:18
-// @receiver c
-// @param ctx
-func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 	var form validators.AdminLoginForm
 	path := paths.AdminRoot + paths.AdminLogin
 	// 解析表单数据
-	if err := ctx.ShouldBind(&form); err != nil {
+	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrorMsg(err, form)
-		system.AddFlashData(ctx, errMsg, "error")
-		system.RedirectGet(ctx, path)
+		system.AddFlashData(c, errMsg, "error")
+		system.RedirectGet(c, path)
 		return
 	}
 
@@ -72,8 +72,8 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 	})
 	// 验证不通过，渲染带有错误信息的登录页面
 	if output.Code != 0 {
-		system.AddFlashData(ctx, "用户名密码错误", "error")
-		system.RedirectGet(ctx, path)
+		system.AddFlashData(c, "用户名密码错误", "error")
+		system.RedirectGet(c, path)
 		return
 	}
 
@@ -81,14 +81,14 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 	cookieName := "admin_tel"
 	// 将用户的用户名保存到cookie中
 	if form.Remember {
-		ctx.SetCookie(cookieName, form.Tel, 24*3600, "/", "", false, true)
+		c.SetCookie(cookieName, form.Tel, 24*3600, "/", "", false, true)
 	} else {
 		// 删除cookie
-		ctx.SetCookie(cookieName, "", -1, "/", "", false, true)
+		c.SetCookie(cookieName, "", -1, "/", "", false, true)
 	}
 
 	// 输出登入成功的JSON
-	ctx.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"code":    0,
 		"message": "登入成功",
 	})
@@ -100,27 +100,27 @@ func (c *cUcSystemMaster) HandleLogin(ctx *gin.Context) {
 // @Description: 管理员注册显示页面
 // @Author liuxingyu
 // @Date 2024-02-09 01:02:45
-// @receiver c
-// @param ctx
-func (c *cUcSystemMaster) Register(ctx *gin.Context) {
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) Register(c *gin.Context) {
 	// 从会话中获取错误信息
 	var errMsg map[string]interface{}
-	err := system.GetDataFromFlash(ctx, "err", &errMsg)
+	err := system.GetDataFromFlash(c, "err", &errMsg)
 	if err != nil {
-		system.RedirectGet(ctx, c.pageNotFound)
+		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
 	var form validators.AdminRegisterForm
-	err = system.GetDataFromFlash(ctx, "form", &form)
+	err = system.GetDataFromFlash(c, "form", &form)
 	if err != nil {
-		system.RedirectGet(ctx, c.pageNotFound)
+		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
-	fail := system.GetFlashedData(ctx, "fail")
+	fail := system.GetFlashedData(c, "fail")
 
-	system.Render(ctx, "admin/register.html", gin.H{
+	system.Render(c, "admin/register.html", gin.H{
 		"title": "管理员注册",
 		"error": errMsg,
 		"fail":  fail,
@@ -134,27 +134,27 @@ func (c *cUcSystemMaster) Register(ctx *gin.Context) {
 // @Description: 管理员注册页,处理验证页面
 // @Author liuxingyu
 // @Date 2024-02-09 01:03:20
-// @receiver c
-// @param ctx
-func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) HandleRegister(c *gin.Context) {
 	var form validators.AdminRegisterForm
 	path := paths.AdminRoot + paths.AdminRegister
-	if err := ctx.ShouldBind(&form); err != nil {
+	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
-		errFlash := system.AddDataToFlash(ctx, errMsg, "err")
+		errFlash := system.AddDataToFlash(c, errMsg, "err")
 		if errFlash != nil {
-			system.RedirectGet(ctx, c.pageNotFound)
+			system.RedirectGet(c, ctrl.pageNotFound)
 			return
 		}
-		errFlash = system.AddDataToFlash(ctx, form, "form")
+		errFlash = system.AddDataToFlash(c, form, "form")
 		if errFlash != nil {
-			system.RedirectGet(ctx, c.pageNotFound)
+			system.RedirectGet(c, ctrl.pageNotFound)
 			return
 		}
 		// 跳转注册页
-		system.RedirectGet(ctx, path)
+		system.RedirectGet(c, path)
 		return
 	}
 
@@ -168,13 +168,13 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 
 	// 用户注册失败
 	if output.Code != 0 {
-		system.AddFlashData(ctx, output.Message, "fail")
-		system.RedirectGet(ctx, path)
+		system.AddFlashData(c, output.Message, "fail")
+		system.RedirectGet(c, path)
 		return
 	}
 
 	// 跳转到登入页面
-	system.RedirectGet(ctx, paths.AdminRoot+paths.AdminLogin)
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
 }
 
 // ForgotPassword
@@ -183,27 +183,27 @@ func (c *cUcSystemMaster) HandleRegister(ctx *gin.Context) {
 // @Description: 忘记密码
 // @Author liuxingyu
 // @Date 2024-02-15 01:50:20
-// @receiver c
-// @param ctx
-func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) ForgotPassword(c *gin.Context) {
 	// 从会话中获取错误信息
 	var errMsg map[string]interface{}
-	err := system.GetDataFromFlash(ctx, "err", &errMsg)
+	err := system.GetDataFromFlash(c, "err", &errMsg)
 	if err != nil {
-		system.RedirectGet(ctx, c.pageNotFound)
+		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
 	var form validators.AdminForgotPassword
-	err = system.GetDataFromFlash(ctx, "form", &form)
+	err = system.GetDataFromFlash(c, "form", &form)
 	if err != nil {
-		system.RedirectGet(ctx, c.pageNotFound)
+		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
-	msg := system.GetFlashedData(ctx, "msg")
+	msg := system.GetFlashedData(c, "msg")
 
-	system.Render(ctx, "admin/forgot_password.html", gin.H{
+	system.Render(c, "admin/forgot_password.html", gin.H{
 		"title": "忘记密码",
 		"error": errMsg,
 		"form":  form,
@@ -217,45 +217,68 @@ func (c *cUcSystemMaster) ForgotPassword(ctx *gin.Context) {
 // @Description: 忘记密码处理页面，并发送邮件
 // @Author liuxingyu
 // @Date 2024-02-15 19:45:21
-// @receiver c
-// @param ctx
-func (c *cUcSystemMaster) HandleForgotPassword(ctx *gin.Context) {
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) HandleForgotPassword(c *gin.Context) {
 	var form validators.AdminForgotPassword
 	var path string
 	path = paths.AdminRoot + paths.AdminForgotPassword
-	if err := ctx.ShouldBind(&form); err != nil {
+	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
-		errFlash := system.AddDataToFlash(ctx, errMsg, "err")
+		errFlash := system.AddDataToFlash(c, errMsg, "err")
 		if errFlash != nil {
-			system.RedirectGet(ctx, c.pageNotFound)
+			system.RedirectGet(c, ctrl.pageNotFound)
 			return
 		}
-		errFlash = system.AddDataToFlash(ctx, form, "form")
+		errFlash = system.AddDataToFlash(c, form, "form")
 		if errFlash != nil {
-			system.RedirectGet(ctx, c.pageNotFound)
+			system.RedirectGet(c, ctrl.pageNotFound)
 			return
 		}
 
 		// 跳转忘记密码页
-		system.RedirectGet(ctx, path)
+		system.RedirectGet(c, path)
 		return
 	}
 
 	output := services.NewUcSystemMasterService().ForgotPassword(dto.ForgotPasswordSystemMasterInput{
-		Email: "yuwen002@163.com",
+		Email: form.Email,
 	})
 	fmt.Println(output)
 	if output.Code == 1 {
-		system.AddFlashData(ctx, output.Message, "msg")
+		system.AddFlashData(c, output.Message, "msg")
 		// 跳转忘记密码页
-		system.RedirectGet(ctx, path)
+		system.RedirectGet(c, path)
 		return
 	}
 
-	system.AddFlashData(ctx, "发送邮件成功，请查看邮件。", "msg")
+	system.AddFlashData(c, "发送邮件成功，请查看邮件。", "msg")
 	// 跳转忘记密码页
-	system.RedirectGet(ctx, path)
+	system.RedirectGet(c, path)
 	return
+}
+
+// PasswordRecovery
+//
+// @Title PasswordRecovery
+// @Description: 密码恢复,设置新密码
+// @Author liuxingyu
+// @Date 2024-02-23 00:34:17
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
+	// 获取URL参数的值
+	token := c.Query("token")
+	output := services.NewUcSystemMasterService().PasswordRecovery(token)
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    1,
+			"message": output.Message,
+		})
+		return
+	}
+
+	system.Render(c, "admin/password_recovery.html", gin.H{})
 }

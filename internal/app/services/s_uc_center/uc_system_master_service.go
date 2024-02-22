@@ -277,9 +277,10 @@ func (s *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysRespons
 		}
 	}
 
-	data := struct {
+	type Data struct {
 		Email string `json:"email"`
-	}{
+	}
+	data := Data{
 		Email: string(email),
 	}
 	return &system.SysResponse{

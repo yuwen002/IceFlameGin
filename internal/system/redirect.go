@@ -13,8 +13,8 @@ import (
 // @Date 2024-02-13 03:29:05
 // @param ctx
 // @param path
-func RedirectGet(ctx *gin.Context, path string) {
-	ctx.Redirect(http.StatusMovedPermanently, path)
+func RedirectGet(c *gin.Context, path string) {
+	c.Redirect(http.StatusMovedPermanently, path)
 }
 
 // RedirectPost
@@ -25,8 +25,8 @@ func RedirectGet(ctx *gin.Context, path string) {
 // @Date 2024-02-13 03:28:36
 // @param ctx
 // @param path
-func RedirectPost(ctx *gin.Context, path string) {
-	ctx.Redirect(http.StatusFound, path)
+func RedirectPost(c *gin.Context, path string) {
+	c.Redirect(http.StatusFound, path)
 }
 
 // Redirect
