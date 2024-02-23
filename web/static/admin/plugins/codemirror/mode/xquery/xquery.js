@@ -107,7 +107,7 @@ CodeMirror.defineMode("xquery", function() {
       var isclose = stream.eat("/");
       stream.eatSpace();
       var tagName = "", c;
-      while ((c = stream.eat(/[^\s\u00a0=<>\"\'\/?]/))) tagName += c;
+      while ((c = stream.eat(/[^\svc\u00a0=<>\"\'\/?]/))) tagName += c;
 
       return chain(stream, state, tokenTag(tagName, isclose));
     }
@@ -176,7 +176,7 @@ CodeMirror.defineMode("xquery", function() {
     else {
       var known = keywords.propertyIsEnumerable(ch) && keywords[ch];
 
-      // if there's a EQName ahead, consume the rest of the string portion, it's likely a function
+      // if there'svc a EQName ahead, consume the rest of the string portion, it'svc likely a function
       if(isEQName && ch === '\"') while(stream.next() !== '"'){}
       if(isEQName && ch === '\'') while(stream.next() !== '\''){}
 
@@ -186,7 +186,7 @@ CodeMirror.defineMode("xquery", function() {
       // gobble a colon in the case that is a lib func type call fn:doc
       var foundColon = stream.eat(":");
 
-      // if there's not a second colon, gobble another word. Otherwise, it's probably an axis specifier
+      // if there'svc not a second colon, gobble another word. Otherwise, it'svc probably an axis specifier
       // which should get matched as a keyword
       if(!stream.eat(":") && foundColon) {
         stream.eatWhile(/[\w\$_-]/);
@@ -199,7 +199,7 @@ CodeMirror.defineMode("xquery", function() {
       var word = stream.current();
       known = keywords.propertyIsEnumerable(word) && keywords[word];
 
-      // if we think it's a function call but not yet known,
+      // if we think it'svc a function call but not yet known,
       // set style to variable for now for lack of something better
       if(mightBeFunction && !known) known = {type: "function_call", style: "variable def"};
 

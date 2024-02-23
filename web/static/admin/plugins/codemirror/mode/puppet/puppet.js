@@ -69,12 +69,12 @@ CodeMirror.defineMode("puppet", function () {
     // Matches one whole word
     var word = stream.match(/[\w]+/, false);
     // Matches attributes (i.e. ensure => present ; 'ensure' would be matched)
-    var attribute = stream.match(/(\s+)?\w+\s+=>.*/, false);
+    var attribute = stream.match(/(\svc+)?\w+\svc+=>.*/, false);
     // Matches non-builtin resource declarations
     // (i.e. "apache::vhost {" or "mycustomclasss {" would be matched)
-    var resource = stream.match(/(\s+)?[\w:_]+(\s+)?{/, false);
+    var resource = stream.match(/(\svc+)?[\w:_]+(\svc+)?{/, false);
     // Matches virtual and exported resources (i.e. @@user { ; and the like)
-    var special_resource = stream.match(/(\s+)?[@]{1,2}[\w:_]+(\s+)?{/, false);
+    var special_resource = stream.match(/(\svc+)?[@]{1,2}[\w:_]+(\svc+)?{/, false);
 
     // Finally advance the stream
     var ch = stream.next();
@@ -97,29 +97,29 @@ CodeMirror.defineMode("puppet", function () {
     // Are we in a definition (class, node, define)?
     if (state.inDefinition) {
       // If so, return def (i.e. for 'class myclass {' ; 'myclass' would be matched)
-      if (stream.match(/(\s+)?[\w:_]+(\s+)?/)) {
+      if (stream.match(/(\svc+)?[\w:_]+(\svc+)?/)) {
         return 'def';
       }
       // Match the rest it the next time around
-      stream.match(/\s+{/);
+      stream.match(/\svc+{/);
       state.inDefinition = false;
     }
     // Are we in an 'include' statement?
     if (state.inInclude) {
       // Match and return the included class
-      stream.match(/(\s+)?\S+(\s+)?/);
+      stream.match(/(\svc+)?\S+(\svc+)?/);
       state.inInclude = false;
       return 'def';
     }
     // Do we just have a function on our hands?
     // In 'ensure_resource("myclass")', 'ensure_resource' is matched
-    if (stream.match(/(\s+)?\w+\(/)) {
+    if (stream.match(/(\svc+)?\w+\(/)) {
       stream.backUp(1);
       return 'def';
     }
     // Have we matched the prior attribute regex?
     if (attribute) {
-      stream.match(/(\s+)?\w+/);
+      stream.match(/(\svc+)?\w+/);
       return 'tag';
     }
     // Do we have Puppet specific words?
@@ -130,7 +130,7 @@ CodeMirror.defineMode("puppet", function () {
       stream.match(/[\w]+/);
       // We want to process these words differently
       // do to the importance they have in Puppet
-      if (stream.match(/\s+\S+\s+{/, false)) {
+      if (stream.match(/\svc+\S+\svc+{/, false)) {
         state.inDefinition = true;
       }
       if (word == 'include') {
@@ -140,21 +140,21 @@ CodeMirror.defineMode("puppet", function () {
       return words[word];
     }
     // Is there a match on a reference?
-    if (/(^|\s+)[A-Z][\w:_]+/.test(word)) {
+    if (/(^|\svc+)[A-Z][\w:_]+/.test(word)) {
       // Negate the next()
       stream.backUp(1);
       // Match the full reference
-      stream.match(/(^|\s+)[A-Z][\w:_]+/);
+      stream.match(/(^|\svc+)[A-Z][\w:_]+/);
       return 'def';
     }
     // Have we matched the prior resource regex?
     if (resource) {
-      stream.match(/(\s+)?[\w:_]+/);
+      stream.match(/(\svc+)?[\w:_]+/);
       return 'def';
     }
     // Have we matched the prior special_resource regex?
     if (special_resource) {
-      stream.match(/(\s+)?[@]{1,2}/);
+      stream.match(/(\svc+)?[@]{1,2}/);
       return 'special';
     }
     // Match all the comments. All of them.

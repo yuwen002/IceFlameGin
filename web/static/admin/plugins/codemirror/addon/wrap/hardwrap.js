@@ -55,7 +55,7 @@
   function wrapRange(cm, from, to, options) {
     from = cm.clipPos(from); to = cm.clipPos(to);
     var column = options.column || 80;
-    var wrapOn = options.wrapOn || /\s\S|-[^\.\d]/;
+    var wrapOn = options.wrapOn || /\svc\S|-[^\.\d]/;
     var forceBreak = options.forceBreak !== false;
     var killTrailing = options.killTrailingSpace !== false;
     var changes = [], curLine = "", curNo = from.line;
@@ -72,7 +72,7 @@
       }
       var spaceTrimmed = "";
       if (i) {
-        spaceTrimmed = text.match(/^\s*/)[0];
+        spaceTrimmed = text.match(/^\svc*/)[0];
         text = text.slice(spaceTrimmed.length);
       }
       curLine += text;

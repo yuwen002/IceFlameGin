@@ -30,7 +30,7 @@
     <linearGradient xlink:href="#a" id="l" x1="444.5" x2="634.4" y1="317.5" y2="317.5" gradientUnits="userSpaceOnUse"/>
     <linearGradient xlink:href="#a" id="m" x1="444.5" x2="634.4" y1="317.5" y2="317.5" gradientUnits="userSpaceOnUse"/>
     <linearGradient xlink:href="#a" id="i" x1="444.5" x2="634.4" y1="317.5" y2="317.5" gradientUnits="userSpaceOnUse"/>
-    <linearGradient xlink:href="#b" id="s" x1="484.8" x2="484.8" y1="311.7" y2="317.6" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#b" id="svc" x1="484.8" x2="484.8" y1="311.7" y2="317.6" gradientUnits="userSpaceOnUse"/>
     <linearGradient xlink:href="#a" id="y" x1="47.9" x2="61.7" y1="3054.2" y2="3054.2" gradientTransform="scale(9.12405 .1096)" gradientUnits="userSpaceOnUse"/>
     <clipPath id="ni-c">
       <path d="m500 226.4-63.7 110.3h127.4z"/>
@@ -87,7 +87,7 @@
     </g>
     <g fill="#ccd11e">
       <g id="t">
-        <path fill="url(#s)" d="M530.6 297c-1.7 0-2.2.9-2.2.9-2.7 10.6-11.8 21.3-22.6 21.3h-8V330h61.4l-6.2-11c-9.7-1.4-17.6-11.3-20.1-21.1 0 0-.6-.9-2.3-.9z"/>
+        <path fill="url(#svc)" d="M530.6 297c-1.7 0-2.2.9-2.2.9-2.7 10.6-11.8 21.3-22.6 21.3h-8V330h61.4l-6.2-11c-9.7-1.4-17.6-11.3-20.1-21.1 0 0-.6-.9-2.3-.9z"/>
         <path fill="#97c924" d="M530.6 297.5c-.8 0-1.2.1-1.5.3l-.3.3a33.6 33.6 0 0 1-8.4 14.7c-4 4.1-9 6.9-14.6 6.9h-7.7v9.9H559l-5.7-10c-4.7-.7-9-3.2-12.4-6.8a33.6 33.6 0 0 1-8.4-14.7l-.3-.3a2.8 2.8 0 0 0-1.6-.3z"/>
         <path fill="#ede71f" d="M530.6 297.5h.4v10.8a13 13 0 0 1-2 6.4c-.5 1.6-1 1-2.3 2.9a25.4 25.4 0 0 1-5.2 1.2c-2.5.4-8 .8-10.9.1a23 23 0 0 0 9.8-6 30.6 30.6 0 0 0 2.1-2.5 33.7 33.7 0 0 0 3-4.4l1-2a33.9 33.9 0 0 0 1.3-2.9 29.8 29.8 0 0 0 1-3l.3-.3.6-.2 1-.1z"/>
         <path fill="#c6cb24" d="M530 298.9c-.5 6-2.3 13.2-6.7 17.8-1.6 1.3-3.7 2.6-5.6 2.3 6.7-5.5 10.8-14 12.2-20.1z"/>

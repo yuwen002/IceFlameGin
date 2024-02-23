@@ -158,7 +158,7 @@ CodeMirror.defineMode("asterisk", function() {
       if(stream.eatSpace()) return null;
       // extension started
       if(state.extenStart){
-        stream.eatWhile(/[^\s]/);
+        stream.eatWhile(/[^\svc]/);
         cur = stream.current();
         if(/^=>?$/.test(cur)){
           state.extenExten = true;

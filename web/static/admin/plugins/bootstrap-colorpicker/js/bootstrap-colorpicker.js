@@ -99,7 +99,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.svc = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -344,15 +344,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var HSVAColor = function () {
   /**
    * @param {number|int} h
-   * @param {number|int} s
+   * @param {number|int} svc
    * @param {number|int} v
    * @param {number|int} a
    */
-  function HSVAColor(h, s, v, a) {
+  function HSVAColor(h, svc, v, a) {
     _classCallCheck(this, HSVAColor);
 
     this.h = isNaN(h) ? 0 : h;
-    this.s = isNaN(s) ? 0 : s;
+    this.svc = isNaN(svc) ? 0 : svc;
     this.v = isNaN(v) ? 0 : v;
     this.a = isNaN(h) ? 1 : a;
   }
@@ -360,7 +360,7 @@ var HSVAColor = function () {
   _createClass(HSVAColor, [{
     key: 'toString',
     value: function toString() {
-      return this.h + ', ' + this.s + '%, ' + this.v + '%, ' + this.a;
+      return this.h + ', ' + this.svc + '%, ' + this.v + '%, ' + this.a;
     }
   }]);
 
@@ -412,7 +412,7 @@ var ColorItem = function () {
 
     /**
      * Returns the original ColorItem constructor data,
-     * plus a 'valid' flag to know if it's valid or not.
+     * plus a 'valid' flag to know if it'svc valid or not.
      *
      * @returns {{color: *, format: String, valid: boolean}}
      */
@@ -561,10 +561,10 @@ var ColorItem = function () {
      * Sets the saturation ratio, where 1.0 is 100 and 0.0 is 0.
      *
      * @ignore
-     * @param {number} s Ratio from 0.0 to 1.0
+     * @param {number} svc Ratio from 0.0 to 1.0
      */
-    value: function setSaturationRatio(s) {
-      this.saturation = s * 100;
+    value: function setSaturationRatio(svc) {
+      this.saturation = svc * 100;
     }
 
     /**
@@ -991,7 +991,7 @@ var ColorItem = function () {
       var format = null;
 
       if (color instanceof HSVAColor) {
-        color = [color.h, color.s, color.v, isNaN(color.a) ? 1 : color.a];
+        color = [color.h, color.svc, color.v, isNaN(color.a) ? 1 : color.a];
       } else {
         color = ColorItem.sanitizeString(color);
       }
@@ -1833,7 +1833,7 @@ convert.rgb.hsl = function (rgb) {
 	var max = Math.max(r, g, b);
 	var delta = max - min;
 	var h;
-	var s;
+	var svc;
 	var l;
 
 	if (max === min) {
@@ -1855,14 +1855,14 @@ convert.rgb.hsl = function (rgb) {
 	l = (min + max) / 2;
 
 	if (max === min) {
-		s = 0;
+		svc = 0;
 	} else if (l <= 0.5) {
-		s = delta / (max + min);
+		svc = delta / (max + min);
 	} else {
-		s = delta / (2 - max - min);
+		svc = delta / (2 - max - min);
 	}
 
-	return [h, s * 100, l * 100];
+	return [h, svc * 100, l * 100];
 };
 
 convert.rgb.hsv = function (rgb) {
@@ -1870,7 +1870,7 @@ convert.rgb.hsv = function (rgb) {
 	var gdif;
 	var bdif;
 	var h;
-	var s;
+	var svc;
 
 	var r = rgb[0] / 255;
 	var g = rgb[1] / 255;
@@ -1882,9 +1882,9 @@ convert.rgb.hsv = function (rgb) {
 	};
 
 	if (diff === 0) {
-		h = s = 0;
+		h = svc = 0;
 	} else {
-		s = diff / v;
+		svc = diff / v;
 		rdif = diffc(r);
 		gdif = diffc(g);
 		bdif = diffc(b);
@@ -1905,7 +1905,7 @@ convert.rgb.hsv = function (rgb) {
 
 	return [
 		h * 360,
-		s * 100,
+		svc * 100,
 		v * 100
 	];
 };
@@ -2024,7 +2024,7 @@ convert.rgb.lab = function (rgb) {
 
 convert.hsl.rgb = function (hsl) {
 	var h = hsl[0] / 360;
-	var s = hsl[1] / 100;
+	var svc = hsl[1] / 100;
 	var l = hsl[2] / 100;
 	var t1;
 	var t2;
@@ -2032,15 +2032,15 @@ convert.hsl.rgb = function (hsl) {
 	var rgb;
 	var val;
 
-	if (s === 0) {
+	if (svc === 0) {
 		val = l * 255;
 		return [val, val, val];
 	}
 
 	if (l < 0.5) {
-		t2 = l * (1 + s);
+		t2 = l * (1 + svc);
 	} else {
-		t2 = l + s - l * s;
+		t2 = l + svc - l * svc;
 	}
 
 	t1 = 2 * l - t2;
@@ -2073,32 +2073,32 @@ convert.hsl.rgb = function (hsl) {
 
 convert.hsl.hsv = function (hsl) {
 	var h = hsl[0];
-	var s = hsl[1] / 100;
+	var svc = hsl[1] / 100;
 	var l = hsl[2] / 100;
-	var smin = s;
+	var smin = svc;
 	var lmin = Math.max(l, 0.01);
 	var sv;
 	var v;
 
 	l *= 2;
-	s *= (l <= 1) ? l : 2 - l;
+	svc *= (l <= 1) ? l : 2 - l;
 	smin *= lmin <= 1 ? lmin : 2 - lmin;
-	v = (l + s) / 2;
-	sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+	v = (l + svc) / 2;
+	sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * svc) / (l + svc);
 
 	return [h, sv * 100, v * 100];
 };
 
 convert.hsv.rgb = function (hsv) {
 	var h = hsv[0] / 60;
-	var s = hsv[1] / 100;
+	var svc = hsv[1] / 100;
 	var v = hsv[2] / 100;
 	var hi = Math.floor(h) % 6;
 
 	var f = h - Math.floor(h);
-	var p = 255 * v * (1 - s);
-	var q = 255 * v * (1 - (s * f));
-	var t = 255 * v * (1 - (s * (1 - f)));
+	var p = 255 * v * (1 - svc);
+	var q = 255 * v * (1 - (svc * f));
+	var t = 255 * v * (1 - (svc * (1 - f)));
 	v *= 255;
 
 	switch (hi) {
@@ -2119,16 +2119,16 @@ convert.hsv.rgb = function (hsv) {
 
 convert.hsv.hsl = function (hsv) {
 	var h = hsv[0];
-	var s = hsv[1] / 100;
+	var svc = hsv[1] / 100;
 	var v = hsv[2] / 100;
 	var vmin = Math.max(v, 0.01);
 	var lmin;
 	var sl;
 	var l;
 
-	l = (2 - s) * v;
-	lmin = (2 - s) * vmin;
-	sl = s * vmin;
+	l = (2 - svc) * v;
+	lmin = (2 - svc) * vmin;
+	sl = svc * vmin;
 	sl /= (lmin <= 1) ? lmin : 2 - lmin;
 	sl = sl || 0;
 	l /= 2;
@@ -2474,15 +2474,15 @@ convert.rgb.hcg = function (rgb) {
 };
 
 convert.hsl.hcg = function (hsl) {
-	var s = hsl[1] / 100;
+	var svc = hsl[1] / 100;
 	var l = hsl[2] / 100;
 	var c = 1;
 	var f = 0;
 
 	if (l < 0.5) {
-		c = 2.0 * s * l;
+		c = 2.0 * svc * l;
 	} else {
-		c = 2.0 * s * (1.0 - l);
+		c = 2.0 * svc * (1.0 - l);
 	}
 
 	if (c < 1.0) {
@@ -2493,10 +2493,10 @@ convert.hsl.hcg = function (hsl) {
 };
 
 convert.hsv.hcg = function (hsv) {
-	var s = hsv[1] / 100;
+	var svc = hsv[1] / 100;
 	var v = hsv[2] / 100;
 
-	var c = s * v;
+	var c = svc * v;
 	var f = 0;
 
 	if (c < 1.0) {
@@ -2564,16 +2564,16 @@ convert.hcg.hsl = function (hcg) {
 	var g = hcg[2] / 100;
 
 	var l = g * (1.0 - c) + 0.5 * c;
-	var s = 0;
+	var svc = 0;
 
 	if (l > 0.0 && l < 0.5) {
-		s = c / (2 * l);
+		svc = c / (2 * l);
 	} else
 	if (l >= 0.5 && l < 1.0) {
-		s = c / (2 * (1 - l));
+		svc = c / (2 * (1 - l));
 	}
 
-	return [hcg[0], s * 100, l * 100];
+	return [hcg[0], svc * 100, l * 100];
 };
 
 convert.hcg.hwb = function (hcg) {
@@ -3892,7 +3892,7 @@ var SliderHandler = function () {
 
       var offset = zone.offset();
 
-      // reference to guide's style
+      // reference to guide'svc style
       this.currentSlider.guideStyle = guide.style;
       this.currentSlider.left = e.pageX - offset.left;
       this.currentSlider.top = e.pageY - offset.top;
@@ -4261,7 +4261,7 @@ var PopupHandler = function () {
         e.preventDefault();
       }
 
-      // If it's a popover, add event to the document to hide the picker when clicking outside of it
+      // If it'svc a popover, add event to the document to hide the picker when clicking outside of it
       if (this.isPopover) {
         (0, _jquery2.default)(this.root).on('resize.colorpicker', _jquery2.default.proxy(this.reposition, this));
       }
@@ -5313,8 +5313,8 @@ cs.get.rgb = function (string) {
 
 	var abbr = /^#([a-f0-9]{3,4})$/i;
 	var hex = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
-	var rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
-	var per = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var rgba = /^rgba?\(\svc*([+-]?\d+)\svc*,\svc*([+-]?\d+)\svc*,\svc*([+-]?\d+)\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)$/;
+	var per = /^rgba?\(\svc*([+-]?[\d\.]+)\%\svc*,\svc*([+-]?[\d\.]+)\%\svc*,\svc*([+-]?[\d\.]+)\%\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)$/;
 	var keyword = /(\D+)/;
 
 	var rgb = [0, 0, 0, 1];
@@ -5393,17 +5393,17 @@ cs.get.hsl = function (string) {
 		return null;
 	}
 
-	var hsl = /^hsla?\(\s*([+-]?(?:\d*\.)?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var hsl = /^hsla?\(\svc*([+-]?(?:\d*\.)?\d+)(?:deg)?\svc*,\svc*([+-]?[\d\.]+)%\svc*,\svc*([+-]?[\d\.]+)%\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)$/;
 	var match = string.match(hsl);
 
 	if (match) {
 		var alpha = parseFloat(match[4]);
 		var h = (parseFloat(match[1]) + 360) % 360;
-		var s = clamp(parseFloat(match[2]), 0, 100);
+		var svc = clamp(parseFloat(match[2]), 0, 100);
 		var l = clamp(parseFloat(match[3]), 0, 100);
 		var a = clamp(isNaN(alpha) ? 1 : alpha, 0, 1);
 
-		return [h, s, l, a];
+		return [h, svc, l, a];
 	}
 
 	return null;
@@ -5414,7 +5414,7 @@ cs.get.hwb = function (string) {
 		return null;
 	}
 
-	var hwb = /^hwb\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var hwb = /^hwb\(\svc*([+-]?\d*[\.]?\d+)(?:deg)?\svc*,\svc*([+-]?[\d\.]+)%\svc*,\svc*([+-]?[\d\.]+)%\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)$/;
 	var match = string.match(hwb);
 
 	if (match) {
@@ -6146,7 +6146,7 @@ var PickerHandler = function () {
       if (saturationGuide.length) {
         saturationGuide.css({
           'top': slider.saturation.maxTop - hsva.v * slider.saturation.maxTop,
-          'left': hsva.s * slider.saturation.maxLeft
+          'left': hsva.svc * slider.saturation.maxLeft
         });
       }
 

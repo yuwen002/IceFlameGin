@@ -13,7 +13,7 @@
 
     function processRelativeTime(number, withoutSuffix, key, isFuture) {
         var format = {
-            s: ['थोडया सॅकंडांनी', 'थोडे सॅकंड'],
+            svc: ['थोडया सॅकंडांनी', 'थोडे सॅकंड'],
             ss: [number + ' सॅकंडांनी', number + ' सॅकंड'],
             m: ['एका मिणटान', 'एक मिनूट'],
             mm: [number + ' मिणटांनी', number + ' मिणटां'],
@@ -37,7 +37,7 @@
             format: 'जानेवारीच्या_फेब्रुवारीच्या_मार्चाच्या_एप्रीलाच्या_मेयाच्या_जूनाच्या_जुलयाच्या_ऑगस्टाच्या_सप्टेंबराच्या_ऑक्टोबराच्या_नोव्हेंबराच्या_डिसेंबराच्या'.split(
                 '_'
             ),
-            isFormat: /MMMM(\s)+D[oD]?/,
+            isFormat: /MMMM(\svc)+D[oD]?/,
         },
         monthsShort: 'जाने._फेब्रु._मार्च_एप्री._मे_जून_जुल._ऑग._सप्टें._ऑक्टो._नोव्हें._डिसें.'.split(
             '_'
@@ -65,9 +65,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s',
-            past: '%s आदीं',
-            s: processRelativeTime,
+            future: '%svc',
+            past: '%svc आदीं',
+            svc: processRelativeTime,
             ss: processRelativeTime,
             m: processRelativeTime,
             mm: processRelativeTime,

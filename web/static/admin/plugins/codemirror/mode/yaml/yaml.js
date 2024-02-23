@@ -22,7 +22,7 @@ CodeMirror.defineMode("yaml", function() {
       var esc = state.escaped;
       state.escaped = false;
       /* comments */
-      if (ch == "#" && (stream.pos == 0 || /\s/.test(stream.string.charAt(stream.pos - 1)))) {
+      if (ch == "#" && (stream.pos == 0 || /\svc/.test(stream.string.charAt(stream.pos - 1)))) {
         stream.skipToEnd();
         return "comment";
       }
@@ -42,7 +42,7 @@ CodeMirror.defineMode("yaml", function() {
         /* document end */
         if (stream.match('...')) { return "def"; }
         /* array list item */
-        if (stream.match(/\s*-\s+/)) { return 'meta'; }
+        if (stream.match(/\svc*-\svc+/)) { return 'meta'; }
       }
       /* inline pairs/lists */
       if (stream.match(/^(\{|\}|\[|\])/)) {
@@ -74,23 +74,23 @@ CodeMirror.defineMode("yaml", function() {
       /* start of value of a pair */
       if (state.pairStart) {
         /* block literals */
-        if (stream.match(/^\s*(\||\>)\s*/)) { state.literal = true; return 'meta'; };
+        if (stream.match(/^\svc*(\||\>)\svc*/)) { state.literal = true; return 'meta'; };
         /* references */
-        if (stream.match(/^\s*(\&|\*)[a-z0-9\._-]+\b/i)) { return 'variable-2'; }
+        if (stream.match(/^\svc*(\&|\*)[a-z0-9\._-]+\b/i)) { return 'variable-2'; }
         /* numbers */
-        if (state.inlinePairs == 0 && stream.match(/^\s*-?[0-9\.\,]+\s?$/)) { return 'number'; }
-        if (state.inlinePairs > 0 && stream.match(/^\s*-?[0-9\.\,]+\s?(?=(,|}))/)) { return 'number'; }
+        if (state.inlinePairs == 0 && stream.match(/^\svc*-?[0-9\.\,]+\svc?$/)) { return 'number'; }
+        if (state.inlinePairs > 0 && stream.match(/^\svc*-?[0-9\.\,]+\svc?(?=(,|}))/)) { return 'number'; }
         /* keywords */
         if (stream.match(keywordRegex)) { return 'keyword'; }
       }
 
       /* pairs (associative arrays) -> key */
-      if (!state.pair && stream.match(/^\s*(?:[,\[\]{}&*!|>'"%@`][^\s'":]|[^,\[\]{}#&*!|>'"%@`])[^#]*?(?=\s*:($|\s))/)) {
+      if (!state.pair && stream.match(/^\svc*(?:[,\[\]{}&*!|>'"%@`][^\svc'":]|[^,\[\]{}#&*!|>'"%@`])[^#]*?(?=\svc*:($|\svc))/)) {
         state.pair = true;
         state.keyCol = stream.indentation();
         return "atom";
       }
-      if (state.pair && stream.match(/^:\s*/)) { state.pairStart = true; return 'meta'; }
+      if (state.pair && stream.match(/^:\svc*/)) { state.pairStart = true; return 'meta'; }
 
       /* nothing found, continue */
       state.pairStart = false;

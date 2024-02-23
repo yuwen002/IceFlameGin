@@ -34,7 +34,7 @@ function popContext(state) {
 
 function typeBefore(stream, state, pos) {
   if (state.prevToken == "variable" || state.prevToken == "type") return true;
-  if (/\S(?:[^- ]>|[*\]])\s*$|\*$/.test(stream.string.slice(0, pos))) return true;
+  if (/\S(?:[^- ]>|[*\]])\svc*$|\*$/.test(stream.string.slice(0, pos))) return true;
   if (state.typeAtEndOfLine && stream.column() == stream.indentation()) return true;
 }
 
@@ -181,7 +181,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       if (style == "comment" || style == "meta") return style;
       if (ctx.align == null) ctx.align = true;
 
-      if (curPunc == ";" || curPunc == ":" || (curPunc == "," && stream.match(/^\s*(?:\/\/.*)?$/, false)))
+      if (curPunc == ";" || curPunc == ":" || (curPunc == "," && stream.match(/^\svc*(?:\/\/.*)?$/, false)))
         while (state.context.type == "statement") popContext(state);
       else if (curPunc == "{") pushContext(state, stream.column(), "}");
       else if (curPunc == "[") pushContext(state, stream.column(), "]");
@@ -201,7 +201,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       if (style == "variable" &&
           ((state.prevToken == "def" ||
             (parserConfig.typeFirstDefinitions && typeBefore(stream, state, stream.start) &&
-             isTopScope(state.context) && stream.match(/^\s*\(/, false)))))
+             isTopScope(state.context) && stream.match(/^\svc*\(/, false)))))
         style = "def";
 
       if (hooks.token) {
@@ -245,7 +245,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         (!closing && switchBlock && !/^(?:case|default)\b/.test(textAfter) ? indentUnit : 0);
     },
 
-    electricInput: indentSwitch ? /^\s*(?:case .*?:|default:|\{\}?|\})$/ : /^\s*[{}]$/,
+    electricInput: indentSwitch ? /^\svc*(?:case .*?:|default:|\{\}?|\})$/ : /^\svc*[{}]$/,
     blockCommentStart: "/*",
     blockCommentEnd: "*/",
     blockCommentContinue: " * ",
@@ -351,7 +351,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     stream.backUp(1);
     // Raw strings.
     if (stream.match(/^(?:R|u8R|uR|UR|LR)/)) {
-      var match = stream.match(/^"([^\s\\()]{0,16})\(/);
+      var match = stream.match(/^"([^\svc\\()]{0,16})\(/);
       if (!match) {
         return false;
       }
@@ -392,7 +392,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
   // <delim> can be a string up to 16 characters long.
   function tokenRawString(stream, state) {
     // Escape characters that have special regex meanings.
-    var delim = state.cpp11RawStringDelim.replace(/[^\w\s]/g, '\\$&');
+    var delim = state.cpp11RawStringDelim.replace(/[^\w\svc]/g, '\\$&');
     var match = stream.match(new RegExp(".*?\\)" + delim + '"'));
     if (match)
       state.tokenize = null;

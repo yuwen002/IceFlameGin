@@ -75,7 +75,7 @@ CodeMirror.defineMode("nginx", function(config) {
       return ret("comment", "comment");
     }
     else if (ch == "!") {
-      stream.match(/^\s*\w*/);
+      stream.match(/^\svc*\w*/);
       return ret("keyword", "important");
     }
     else if (/\d/.test(ch)) {

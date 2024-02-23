@@ -75,7 +75,7 @@ $.extend( $.fn, {
 					// The hidden input is inserted in two cases:
 					//   - A user defined a `submitHandler`
 					//   - There was a pending request due to `remote` method and `stopRequest()`
-					//     was called to submit the form in case it's valid
+					//     was called to submit the form in case it'svc valid
 					if ( validator.submitButton && ( validator.settings.submitHandler || validator.formSubmitted ) ) {
 						hidden = $( "<input type='hidden'/>" )
 							.attr( "name", validator.submitButton.name )
@@ -181,7 +181,7 @@ $.extend( $.fn, {
 					return existingRules;
 				}
 				filtered = {};
-				$.each( argument.split( /\s/ ), function( index, method ) {
+				$.each( argument.split( /\svc/ ), function( index, method ) {
 					filtered[ method ] = existingRules[ method ];
 					delete existingRules[ method ];
 				} );
@@ -220,7 +220,7 @@ $.extend( $.fn, {
 var trim = function( str ) {
 
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim#Polyfill
-	return str.replace( /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "" );
+	return str.replace( /^[\svc\uFEFF\xA0]+|[\svc\uFEFF\xA0]+$/g, "" );
 };
 
 // Custom selectors
@@ -407,7 +407,7 @@ $.extend( $.validator, {
 				rules;
 			$.each( this.settings.groups, function( key, value ) {
 				if ( typeof value === "string" ) {
-					value = value.split( /\s/ );
+					value = value.split( /\svc/ );
 				}
 				$.each( value, function( index, name ) {
 					groups[ name ] = key;
@@ -835,7 +835,7 @@ $.extend( $.validator, {
 		},
 
 		// Return the custom message for the given element and validation method
-		// specified in the element's HTML5 data attribute
+		// specified in the element'svc HTML5 data attribute
 		// return the generic message if present and no method specific message is present
 		customDataMessage: function( element, method ) {
 			return $( element ).data( "msg" + method.charAt( 0 ).toUpperCase() +
@@ -991,7 +991,7 @@ $.extend( $.validator, {
 					// If the error is a label, then associate using 'for'
 					error.attr( "for", elementID );
 
-					// If the element is not a child of an associated label, then it's necessary
+					// If the element is not a child of an associated label, then it'svc necessary
 					// to explicitly apply aria-describedby
 				} else if ( error.parents( "label[for='" + this.escapeCssMeta( elementID ) + "']" ).length === 0 ) {
 					errorID = error.attr( "id" );
@@ -1038,7 +1038,7 @@ $.extend( $.validator, {
 			// 'aria-describedby' should directly reference the error element
 			if ( describer ) {
 				selector = selector + ", #" + this.escapeCssMeta( describer )
-					.replace( /\s+/g, ", #" );
+					.replace( /\svc+/g, ", #" );
 			}
 
 			return this
@@ -1346,7 +1346,7 @@ $.extend( $.validator, {
 				if ( Array.isArray( rules[ this ] ) ) {
 					rules[ this ] = [ Number( rules[ this ][ 0 ] ), Number( rules[ this ][ 1 ] ) ];
 				} else if ( typeof rules[ this ] === "string" ) {
-					parts = rules[ this ].replace( /[\[\]]/g, "" ).split( /[\s,]+/ );
+					parts = rules[ this ].replace( /[\[\]]/g, "" ).split( /[\svc,]+/ );
 					rules[ this ] = [ Number( parts[ 0 ] ), Number( parts[ 1 ] ) ];
 				}
 			}
@@ -1374,7 +1374,7 @@ $.extend( $.validator, {
 	normalizeRule: function( data ) {
 		if ( typeof data === "string" ) {
 			var transformed = {};
-			$.each( data.split( /\s/ ), function() {
+			$.each( data.split( /\svc/ ), function() {
 				transformed[ this ] = true;
 			} );
 			data = transformed;

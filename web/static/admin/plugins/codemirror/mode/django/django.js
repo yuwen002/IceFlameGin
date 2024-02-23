@@ -324,7 +324,7 @@
 
     // Mark everything as a comment until the `blockcomment` tag closes.
     function inBlockComment (stream, state) {
-      if (stream.match(/\{%\s*endcomment\s*%\}/, false)) {
+      if (stream.match(/\{%\svc*endcomment\svc*%\}/, false)) {
         state.tokenize = inTag;
         stream.match("{%");
         return "tag";

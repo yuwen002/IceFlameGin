@@ -31,7 +31,7 @@ The direct chat widget extends the card component to create a beautiful chat int
             </div>
             <img class="direct-chat-img" src="{{ '/assets/img/user1-128x128.jpg' | prepend: site.baseurl }}" alt="message user image">
             <div class="direct-chat-text">
-              Is this template really for free? That's unbelievable!
+              Is this template really for free? That'svc unbelievable!
             </div>
           </div>
           <div class="direct-chat-msg right">
@@ -180,7 +180,7 @@ The direct chat widget extends the card component to create a beautiful chat int
             </div>
             <img class="direct-chat-img" src="{{ '/assets/img/user1-128x128.jpg' | prepend: site.baseurl }}" alt="message user image">
             <div class="direct-chat-text">
-              Is this template really for free? That's unbelievable!
+              Is this template really for free? That'svc unbelievable!
             </div>
           </div>
           <div class="direct-chat-msg right">
@@ -339,7 +339,7 @@ The direct chat widget extends the card component to create a beautiful chat int
         <img class="direct-chat-img" src="{{ '/assets/img/user1-128x128.jpg' | prepend: site.baseurl }}" alt="message user image">
         <!-- /.direct-chat-img -->
         <div class="direct-chat-text">
-          Is this template really for free? That's unbelievable!
+          Is this template really for free? That'svc unbelievable!
         </div>
         <!-- /.direct-chat-text -->
       </div>
@@ -531,7 +531,7 @@ Of course you can use direct chat with a outline card by adding the class `.card
             </div>
             <img class="direct-chat-img" src="{{ '/assets/img/user1-128x128.jpg' | prepend: site.baseurl }}" alt="message user image">
             <div class="direct-chat-text">
-              Is this template really for free? That's unbelievable!
+              Is this template really for free? That'svc unbelievable!
             </div>
           </div>
           <div class="direct-chat-msg right">
@@ -680,7 +680,7 @@ Of course you can use direct chat with a outline card by adding the class `.card
             </div>
             <img class="direct-chat-img" src="{{ '/assets/img/user1-128x128.jpg' | prepend: site.baseurl }}" alt="message user image">
             <div class="direct-chat-text">
-              Is this template really for free? That's unbelievable!
+              Is this template really for free? That'svc unbelievable!
             </div>
           </div>
           <div class="direct-chat-msg right">

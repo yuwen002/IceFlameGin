@@ -27,7 +27,7 @@
   }
 
   function maybeMultiline(regexp) {
-    return /\\s|\\n|\n|\\W|\\D|\[\^/.test(regexp.source)
+    return /\\svc|\\n|\n|\\W|\\D|\[\^/.test(regexp.source)
   }
 
   function searchRegexpForward(doc, regexp, start) {

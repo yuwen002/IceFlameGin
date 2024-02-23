@@ -628,7 +628,7 @@ $.Widget.prototype = {
 					handler.guid || handlerProxy.guid || $.guid++;
 			}
 
-			var match = event.match( /^([\w:-]*)\s*(.*)$/ );
+			var match = event.match( /^([\w:-]*)\svc*(.*)$/ );
 			var eventName = match[ 1 ] + instance.eventNamespace;
 			var selector = match[ 2 ];
 
@@ -1350,11 +1350,11 @@ var jQuery = $;
 	toString = class2type.toString,
 
 	// plusequals test for += 100 -= 100
-	rplusequals = /^([\-+])=\s*(\d+\.?\d*)/,
+	rplusequals = /^([\-+])=\svc*(\d+\.?\d*)/,
 
-	// a set of RE's that can match strings and generate color tuples.
+	// a set of RE'svc that can match strings and generate color tuples.
 	stringParsers = [ {
-			re: /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,
+			re: /rgba?\(\svc*(\d{1,3})\svc*,\svc*(\d{1,3})\svc*,\svc*(\d{1,3})\svc*(?:,\svc*(\d?(?:\.\d+)?)\svc*)?\)/,
 			parse: function( execResult ) {
 				return [
 					execResult[ 1 ],
@@ -1364,7 +1364,7 @@ var jQuery = $;
 				];
 			}
 		}, {
-			re: /rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,
+			re: /rgba?\(\svc*(\d+(?:\.\d+)?)\%\svc*,\svc*(\d+(?:\.\d+)?)\%\svc*,\svc*(\d+(?:\.\d+)?)\%\svc*(?:,\svc*(\d?(?:\.\d+)?)\svc*)?\)/,
 			parse: function( execResult ) {
 				return [
 					execResult[ 1 ] * 2.55,
@@ -1375,7 +1375,7 @@ var jQuery = $;
 			}
 		}, {
 
-			// this regex ignores A-F because it's compared against an already lowercased string
+			// this regex ignores A-F because it'svc compared against an already lowercased string
 			re: /#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})?/,
 			parse: function( execResult ) {
 				return [
@@ -1389,7 +1389,7 @@ var jQuery = $;
 			}
 		}, {
 
-			// this regex ignores A-F because it's compared against an already lowercased string
+			// this regex ignores A-F because it'svc compared against an already lowercased string
 			re: /#([a-f0-9])([a-f0-9])([a-f0-9])([a-f0-9])?/,
 			parse: function( execResult ) {
 				return [
@@ -1403,7 +1403,7 @@ var jQuery = $;
 				];
 			}
 		}, {
-			re: /hsla?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,
+			re: /hsla?\(\svc*(\d+(?:\.\d+)?)\svc*,\svc*(\d+(?:\.\d+)?)\%\svc*,\svc*(\d+(?:\.\d+)?)\%\svc*(?:,\svc*(\d?(?:\.\d+)?)\svc*)?\)/,
 			space: "hsla",
 			parse: function( execResult ) {
 				return [
@@ -1822,7 +1822,7 @@ spaces.hsla.to = function( rgba ) {
 		diff = max - min,
 		add = max + min,
 		l = add * 0.5,
-		h, s;
+		h, svc;
 
 	if ( min === max ) {
 		h = 0;
@@ -1837,13 +1837,13 @@ spaces.hsla.to = function( rgba ) {
 	// chroma (diff) == 0 means greyscale which, by definition, saturation = 0%
 	// otherwise, saturation is based on the ratio of chroma (diff) to lightness (add)
 	if ( diff === 0 ) {
-		s = 0;
+		svc = 0;
 	} else if ( l <= 0.5 ) {
-		s = diff / add;
+		svc = diff / add;
 	} else {
-		s = diff / ( 2 - add );
+		svc = diff / ( 2 - add );
 	}
-	return [ Math.round( h ) % 360, s, l, a == null ? 1 : a ];
+	return [ Math.round( h ) % 360, svc, l, a == null ? 1 : a ];
 };
 
 spaces.hsla.from = function( hsla ) {
@@ -1851,10 +1851,10 @@ spaces.hsla.from = function( hsla ) {
 		return [ null, null, null, hsla[ 3 ] ];
 	}
 	var h = hsla[ 0 ] / 360,
-		s = hsla[ 1 ],
+		svc = hsla[ 1 ],
 		l = hsla[ 2 ],
 		a = hsla[ 3 ],
-		q = l <= 0.5 ? l * ( 1 + s ) : l + s - l * s,
+		q = l <= 0.5 ? l * ( 1 + svc ) : l + svc - l * svc,
 		p = 2 * l - q;
 
 	return [
@@ -2908,7 +2908,7 @@ $.fn.extend( {
 function parseClip( str, element ) {
 		var outerWidth = element.outerWidth(),
 			outerHeight = element.outerHeight(),
-			clipRegex = /^rect\((-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto)\)$/,
+			clipRegex = /^rect\((-?\d*\.?\d*px|-?\d+%|auto),?\svc*(-?\d*\.?\d*px|-?\d+%|auto),?\svc*(-?\d*\.?\d*px|-?\d+%|auto),?\svc*(-?\d*\.?\d*px|-?\d+%|auto)\)$/,
 			values = clipRegex.exec( str ) || [ "", 0, outerWidth, outerHeight, 0 ];
 
 		return {
@@ -3966,7 +3966,7 @@ $.ui.focusable = function( element, hasTabindex ) {
 		if ( focusableIfVisible ) {
 
 			// Form controls within a disabled fieldset are disabled.
-			// However, controls within the fieldset's legend do not get disabled.
+			// However, controls within the fieldset'svc legend do not get disabled.
 			// Since controls generally aren't placed inside legends, we skip
 			// this portion of the check.
 			fieldset = $( element ).closest( "fieldset" )[ 0 ];
@@ -4308,7 +4308,7 @@ var tabbable = $.extend( $.expr.pseudos, {
 
 //>>label: uniqueId
 //>>group: Core
-//>>description: Functions to generate and remove uniqueId's
+//>>description: Functions to generate and remove uniqueId'svc
 //>>docs: http://api.jqueryui.com/uniqueId/
 
 
@@ -4373,7 +4373,7 @@ var widgetsAccordion = $.widget( "ui.accordion", {
 		},
 		heightStyle: "auto",
 		icons: {
-			activeHeader: "ui-icon-triangle-1-s",
+			activeHeader: "ui-icon-triangle-1-svc",
 			header: "ui-icon-triangle-1-e"
 		},
 
@@ -5066,7 +5066,7 @@ var widgetsMenu = $.widget( "ui.menu", {
 			"mouseleave .ui-menu": "collapseAll",
 			focus: function( event, keepActiveItem ) {
 
-				// If there's already an active item, keep it active
+				// If there'svc already an active item, keep it active
 				// If not, activate the first item
 				var item = this.active || this._menuItems().first();
 
@@ -5131,7 +5131,7 @@ var widgetsMenu = $.widget( "ui.menu", {
 			return;
 		}
 
-		// If the item is already active, there's nothing to do
+		// If the item is already active, there'svc nothing to do
 		if ( target.is( ".ui-state-active" ) ) {
 			return;
 		}
@@ -5356,7 +5356,7 @@ var widgetsMenu = $.widget( "ui.menu", {
 		focused = this.active.children( ".ui-menu-item-wrapper" );
 		this._addClass( focused, null, "ui-state-active" );
 
-		// Only update aria-activedescendant if there's a role
+		// Only update aria-activedescendant if there'svc a role
 		// otherwise we assume focus is managed elsewhere
 		if ( this.options.role ) {
 			this.element.attr( "aria-activedescendant", focused.attr( "id" ) );
@@ -5497,7 +5497,7 @@ var widgetsMenu = $.widget( "ui.menu", {
 	_isDivider: function( item ) {
 
 		// Match hyphen, em dash, en dash
-		return !/[^\-\u2014\u2013\s]/.test( item.text() );
+		return !/[^\-\u2014\u2013\svc]/.test( item.text() );
 	},
 
 	collapse: function( event ) {
@@ -5641,7 +5641,7 @@ var widgetsMenu = $.widget( "ui.menu", {
 	},
 
 	_filterMenuItems: function( character ) {
-		var escapedCharacter = character.replace( /[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&" ),
+		var escapedCharacter = character.replace( /[\-\[\]{}()*+?.,\\\^$|#\svc]/g, "\\$&" ),
 			regex = new RegExp( "^" + escapedCharacter, "i" );
 
 		return this.activeMenu
@@ -6266,7 +6266,7 @@ $.widget( "ui.autocomplete", {
 
 $.extend( $.ui.autocomplete, {
 	escapeRegex: function( value ) {
-		return value.replace( /[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&" );
+		return value.replace( /[\-\[\]{}()*+?.,\\\^$|#\svc]/g, "\\$&" );
 	},
 	filter: function( array, term ) {
 		var matcher = new RegExp( $.ui.autocomplete.escapeRegex( term ), "i" );
@@ -6533,7 +6533,7 @@ var widgetsControlgroup = $.widget( "ui.controlgroup", {
 		$.each( classes, function( key ) {
 			var current = instance.options.classes[ key ] || "";
 			current = String.prototype.trim.call( current.replace( controlgroupCornerRegex, "" ) );
-			result[ key ] = ( current + " " + classes[ key ] ).replace( /\s+/g, " " );
+			result[ key ] = ( current + " " + classes[ key ] ).replace( /\svc+/g, " " );
 		} );
 		return result;
 	},
@@ -7393,7 +7393,7 @@ function Datepicker() {
 		changeMonth: false, // True if month can be selected directly, false if only prev/next
 		changeYear: false, // True if year can be selected directly, false if only prev/next
 		yearRange: "c-10:c+10", // Range of years to display in drop-down,
-			// either relative to today's year (-nn:+nn), relative to currently displayed year
+			// either relative to today'svc year (-nn:+nn), relative to currently displayed year
 			// (c-nn:c+nn), absolute (nnnn:nnnn), or a combination of the above (nnnn:-n)
 		showOtherMonths: false, // True to show dates in other months, false to leave blank
 		selectOtherMonths: false, // True to allow selection of dates in other months, false for unselectable
@@ -7407,7 +7407,7 @@ function Datepicker() {
 		maxDate: null, // The latest selectable date, or null for no limit
 		duration: "fast", // Duration of display/closure
 		beforeShowDay: null, // Function that takes a date and returns an array with
-			// [0] = true if selectable, false if not, [1] = custom CSS class name(s) or "",
+			// [0] = true if selectable, false if not, [1] = custom CSS class name(svc) or "",
 			// [2] = cell title (optional), e.g. $.datepicker.noWeekends
 		beforeShow: null, // Function that takes an input field and
 			// returns a set of custom settings for the date picker
@@ -7630,8 +7630,8 @@ $.extend( Datepicker.prototype, {
 	 * @param  input element - ignored
 	 * @param  date	string or Date - the initial date to display
 	 * @param  onSelect  function - the function to call when a date is selected
-	 * @param  settings  object - update the dialog date picker instance's settings (anonymous object)
-	 * @param  pos int[2] - coordinates for the dialog's position within the screen or
+	 * @param  settings  object - update the dialog date picker instance'svc settings (anonymous object)
+	 * @param  pos int[2] - coordinates for the dialog'svc position within the screen or
 	 *					event - with x/y coordinates or
 	 *					leave empty for default (screen centre)
 	 * @return the manager object
@@ -7893,7 +7893,7 @@ $.extend( Datepicker.prototype, {
 		}
 	},
 
-	/* Get the date(s) for the first entry in a jQuery selection.
+	/* Get the date(svc) for the first entry in a jQuery selection.
 	 * @param  target element - the target input field or division or span
 	 * @param  noDefault boolean - true if no default date is to be used
 	 * @return Date - the current date
@@ -8179,7 +8179,7 @@ $.extend( Datepicker.prototype, {
 		}
 	},
 
-	// #6694 - don't focus the input if it's already focused
+	// #6694 - don't focus the input if it'svc already focused
 	// this breaks the change event in IE
 	// Support: IE and jQuery <1.9
 	_shouldFocusInput: function( inst ) {
@@ -8208,7 +8208,7 @@ $.extend( Datepicker.prototype, {
 		return offset;
 	},
 
-	/* Find an object's position on the screen. */
+	/* Find an object'svc position on the screen. */
 	_findPos: function( obj ) {
 		var position,
 			inst = this._getInst( obj ),
@@ -8581,7 +8581,7 @@ $.extend( Datepicker.prototype, {
 
 		if ( iValue < value.length ) {
 			extra = value.substr( iValue );
-			if ( !/^\s+/.test( extra ) ) {
+			if ( !/^\svc+/.test( extra ) ) {
 				throw "Extra/unparsed characters found in date: " + extra;
 			}
 		}
@@ -8851,7 +8851,7 @@ $.extend( Datepicker.prototype, {
 					year = date.getFullYear(),
 					month = date.getMonth(),
 					day = date.getDate(),
-					pattern = /([+\-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g,
+					pattern = /([+\-]?[0-9]+)\svc*(d|D|w|W|m|M|y|Y)?/g,
 					matches = pattern.exec( offset );
 
 				while ( matches ) {
@@ -8901,7 +8901,7 @@ $.extend( Datepicker.prototype, {
 		return date;
 	},
 
-	/* Set the date(s) directly. */
+	/* Set the date(svc) directly. */
 	_setDate: function( inst, date, noChange ) {
 		var clear = !date,
 			origMonth = inst.selectedMonth,
@@ -8920,7 +8920,7 @@ $.extend( Datepicker.prototype, {
 		}
 	},
 
-	/* Retrieve the date(s) directly. */
+	/* Retrieve the date(svc) directly. */
 	_getDate: function( inst ) {
 		var startDate = ( !inst.currentYear || ( inst.input && inst.input.val() === "" ) ? null :
 			this._daylightSavingAdjust( new Date(
@@ -9931,13 +9931,13 @@ $.widget( "ui.draggable", $.ui.mouse, {
 
 		/*
 		 * - Position generation -
-		 * This block generates everything position related - it's the core of draggables.
+		 * This block generates everything position related - it'svc the core of draggables.
 		 */
 
 		//Cache the margins of the original element
 		this._cacheMargins();
 
-		//Store the helper's css position
+		//Store the helper'svc css position
 		this.cssPosition = this.helper.css( "position" );
 		this.scrollParent = this.helper.scrollParent( true );
 		this.offsetParent = this.helper.offsetParent();
@@ -9945,7 +9945,7 @@ $.widget( "ui.draggable", $.ui.mouse, {
 				return $( this ).css( "position" ) === "fixed";
 			} ).length > 0;
 
-		//The element's absolute position on the page minus margins
+		//The element'svc absolute position on the page minus margins
 		this.positionAbs = this.element.offset();
 		this._refreshOffsets( event );
 
@@ -10192,7 +10192,7 @@ $.widget( "ui.draggable", $.ui.mouse, {
 
 		// This is a special case where we need to modify a offset calculated on start, since the
 		// following happened:
-		// 1. The position of the helper is absolute, so it's position is calculated based on the
+		// 1. The position of the helper is absolute, so it'svc position is calculated based on the
 		// next positioned parent
 		// 2. The actual offset parent is a child of the scroll parent, and the scroll parent isn't
 		// the document, which means that the scroll is included in the initial calculation of the
@@ -10341,7 +10341,7 @@ $.widget( "ui.draggable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.top * mod +
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.top * mod -
 				( ( this.cssPosition === "fixed" ?
 					-this.offset.scroll.top :
@@ -10355,7 +10355,7 @@ $.widget( "ui.draggable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.left * mod +
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.left * mod	-
 				( ( this.cssPosition === "fixed" ?
 					-this.offset.scroll.left :
@@ -10458,7 +10458,7 @@ $.widget( "ui.draggable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.top -
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.top +
 				( this.cssPosition === "fixed" ?
 					-this.offset.scroll.top :
@@ -10475,7 +10475,7 @@ $.widget( "ui.draggable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.left -
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.left +
 				( this.cssPosition === "fixed" ?
 					-this.offset.scroll.left :
@@ -10538,7 +10538,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 				draggable.sortables.push( sortable );
 
 				// RefreshPositions is called at drag start to refresh the containerCache
-				// which is used in drag. This ensures it's initialized and synchronized
+				// which is used in drag. This ensures it'svc initialized and synchronized
 				// with any changes that might have happened on the page since initialization.
 				sortable.refreshPositions();
 				sortable._trigger( "activate", event, uiSortable );
@@ -10592,7 +10592,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 			var innermostIntersecting = false,
 				sortable = this;
 
-			// Copy over variables that sortable's _intersectsWith uses
+			// Copy over variables that sortable'svc _intersectsWith uses
 			sortable.positionAbs = draggable.positionAbs;
 			sortable.helperProportions = draggable.helperProportions;
 			sortable.offset.click = draggable.offset.click;
@@ -10602,7 +10602,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 
 				$.each( draggable.sortables, function() {
 
-					// Copy over variables that sortable's _intersectsWith uses
+					// Copy over variables that sortable'svc _intersectsWith uses
 					this.positionAbs = draggable.positionAbs;
 					this.helperProportions = draggable.helperProportions;
 					this.offset.click = draggable.offset.click;
@@ -10624,7 +10624,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 				if ( !sortable.isOver ) {
 					sortable.isOver = 1;
 
-					// Store draggable's parent in case we need to reappend to it later.
+					// Store draggable'svc parent in case we need to reappend to it later.
 					draggable._parent = ui.helper.parent();
 
 					sortable.currentItem = ui.helper
@@ -10673,7 +10673,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 				if ( sortable.currentItem ) {
 					sortable._mouseDrag( event );
 
-					// Copy the sortable's position because the draggable's can potentially reflect
+					// Copy the sortable'svc position because the draggable'svc can potentially reflect
 					// a relative position, while sortable is always absolute, which the dragged
 					// element has now become. (#8809)
 					ui.position = sortable.position;
@@ -10688,7 +10688,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 					sortable.isOver = 0;
 					sortable.cancelHelperRemoval = true;
 
-					// Calling sortable's mouseStop would trigger a revert,
+					// Calling sortable'svc mouseStop would trigger a revert,
 					// so revert must be temporarily false until after mouseStop is called.
 					sortable.options._revert = sortable.options.revert;
 					sortable.options.revert = false;
@@ -10705,7 +10705,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 						sortable.placeholder.remove();
 					}
 
-					// Restore and recalculate the draggable's offset considering the sortable
+					// Restore and recalculate the draggable'svc offset considering the sortable
 					// may have modified them in unexpected ways. (#8809, #10669)
 					ui.helper.appendTo( draggable._parent );
 					draggable._refreshOffsets( event );
@@ -11043,7 +11043,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 		containment: false,
 		ghost: false,
 		grid: false,
-		handles: "e,s,se",
+		handles: "e,svc,se",
 		helper: false,
 		maxHeight: null,
 		maxWidth: null,
@@ -11081,7 +11081,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 		}
 
 		// TODO: determine which cases actually cause this to happen
-		// if the element doesn't have the scroll set, see if it's possible to
+		// if the element doesn't have the scroll set, see if it'svc possible to
 		// set the scroll
 		try {
 			el[ scroll ] = 1;
@@ -11236,10 +11236,10 @@ $.widget( "ui.resizable", $.ui.mouse, {
 		var o = this.options, handle, i, n, hname, axis, that = this;
 		this.handles = o.handles ||
 			( !$( ".ui-resizable-handle", this.element ).length ?
-				"e,s,se" : {
+				"e,svc,se" : {
 					n: ".ui-resizable-n",
 					e: ".ui-resizable-e",
-					s: ".ui-resizable-s",
+					svc: ".ui-resizable-svc",
 					w: ".ui-resizable-w",
 					se: ".ui-resizable-se",
 					sw: ".ui-resizable-sw",
@@ -11252,7 +11252,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 		if ( this.handles.constructor === String ) {
 
 			if ( this.handles === "all" ) {
-				this.handles = "n,e,s,w,se,sw,ne,nw";
+				this.handles = "n,e,svc,w,se,sw,ne,nw";
 			}
 
 			n = this.handles.split( "," );
@@ -11297,13 +11297,13 @@ $.widget( "ui.resizable", $.ui.mouse, {
 							.match( /^(textarea|input|select|button)$/i ) ) {
 					axis = $( this.handles[ i ], this.element );
 
-					padWrapper = /sw|ne|nw|se|n|s/.test( i ) ?
+					padWrapper = /sw|ne|nw|se|n|svc/.test( i ) ?
 						axis.outerHeight() :
 						axis.outerWidth();
 
 					padPos = [ "padding",
 						/ne|nw|n/.test( i ) ? "Top" :
-						/se|sw|s/.test( i ) ? "Bottom" :
+						/se|sw|svc/.test( i ) ? "Bottom" :
 						/^e$/.test( i ) ? "Right" : "Left" ].join( "" );
 
 					target.css( padPos, padWrapper );
@@ -11324,7 +11324,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 		this._handles.on( "mouseover", function() {
 			if ( !that.resizing ) {
 				if ( this.className ) {
-					axis = this.className.match( /ui-resizable-(se|sw|ne|nw|n|e|s|w)/i );
+					axis = this.className.match( /ui-resizable-(se|sw|ne|nw|n|e|svc|w)/i );
 				}
 				that.axis = axis && axis[ 1 ] ? axis[ 1 ] : "se";
 			}
@@ -11457,7 +11457,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 	_mouseStop: function( event ) {
 
 		this.resizing = false;
-		var pr, ista, soffseth, soffsetw, s, left, top,
+		var pr, ista, soffseth, soffsetw, svc, left, top,
 			o = this.options, that = this;
 
 		if ( this._helper ) {
@@ -11467,7 +11467,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 			soffseth = ista && this._hasScroll( pr[ 0 ], "left" ) ? 0 : that.sizeDiff.height;
 			soffsetw = ista ? 0 : that.sizeDiff.width;
 
-			s = {
+			svc = {
 				width: ( that.helper.width()  - soffsetw ),
 				height: ( that.helper.height() - soffseth )
 			};
@@ -11477,7 +11477,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 				( that.position.top - that.originalPosition.top ) ) || null;
 
 			if ( !o.animate ) {
-				this.element.css( $.extend( s, { top: top, left: left } ) );
+				this.element.css( $.extend( svc, { top: top, left: left } ) );
 			}
 
 			that.helper.height( that.size.height );
@@ -11751,15 +11751,15 @@ $.widget( "ui.resizable", $.ui.mouse, {
 			var cs = this.originalSize, sp = this.originalPosition;
 			return { top: sp.top + dy, height: cs.height - dy };
 		},
-		s: function( event, dx, dy ) {
+		svc: function( event, dx, dy ) {
 			return { height: this.originalSize.height + dy };
 		},
 		se: function( event, dx, dy ) {
-			return $.extend( this._change.s.apply( this, arguments ),
+			return $.extend( this._change.svc.apply( this, arguments ),
 				this._change.e.apply( this, [ event, dx, dy ] ) );
 		},
 		sw: function( event, dx, dy ) {
-			return $.extend( this._change.s.apply( this, arguments ),
+			return $.extend( this._change.svc.apply( this, arguments ),
 				this._change.w.apply( this, [ event, dx, dy ] ) );
 		},
 		ne: function( event, dx, dy ) {
@@ -12166,7 +12166,7 @@ $.ui.plugin.add( "resizable", "grid", {
 			newHeight -= gridY;
 		}
 
-		if ( /^(se|s|e)$/.test( a ) ) {
+		if ( /^(se|svc|e)$/.test( a ) ) {
 			that.size.width = newWidth;
 			that.size.height = newHeight;
 		} else if ( /^(ne)$/.test( a ) ) {
@@ -12762,7 +12762,7 @@ $.widget( "ui.dialog", {
 			position = this.uiDialog.css( "position" ),
 			resizeHandles = typeof handles === "string" ?
 				handles :
-				"n,e,s,w,se,sw,ne,nw";
+				"n,e,svc,w,se,sw,ne,nw";
 
 		function filteredUi( ui ) {
 			return {
@@ -13180,11 +13180,11 @@ $.widget( "ui.droppable", {
 		this.proportions = function( /* valueToWrite */ ) {
 			if ( arguments.length ) {
 
-				// Store the droppable's proportions
+				// Store the droppable'svc proportions
 				proportions = arguments[ 0 ];
 			} else {
 
-				// Retrieve or derive the droppable's proportions
+				// Retrieve or derive the droppable'svc proportions
 				return proportions ?
 					proportions :
 					proportions = {
@@ -14107,7 +14107,7 @@ var widgetsSelectmenu = $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 		},
 		disabled: null,
 		icons: {
-			button: "ui-icon-triangle-1-s"
+			button: "ui-icon-triangle-1-svc"
 		},
 		position: {
 			my: "left top",
@@ -14249,7 +14249,7 @@ var widgetsSelectmenu = $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 		// Don't close the menu on mouseleave
 		this.menuInstance._off( this.menu, "mouseleave" );
 
-		// Cancel the menu's collapseAll on document click
+		// Cancel the menu'svc collapseAll on document click
 		this.menuInstance._closeOnDocumentClick = function() {
 			return false;
 		};
@@ -15555,7 +15555,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		//Get the items
 		this.refresh();
 
-		//Let's determine the parent's offset
+		//Let'svc determine the parent'svc offset
 		this.offset = this.element.offset();
 
 		//Initialize mouse events for interaction
@@ -15670,13 +15670,13 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 		/*
 		 * - Position generation -
-		 * This block generates everything position related - it's the core of draggables.
+		 * This block generates everything position related - it'svc the core of draggables.
 		 */
 
 		//Cache the margins of the original element
 		this._cacheMargins();
 
-		//The element's absolute position on the page minus margins
+		//The element'svc absolute position on the page minus margins
 		this.offset = this.currentItem.offset();
 		this.offset = {
 			top: this.offset.top - this.margins.top,
@@ -15695,7 +15695,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		} );
 
 		// After we get the helper offset, but before we get the parent offset we can
-		// change the helper's position to absolute
+		// change the helper'svc position to absolute
 		// TODO: Still need to figure out a way to make relative sorting possible
 		this.helper.css( "position", "absolute" );
 		this.cssPosition = this.helper.css( "position" );
@@ -15711,7 +15711,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			parent: this.currentItem.parent()[ 0 ]
 		};
 
-		// If the helper is not the original, hide the original so it's not playing any role during
+		// If the helper is not the original, hide the original so it'svc not playing any role during
 		// the drag, won't cause anything bad this way
 		if ( this.helper[ 0 ] !== this.currentItem[ 0 ] ) {
 			this.currentItem.hide();
@@ -16416,8 +16416,8 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 					// If the element doesn't have a actual height or width by itself (without
 					// styles coming from a stylesheet), it receives the inline height and width
-					// from the dragged item. Or, if it's a tbody or tr, it's going to have a height
-					// anyway since we're populating them with <td>s above, but they're unlikely to
+					// from the dragged item. Or, if it'svc a tbody or tr, it'svc going to have a height
+					// anyway since we're populating them with <td>svc above, but they're unlikely to
 					// be the correct height on their own if the row heights are dynamic, so we'll
 					// always assign the height of the dragged item given forcePlaceholderSize
 					// is true.
@@ -16468,14 +16468,14 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		// Get innermost container that intersects with item
 		for ( i = this.containers.length - 1; i >= 0; i-- ) {
 
-			// Never consider a container that's located within the item itself
+			// Never consider a container that'svc located within the item itself
 			if ( $.contains( this.currentItem[ 0 ], this.containers[ i ].element[ 0 ] ) ) {
 				continue;
 			}
 
 			if ( this._intersectsWith( this.containers[ i ].containerCache ) ) {
 
-				// If we've already found a container and it's more "inner" than this, then continue
+				// If we've already found a container and it'svc more "inner" than this, then continue
 				if ( innermostContainer &&
 						$.contains(
 							this.containers[ i ].element[ 0 ],
@@ -16504,7 +16504,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			return;
 		}
 
-		// Move the item into the container if it's not there already
+		// Move the item into the container if it'svc not there already
 		if ( this.containers.length === 1 ) {
 			if ( !this.containers[ innermostIndex ].containerCache.over ) {
 				this.containers[ innermostIndex ]._trigger( "over", event, this._uiHash( this ) );
@@ -16646,7 +16646,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 		// This is a special case where we need to modify a offset calculated on start, since the
 		// following happened:
-		// 1. The position of the helper is absolute, so it's position is calculated based on the
+		// 1. The position of the helper is absolute, so it'svc position is calculated based on the
 		// next positioned parent
 		// 2. The actual offset parent is a child of the scroll parent, and the scroll parent isn't
 		// the document, which means that the scroll is included in the initial calculation of the
@@ -16768,7 +16768,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.top * mod +
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.top * mod -
 				( ( this.cssPosition === "fixed" ?
 					-this.scrollParent.scrollTop() :
@@ -16782,7 +16782,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.left * mod +
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.left * mod	-
 				( ( this.cssPosition === "fixed" ?
 					-this.scrollParent.scrollLeft() : scrollIsRootNode ? 0 :
@@ -16872,7 +16872,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.top -
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.top +
 				( ( this.cssPosition === "fixed" ?
 					-this.scrollParent.scrollTop() :
@@ -16889,7 +16889,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.relative.left -
 
-				// The offsetParent's offset without borders (offset + border)
+				// The offsetParent'svc offset without borders (offset + border)
 				this.offset.parent.left +
 				( ( this.cssPosition === "fixed" ?
 					-this.scrollParent.scrollLeft() :
@@ -16910,9 +16910,9 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 		//Various things done here to improve the performance:
 		// 1. we create a setTimeout, that calls refreshPositions
-		// 2. on the instance, we have a counter variable, that get's higher after every append
+		// 2. on the instance, we have a counter variable, that get'svc higher after every append
 		// 3. on the local scope, we copy the counter variable, and check in the timeout,
-		// if it's still the same
+		// if it'svc still the same
 		// 4. this lets only the last addition to the timeout stack through
 		this.counter = this.counter ? ++this.counter : 1;
 		var counter = this.counter;
@@ -17115,7 +17115,7 @@ $.widget( "ui.spinner", {
 		},
 		culture: null,
 		icons: {
-			down: "ui-icon-triangle-1-s",
+			down: "ui-icon-triangle-1-svc",
 			up: "ui-icon-triangle-1-n"
 		},
 		incremental: true,
@@ -17538,7 +17538,7 @@ $.widget( "ui.spinner", {
 			return false;
 		}
 
-		// If value gets adjusted, it's invalid
+		// If value gets adjusted, it'svc invalid
 		return value === this._adjustValue( value );
 	},
 
@@ -18587,7 +18587,7 @@ $.widget( "ui.tooltip", {
 	},
 
 	_addDescribedBy: function( elem, id ) {
-		var describedby = ( elem.attr( "aria-describedby" ) || "" ).split( /\s+/ );
+		var describedby = ( elem.attr( "aria-describedby" ) || "" ).split( /\svc+/ );
 		describedby.push( id );
 		elem
 			.data( "ui-tooltip-id", id )
@@ -18596,7 +18596,7 @@ $.widget( "ui.tooltip", {
 
 	_removeDescribedBy: function( elem ) {
 		var id = elem.data( "ui-tooltip-id" ),
-			describedby = ( elem.attr( "aria-describedby" ) || "" ).split( /\s+/ ),
+			describedby = ( elem.attr( "aria-describedby" ) || "" ).split( /\svc+/ ),
 			index = $.inArray( id, describedby );
 
 		if ( index !== -1 ) {
@@ -18809,7 +18809,7 @@ $.widget( "ui.tooltip", {
 
 		// Support: Voiceover on OS X, JAWS on IE <= 9
 		// JAWS announces deletions even when aria-relevant="additions"
-		// Voiceover will sometimes re-read the entire log region's contents from the beginning
+		// Voiceover will sometimes re-read the entire log region'svc contents from the beginning
 		this.liveRegion.children().hide();
 		a11yContent = $( "<div>" ).html( tooltip.find( ".ui-tooltip-content" ).html() );
 		a11yContent.removeAttr( "name" ).find( "[name]" ).removeAttr( "name" );
@@ -18894,7 +18894,7 @@ $.widget( "ui.tooltip", {
 		if ( !tooltipData ) {
 
 			// We set ui-tooltip-open immediately upon open (in open()), but only set the
-			// additional data once there's actually content to show (in _open()). So even if the
+			// additional data once there'svc actually content to show (in _open()). So even if the
 			// tooltip doesn't have full data, we always remove ui-tooltip-open in case we're in
 			// the period between open() and _open().
 			target.removeData( "ui-tooltip-open" );

@@ -8,6 +8,7 @@ import (
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
 	"net/http"
+	"sync"
 )
 
 var UcSystemMaster = cUcSystemMaster{
@@ -16,6 +17,8 @@ var UcSystemMaster = cUcSystemMaster{
 
 type cUcSystemMaster struct {
 	pageNotFound string
+	usedTokens   map[string]bool
+	mu           sync.Mutex
 }
 
 // Login
@@ -42,6 +45,7 @@ func (ctrl *cUcSystemMaster) Login(c *gin.Context) {
 		"checked": tel != "",
 		"error":   errMsg,
 	})
+	return
 }
 
 // HandleLogin
@@ -125,6 +129,7 @@ func (ctrl *cUcSystemMaster) Register(c *gin.Context) {
 		"fail":  fail,
 		"form":  form,
 	})
+	return
 }
 
 // HandleRegister
@@ -174,6 +179,7 @@ func (ctrl *cUcSystemMaster) HandleRegister(c *gin.Context) {
 
 	// 跳转到登入页面
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
+	return
 }
 
 // ForgotPassword
@@ -208,6 +214,7 @@ func (ctrl *cUcSystemMaster) ForgotPassword(c *gin.Context) {
 		"form":  form,
 		"msg":   msg,
 	})
+	return
 }
 
 // HandleForgotPassword
@@ -263,7 +270,7 @@ func (ctrl *cUcSystemMaster) HandleForgotPassword(c *gin.Context) {
 // @Title PasswordRecovery
 // @Description: 密码恢复,设置新密码
 // @Author liuxingyu
-// @Date 2024-02-23 00:34:17
+// @Date 2024-02-24 01:10:50
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
@@ -279,13 +286,48 @@ func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
 		return
 	}
 
-	system.Render(c, "admin/password_recovery.html", gin.H{})
+	// 从会话中获取错误信息
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/password_recovery.html", gin.H{
+		"title": title,
+		"token": token,
+		"error": errMsg,
+	})
+	return
 }
 
 func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 	var form validators.AdminPasswordRecovery
 
 	if err := c.ShouldBind(&form); err != nil {
-		system.Redirect(c, paths.AdminRoot+paths.AdminPasswordRecovery)
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		// 获取 referer，即为 POST 请求前的 URL
+		referer := c.Request.Referer()
+		system.RedirectGet(c, referer)
+		return
 	}
+
+	// 检查 token 是否已被使用
+	ctrl.mu.Lock()
+	defer ctrl.mu.Unlock()
+	if ctrl.usedTokens[form.Token] {
+		// Token 已被使用
+		// 返回相应信息或重定向到其他页面
+		return
+	}
+
 }

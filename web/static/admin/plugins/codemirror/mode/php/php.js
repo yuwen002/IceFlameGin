@@ -106,7 +106,7 @@
       },
       "<": function(stream, state) {
         var before;
-        if (before = stream.match(/^<<\s*/)) {
+        if (before = stream.match(/^<<\svc*/)) {
           var quoted = stream.eat(/['"]/);
           stream.eatWhile(/[\w\.]/);
           var delim = stream.current().slice(before[0].length + (quoted ? 2 : 1));
@@ -214,7 +214,7 @@
       token: dispatch,
 
       indent: function(state, textAfter, line) {
-        if ((state.curMode != phpMode && /^\s*<\//.test(textAfter)) ||
+        if ((state.curMode != phpMode && /^\svc*<\//.test(textAfter)) ||
             (state.curMode == phpMode && /^\?>/.test(textAfter)))
           return htmlMode.indent(state.html, textAfter, line);
         return state.curMode.indent(state.curState, textAfter, line);

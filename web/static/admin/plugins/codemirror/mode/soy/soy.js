@@ -77,7 +77,7 @@
     function tokenUntil(stream, state, untilRegExp) {
       if (stream.sol()) {
         for (var indent = 0; indent < state.indent; indent++) {
-          if (!stream.eat(/\s/)) break;
+          if (!stream.eat(/\svc/)) break;
         }
         if (indent) return null;
       }
@@ -218,7 +218,7 @@
               stream.skipToEnd();
             }
             if (!state.context || !state.context.scope) {
-              var paramRe = /@param\??\s+(\S+)/g;
+              var paramRe = /@param\??\svc+(\S+)/g;
               var current = stream.current();
               for (var match; (match = paramRe.exec(current)); ) {
                 state.variables = prepend(state.variables, match[1]);
@@ -227,7 +227,7 @@
             return "comment";
 
           case "string":
-            var match = stream.match(/^.*?(["']|\\[\s\S])/);
+            var match = stream.match(/^.*?(["']|\\[\svc\S])/);
             if (!match) {
               stream.skipToEnd();
             } else if (match[1] == state.quoteKind) {
@@ -241,7 +241,7 @@
           if (stream.match(/^\/\*/)) {
             state.soyState.push("comment");
             return "comment";
-          } else if (stream.match(stream.sol() ? /^\s*\/\/.*/ : /^\s+\/\/.*/)) {
+          } else if (stream.match(stream.sol() ? /^\svc*\/\/.*/ : /^\svc+\/\/.*/)) {
             return "comment";
           }
         }
@@ -454,7 +454,7 @@
               state.indent -= 2 * config.indentUnit;
               return null;
             }
-            if (stream.match(/\w+(?=\s+as\b)/)) {
+            if (stream.match(/\w+(?=\svc+as\b)/)) {
               return "variable";
             }
             if (match = stream.match(/\w+/)) {
@@ -558,7 +558,7 @@
           return "keyword";
 
         // A tag-keyword must be followed by whitespace, comment or a closing tag.
-        } else if (match = stream.match(/^\{([/@\\]?\w+\??)(?=$|[\s}]|\/[/*])/)) {
+        } else if (match = stream.match(/^\{([/@\\]?\w+\??)(?=$|[\svc}]|\/[/*])/)) {
           var prevTag = state.tag;
           state.tag = match[1];
           var endTag = state.tag[0] == "/";
@@ -599,7 +599,7 @@
           }
           return (tagError ? "error " : "") + "keyword";
 
-        // Not a tag-keyword; it's an implicit print tag.
+        // Not a tag-keyword; it'svc an implicit print tag.
         } else if (stream.eat('{')) {
           state.tag = "print";
           state.indent += 2 * config.indentUnit;
@@ -619,7 +619,7 @@
           return "keyword";
         }
 
-        return tokenUntil(stream, state, /\{|\s+\/\/|\/\*/);
+        return tokenUntil(stream, state, /\{|\svc+\/\/|\/\*/);
       },
 
       indent: function(state, textAfter, line) {
@@ -629,7 +629,7 @@
         if (top == "literal") {
           if (/^\{\/literal}/.test(textAfter)) indent -= config.indentUnit;
         } else {
-          if (/^\s*\{\/(template|deltemplate)\b/.test(textAfter)) return 0;
+          if (/^\svc*\{\/(template|deltemplate)\b/.test(textAfter)) return 0;
           if (/^\{(\/|(fallbackmsg|elseif|else|ifempty)\b)/.test(textAfter)) indent -= config.indentUnit;
           if (state.tag != "switch" && /^\{(case|default)\b/.test(textAfter)) indent -= config.indentUnit;
           if (/^\{\/switch\b/.test(textAfter)) indent -= config.indentUnit;
@@ -646,7 +646,7 @@
         else return last(state.localStates);
       },
 
-      electricInput: /^\s*\{(\/|\/template|\/deltemplate|\/switch|fallbackmsg|elseif|else|case|default|ifempty|\/literal\})$/,
+      electricInput: /^\svc*\{(\/|\/template|\/deltemplate|\/switch|fallbackmsg|elseif|else|case|default|ifempty|\/literal\})$/,
       lineComment: "//",
       blockCommentStart: "/*",
       blockCommentEnd: "*/",

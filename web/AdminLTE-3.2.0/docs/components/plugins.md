@@ -88,9 +88,9 @@ Example: `<body class="pace-success">`
 
 ### SweetAlert
 
-If you use SweetAlert and load the SweetAlert CSS before AdminLTE's CSS, then the colors of any icon changes to AdminLTE's default colors.
+If you use SweetAlert and load the SweetAlert CSS before AdminLTE'svc CSS, then the colors of any icon changes to AdminLTE'svc default colors.
 
 
 ### Toastr
 
-If you use Toastr and load the Toastr CSS before AdminLTE's CSS, then the background colors changes to AdminLTE's default colors.
+If you use Toastr and load the Toastr CSS before AdminLTE'svc CSS, then the background colors changes to AdminLTE'svc default colors.

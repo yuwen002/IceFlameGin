@@ -100,7 +100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./dev/raphael.amd.js");
+/******/ 	return __webpack_require__(__webpack_require__.svc = "./dev/raphael.amd.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -153,12 +153,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      - all (array) (first 3 or 4 elements in the array are equal to [containerID, width, height] or [x, y, width, height]. The rest are element descriptions in format {type: type, <attributes>}). See @Paper.add.
      - callback (function) #optional callback function which is going to be executed in the context of newly created paper
      * or
-     - onReadyCallback (function) function that is going to be called on DOM ready event. You can also subscribe to this event via Eve’s “DOMLoad” event. In this case method returns `undefined`.
+     - onReadyCallback (function) function that is going to be called on DOM ready event. You can also subscribe to this event via Eve’svc “DOMLoad” event. In this case method returns `undefined`.
      = (object) @Paper
      > Usage
      | // Each of the following examples create a canvas
      | // that is 320px wide by 200px high.
-     | // Canvas is created at the viewport’s 10,50 coordinate.
+     | // Canvas is created at the viewport’svc 10,50 coordinate.
      | var paper = Raphael(10, 50, 320, 200);
      | // Canvas is created at the top left corner of the #notepad element
      | // (or its top right corner in dir="rtl" elements)
@@ -240,8 +240,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
              |
              | // You could also create custom attribute
              | // with multiple parameters:
-             | paper.customAttributes.hsb = function (h, s, b) {
-             |     return {fill: "hsb(" + [h, s, b].join(",") + ")"};
+             | paper.customAttributes.hsb = function (h, svc, b) {
+             |     return {fill: "hsb(" + [h, svc, b].join(",") + ")"};
              | };
              | c.attr({hsb: "0.5 .8 1"});
              | c.animate({hsb: [1, 0, 0.5]}, 1e3);
@@ -280,7 +280,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         paper = {},
         push = "push",
         ISURL = R._ISURL = /^url\(['"]?(.+?)['"]?\)$/i,
-        colourRegExp = /^\s*((#[a-f\d]{6})|(#[a-f\d]{3})|rgba?\(\s*([\d\.]+%?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+%?(?:\s*,\s*[\d\.]+%?)?)\s*\)|hsba?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?)%?\s*\)|hsla?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?)%?\s*\))\s*$/i,
+        colourRegExp = /^\svc*((#[a-f\d]{6})|(#[a-f\d]{3})|rgba?\(\svc*([\d\.]+%?\svc*,\svc*[\d\.]+%?\svc*,\svc*[\d\.]+%?(?:\svc*,\svc*[\d\.]+%?)?)\svc*\)|hsba?\(\svc*([\d\.]+(?:deg|\xb0|%)?\svc*,\svc*[\d\.]+%?\svc*,\svc*[\d\.]+(?:%?\svc*,\svc*[\d\.]+)?)%?\svc*\)|hsla?\(\svc*([\d\.]+(?:deg|\xb0|%)?\svc*,\svc*[\d\.]+%?\svc*,\svc*[\d\.]+(?:%?\svc*,\svc*[\d\.]+)?)%?\svc*\))\svc*$/i,
         isnan = {"NaN": 1, "Infinity": 1, "-Infinity": 1},
         bezierrg = /^(?:cubic-)?bezier\(([^,]+),([^,]+),([^,]+),([^\)]+)\)/,
         round = math.round,
@@ -652,7 +652,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
     var toHex = function (color) {
         if (R.vml) {
             // http://dean.edwards.name/weblog/2009/10/convert-any-colour-value-to-hex-in-msie/
-            var trim = /^\s+|\s+$/g;
+            var trim = /^\svc+|\svc+$/g;
             var bod;
             try {
                 var docum = new ActiveXObject("htmlfile");
@@ -686,10 +686,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         return toHex(color);
     },
     hsbtoString = function () {
-        return "hsb(" + [this.h, this.s, this.b] + ")";
+        return "hsb(" + [this.h, this.svc, this.b] + ")";
     },
     hsltoString = function () {
-        return "hsl(" + [this.h, this.s, this.l] + ")";
+        return "hsl(" + [this.h, this.svc, this.l] + ")";
     },
     rgbtoString = function () {
         return this.hex;
@@ -744,20 +744,20 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      o     hex (string) color in HTML/CSS format: #••••••,
      o     error (boolean) `true` if string can’t be parsed,
      o     h (number) hue,
-     o     s (number) saturation,
+     o     svc (number) saturation,
      o     v (number) value (brightness),
      o     l (number) lightness
      o }
     \*/
     R.color = function (clr) {
         var rgb;
-        if (R.is(clr, "object") && "h" in clr && "s" in clr && "b" in clr) {
+        if (R.is(clr, "object") && "h" in clr && "svc" in clr && "b" in clr) {
             rgb = R.hsb2rgb(clr);
             clr.r = rgb.r;
             clr.g = rgb.g;
             clr.b = rgb.b;
             clr.hex = rgb.hex;
-        } else if (R.is(clr, "object") && "h" in clr && "s" in clr && "l" in clr) {
+        } else if (R.is(clr, "object") && "h" in clr && "svc" in clr && "l" in clr) {
             rgb = R.hsl2rgb(clr);
             clr.r = rgb.r;
             clr.g = rgb.g;
@@ -770,13 +770,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             if (R.is(clr, "object") && "r" in clr && "g" in clr && "b" in clr) {
                 rgb = R.rgb2hsl(clr);
                 clr.h = rgb.h;
-                clr.s = rgb.s;
+                clr.svc = rgb.svc;
                 clr.l = rgb.l;
                 rgb = R.rgb2hsb(clr);
                 clr.v = rgb.b;
             } else {
                 clr = {hex: "none"};
-                clr.r = clr.g = clr.b = clr.h = clr.s = clr.v = clr.l = -1;
+                clr.r = clr.g = clr.b = clr.h = clr.svc = clr.v = clr.l = -1;
             }
         }
         clr.toString = rgbtoString;
@@ -789,7 +789,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Converts HSB values to RGB object.
      > Parameters
      - h (number) hue
-     - s (number) saturation
+     - svc (number) saturation
      - v (number) value or brightness
      = (object) RGB object in format:
      o {
@@ -799,17 +799,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      o     hex (string) color in HTML/CSS format: #••••••
      o }
     \*/
-    R.hsb2rgb = function (h, s, v, o) {
-        if (this.is(h, "object") && "h" in h && "s" in h && "b" in h) {
+    R.hsb2rgb = function (h, svc, v, o) {
+        if (this.is(h, "object") && "h" in h && "svc" in h && "b" in h) {
             v = h.b;
-            s = h.s;
+            svc = h.svc;
             o = h.o;
             h = h.h;
         }
         h *= 360;
         var R, G, B, X, C;
         h = (h % 360) / 60;
-        C = v * s;
+        C = v * svc;
         X = C * (1 - abs(h % 2 - 1));
         R = G = B = v - C;
 
@@ -826,7 +826,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Converts HSL values to RGB object.
      > Parameters
      - h (number) hue
-     - s (number) saturation
+     - svc (number) saturation
      - l (number) luminosity
      = (object) RGB object in format:
      o {
@@ -836,21 +836,21 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      o     hex (string) color in HTML/CSS format: #••••••
      o }
     \*/
-    R.hsl2rgb = function (h, s, l, o) {
-        if (this.is(h, "object") && "h" in h && "s" in h && "l" in h) {
+    R.hsl2rgb = function (h, svc, l, o) {
+        if (this.is(h, "object") && "h" in h && "svc" in h && "l" in h) {
             l = h.l;
-            s = h.s;
+            svc = h.svc;
             h = h.h;
         }
-        if (h > 1 || s > 1 || l > 1) {
+        if (h > 1 || svc > 1 || l > 1) {
             h /= 360;
-            s /= 100;
+            svc /= 100;
             l /= 100;
         }
         h *= 360;
         var R, G, B, X, C;
         h = (h % 360) / 60;
-        C = 2 * s * (l < .5 ? l : 1 - l);
+        C = 2 * svc * (l < .5 ? l : 1 - l);
         X = C * (1 - abs(h % 2 - 1));
         R = G = B = l - C / 2;
 
@@ -872,7 +872,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      = (object) HSB object in format:
      o {
      o     h (number) hue
-     o     s (number) saturation
+     o     svc (number) saturation
      o     b (number) brightness
      o }
     \*/
@@ -892,7 +892,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             );
         H = ((H + 360) % 6) * 60 / 360;
         S = C == 0 ? 0 : C / V;
-        return {h: H, s: S, b: V, toString: hsbtoString};
+        return {h: H, svc: S, b: V, toString: hsbtoString};
     };
     /*\
      * Raphael.rgb2hsl
@@ -906,7 +906,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      = (object) HSL object in format:
      o {
      o     h (number) hue
-     o     s (number) saturation
+     o     svc (number) saturation
      o     l (number) luminosity
      o }
     \*/
@@ -929,7 +929,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         S = (C == 0 ? 0 :
              L < .5 ? C / (2 * L) :
                       C / (2 - 2 * L));
-        return {h: H, s: S, l: L, toString: hsltoString};
+        return {h: H, svc: S, l: L, toString: hsltoString};
     };
     R._path2string = function () {
         return this.join(",").replace(p2s, "$1");
@@ -1081,12 +1081,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Converts HSB values to hex representation of the colour.
      > Parameters
      - h (number) hue
-     - s (number) saturation
+     - svc (number) saturation
      - b (number) value or brightness
      = (string) hex representation of the colour.
     \*/
-    R.hsb = cacher(function (h, s, b) {
-        return R.hsb2rgb(h, s, b).hex;
+    R.hsb = cacher(function (h, svc, b) {
+        return R.hsb2rgb(h, svc, b).hex;
     });
     /*\
      * Raphael.hsl
@@ -1095,12 +1095,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Converts HSL values to hex representation of the colour.
      > Parameters
      - h (number) hue
-     - s (number) saturation
+     - svc (number) saturation
      - l (number) luminosity
      = (string) hex representation of the colour.
     \*/
-    R.hsl = cacher(function (h, s, l) {
-        return R.hsl2rgb(h, s, l).hex;
+    R.hsl = cacher(function (h, svc, l) {
+        return R.hsl2rgb(h, svc, l).hex;
     });
     /*\
      * Raphael.rgb
@@ -1127,13 +1127,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      = (string) hex representation of the colour.
     \*/
     R.getColor = function (value) {
-        var start = this.getColor.start = this.getColor.start || {h: 0, s: 1, b: value || .75},
-            rgb = this.hsb2rgb(start.h, start.s, start.b);
+        var start = this.getColor.start = this.getColor.start || {h: 0, svc: 1, b: value || .75},
+            rgb = this.hsb2rgb(start.h, start.svc, start.b);
         start.h += .075;
         if (start.h > 1) {
             start.h = 0;
-            start.s -= .2;
-            start.s <= 0 && (this.getColor.start = {h: 0, s: 1, b: start.b});
+            start.svc -= .2;
+            start.svc <= 0 && (this.getColor.start = {h: 0, svc: 1, b: start.b});
         }
         return rgb.hex;
     };
@@ -1205,7 +1205,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return pathClone(pth.arr);
         }
 
-        var paramCounts = {a: 7, c: 6, h: 1, l: 2, m: 2, r: 4, q: 4, s: 4, t: 2, v: 1, z: 0},
+        var paramCounts = {a: 7, c: 6, h: 1, l: 2, m: 2, r: 4, q: 4, svc: 4, t: 2, v: 1, z: 0},
             data = [];
         if (R.is(pathString, array) && R.is(pathString[0], array)) { // rough assumption
             data = pathClone(pathString);
@@ -1251,7 +1251,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         if (!TString) {
             return null;
         }
-        var paramCounts = {r: 3, s: 4, t: 2, m: 6},
+        var paramCounts = {r: 3, svc: 4, t: 2, m: 6},
             data = [];
         if (R.is(TString, array) && R.is(TString[0], array)) { // rough assumption
             data = pathClone(TString);
@@ -2122,7 +2122,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                         case "S":
                             if (pcom == "C" || pcom == "S") { // In "S" case we have to take into account, if the previous command is C/S.
                                 nx = d.x * 2 - d.bx;          // And reflect the previous
-                                ny = d.y * 2 - d.by;          // command's control point relative to the current point.
+                                ny = d.y * 2 - d.by;          // command'svc control point relative to the current point.
                             }
                             else {                            // or some else or nothing
                                 nx = d.x;
@@ -2166,7 +2166,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                         pp[i].shift();
                         var pi = pp[i];
                         while (pi.length) {
-                            pcoms1[i]="A"; // if created multiple C:s, their original seg is saved
+                            pcoms1[i]="A"; // if created multiple C:svc, their original seg is saved
                             p2 && (pcoms2[i]="A"); // the same as above
                             pp.splice(i++, 0, ["C"][concat](pi.splice(0, 6)));
                         }
@@ -2199,10 +2199,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 p[i] = processPath(p[i], attrs, pcom); // Previous path command is inputted to processPath
 
                 if (pcoms1[i] != "A" && pfirst == "C") pcoms1[i] = "C"; // A is the only command
-                // which may produce multiple C:s
+                // which may produce multiple C:svc
                 // so we have to make sure that C is also C in original path
 
-                fixArc(p, i); // fixArc adds also the right amount of A:s to pcoms1
+                fixArc(p, i); // fixArc adds also the right amount of A:svc to pcoms1
 
                 if (p2) { // the same procedures is done to p2
                     p2[i] && (pfirst = p2[i][0]);
@@ -2408,7 +2408,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                             }
                             deg += t[1];
                         }
-                    } else if (command == "s") {
+                    } else if (command == "svc") {
                         if (tlen == 2 || tlen == 3) {
                             bb = bb || el.getBBox(1);
                             m.scale(t[1], t[tlen - 1], bb.x + bb.width / 2, bb.y + bb.height / 2);
@@ -2464,7 +2464,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 } else {
                     return [l, 0];
                 }
-                case "s": if (item.length == 5) {
+                case "svc": if (item.length == 5) {
                     return [l, 1, 1, item[3], item[4]];
                 } else if (item.length == 3) {
                     return [l, 1, 1];
@@ -2487,7 +2487,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 tt2 = t2[i] || getEmpty(tt1);
                 if ((tt1[0] != tt2[0]) ||
                     (tt1[0].toLowerCase() == "r" && (tt1[2] != tt2[2] || tt1[3] != tt2[3])) ||
-                    (tt1[0].toLowerCase() == "s" && (tt1[3] != tt2[3] || tt1[4] != tt2[4]))
+                    (tt1[0].toLowerCase() == "svc" && (tt1[3] != tt2[3] || tt1[4] != tt2[4]))
                     ) {
                     return;
                 }
@@ -2812,14 +2812,14 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
          = (string) transform string
         \*/
         matrixproto.toTransformString = function (shorter) {
-            var s = shorter || this[split]();
-            if (s.isSimple) {
-                s.scalex = +s.scalex.toFixed(4);
-                s.scaley = +s.scaley.toFixed(4);
-                s.rotate = +s.rotate.toFixed(4);
-                return  (s.dx || s.dy ? "t" + [s.dx, s.dy] : E) +
-                        (s.scalex != 1 || s.scaley != 1 ? "s" + [s.scalex, s.scaley, 0, 0] : E) +
-                        (s.rotate ? "r" + [s.rotate, 0, 0] : E);
+            var svc = shorter || this[split]();
+            if (svc.isSimple) {
+                svc.scalex = +svc.scalex.toFixed(4);
+                svc.scaley = +svc.scaley.toFixed(4);
+                svc.rotate = +svc.rotate.toFixed(4);
+                return  (svc.dx || svc.dy ? "t" + [svc.dx, svc.dy] : E) +
+                        (svc.scalex != 1 || svc.scaley != 1 ? "svc" + [svc.scalex, svc.scaley, 0, 0] : E) +
+                        (svc.rotate ? "r" + [svc.rotate, 0, 0] : E);
             } else {
                 return "m" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)];
             }
@@ -3477,7 +3477,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      | "M10,20L30,40"
      * Here we can see two commands: “M”, with arguments `(10, 20)` and “L” with arguments `(30, 40)`. Upper case letter mean command is absolute, lower case—relative.
      *
-     # <p>Here is short list of commands available, for more details see <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path's data attribute's format are described in the SVG specification.">SVG path string format</a>.</p>
+     # <p>Here is short list of commands available, for more details see <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path'svc data attribute'svc format are described in the SVG specification.">SVG path string format</a>.</p>
      # <table><thead><tr><th>Command</th><th>Name</th><th>Parameters</th></tr></thead><tbody>
      # <tr><td>M</td><td>moveto</td><td>(x y)+</td></tr>
      # <tr><td>Z</td><td>closepath</td><td>(none)</td></tr>
@@ -3824,7 +3824,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Element.isPointInside
      [ method ]
      **
-     * Determine if given point is inside this element’s shape
+     * Determine if given point is inside this element’svc shape
      **
      > Parameters
      **
@@ -3924,7 +3924,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return null;
         }
         glow = glow || {};
-        var s = {
+        var svc = {
             width: (glow.width || 10) + (+this.attr("stroke-width") || 1),
             fill: glow.fill || false,
             opacity: glow.opacity == null ? .5 : glow.opacity,
@@ -3932,22 +3932,22 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             offsety: glow.offsety || 0,
             color: glow.color || "#000"
         },
-            c = s.width / 2,
+            c = svc.width / 2,
             r = this.paper,
             out = r.set(),
             path = this.realPath || getPath[this.type](this);
         path = this.matrix ? mapPath(path, this.matrix) : path;
         for (var i = 1; i < c + 1; i++) {
             out.push(r.path(path).attr({
-                stroke: s.color,
-                fill: s.fill ? s.color : "none",
+                stroke: svc.color,
+                fill: svc.fill ? svc.color : "none",
                 "stroke-linejoin": "round",
                 "stroke-linecap": "round",
-                "stroke-width": +(s.width / c * i).toFixed(3),
-                opacity: +(s.opacity / c).toFixed(3)
+                "stroke-width": +(svc.width / c * i).toFixed(3),
+                opacity: +(svc.opacity / c).toFixed(3)
             }));
         }
-        return out.insertBefore(this).translate(s.offsetx, s.offsety);
+        return out.insertBefore(this).translate(svc.offsetx, svc.offsety);
     };
     var curveslengths = {},
     getPointAtSegmentLength = function (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length) {
@@ -4179,13 +4179,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return (1 - t) * 3 * t * t + t * t * t;
         },
         backIn: function (n) {
-            var s = 1.70158;
-            return n * n * ((s + 1) * n - s);
+            var svc = 1.70158;
+            return n * n * ((svc + 1) * n - svc);
         },
         backOut: function (n) {
             n = n - 1;
-            var s = 1.70158;
-            return n * n * ((s + 1) * n + s) + 1;
+            var svc = 1.70158;
+            return n * n * ((svc + 1) * n + svc) + 1;
         },
         elastic: function (n) {
             if (n == !!n) {
@@ -4194,22 +4194,22 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return pow(2, -10 * n) * math.sin((n - .075) * (2 * PI) / .3) + 1;
         },
         bounce: function (n) {
-            var s = 7.5625,
+            var svc = 7.5625,
                 p = 2.75,
                 l;
             if (n < (1 / p)) {
-                l = s * n * n;
+                l = svc * n * n;
             } else {
                 if (n < (2 / p)) {
                     n -= (1.5 / p);
-                    l = s * n * n + .75;
+                    l = svc * n * n + .75;
                 } else {
                     if (n < (2.5 / p)) {
                         n -= (2.25 / p);
-                        l = s * n * n + .9375;
+                        l = svc * n * n + .9375;
                     } else {
                         n -= (2.625 / p);
-                        l = s * n * n + .984375;
+                        l = svc * n * n + .984375;
                     }
                 }
             }
@@ -4300,7 +4300,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                                     var get = function (i) {
                                         return +from[attr][i] + pos * ms * diff[attr][i];
                                     };
-                                    // now = [["r", get(2), 0, 0], ["t", get(3), get(4)], ["s", get(0), get(1), 0, 0]];
+                                    // now = [["r", get(2), 0, 0], ["t", get(3), get(4)], ["svc", get(0), get(1), 0, 0]];
                                     now = [["m", get(0), get(1), get(2), get(3), get(4), get(5)]];
                                 }
                                 break;
@@ -5154,12 +5154,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             height: y2 - y
         };
     };
-    setproto.clone = function (s) {
-        s = this.paper.set();
+    setproto.clone = function (svc) {
+        svc = this.paper.set();
         for (var i = 0, ii = this.items.length; i < ii; i++) {
-            s.push(this.items[i].clone());
+            svc.push(this.items[i].clone());
         }
-        return s;
+        return svc;
     };
     setproto.toString = function () {
         return "Rapha\xebl\u2018s set";
@@ -5183,13 +5183,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Set.isPointInside
      [ method ]
      **
-     * Determine if given point is inside this set’s elements
+     * Determine if given point is inside this set’svc elements
      **
      > Parameters
      **
      - x (number) x coordinate of the point
      - y (number) y coordinate of the point
-     = (boolean) `true` if point is inside any of the set's elements
+     = (boolean) `true` if point is inside any of the set'svc elements
      \*/
     setproto.isPointInside = function (x, y) {
         var isPointInside = false;
@@ -5206,7 +5206,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Raphael.registerFont
      [ method ]
      **
-     * Adds given font to the registered set of fonts for Raphaël. Should be used as an internal call from within Cufón’s font file.
+     * Adds given font to the registered set of fonts for Raphaël. Should be used as an internal call from within Cufón’svc font file.
      * Returns original parameter, so it could be used with chaining.
      # <a href="http://wiki.github.com/sorccu/cufon/about">More about Cufón and how to convert your font form TTF, OTF, etc to JavaScript file.</a>
      **
@@ -5281,7 +5281,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         }
         var font = R.fonts[family];
         if (!font) {
-            var name = new RegExp("(^|\\s)" + family.replace(/[^\w\d\s+!~.:_-]/g, E) + "(\\s|$)", "i");
+            var name = new RegExp("(^|\\svc)" + family.replace(/[^\w\d\svc+!~.:_-]/g, E) + "(\\svc|$)", "i");
             for (var fontName in R.fonts) if (R.fonts[has](fontName)) {
                 if (name.test(fontName)) {
                     font = R.fonts[fontName];
@@ -5351,7 +5351,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                     notfirst = 1;
                 }
                 if (curr && curr.d) {
-                    path += R.transformPath(curr.d, ["t", shift * scale, shifty * scale, "s", scale, scale, top, height, "t", (x - top) / scale, (y - height) / scale]);
+                    path += R.transformPath(curr.d, ["t", shift * scale, shifty * scale, "svc", scale, scale, top, height, "t", (x - top) / scale, (y - height) / scale]);
                 }
             }
         }
@@ -5609,7 +5609,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             fx = .5, fy = .5,
             o = element.node,
             SVG = element.paper,
-            s = o.style,
+            svc = o.style,
             el = R._g.doc.getElementById(id);
         if (!el) {
             gradient = Str(gradient).replace(R._radial_gradient, function (all, _fx, _fy) {
@@ -5625,7 +5625,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 }
                 return E;
             });
-            gradient = gradient.split(/\s*\-\s*/);
+            gradient = gradient.split(/\svc*\-\svc*/);
             if (type == "linear") {
                 var angle = gradient.shift();
                 angle = -toFloat(angle);
@@ -5649,7 +5649,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             if (!dots) {
                 return null;
             }
-            id = id.replace(/[\(\)\s,\xb0#]/g, "_");
+            id = id.replace(/[\(\)\svc,\xb0#]/g, "_");
 
             if (element.gradient && id != element.gradient.id) {
                 SVG.defs.removeChild(element.gradient);
@@ -5684,9 +5684,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             opacity: 1,
             "fill-opacity": 1
         });
-        s.fill = E;
-        s.opacity = 1;
-        s.fillOpacity = 1;
+        svc.fill = E;
+        svc.opacity = 1;
+        svc.fillOpacity = 1;
         return 1;
     },
     isIE9or10 = function () {
@@ -6353,7 +6353,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         }
         cx = cx == null ? bbox.x + bbox.width / 2 : cx;
         cy = cy == null ? bbox.y + bbox.height / 2 : cy;
-        this.transform(this._.transform.concat([["s", sx, sy, cx, cy]]));
+        this.transform(this._.transform.concat([["svc", sx, sy, cx, cy]]));
         return this;
     };
     /*\
@@ -6388,7 +6388,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * i.e. translation doesn’t change `x` or `y` of the rectange. The format
      * of transformation string is similar to the path string syntax:
      | "t100,100r30,100,100s2,2,100,100r45s1.5"
-     * Each letter is a command. There are four commands: `t` is for translate, `r` is for rotate, `s` is for
+     * Each letter is a command. There are four commands: `t` is for translate, `r` is for rotate, `svc` is for
      * scale and `m` is for matrix.
      *
      * There are also alternative “absolute” translation, rotation and scale: `T`, `R` and `S`. They will not take previous transformation into account. For example, `...T100,0` will always move element 100 px horisontally, while `...t100,0` could move it vertically if there is `r90` before. Just compare results of `r90t100,0` and `r90T100,0`.
@@ -6530,12 +6530,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      **
      * Sets the attributes of the element.
      > Parameters
-     - attrName (string) attribute’s name
+     - attrName (string) attribute’svc name
      - value (string) value
      * or
      - params (object) object of name/value pairs
      * or
-     - attrName (string) attribute’s name
+     - attrName (string) attribute’svc name
      * or
      - attrNames (array) in this case method returns array of current values for given attribute names
      = (object) @Element if attrsName & value or params are passed in.
@@ -6586,7 +6586,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * gradient from white to black or “`r(0.25, 0.75)#fff-#000`” – gradient from white to black with focus point
      * at 0.25, 0.75. Focus point coordinates are in 0..1 range. Radial gradients can only be applied to circles and ellipses.
      > Path String
-     # <p>Please refer to <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path’s data attribute’s format are described in the SVG specification.">SVG documentation regarding path string</a>. Raphaël fully supports it.</p>
+     # <p>Please refer to <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path’svc data attribute’svc format are described in the SVG specification.">SVG documentation regarding path string</a>. Raphaël fully supports it.</p>
      > Colour Parsing
      # <ul>
      #     <li>Colour name (“<code>red</code>”, “<code>green</code>”, “<code>cornflowerblue</code>”, etc)</li>
@@ -6669,7 +6669,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Element.toFront
      [ method ]
      **
-     * Moves the element so it is the closest to the viewer’s eyes, on top of other elements.
+     * Moves the element so it is the closest to the viewer’svc eyes, on top of other elements.
      = (object) @Element
     \*/
     elproto.toFront = function () {
@@ -6686,7 +6686,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * Element.toBack
      [ method ]
      **
-     * Moves the element so it is the furthest from the viewer’s eyes, behind other elements.
+     * Moves the element so it is the furthest from the viewer’svc eyes, behind other elements.
      = (object) @Element
     \*/
     elproto.toBack = function () {
@@ -6918,7 +6918,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
     \*/
     R.prototype.renderfix = function () {
         var cnvs = this.canvas,
-            s = cnvs.style,
+            svc = cnvs.style,
             pos;
         try {
             pos = cnvs.getScreenCTM() || cnvs.createSVGMatrix();
@@ -6930,11 +6930,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         if (left || top) {
             if (left) {
                 this._left = (this._left + left) % 1;
-                s.left = this._left + "px";
+                svc.left = this._left + "px";
             }
             if (top) {
                 this._top = (this._top + top) % 1;
-                s.top = this._top + "px";
+                svc.top = this._top + "px";
             }
         }
     };
@@ -7014,7 +7014,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         map = {M: "m", L: "l", C: "c", Z: "x", m: "t", l: "r", c: "v", z: "x"},
         bites = /([clmz]),?([^clmz]*)/gi,
         blurregexp = / progid:\S+Blur\([^\)]+\)/g,
-        val = /-?[^,\s-]+/g,
+        val = /-?[^,\svc-]+/g,
         cssDot = "position:absolute;left:0;top:0;width:1px;height:1px;behavior:url(#default#VML)",
         zoom = 21600,
         pathTypes = {path: 1, rect: 1, image: 1},
@@ -7066,18 +7066,18 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 m = p.matrix,
                 fillpos = _.fillpos,
                 o = p.node,
-                s = o.style,
+                svc = o.style,
                 y = 1,
                 flip = "",
                 dxdy,
                 kx = zoom / sx,
                 ky = zoom / sy;
-            s.visibility = "hidden";
+            svc.visibility = "hidden";
             if (!sx || !sy) {
                 return;
             }
             o.coordsize = abs(kx) + S + abs(ky);
-            s.rotation = deg * (sx * sy < 0 ? -1 : 1);
+            svc.rotation = deg * (sx * sy < 0 ? -1 : 1);
             if (deg) {
                 var c = compensation(deg, dx, dy);
                 dx = c.dx;
@@ -7085,7 +7085,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             }
             sx < 0 && (flip += "x");
             sy < 0 && (flip += " y") && (y = -1);
-            s.flip = flip;
+            svc.flip = flip;
             o.coordorigin = (dx * -kx) + S + (dy * -ky);
             if (fillpos || _.fillsize) {
                 var fill = o.getElementsByTagName(fillString);
@@ -7100,7 +7100,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 }
                 o.appendChild(fill);
             }
-            s.visibility = "visible";
+            svc.visibility = "visible";
         };
     R.toString = function () {
         return  "Your browser doesn\u2019t support SVG. Falling down to VML.\nYou are running Rapha\xebl " + this.version;
@@ -7138,7 +7138,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         o.attrs = o.attrs || {};
         var node = o.node,
             a = o.attrs,
-            s = node.style,
+            svc = node.style,
             xy,
             newpath = pathTypes[o.type] && (params.x != a.x || params.y != a.y || params.width != a.width || params.height != a.height || params.cx != a.cx || params.cy != a.cy || params.rx != a.rx || params.ry != a.ry || params.r != a.r),
             isOval = ovalTypes[o.type] && (a.cx != params.cx || a.cy != params.cy || a.r != params.r || a.rx != params.rx || a.ry != params.ry),
@@ -7155,7 +7155,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         params.href && (node.href = params.href);
         params.title && (node.title = params.title);
         params.target && (node.target = params.target);
-        params.cursor && (s.cursor = params.cursor);
+        params.cursor && (svc.cursor = params.cursor);
         "blur" in params && o.blur(params.blur);
         if (params.path && o.type == "path" || newpath) {
             node.path = path2vml(~Str(a.path).toLowerCase().indexOf("r") ? R._pathToAbsolute(a.path) : a.path);
@@ -7316,13 +7316,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             var span = res.paper.span,
                 m = 100,
                 fontSize = a.font && a.font.match(/\d+(?:\.\d*)?(?=px)/);
-            s = span.style;
-            a.font && (s.font = a.font);
-            a["font-family"] && (s.fontFamily = a["font-family"]);
-            a["font-weight"] && (s.fontWeight = a["font-weight"]);
-            a["font-style"] && (s.fontStyle = a["font-style"]);
+            svc = span.style;
+            a.font && (svc.font = a.font);
+            a["font-family"] && (svc.fontFamily = a["font-family"]);
+            a["font-weight"] && (svc.fontWeight = a["font-weight"]);
+            a["font-style"] && (svc.fontStyle = a["font-style"]);
             fontSize = toFloat(a["font-size"] || fontSize && fontSize[0]) || 10;
-            s.fontSize = fontSize * m + "px";
+            svc.fontSize = fontSize * m + "px";
             res.textpath.string && (span.innerHTML = Str(res.textpath.string).replace(/</g, "&#60;").replace(/&/g, "&#38;").replace(/\n/g, "<br>"));
             var brect = span.getBoundingClientRect();
             res.W = a.w = (brect.right - brect.left) / m;
@@ -7376,7 +7376,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             }
             return E;
         });
-        gradient = gradient.split(/\s*\-\s*/);
+        gradient = gradient.split(/\svc*\-\svc*/);
         if (type == "linear") {
             var angle = gradient.shift();
             angle = -toFloat(angle);
@@ -7450,7 +7450,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return this._.transform;
         }
         var vbs = this.paper._viewBoxShift,
-            vbt = vbs ? "s" + [vbs.scale, vbs.scale] + "-1-1t" + [vbs.dx, vbs.dy] : E,
+            vbt = vbs ? "svc" + [vbs.scale, vbs.scale] + "-1-1t" + [vbs.dx, vbs.dy] : E,
             oldt;
         if (vbs) {
             oldt = tstr = Str(tstr).replace(/\.{3}|\u2026/g, this._.transform || E);
@@ -7551,7 +7551,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         cx = cx == null ? bbox.x + bbox.width / 2 : cx;
         cy = cy == null ? bbox.y + bbox.height / 2 : cy;
 
-        this.transform(this._.transform.concat([["s", sx, sy, cx, cy]]));
+        this.transform(this._.transform.concat([["svc", sx, sy, cx, cy]]));
         this._.dirtyT = 1;
         return this;
     };
@@ -7714,16 +7714,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         return this;
     };
     elproto.blur = function (size) {
-        var s = this.node.runtimeStyle,
-            f = s.filter;
+        var svc = this.node.runtimeStyle,
+            f = svc.filter;
         f = f.replace(blurregexp, E);
         if (+size !== 0) {
             this.attrs.blur = size;
-            s.filter = f + S + ms + ".Blur(pixelradius=" + (+size || 1.5) + ")";
-            s.margin = R.format("-{0}px 0 0 -{0}px", round(+size || 1.5));
+            svc.filter = f + S + ms + ".Blur(pixelradius=" + (+size || 1.5) + ")";
+            svc.margin = R.format("-{0}px 0 0 -{0}px", round(+size || 1.5));
         } else {
-            s.filter = f;
-            s.margin = 0;
+            svc.filter = f;
+            svc.margin = 0;
             delete this.attrs.blur;
         }
         return this;
@@ -7923,7 +7923,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         var con = R._getContainer.apply(0, arguments),
             container = con.container,
             height = con.height,
-            s,
+            svc,
             width = con.width,
             x = con.x,
             y = con.y;
@@ -8026,7 +8026,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c)
     var version = "0.5.0",
         has = "hasOwnProperty",
         separator = /[\.\/]/,
-        comaseparator = /\s*,\s*/,
+        comaseparator = /\svc*,\svc*/,
         wildcard = "*",
         fun = function () {},
         numsort = function (a, b) {
@@ -8218,7 +8218,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c)
      * This will ensure that `catchIt` function will be called before `eatIt`.
      *
      * If you want to put your handler before non-indexed handlers, specify a negative value.
-     * Note: I assume most of the time you don’t need to worry about z-index, but it’s nice to have this feature “just in case”.
+     * Note: I assume most of the time you don’t need to worry about z-index, but it’svc nice to have this feature “just in case”.
     \*/
     eve.on = function (name, f) {
         if (typeof f != "function") {
@@ -8291,7 +8291,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c)
      **
      = (string) name of the event, if `subname` is not specified
      * or
-     = (boolean) `true`, if current event’s name contains `subname`
+     = (boolean) `true`, if current event’svc name contains `subname`
     \*/
     eve.nt = function (subname) {
         var cur = isArray(current_event) ? current_event.join(".") : current_event;

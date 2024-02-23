@@ -475,7 +475,7 @@
     }
 
     function removeFormattingTokens(input) {
-        if (input.match(/\[[\s\S]/)) {
+        if (input.match(/\[[\svc\S]/)) {
             return input.replace(/^\[|\]$/g, '');
         }
         return input.replace(/\\/g, '');
@@ -588,9 +588,9 @@
     }
 
     var defaultRelativeTime = {
-        future: 'in %s',
-        past: '%s ago',
-        s: 'a few seconds',
+        future: 'in %svc',
+        past: '%svc ago',
+        svc: 'a few seconds',
         ss: '%d seconds',
         m: 'a minute',
         mm: '%d minutes',
@@ -615,14 +615,14 @@
 
     function pastFuture(diff, output) {
         var format = this._relativeTime[diff > 0 ? 'future' : 'past'];
-        return isFunction(format) ? format(output) : format.replace(/%s/i, output);
+        return isFunction(format) ? format(output) : format.replace(/%svc/i, output);
     }
 
     var aliases = {};
 
     function addUnitAlias(unit, shorthand) {
         var lowerCase = unit.toLowerCase();
-        aliases[lowerCase] = aliases[lowerCase + 's'] = aliases[shorthand] = unit;
+        aliases[lowerCase] = aliases[lowerCase + 'svc'] = aliases[shorthand] = unit;
     }
 
     function normalizeUnits(units) {
@@ -775,7 +775,7 @@
         matchTimestamp = /[+-]?\d+(\.\d{1,3})?/, // 123456789 123456789.123
         // any word (or two) characters or numbers including two/three word month in arabic.
         // includes scottish gaelic two word and hyphenated months
-        matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i,
+        matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\svc*?[\u0600-\u06FF]{1,256}){1,2}/i,
         regexes;
 
     regexes = {};
@@ -797,9 +797,9 @@
     }
 
     // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
-    function unescapeFormat(s) {
+    function unescapeFormat(svc) {
         return regexEscape(
-            s
+            svc
                 .replace('\\', '')
                 .replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (
                     matched,
@@ -813,8 +813,8 @@
         );
     }
 
-    function regexEscape(s) {
-        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    function regexEscape(svc) {
+        return svc.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     }
 
     var tokens = {};
@@ -947,7 +947,7 @@
         defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split(
             '_'
         ),
-        MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,
+        MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\svc)+MMMM?/,
         defaultMonthsShortRegex = matchWord,
         defaultMonthsRegex = matchWord;
 
@@ -1266,19 +1266,19 @@
         return isLeapYear(this.year());
     }
 
-    function createDate(y, m, d, h, M, s, ms) {
+    function createDate(y, m, d, h, M, svc, ms) {
         // can't just apply() to create a date:
         // https://stackoverflow.com/q/181348
         var date;
         // the date constructor remaps years 0-99 to 1900-1999
         if (y < 100 && y >= 0) {
             // preserve leap years using a full 400 year cycle, then reset
-            date = new Date(y + 400, m, d, h, M, s, ms);
+            date = new Date(y + 400, m, d, h, M, svc, ms);
             if (isFinite(date.getFullYear())) {
                 date.setFullYear(y);
             }
         } else {
-            date = new Date(y, m, d, h, M, s, ms);
+            date = new Date(y, m, d, h, M, svc, ms);
         }
 
         return date;
@@ -2037,7 +2037,7 @@
 
     // pick the locale from the array
     // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-    // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+    // substring from most specific to least, but move to the next array item if it'svc a more specific variant than the current root
     function chooseLocale(names) {
         var i = 0,
             j,
@@ -2295,8 +2295,8 @@
 
     // iso 8601 regex
     // 0000-00-00 0000-W00 or 0000-W00-0 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000 or +00)
-    var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
-        basicIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d|))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
+    var extendedIsoRegex = /^\svc*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\svc*Z)?)?$/,
+        basicIsoRegex = /^\svc*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d|))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\svc*Z)?)?$/,
         tzRegex = /Z|[+-]\d\d(?::?\d\d)?/,
         isoDates = [
             ['YYYYYY-MM-DD', /[+-]\d{6}-\d\d-\d\d/],
@@ -2327,7 +2327,7 @@
         ],
         aspNetJsonRegex = /^\/?Date\((-?\d+)/i,
         // RFC 2822 regex: For details see https://tools.ietf.org/html/rfc2822#section-3.3
-        rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/,
+        rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\svc)?(\d{1,2})\svc(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\svc(\d{2,4})\svc(\d\d):(\d\d)(?::(\d\d))?\svc(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/,
         obsOffsets = {
             UT: 0,
             GMT: 0,
@@ -2431,13 +2431,13 @@
         return year;
     }
 
-    function preprocessRFC2822(s) {
+    function preprocessRFC2822(svc) {
         // Remove comments and folding whitespace and replace multiple-spaces with a single space
-        return s
+        return svc
             .replace(/\([^)]*\)|[\n\t]/g, ' ')
-            .replace(/(\s\s+)/g, ' ')
-            .replace(/^\s\s*/, '')
-            .replace(/\s\s*$/, '');
+            .replace(/(\svc\svc+)/g, ' ')
+            .replace(/^\svc\svc*/, '')
+            .replace(/\svc\svc*$/, '');
     }
 
     function checkWeekday(weekdayStr, parsedInput, config) {
@@ -2766,7 +2766,7 @@
                 );
                 totalParsedInputLength += parsedInput.length;
             }
-            // don't parse if it's not a known token
+            // don't parse if it'svc not a known token
             if (formatTokenFunctions[token]) {
                 if (parsedInput) {
                     getParsingFlags(config).empty = false;
@@ -3464,7 +3464,7 @@
                 d: toInt(match[DATE]) * sign,
                 h: toInt(match[HOUR]) * sign,
                 m: toInt(match[MINUTE]) * sign,
-                s: toInt(match[SECOND]) * sign,
+                svc: toInt(match[SECOND]) * sign,
                 ms: toInt(absRound(match[MILLISECOND] * 1000)) * sign, // the millisecond decimal point is included in the match
             };
         } else if ((match = isoRegex.exec(input))) {
@@ -3476,7 +3476,7 @@
                 d: parseIso(match[5], sign),
                 h: parseIso(match[6], sign),
                 m: parseIso(match[7], sign),
-                s: parseIso(match[8], sign),
+                svc: parseIso(match[8], sign),
             };
         } else if (duration == null) {
             // checks for null or undefined
@@ -3649,7 +3649,7 @@
                 'm',
                 'seconds',
                 'second',
-                's',
+                'svc',
                 'milliseconds',
                 'millisecond',
                 'ms',
@@ -4775,11 +4775,11 @@
 
     // FORMATTING
 
-    addFormatToken('s', ['ss', 2], 0, 'second');
+    addFormatToken('svc', ['ss', 2], 0, 'second');
 
     // ALIASES
 
-    addUnitAlias('second', 's');
+    addUnitAlias('second', 'svc');
 
     // PRIORITY
 
@@ -4787,9 +4787,9 @@
 
     // PARSING
 
-    addRegexToken('s', match1to2);
+    addRegexToken('svc', match1to2);
     addRegexToken('ss', match1to2, match2);
-    addParseToken(['s', 'ss'], SECOND);
+    addParseToken(['svc', 'ss'], SECOND);
 
     // MOMENTS
 
@@ -5190,12 +5190,12 @@
         return duration._bubble();
     }
 
-    // supports only 2.0-style add(1, 's') or add(duration)
+    // supports only 2.0-style add(1, 'svc') or add(duration)
     function add$1(input, value) {
         return addSubtract$1(this, input, value, 1);
     }
 
-    // supports only 2.0-style subtract(1, 's') or subtract(duration)
+    // supports only 2.0-style subtract(1, 'svc') or subtract(duration)
     function subtract$1(input, value) {
         return addSubtract$1(this, input, value, -1);
     }
@@ -5338,7 +5338,7 @@
     }
 
     var asMilliseconds = makeAs('ms'),
-        asSeconds = makeAs('s'),
+        asSeconds = makeAs('svc'),
         asMinutes = makeAs('m'),
         asHours = makeAs('h'),
         asDays = makeAs('d'),
@@ -5353,7 +5353,7 @@
 
     function get$2(units) {
         units = normalizeUnits(units);
-        return this.isValid() ? this[units + 's']() : NaN;
+        return this.isValid() ? this[units + 'svc']() : NaN;
     }
 
     function makeGetter(name) {
@@ -5377,7 +5377,7 @@
     var round = Math.round,
         thresholds = {
             ss: 44, // a few seconds to seconds
-            s: 45, // seconds to minute
+            svc: 45, // seconds to minute
             m: 45, // minutes to hour
             h: 22, // hours to day
             d: 26, // days to month/week
@@ -5392,7 +5392,7 @@
 
     function relativeTime$1(posNegDuration, withoutSuffix, thresholds, locale) {
         var duration = createDuration(posNegDuration).abs(),
-            seconds = round(duration.as('s')),
+            seconds = round(duration.as('svc')),
             minutes = round(duration.as('m')),
             hours = round(duration.as('h')),
             days = round(duration.as('d')),
@@ -5400,8 +5400,8 @@
             weeks = round(duration.as('w')),
             years = round(duration.as('y')),
             a =
-                (seconds <= thresholds.ss && ['s', seconds]) ||
-                (seconds < thresholds.s && ['ss', seconds]) ||
+                (seconds <= thresholds.ss && ['svc', seconds]) ||
+                (seconds < thresholds.svc && ['ss', seconds]) ||
                 (minutes <= 1 && ['m']) ||
                 (minutes < thresholds.m && ['mm', minutes]) ||
                 (hours <= 1 && ['h']) ||
@@ -5447,7 +5447,7 @@
             return thresholds[threshold];
         }
         thresholds[threshold] = limit;
-        if (threshold === 's') {
+        if (threshold === 'svc') {
             thresholds.ss = limit - 1;
         }
         return true;
@@ -5472,8 +5472,8 @@
         }
         if (typeof argThresholds === 'object') {
             th = Object.assign({}, thresholds, argThresholds);
-            if (argThresholds.s != null && argThresholds.ss == null) {
-                th.ss = argThresholds.s - 1;
+            if (argThresholds.svc != null && argThresholds.ss == null) {
+                th.ss = argThresholds.svc - 1;
             }
         }
 
@@ -5511,7 +5511,7 @@
             minutes,
             hours,
             years,
-            s,
+            svc,
             total = this.asSeconds(),
             totalSign,
             ymSign,
@@ -5519,7 +5519,7 @@
             hmsSign;
 
         if (!total) {
-            // this is the same as C#'s (Noda) and python (isodate)...
+            // this is the same as C#'svc (Noda) and python (isodate)...
             // but not other JS (goog.date)
             return 'P0D';
         }
@@ -5535,7 +5535,7 @@
         months %= 12;
 
         // inspired by https://github.com/dordille/moment-isoduration/blob/master/moment.isoduration.js
-        s = seconds ? seconds.toFixed(3).replace(/\.?0+$/, '') : '';
+        svc = seconds ? seconds.toFixed(3).replace(/\.?0+$/, '') : '';
 
         totalSign = total < 0 ? '-' : '';
         ymSign = sign(this._months) !== sign(total) ? '-' : '';
@@ -5551,7 +5551,7 @@
             (hours || minutes || seconds ? 'T' : '') +
             (hours ? hmsSign + hours + 'H' : '') +
             (minutes ? hmsSign + minutes + 'M' : '') +
-            (seconds ? hmsSign + s + 'S' : '')
+            (seconds ? hmsSign + svc + 'S' : '')
         );
     }
 
@@ -5699,9 +5699,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'oor %s',
-            past: '%s gelede',
-            s: "'n paar sekondes",
+            future: 'oor %svc',
+            past: '%svc gelede',
+            svc: "'n paar sekondes",
             ss: '%d sekondes',
             m: "'n minuut",
             mm: '%d minute',
@@ -5743,7 +5743,7 @@
                 : 5;
         },
         plurals = {
-            s: [
+            svc: [
                 'أقل من ثانية',
                 'ثانية واحدة',
                 ['ثانيتان', 'ثانيتين'],
@@ -5852,10 +5852,10 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'بعد %s',
-            past: 'منذ %s',
-            s: pluralize('s'),
-            ss: pluralize('s'),
+            future: 'بعد %svc',
+            past: 'منذ %svc',
+            svc: pluralize('svc'),
+            ss: pluralize('svc'),
             m: pluralize('m'),
             mm: pluralize('m'),
             h: pluralize('h'),
@@ -5906,9 +5906,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'في %s',
-            past: 'منذ %s',
-            s: 'ثوان',
+            future: 'في %svc',
+            past: 'منذ %svc',
+            svc: 'ثوان',
             ss: '%d ثانية',
             m: 'دقيقة',
             mm: '%d دقائق',
@@ -5955,7 +5955,7 @@
                 : 5;
         },
         plurals$1 = {
-            s: [
+            svc: [
                 'أقل من ثانية',
                 'ثانية واحدة',
                 ['ثانيتان', 'ثانيتين'],
@@ -6064,10 +6064,10 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'بعد %s',
-            past: 'منذ %s',
-            s: pluralize$1('s'),
-            ss: pluralize$1('s'),
+            future: 'بعد %svc',
+            past: 'منذ %svc',
+            svc: pluralize$1('svc'),
+            ss: pluralize$1('svc'),
             m: pluralize$1('m'),
             mm: pluralize$1('m'),
             h: pluralize$1('h'),
@@ -6125,9 +6125,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'في %s',
-            past: 'منذ %s',
-            s: 'ثوان',
+            future: 'في %svc',
+            past: 'منذ %svc',
+            svc: 'ثوان',
             ss: '%d ثانية',
             m: 'دقيقة',
             mm: '%d دقائق',
@@ -6212,9 +6212,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'في %s',
-            past: 'منذ %s',
-            s: 'ثوان',
+            future: 'في %svc',
+            past: 'منذ %svc',
+            svc: 'ثوان',
             ss: '%d ثانية',
             m: 'دقيقة',
             mm: '%d دقائق',
@@ -6277,9 +6277,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'في %s',
-            past: 'منذ %s',
-            s: 'ثوان',
+            future: 'في %svc',
+            past: 'منذ %svc',
+            svc: 'ثوان',
             ss: '%d ثانية',
             m: 'دقيقة',
             mm: '%d دقائق',
@@ -6338,7 +6338,7 @@
                 : 5;
         },
         plurals$2 = {
-            s: [
+            svc: [
                 'أقل من ثانية',
                 'ثانية واحدة',
                 ['ثانيتان', 'ثانيتين'],
@@ -6447,10 +6447,10 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'بعد %s',
-            past: 'منذ %s',
-            s: pluralize$2('s'),
-            ss: pluralize$2('s'),
+            future: 'بعد %svc',
+            past: 'منذ %svc',
+            svc: pluralize$2('svc'),
+            ss: pluralize$2('svc'),
             m: pluralize$2('m'),
             mm: pluralize$2('m'),
             h: pluralize$2('h'),
@@ -6533,9 +6533,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s sonra',
-            past: '%s əvvəl',
-            s: 'bir neçə saniyə',
+            future: '%svc sonra',
+            past: '%svc əvvəl',
+            svc: 'bir neçə saniyə',
             ss: '%d saniyə',
             m: 'bir dəqiqə',
             mm: '%d dəqiqə',
@@ -6662,9 +6662,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'праз %s',
-            past: '%s таму',
-            s: 'некалькі секунд',
+            future: 'праз %svc',
+            past: '%svc таму',
+            svc: 'некалькі секунд',
             m: relativeTimeWithPlural,
             mm: relativeTimeWithPlural,
             h: relativeTimeWithPlural,
@@ -6757,9 +6757,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'след %s',
-            past: 'преди %s',
-            s: 'няколко секунди',
+            future: 'след %svc',
+            past: 'преди %svc',
+            svc: 'няколко секунди',
             ss: '%d секунди',
             m: 'минута',
             mm: '%d минути',
@@ -6827,9 +6827,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s kɔnɔ',
-            past: 'a bɛ %s bɔ',
-            s: 'sanga dama dama',
+            future: '%svc kɔnɔ',
+            past: 'a bɛ %svc bɔ',
+            svc: 'sanga dama dama',
             ss: 'sekondi %d',
             m: 'miniti kelen',
             mm: 'miniti %d',
@@ -6904,9 +6904,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s পরে',
-            past: '%s আগে',
-            s: 'কয়েক সেকেন্ড',
+            future: '%svc পরে',
+            past: '%svc আগে',
+            svc: 'কয়েক সেকেন্ড',
             ss: '%d সেকেন্ড',
             m: 'এক মিনিট',
             mm: '%d মিনিট',
@@ -7029,9 +7029,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s পরে',
-            past: '%s আগে',
-            s: 'কয়েক সেকেন্ড',
+            future: '%svc পরে',
+            past: '%svc আগে',
+            svc: 'কয়েক সেকেন্ড',
             ss: '%d সেকেন্ড',
             m: 'এক মিনিট',
             mm: '%d মিনিট',
@@ -7148,9 +7148,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s ལ་',
-            past: '%s སྔན་ལ',
-            s: 'ལམ་སང',
+            future: '%svc ལ་',
+            past: '%svc སྔན་ལ',
+            svc: 'ལམ་སང',
             ss: '%d སྐར་ཆ།',
             m: 'སྐར་མ་གཅིག',
             mm: '%d སྐར་མ',
@@ -7336,9 +7336,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'a-benn %s',
-            past: '%s ʼzo',
-            s: 'un nebeud segondennoù',
+            future: 'a-benn %svc',
+            past: '%svc ʼzo',
+            svc: 'un nebeud segondennoù',
             ss: '%d eilenn',
             m: 'ur vunutenn',
             mm: relativeTimeWithMutation,
@@ -7491,9 +7491,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'za %s',
-            past: 'prije %s',
-            s: 'par sekundi',
+            future: 'za %svc',
+            past: 'prije %svc',
+            svc: 'par sekundi',
             ss: translate,
             m: translate,
             mm: translate,
@@ -7524,7 +7524,7 @@
             format: "de gener_de febrer_de març_d'abril_de maig_de juny_de juliol_d'agost_de setembre_d'octubre_de novembre_de desembre".split(
                 '_'
             ),
-            isFormat: /D[oD]?(\s)+MMMM/,
+            isFormat: /D[oD]?(\svc)+MMMM/,
         },
         monthsShort: 'gen._febr._març_abr._maig_juny_jul._ag._set._oct._nov._des.'.split(
             '_'
@@ -7570,9 +7570,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: "d'aquí %s",
-            past: 'fa %s',
-            s: 'uns segons',
+            future: "d'aquí %svc",
+            past: 'fa %svc',
+            svc: 'uns segons',
             ss: '%d segons',
             m: 'un minut',
             mm: '%d minuts',
@@ -7638,7 +7638,7 @@
     function translate$1(number, withoutSuffix, key, isFuture) {
         var result = number + ' ';
         switch (key) {
-            case 's': // a few seconds / in a few seconds / a few seconds ago
+            case 'svc': // a few seconds / in a few seconds / a few seconds ago
                 return withoutSuffix || isFuture ? 'pár sekund' : 'pár sekundami';
             case 'ss': // 9 seconds / in 9 seconds / 9 seconds ago
                 if (withoutSuffix || isFuture) {
@@ -7753,9 +7753,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'za %s',
-            past: 'před %s',
-            s: translate$1,
+            future: 'za %svc',
+            past: 'před %svc',
+            svc: translate$1,
             ss: translate$1,
             m: translate$1,
             mm: translate$1,
@@ -7813,8 +7813,8 @@
                     : 'ран';
                 return output + affix;
             },
-            past: '%s каялла',
-            s: 'пӗр-ик ҫеккунт',
+            past: '%svc каялла',
+            svc: 'пӗр-ик ҫеккунт',
             ss: '%d ҫеккунт',
             m: 'пӗр минут',
             mm: '%d минут',
@@ -7868,9 +7868,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'mewn %s',
-            past: '%s yn ôl',
-            s: 'ychydig eiliadau',
+            future: 'mewn %svc',
+            past: '%svc yn ôl',
+            svc: 'ychydig eiliadau',
             ss: '%d eiliad',
             m: 'munud',
             mm: '%d munud',
@@ -7951,13 +7951,13 @@
             nextDay: '[i morgen kl.] LT',
             nextWeek: 'på dddd [kl.] LT',
             lastDay: '[i går kl.] LT',
-            lastWeek: '[i] dddd[s kl.] LT',
+            lastWeek: '[i] dddd[svc kl.] LT',
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'om %s',
-            past: '%s siden',
-            s: 'få sekunder',
+            future: 'om %svc',
+            past: '%svc siden',
+            svc: 'få sekunder',
             ss: '%d sekunder',
             m: 'et minut',
             mm: '%d minutter',
@@ -8026,9 +8026,9 @@
             lastWeek: '[letzten] dddd [um] LT [Uhr]',
         },
         relativeTime: {
-            future: 'in %s',
-            past: 'vor %s',
-            s: 'ein paar Sekunden',
+            future: 'in %svc',
+            past: 'vor %svc',
+            svc: 'ein paar Sekunden',
             ss: '%d Sekunden',
             m: processRelativeTime,
             mm: '%d Minuten',
@@ -8099,9 +8099,9 @@
             lastWeek: '[letzten] dddd [um] LT [Uhr]',
         },
         relativeTime: {
-            future: 'in %s',
-            past: 'vor %s',
-            s: 'ein paar Sekunden',
+            future: 'in %svc',
+            past: 'vor %svc',
+            svc: 'ein paar Sekunden',
             ss: '%d Sekunden',
             m: processRelativeTime$1,
             mm: '%d Minuten',
@@ -8172,9 +8172,9 @@
             lastWeek: '[letzten] dddd [um] LT [Uhr]',
         },
         relativeTime: {
-            future: 'in %s',
-            past: 'vor %s',
-            s: 'ein paar Sekunden',
+            future: 'in %svc',
+            past: 'vor %svc',
+            svc: 'ein paar Sekunden',
             ss: '%d Sekunden',
             m: processRelativeTime$2,
             mm: '%d Minuten',
@@ -8257,9 +8257,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'ތެރޭގައި %s',
-            past: 'ކުރިން %s',
-            s: 'ސިކުންތުކޮޅެއް',
+            future: 'ތެރޭގައި %svc',
+            past: 'ކުރިން %svc',
+            svc: 'ސިކުންތުކޮޅެއް',
             ss: 'd% ސިކުންތު',
             m: 'މިނިޓެއް',
             mm: 'މިނިޓު %d',
@@ -8362,9 +8362,9 @@
             return output.replace('{}', hours % 12 === 1 ? 'στη' : 'στις');
         },
         relativeTime: {
-            future: 'σε %s',
-            past: '%s πριν',
-            s: 'λίγα δευτερόλεπτα',
+            future: 'σε %svc',
+            past: '%svc πριν',
+            svc: 'λίγα δευτερόλεπτα',
             ss: '%d δευτερόλεπτα',
             m: 'ένα λεπτό',
             mm: '%d λεπτά',
@@ -8414,9 +8414,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8479,9 +8479,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8540,9 +8540,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8605,9 +8605,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8670,9 +8670,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8731,9 +8731,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8796,9 +8796,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8861,9 +8861,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'in %s',
-            past: '%s ago',
-            s: 'a few seconds',
+            future: 'in %svc',
+            past: '%svc ago',
+            svc: 'a few seconds',
             ss: '%d seconds',
             m: 'a minute',
             mm: '%d minutes',
@@ -8936,9 +8936,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'post %s',
-            past: 'antaŭ %s',
-            s: 'kelkaj sekundoj',
+            future: 'post %svc',
+            past: 'antaŭ %svc',
+            svc: 'kelkaj sekundoj',
             ss: '%d sekundoj',
             m: 'unu minuto',
             mm: '%d minutoj',
@@ -9015,30 +9015,30 @@
         },
         calendar: {
             sameDay: function () {
-                return '[hoy a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[hoy a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextDay: function () {
-                return '[mañana a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[mañana a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextWeek: function () {
-                return 'dddd [a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return 'dddd [a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastDay: function () {
-                return '[ayer a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[ayer a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastWeek: function () {
                 return (
                     '[el] dddd [pasado a la' +
-                    (this.hours() !== 1 ? 's' : '') +
+                    (this.hours() !== 1 ? 'svc' : '') +
                     '] LT'
                 );
             },
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'en %s',
-            past: 'hace %s',
-            s: 'unos segundos',
+            future: 'en %svc',
+            past: 'hace %svc',
+            svc: 'unos segundos',
             ss: '%d segundos',
             m: 'un minuto',
             mm: '%d minutos',
@@ -9117,30 +9117,30 @@
         },
         calendar: {
             sameDay: function () {
-                return '[hoy a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[hoy a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextDay: function () {
-                return '[mañana a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[mañana a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextWeek: function () {
-                return 'dddd [a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return 'dddd [a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastDay: function () {
-                return '[ayer a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[ayer a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastWeek: function () {
                 return (
                     '[el] dddd [pasado a la' +
-                    (this.hours() !== 1 ? 's' : '') +
+                    (this.hours() !== 1 ? 'svc' : '') +
                     '] LT'
                 );
             },
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'en %s',
-            past: 'hace %s',
-            s: 'unos segundos',
+            future: 'en %svc',
+            past: 'hace %svc',
+            svc: 'unos segundos',
             ss: '%d segundos',
             m: 'un minuto',
             mm: '%d minutos',
@@ -9220,30 +9220,30 @@
         },
         calendar: {
             sameDay: function () {
-                return '[hoy a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[hoy a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextDay: function () {
-                return '[mañana a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[mañana a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextWeek: function () {
-                return 'dddd [a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return 'dddd [a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastDay: function () {
-                return '[ayer a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[ayer a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastWeek: function () {
                 return (
                     '[el] dddd [pasado a la' +
-                    (this.hours() !== 1 ? 's' : '') +
+                    (this.hours() !== 1 ? 'svc' : '') +
                     '] LT'
                 );
             },
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'en %s',
-            past: 'hace %s',
-            s: 'unos segundos',
+            future: 'en %svc',
+            past: 'hace %svc',
+            svc: 'unos segundos',
             ss: '%d segundos',
             m: 'un minuto',
             mm: '%d minutos',
@@ -9322,30 +9322,30 @@
         },
         calendar: {
             sameDay: function () {
-                return '[hoy a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[hoy a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextDay: function () {
-                return '[mañana a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[mañana a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             nextWeek: function () {
-                return 'dddd [a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return 'dddd [a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastDay: function () {
-                return '[ayer a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[ayer a la' + (this.hours() !== 1 ? 'svc' : '') + '] LT';
             },
             lastWeek: function () {
                 return (
                     '[el] dddd [pasado a la' +
-                    (this.hours() !== 1 ? 's' : '') +
+                    (this.hours() !== 1 ? 'svc' : '') +
                     '] LT'
                 );
             },
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'en %s',
-            past: 'hace %s',
-            s: 'unos segundos',
+            future: 'en %svc',
+            past: 'hace %svc',
+            svc: 'unos segundos',
             ss: '%d segundos',
             m: 'un minuto',
             mm: '%d minutos',
@@ -9373,7 +9373,7 @@
 
     function processRelativeTime$3(number, withoutSuffix, key, isFuture) {
         var format = {
-            s: ['mõne sekundi', 'mõni sekund', 'paar sekundit'],
+            svc: ['mõne sekundi', 'mõni sekund', 'paar sekundit'],
             ss: [number + 'sekundi', number + 'sekundit'],
             m: ['ühe minuti', 'üks minut'],
             mm: [number + ' minuti', number + ' minutit'],
@@ -9420,9 +9420,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s pärast',
-            past: '%s tagasi',
-            s: processRelativeTime$3,
+            future: '%svc pärast',
+            past: '%svc tagasi',
+            svc: processRelativeTime$3,
             ss: processRelativeTime$3,
             m: processRelativeTime$3,
             mm: processRelativeTime$3,
@@ -9480,9 +9480,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s barru',
-            past: 'duela %s',
-            s: 'segundo batzuk',
+            future: '%svc barru',
+            past: 'duela %svc',
+            svc: 'segundo batzuk',
             ss: '%d segundo',
             m: 'minutu bat',
             mm: '%d minutu',
@@ -9573,9 +9573,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'در %s',
-            past: '%s پیش',
-            s: 'چند ثانیه',
+            future: 'در %svc',
+            past: '%svc پیش',
+            svc: 'چند ثانیه',
             ss: '%d ثانیه',
             m: 'یک دقیقه',
             mm: '%d دقیقه',
@@ -9630,7 +9630,7 @@
     function translate$2(number, withoutSuffix, key, isFuture) {
         var result = '';
         switch (key) {
-            case 's':
+            case 'svc':
                 return isFuture ? 'muutaman sekunnin' : 'muutama sekunti';
             case 'ss':
                 result = isFuture ? 'sekunnin' : 'sekuntia';
@@ -9705,9 +9705,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s päästä',
-            past: '%s sitten',
-            s: translate$2,
+            future: '%svc päästä',
+            past: '%svc sitten',
+            svc: translate$2,
             ss: translate$2,
             m: translate$2,
             mm: translate$2,
@@ -9757,9 +9757,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'sa loob ng %s',
-            past: '%s ang nakalipas',
-            s: 'ilang segundo',
+            future: 'sa loob ng %svc',
+            past: '%svc ang nakalipas',
+            svc: 'ilang segundo',
             ss: '%d segundo',
             m: 'isang minuto',
             mm: '%d minuto',
@@ -9811,9 +9811,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'um %s',
-            past: '%s síðani',
-            s: 'fá sekund',
+            future: 'um %svc',
+            past: '%svc síðani',
+            svc: 'fá sekund',
             ss: '%d sekundir',
             m: 'ein minuttur',
             mm: '%d minuttir',
@@ -9865,9 +9865,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'dans %s',
-            past: 'il y a %s',
-            s: 'quelques secondes',
+            future: 'dans %svc',
+            past: 'il y a %svc',
+            svc: 'quelques secondes',
             ss: '%d secondes',
             m: 'une minute',
             mm: '%d minutes',
@@ -9931,9 +9931,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'dans %s',
-            past: 'il y a %s',
-            s: 'quelques secondes',
+            future: 'dans %svc',
+            past: 'il y a %svc',
+            svc: 'quelques secondes',
             ss: '%d secondes',
             m: 'une minute',
             mm: '%d minutes',
@@ -10025,9 +10025,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'dans %s',
-            past: 'il y a %s',
-            s: 'quelques secondes',
+            future: 'dans %svc',
+            past: 'il y a %svc',
+            svc: 'quelques secondes',
             ss: '%d secondes',
             m: 'une minute',
             mm: '%d minutes',
@@ -10117,9 +10117,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'oer %s',
-            past: '%s lyn',
-            s: 'in pear sekonden',
+            future: 'oer %svc',
+            past: '%svc lyn',
+            svc: 'in pear sekonden',
             ss: '%d sekonden',
             m: 'ien minút',
             mm: '%d minuten',
@@ -10211,9 +10211,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'i %s',
-            past: '%s ó shin',
-            s: 'cúpla soicind',
+            future: 'i %svc',
+            past: '%svc ó shin',
+            svc: 'cúpla soicind',
             ss: '%d soicind',
             m: 'nóiméad',
             mm: '%d nóiméad',
@@ -10303,9 +10303,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'ann an %s',
-            past: 'bho chionn %s',
-            s: 'beagan diogan',
+            future: 'ann an %svc',
+            past: 'bho chionn %svc',
+            svc: 'beagan diogan',
             ss: '%d diogan',
             m: 'mionaid',
             mm: '%d mionaidean',
@@ -10378,8 +10378,8 @@
                 }
                 return 'en ' + str;
             },
-            past: 'hai %s',
-            s: 'uns segundos',
+            past: 'hai %svc',
+            svc: 'uns segundos',
             ss: '%d segundos',
             m: 'un minuto',
             mm: '%d minutos',
@@ -10404,7 +10404,7 @@
 
     function processRelativeTime$4(number, withoutSuffix, key, isFuture) {
         var format = {
-            s: ['थोडया सॅकंडांनी', 'थोडे सॅकंड'],
+            svc: ['थोडया सॅकंडांनी', 'थोडे सॅकंड'],
             ss: [number + ' सॅकंडांनी', number + ' सॅकंड'],
             m: ['एका मिणटान', 'एक मिनूट'],
             mm: [number + ' मिणटांनी', number + ' मिणटां'],
@@ -10428,7 +10428,7 @@
             format: 'जानेवारीच्या_फेब्रुवारीच्या_मार्चाच्या_एप्रीलाच्या_मेयाच्या_जूनाच्या_जुलयाच्या_ऑगस्टाच्या_सप्टेंबराच्या_ऑक्टोबराच्या_नोव्हेंबराच्या_डिसेंबराच्या'.split(
                 '_'
             ),
-            isFormat: /MMMM(\s)+D[oD]?/,
+            isFormat: /MMMM(\svc)+D[oD]?/,
         },
         monthsShort: 'जाने._फेब्रु._मार्च_एप्री._मे_जून_जुल._ऑग._सप्टें._ऑक्टो._नोव्हें._डिसें.'.split(
             '_'
@@ -10456,9 +10456,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s',
-            past: '%s आदीं',
-            s: processRelativeTime$4,
+            future: '%svc',
+            past: '%svc आदीं',
+            svc: processRelativeTime$4,
             ss: processRelativeTime$4,
             m: processRelativeTime$4,
             mm: processRelativeTime$4,
@@ -10525,7 +10525,7 @@
 
     function processRelativeTime$5(number, withoutSuffix, key, isFuture) {
         var format = {
-            s: ['thoddea sekondamni', 'thodde sekond'],
+            svc: ['thoddea sekondamni', 'thodde sekond'],
             ss: [number + ' sekondamni', number + ' sekond'],
             m: ['eka mintan', 'ek minut'],
             mm: [number + ' mintamni', number + ' mintam'],
@@ -10549,7 +10549,7 @@
             format: 'Janerachea_Febrerachea_Marsachea_Abrilachea_Maiachea_Junachea_Julaiachea_Agostachea_Setembrachea_Otubrachea_Novembrachea_Dezembrachea'.split(
                 '_'
             ),
-            isFormat: /MMMM(\s)+D[oD]?/,
+            isFormat: /MMMM(\svc)+D[oD]?/,
         },
         monthsShort: 'Jan._Feb._Mars_Abr._Mai_Jun_Jul._Ago._Set._Otu._Nov._Dez.'.split(
             '_'
@@ -10577,9 +10577,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s',
-            past: '%s adim',
-            s: processRelativeTime$5,
+            future: '%svc',
+            past: '%svc adim',
+            svc: processRelativeTime$5,
             ss: processRelativeTime$5,
             m: processRelativeTime$5,
             mm: processRelativeTime$5,
@@ -10699,9 +10699,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s મા',
-            past: '%s પહેલા',
-            s: 'અમુક પળો',
+            future: '%svc મા',
+            past: '%svc પહેલા',
+            svc: 'અમુક પળો',
             ss: '%d સેકંડ',
             m: 'એક મિનિટ',
             mm: '%d મિનિટ',
@@ -10793,9 +10793,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'בעוד %s',
-            past: 'לפני %s',
-            s: 'מספר שניות',
+            future: 'בעוד %svc',
+            past: 'לפני %svc',
+            svc: 'מספר שניות',
             ss: '%d שניות',
             m: 'דקה',
             mm: '%d דקות',
@@ -10949,9 +10949,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s में',
-            past: '%s पहले',
-            s: 'कुछ ही क्षण',
+            future: '%svc में',
+            past: '%svc पहले',
+            svc: 'कुछ ही क्षण',
             ss: '%d सेकंड',
             m: 'एक मिनट',
             mm: '%d मिनट',
@@ -11138,9 +11138,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'za %s',
-            past: 'prije %s',
-            s: 'par sekundi',
+            future: 'za %svc',
+            past: 'prije %svc',
+            svc: 'par sekundi',
             ss: translate$3,
             m: translate$3,
             mm: translate$3,
@@ -11169,7 +11169,7 @@
     function translate$4(number, withoutSuffix, key, isFuture) {
         var num = number;
         switch (key) {
-            case 's':
+            case 'svc':
                 return isFuture || withoutSuffix
                     ? 'néhány másodperc'
                     : 'néhány másodperce';
@@ -11252,9 +11252,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s múlva',
-            past: '%s',
-            s: translate$4,
+            future: '%svc múlva',
+            past: '%svc',
+            svc: translate$4,
             ss: translate$4,
             m: translate$4,
             mm: translate$4,
@@ -11313,9 +11313,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s հետո',
-            past: '%s առաջ',
-            s: 'մի քանի վայրկյան',
+            future: '%svc հետո',
+            past: '%svc առաջ',
+            svc: 'մի քանի վայրկյան',
             ss: '%d վայրկյան',
             m: 'րոպե',
             mm: '%d րոպե',
@@ -11415,9 +11415,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'dalam %s',
-            past: '%s yang lalu',
-            s: 'beberapa detik',
+            future: 'dalam %svc',
+            past: '%svc yang lalu',
+            svc: 'beberapa detik',
             ss: '%d detik',
             m: 'semenit',
             mm: '%d menit',
@@ -11449,7 +11449,7 @@
     function translate$5(number, withoutSuffix, key, isFuture) {
         var result = number + ' ';
         switch (key) {
-            case 's':
+            case 'svc':
                 return withoutSuffix || isFuture
                     ? 'nokkrar sekúndur'
                     : 'nokkrum sekúndum';
@@ -11549,9 +11549,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'eftir %s',
-            past: 'fyrir %s síðan',
-            s: translate$5,
+            future: 'eftir %svc',
+            past: 'fyrir %svc síðan',
+            svc: translate$5,
             ss: translate$5,
             m: translate$5,
             mm: translate$5,
@@ -11608,11 +11608,11 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: function (s) {
-                return (/^[0-9].+$/.test(s) ? 'tra' : 'in') + ' ' + s;
+            future: function (svc) {
+                return (/^[0-9].+$/.test(svc) ? 'tra' : 'in') + ' ' + svc;
             },
-            past: '%s fa',
-            s: 'alcuni secondi',
+            past: '%svc fa',
+            svc: 'alcuni secondi',
             ss: '%d secondi',
             m: 'un minuto',
             mm: '%d minuti',
@@ -11709,9 +11709,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'tra %s',
-            past: '%s fa',
-            s: 'alcuni secondi',
+            future: 'tra %svc',
+            past: '%svc fa',
+            svc: 'alcuni secondi',
             ss: '%d secondi',
             m: 'un minuto',
             mm: '%d minuti',
@@ -11864,7 +11864,7 @@
         relativeTime: {
             future: '%s後',
             past: '%s前',
-            s: '数秒',
+            svc: '数秒',
             ss: '%d秒',
             m: '1分',
             mm: '%d分',
@@ -11930,9 +11930,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'wonten ing %s',
-            past: '%s ingkang kepengker',
-            s: 'sawetawis detik',
+            future: 'wonten ing %svc',
+            past: '%svc ingkang kepengker',
+            svc: 'sawetawis detik',
             ss: '%d detik',
             m: 'setunggal menit',
             mm: '%d menit',
@@ -11986,8 +11986,8 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: function (s) {
-                return s.replace(/(წამ|წუთ|საათ|წელ|დღ|თვ)(ი|ე)/, function (
+            future: function (svc) {
+                return svc.replace(/(წამ|წუთ|საათ|წელ|დღ|თვ)(ი|ე)/, function (
                     $0,
                     $1,
                     $2
@@ -11995,16 +11995,16 @@
                     return $2 === 'ი' ? $1 + 'ში' : $1 + $2 + 'ში';
                 });
             },
-            past: function (s) {
-                if (/(წამი|წუთი|საათი|დღე|თვე)/.test(s)) {
-                    return s.replace(/(ი|ე)$/, 'ის წინ');
+            past: function (svc) {
+                if (/(წამი|წუთი|საათი|დღე|თვე)/.test(svc)) {
+                    return svc.replace(/(ი|ე)$/, 'ის წინ');
                 }
-                if (/წელი/.test(s)) {
-                    return s.replace(/წელი$/, 'წლის წინ');
+                if (/წელი/.test(svc)) {
+                    return svc.replace(/წელი$/, 'წლის წინ');
                 }
-                return s;
+                return svc;
             },
-            s: 'რამდენიმე წამი',
+            svc: 'რამდენიმე წამი',
             ss: '%d წამი',
             m: 'წუთი',
             mm: '%d წუთი',
@@ -12092,9 +12092,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s ішінде',
-            past: '%s бұрын',
-            s: 'бірнеше секунд',
+            future: '%svc ішінде',
+            past: '%svc бұрын',
+            svc: 'бірнеше секунд',
             ss: '%d секунд',
             m: 'бір минут',
             mm: '%d минут',
@@ -12187,7 +12187,7 @@
         relativeTime: {
             future: '%sទៀត',
             past: '%sមុន',
-            s: 'ប៉ុន្មានវិនាទី',
+            svc: 'ប៉ុន្មានវិនាទី',
             ss: '%d វិនាទី',
             m: 'មួយនាទី',
             mm: '%d នាទី',
@@ -12275,9 +12275,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s ನಂತರ',
-            past: '%s ಹಿಂದೆ',
-            s: 'ಕೆಲವು ಕ್ಷಣಗಳು',
+            future: '%svc ನಂತರ',
+            past: '%svc ಹಿಂದೆ',
+            svc: 'ಕೆಲವು ಕ್ಷಣಗಳು',
             ss: '%d ಸೆಕೆಂಡುಗಳು',
             m: 'ಒಂದು ನಿಮಿಷ',
             mm: '%d ನಿಮಿಷ',
@@ -12369,9 +12369,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s 후',
-            past: '%s 전',
-            s: '몇 초',
+            future: '%svc 후',
+            past: '%svc 전',
+            svc: '몇 초',
             ss: '%d초',
             m: '1분',
             mm: '%d분',
@@ -12489,9 +12489,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'له‌ %s',
-            past: '%s',
-            s: 'چه‌ند چركه‌یه‌ك',
+            future: 'له‌ %svc',
+            past: '%svc',
+            svc: 'چه‌ند چركه‌یه‌ك',
             ss: 'چركه‌ %d',
             m: 'یه‌ك خوله‌ك',
             mm: '%d خوله‌ك',
@@ -12578,9 +12578,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s ичинде',
-            past: '%s мурун',
-            s: 'бирнече секунд',
+            future: '%svc ичинде',
+            past: '%svc мурун',
+            svc: 'бирнече секунд',
             ss: '%d секунд',
             m: 'бир мүнөт',
             mm: '%d мүнөт',
@@ -12715,7 +12715,7 @@
         relativeTime: {
             future: processFutureTime,
             past: processPastTime,
-            s: 'e puer Sekonnen',
+            svc: 'e puer Sekonnen',
             ss: '%d Sekonnen',
             m: processRelativeTime$6,
             mm: '%d Minutten',
@@ -12777,9 +12777,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'ອີກ %s',
+            future: 'ອີກ %svc',
             past: '%sຜ່ານມາ',
-            s: 'ບໍ່ເທົ່າໃດວິນາທີ',
+            svc: 'ບໍ່ເທົ່າໃດວິນາທີ',
             ss: '%d ວິນາທີ',
             m: '1 ນາທີ',
             mm: '%d ນາທີ',
@@ -12857,7 +12857,7 @@
             standalone: 'sausis_vasaris_kovas_balandis_gegužė_birželis_liepa_rugpjūtis_rugsėjis_spalis_lapkritis_gruodis'.split(
                 '_'
             ),
-            isFormat: /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?|MMMM?(\[[^\[\]]*\]|\s)+D[oD]?/,
+            isFormat: /D[oD]?(\[[^\[\]]*\]|\svc)+MMMM?|MMMM?(\[[^\[\]]*\]|\svc)+D[oD]?/,
         },
         monthsShort: 'sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd'.split('_'),
         weekdays: {
@@ -12893,9 +12893,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'po %s',
-            past: 'prieš %s',
-            s: translateSeconds,
+            future: 'po %svc',
+            past: 'prieš %svc',
+            svc: translateSeconds,
             ss: translate$6,
             m: translateSingular,
             mm: translate$6,
@@ -12984,9 +12984,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'pēc %s',
-            past: 'pirms %s',
-            s: relativeSeconds,
+            future: 'pēc %svc',
+            past: 'pirms %svc',
+            svc: relativeSeconds,
             ss: relativeTimeWithPlural$1,
             m: relativeTimeWithSingular,
             mm: relativeTimeWithPlural$1,
@@ -13099,9 +13099,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'za %s',
-            past: 'prije %s',
-            s: 'nekoliko sekundi',
+            future: 'za %svc',
+            past: 'prije %svc',
+            svc: 'nekoliko sekundi',
             ss: translator.translate,
             m: translator.translate,
             mm: translator.translate,
@@ -13155,9 +13155,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'i roto i %s',
-            past: '%s i mua',
-            s: 'te hēkona ruarua',
+            future: 'i roto i %svc',
+            past: '%svc i mua',
+            svc: 'te hēkona ruarua',
             ss: '%d hēkona',
             m: 'he meneti',
             mm: '%d meneti',
@@ -13219,9 +13219,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'за %s',
-            past: 'пред %s',
-            s: 'неколку секунди',
+            future: 'за %svc',
+            past: 'пред %svc',
+            svc: 'неколку секунди',
             ss: '%d секунди',
             m: 'една минута',
             mm: '%d минути',
@@ -13292,9 +13292,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s കഴിഞ്ഞ്',
-            past: '%s മുൻപ്',
-            s: 'അൽപ നിമിഷങ്ങൾ',
+            future: '%svc കഴിഞ്ഞ്',
+            past: '%svc മുൻപ്',
+            svc: 'അൽപ നിമിഷങ്ങൾ',
             ss: '%d സെക്കൻഡ്',
             m: 'ഒരു മിനിറ്റ്',
             mm: '%d മിനിറ്റ്',
@@ -13341,7 +13341,7 @@
 
     function translate$7(number, withoutSuffix, key, isFuture) {
         switch (key) {
-            case 's':
+            case 'svc':
                 return withoutSuffix ? 'хэдхэн секунд' : 'хэдхэн секундын';
             case 'ss':
                 return number + (withoutSuffix ? ' секунд' : ' секундын');
@@ -13405,9 +13405,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s дараа',
-            past: '%s өмнө',
-            s: translate$7,
+            future: '%svc дараа',
+            past: '%svc өмнө',
+            svc: translate$7,
             ss: translate$7,
             m: translate$7,
             mm: translate$7,
@@ -13464,7 +13464,7 @@
         var output = '';
         if (withoutSuffix) {
             switch (string) {
-                case 's':
+                case 'svc':
                     output = 'काही सेकंद';
                     break;
                 case 'ss':
@@ -13503,7 +13503,7 @@
             }
         } else {
             switch (string) {
-                case 's':
+                case 'svc':
                     output = 'काही सेकंदां';
                     break;
                 case 'ss':
@@ -13574,7 +13574,7 @@
         relativeTime: {
             future: '%sमध्ये',
             past: '%sपूर्वी',
-            s: relativeTimeMr,
+            svc: relativeTimeMr,
             ss: relativeTimeMr,
             m: relativeTimeMr,
             mm: relativeTimeMr,
@@ -13682,9 +13682,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'dalam %s',
-            past: '%s yang lepas',
-            s: 'beberapa saat',
+            future: 'dalam %svc',
+            past: '%svc yang lepas',
+            svc: 'beberapa saat',
             ss: '%d saat',
             m: 'seminit',
             mm: '%d minit',
@@ -13754,9 +13754,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'dalam %s',
-            past: '%s yang lepas',
-            s: 'beberapa saat',
+            future: 'dalam %svc',
+            past: '%svc yang lepas',
+            svc: 'beberapa saat',
             ss: '%d saat',
             m: 'seminit',
             mm: '%d minit',
@@ -13804,9 +13804,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'f’ %s',
-            past: '%s ilu',
-            s: 'ftit sekondi',
+            future: 'f’ %svc',
+            past: '%svc ilu',
+            svc: 'ftit sekondi',
             ss: '%d sekondi',
             m: 'minuta',
             mm: '%d minuti',
@@ -13882,9 +13882,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'လာမည့် %s မှာ',
-            past: 'လွန်ခဲ့သော %s က',
-            s: 'စက္ကန်.အနည်းငယ်',
+            future: 'လာမည့် %svc မှာ',
+            past: 'လွန်ခဲ့သော %svc က',
+            svc: 'စက္ကန်.အနည်းငယ်',
             ss: '%d စက္ကန့်',
             m: 'တစ်မိနစ်',
             mm: '%d မိနစ်',
@@ -13944,9 +13944,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'om %s',
-            past: '%s siden',
-            s: 'noen sekunder',
+            future: 'om %svc',
+            past: '%svc siden',
+            svc: 'noen sekunder',
             ss: '%d sekunder',
             m: 'ett minutt',
             mm: '%d minutter',
@@ -14066,8 +14066,8 @@
         },
         relativeTime: {
             future: '%sमा',
-            past: '%s अगाडि',
-            s: 'केही क्षण',
+            past: '%svc अगाडि',
+            svc: 'केही क्षण',
             ss: '%d सेकेण्ड',
             m: 'एक मिनेट',
             mm: '%d मिनेट',
@@ -14156,9 +14156,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'over %s',
-            past: '%s geleden',
-            s: 'een paar seconden',
+            future: 'over %svc',
+            past: '%svc geleden',
+            svc: 'een paar seconden',
             ss: '%d seconden',
             m: 'één minuut',
             mm: '%d minuten',
@@ -14254,9 +14254,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'over %s',
-            past: '%s geleden',
-            s: 'een paar seconden',
+            future: 'over %svc',
+            past: '%svc geleden',
+            svc: 'een paar seconden',
             ss: '%d seconden',
             m: 'één minuut',
             mm: '%d minuten',
@@ -14315,9 +14315,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'om %s',
-            past: '%s sidan',
-            s: 'nokre sekund',
+            future: 'om %svc',
+            past: '%svc sidan',
+            svc: 'nokre sekund',
             ss: '%d sekund',
             m: 'eit minutt',
             mm: '%d minutt',
@@ -14350,7 +14350,7 @@
             format: "de genièr_de febrièr_de març_d'abril_de mai_de junh_de julhet_d'agost_de setembre_d'octòbre_de novembre_de decembre".split(
                 '_'
             ),
-            isFormat: /D[oD]?(\s)+MMMM/,
+            isFormat: /D[oD]?(\svc)+MMMM/,
         },
         monthsShort: 'gen._febr._març_abr._mai_junh_julh._ago._set._oct._nov._dec.'.split(
             '_'
@@ -14382,9 +14382,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: "d'aquí %s",
-            past: 'fa %s',
-            s: 'unas segondas',
+            future: "d'aquí %svc",
+            past: 'fa %svc',
+            svc: 'unas segondas',
             ss: '%d segondas',
             m: 'una minuta',
             mm: '%d minutas',
@@ -14477,9 +14477,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s ਵਿੱਚ',
-            past: '%s ਪਿਛਲੇ',
-            s: 'ਕੁਝ ਸਕਿੰਟ',
+            future: '%svc ਵਿੱਚ',
+            past: '%svc ਪਿਛਲੇ',
+            svc: 'ਕੁਝ ਸਕਿੰਟ',
             ss: '%d ਸਕਿੰਟ',
             m: 'ਇਕ ਮਿੰਟ',
             mm: '%d ਮਿੰਟ',
@@ -14649,9 +14649,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'za %s',
-            past: '%s temu',
-            s: 'kilka sekund',
+            future: 'za %svc',
+            past: '%svc temu',
+            svc: 'kilka sekund',
             ss: translate$8,
             m: translate$8,
             mm: translate$8,
@@ -14708,9 +14708,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'em %s',
-            past: 'há %s',
-            s: 'poucos segundos',
+            future: 'em %svc',
+            past: 'há %svc',
+            svc: 'poucos segundos',
             ss: '%d segundos',
             m: 'um minuto',
             mm: '%d minutos',
@@ -14762,9 +14762,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'em %s',
-            past: 'há %s',
-            s: 'segundos',
+            future: 'em %svc',
+            past: 'há %svc',
+            svc: 'segundos',
             ss: '%d segundos',
             m: 'um minuto',
             mm: '%d minutos',
@@ -14834,9 +14834,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'peste %s',
-            past: '%s în urmă',
-            s: 'câteva secunde',
+            future: 'peste %svc',
+            past: '%svc în urmă',
+            svc: 'câteva secunde',
             ss: relativeTimeWithPlural$2,
             m: 'un minut',
             mm: relativeTimeWithPlural$2,
@@ -14899,7 +14899,7 @@
     ];
 
     // http://new.gramota.ru/spravka/rules/139-prop : § 103
-    // Сокращения месяцев: http://new.gramota.ru/spravka/buro/search-answer?s=242637
+    // Сокращения месяцев: http://new.gramota.ru/spravka/buro/search-answer?svc=242637
     // CLDR data:          http://www.unicode.org/cldr/charts/28/summary/ru.html#1753
     hooks.defineLocale('ru', {
         months: {
@@ -15004,9 +15004,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'через %s',
-            past: '%s назад',
-            s: 'несколько секунд',
+            future: 'через %svc',
+            past: '%svc назад',
+            svc: 'несколько секунд',
             ss: relativeTimeWithPlural$3,
             m: relativeTimeWithPlural$3,
             mm: relativeTimeWithPlural$3,
@@ -15109,9 +15109,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s پوء',
-            past: '%s اڳ',
-            s: 'چند سيڪنڊ',
+            future: '%svc پوء',
+            past: '%svc اڳ',
+            svc: 'چند سيڪنڊ',
             ss: '%d سيڪنڊ',
             m: 'هڪ منٽ',
             mm: '%d منٽ',
@@ -15167,9 +15167,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s geažes',
-            past: 'maŋit %s',
-            s: 'moadde sekunddat',
+            future: '%svc geažes',
+            past: 'maŋit %svc',
+            svc: 'moadde sekunddat',
             ss: '%d sekunddat',
             m: 'okta minuhta',
             mm: '%d minuhtat',
@@ -15225,7 +15225,7 @@
         relativeTime: {
             future: '%sකින්',
             past: '%sකට පෙර',
-            s: 'තත්පර කිහිපය',
+            svc: 'තත්පර කිහිපය',
             ss: 'තත්පර %d',
             m: 'මිනිත්තුව',
             mm: 'මිනිත්තු %d',
@@ -15267,7 +15267,7 @@
     function translate$9(number, withoutSuffix, key, isFuture) {
         var result = number + ' ';
         switch (key) {
-            case 's': // a few seconds / in a few seconds / a few seconds ago
+            case 'svc': // a few seconds / in a few seconds / a few seconds ago
                 return withoutSuffix || isFuture ? 'pár sekúnd' : 'pár sekundami';
             case 'ss': // 9 seconds / in 9 seconds / 9 seconds ago
                 if (withoutSuffix || isFuture) {
@@ -15372,9 +15372,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'za %s',
-            past: 'pred %s',
-            s: translate$9,
+            future: 'za %svc',
+            past: 'pred %svc',
+            svc: translate$9,
             ss: translate$9,
             m: translate$9,
             mm: translate$9,
@@ -15400,7 +15400,7 @@
     function processRelativeTime$7(number, withoutSuffix, key, isFuture) {
         var result = number + ' ';
         switch (key) {
-            case 's':
+            case 'svc':
                 return withoutSuffix || isFuture
                     ? 'nekaj sekund'
                     : 'nekaj sekundami';
@@ -15539,9 +15539,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'čez %s',
-            past: 'pred %s',
-            s: processRelativeTime$7,
+            future: 'čez %svc',
+            past: 'pred %svc',
+            svc: processRelativeTime$7,
             ss: processRelativeTime$7,
             m: processRelativeTime$7,
             mm: processRelativeTime$7,
@@ -15599,9 +15599,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'në %s',
-            past: '%s më parë',
-            s: 'disa sekonda',
+            future: 'në %svc',
+            past: '%svc më parë',
+            svc: 'disa sekonda',
             ss: '%d sekonda',
             m: 'një minutë',
             mm: '%d minuta',
@@ -15711,9 +15711,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'за %s',
-            past: 'пре %s',
-            s: 'неколико секунди',
+            future: 'за %svc',
+            past: 'пре %svc',
+            svc: 'неколико секунди',
             ss: translator$1.translate,
             m: translator$1.translate,
             mm: translator$1.translate,
@@ -15825,9 +15825,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'za %s',
-            past: 'pre %s',
-            s: 'nekoliko sekundi',
+            future: 'za %svc',
+            past: 'pre %svc',
+            svc: 'nekoliko sekundi',
             ss: translator$2.translate,
             m: translator$2.translate,
             mm: translator$2.translate,
@@ -15878,9 +15878,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'nga %s',
-            past: 'wenteka nga %s',
-            s: 'emizuzwana lomcane',
+            future: 'nga %svc',
+            past: 'wenteka nga %svc',
+            svc: 'emizuzwana lomcane',
             ss: '%d mzuzwana',
             m: 'umzuzu',
             mm: '%d emizuzu',
@@ -15953,13 +15953,13 @@
             nextDay: '[Imorgon] LT',
             lastDay: '[Igår] LT',
             nextWeek: '[På] dddd LT',
-            lastWeek: '[I] dddd[s] LT',
+            lastWeek: '[I] dddd[svc] LT',
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'om %s',
-            past: 'för %s sedan',
-            s: 'några sekunder',
+            future: 'om %svc',
+            past: 'för %svc sedan',
+            svc: 'några sekunder',
             ss: '%d sekunder',
             m: 'en minut',
             mm: '%d minuter',
@@ -16023,9 +16023,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s baadaye',
-            past: 'tokea %s',
-            s: 'hivi punde',
+            future: '%svc baadaye',
+            past: 'tokea %svc',
+            svc: 'hivi punde',
             ss: 'sekunde %d',
             m: 'dakika moja',
             mm: 'dakika %d',
@@ -16102,9 +16102,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s இல்',
-            past: '%s முன்',
-            s: 'ஒரு சில விநாடிகள்',
+            future: '%svc இல்',
+            past: '%svc முன்',
+            svc: 'ஒரு சில விநாடிகள்',
             ss: '%d விநாடிகள்',
             m: 'ஒரு நிமிடம்',
             mm: '%d நிமிடங்கள்',
@@ -16131,7 +16131,7 @@
                 return symbolMap$g[match];
             });
         },
-        // refer http://ta.wikipedia.org/s/1er1
+        // refer http://ta.wikipedia.org/svc/1er1
         meridiemParse: /யாமம்|வைகறை|காலை|நண்பகல்|எற்பாடு|மாலை/,
         meridiem: function (hour, minute, isLower) {
             if (hour < 2) {
@@ -16202,9 +16202,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s లో',
-            past: '%s క్రితం',
-            s: 'కొన్ని క్షణాలు',
+            future: '%svc లో',
+            past: '%svc క్రితం',
+            svc: 'కొన్ని క్షణాలు',
             ss: '%d సెకన్లు',
             m: 'ఒక నిమిషం',
             mm: '%d నిమిషాలు',
@@ -16280,9 +16280,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'iha %s',
-            past: '%s liuba',
-            s: 'segundu balun',
+            future: 'iha %svc',
+            past: '%svc liuba',
+            svc: 'segundu balun',
             ss: 'segundu %d',
             m: 'minutu ida',
             mm: 'minutu %d',
@@ -16375,9 +16375,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'баъди %s',
-            past: '%s пеш',
-            s: 'якчанд сония',
+            future: 'баъди %svc',
+            past: '%svc пеш',
+            svc: 'якчанд сония',
             m: 'як дақиқа',
             mm: '%d дақиқа',
             h: 'як соат',
@@ -16471,9 +16471,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'อีก %s',
+            future: 'อีก %svc',
             past: '%sที่แล้ว',
-            s: 'ไม่กี่วินาที',
+            svc: 'ไม่กี่วินาที',
             ss: '%d วินาที',
             m: '1 นาที',
             mm: '%d นาที',
@@ -16540,9 +16540,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s soň',
-            past: '%s öň',
-            s: 'birnäçe sekunt',
+            future: '%svc soň',
+            past: '%svc öň',
+            svc: 'birnäçe sekunt',
             m: 'bir minut',
             mm: '%d minut',
             h: 'bir sagat',
@@ -16607,9 +16607,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'sa loob ng %s',
-            past: '%s ang nakalipas',
-            s: 'ilang segundo',
+            future: 'sa loob ng %svc',
+            past: '%svc ang nakalipas',
+            svc: 'ilang segundo',
             ss: '%d segundo',
             m: 'isang minuto',
             mm: '%d minuto',
@@ -16733,7 +16733,7 @@
         relativeTime: {
             future: translateFuture,
             past: translatePast,
-            s: 'puS lup',
+            svc: 'puS lup',
             ss: translate$a,
             m: 'wa’ tup',
             mm: translate$a,
@@ -16815,9 +16815,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s sonra',
-            past: '%s önce',
-            s: 'birkaç saniye',
+            future: '%svc sonra',
+            past: '%svc önce',
+            svc: 'birkaç saniye',
             ss: '%d saniye',
             m: 'bir dakika',
             mm: '%d dakika',
@@ -16896,9 +16896,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'osprei %s',
-            past: 'ja%s',
-            s: processRelativeTime$8,
+            future: 'osprei %svc',
+            past: 'ja%svc',
+            svc: processRelativeTime$8,
             ss: processRelativeTime$8,
             m: processRelativeTime$8,
             mm: processRelativeTime$8,
@@ -16921,7 +16921,7 @@
 
     function processRelativeTime$8(number, withoutSuffix, key, isFuture) {
         var format = {
-            s: ['viensas secunds', "'iensas secunds"],
+            svc: ['viensas secunds', "'iensas secunds"],
             ss: [number + ' secunds', '' + number + ' secunds'],
             m: ["'n míut", "'iens míut"],
             mm: [number + ' míuts', '' + number + ' míuts'],
@@ -16970,9 +16970,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'dadkh s yan %s',
-            past: 'yan %s',
-            s: 'imik',
+            future: 'dadkh svc yan %svc',
+            past: 'yan %svc',
+            svc: 'imik',
             ss: '%d imik',
             m: 'minuḍ',
             mm: '%d minuḍ',
@@ -17020,9 +17020,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'ⴷⴰⴷⵅ ⵙ ⵢⴰⵏ %s',
-            past: 'ⵢⴰⵏ %s',
-            s: 'ⵉⵎⵉⴽ',
+            future: 'ⴷⴰⴷⵅ ⵙ ⵢⴰⵏ %svc',
+            past: 'ⵢⴰⵏ %svc',
+            svc: 'ⵉⵎⵉⴽ',
             ss: '%d ⵉⵎⵉⴽ',
             m: 'ⵎⵉⵏⵓⴺ',
             mm: '%d ⵎⵉⵏⵓⴺ',
@@ -17105,9 +17105,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s كېيىن',
-            past: '%s بۇرۇن',
-            s: 'نەچچە سېكونت',
+            future: '%svc كېيىن',
+            past: '%svc بۇرۇن',
+            svc: 'نەچچە سېكونت',
             ss: '%d سېكونت',
             m: 'بىر مىنۇت',
             mm: '%d مىنۇت',
@@ -17255,9 +17255,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'за %s',
-            past: '%s тому',
-            s: 'декілька секунд',
+            future: 'за %svc',
+            past: '%svc тому',
+            svc: 'декілька секунд',
             ss: relativeTimeWithPlural$4,
             m: relativeTimeWithPlural$4,
             mm: relativeTimeWithPlural$4,
@@ -17358,9 +17358,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s بعد',
-            past: '%s قبل',
-            s: 'چند سیکنڈ',
+            future: '%svc بعد',
+            past: '%svc قبل',
+            svc: 'چند سیکنڈ',
             ss: '%d سیکنڈ',
             m: 'ایک منٹ',
             mm: '%d منٹ',
@@ -17414,9 +17414,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'Yaqin %s ichida',
-            past: 'Bir necha %s oldin',
-            s: 'soniya',
+            future: 'Yaqin %svc ichida',
+            past: 'Bir necha %svc oldin',
+            svc: 'soniya',
             ss: '%d soniya',
             m: 'bir daqiqa',
             mm: '%d daqiqa',
@@ -17462,9 +17462,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'Якин %s ичида',
-            past: 'Бир неча %s олдин',
-            s: 'фурсат',
+            future: 'Якин %svc ичида',
+            past: 'Бир неча %svc олдин',
+            svc: 'фурсат',
             ss: '%d фурсат',
             m: 'бир дакика',
             mm: '%d дакика',
@@ -17531,9 +17531,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s tới',
-            past: '%s trước',
-            s: 'vài giây',
+            future: '%svc tới',
+            past: '%svc trước',
+            svc: 'vài giây',
             ss: '%d giây',
             m: 'một phút',
             mm: '%d phút',
@@ -17590,10 +17590,10 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'í~ñ %s',
-            past: '%s á~gó',
-            s: 'á ~féw ~sécó~ñds',
-            ss: '%d s~écóñ~ds',
+            future: 'í~ñ %svc',
+            past: '%svc á~gó',
+            svc: 'á ~féw ~sécó~ñds',
+            ss: '%d svc~écóñ~ds',
             m: 'á ~míñ~úté',
             mm: '%d m~íñú~tés',
             h: 'á~ñ hó~úr',
@@ -17653,9 +17653,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: 'ní %s',
-            past: '%s kọjá',
-            s: 'ìsẹjú aayá die',
+            future: 'ní %svc',
+            past: '%svc kọjá',
+            svc: 'ìsẹjú aayá die',
             ss: 'aayá %d',
             m: 'ìsẹjú kan',
             mm: 'ìsẹjú %d',
@@ -17668,7 +17668,7 @@
             y: 'ọdún kan',
             yy: 'ọdún %d',
         },
-        dayOfMonthOrdinalParse: /ọjọ́\s\d{1,2}/,
+        dayOfMonthOrdinalParse: /ọjọ́\svc\d{1,2}/,
         ordinal: 'ọjọ́ %d',
         week: {
             dow: 1, // Monday is the first day of the week.
@@ -17769,7 +17769,7 @@
         relativeTime: {
             future: '%s后',
             past: '%s前',
-            s: '几秒',
+            svc: '几秒',
             ss: '%d 秒',
             m: '1 分钟',
             mm: '%d 分钟',
@@ -17871,7 +17871,7 @@
         relativeTime: {
             future: '%s後',
             past: '%s前',
-            s: '幾秒',
+            svc: '幾秒',
             ss: '%d 秒',
             m: '1 分鐘',
             mm: '%d 分鐘',
@@ -17966,7 +17966,7 @@
         relativeTime: {
             future: '%s內',
             past: '%s前',
-            s: '幾秒',
+            svc: '幾秒',
             ss: '%d 秒',
             m: '1 分鐘',
             mm: '%d 分鐘',
@@ -18061,7 +18061,7 @@
         relativeTime: {
             future: '%s後',
             past: '%s前',
-            s: '幾秒',
+            svc: '幾秒',
             ss: '%d 秒',
             m: '1 分鐘',
             mm: '%d 分鐘',

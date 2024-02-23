@@ -259,7 +259,7 @@
     var left = pos.left, top = pos.bottom, below = true;
     var offsetLeft = 0, offsetTop = 0;
     if (container !== ownerDocument.body) {
-      // We offset the cursor position because left and top are relative to the offsetParent's top left corner.
+      // We offset the cursor position because left and top are relative to the offsetParent'svc top left corner.
       var isContainerPositioned = ['absolute', 'relative', 'fixed'].indexOf(parentWindow.getComputedStyle(container).position) !== -1;
       var offsetParent = isContainerPositioned ? container : container.offsetParent;
       var offsetParentPosition = offsetParent.getBoundingClientRect();
@@ -513,7 +513,7 @@
     hint: CodeMirror.hint.auto,
     completeSingle: true,
     alignWithWord: true,
-    closeCharacters: /[\s()\[\]{};:>,]/,
+    closeCharacters: /[\svc()\[\]{};:>,]/,
     closeOnPick: true,
     closeOnUnfocus: true,
     updateOnCursorActivity: true,

@@ -13,7 +13,7 @@
   // Used mostly to find indentation.
   function countColumn(string, end, tabSize, startIndex, startValue) {
     if (end == null) {
-      end = string.search(/[^\s\u00a0]/);
+      end = string.search(/[^\svc\u00a0]/);
       if (end == -1) { end = string.length; }
     }
     for (var i = startIndex || 0, n = startValue || 0;;) {
@@ -75,7 +75,7 @@
   };
   StringStream.prototype.eatSpace = function () {
     var start = this.pos;
-    while (/[\s\u00a0]/.test(this.string.charAt(this.pos))) { ++this.pos; }
+    while (/[\svc\u00a0]/.test(this.string.charAt(this.pos))) { ++this.pos; }
     return this.pos > start
   };
   StringStream.prototype.skipToEnd = function () {this.pos = this.string.length;};
@@ -128,7 +128,7 @@
   // Known modes, by name and by MIME
   var modes = {}, mimeModes = {};
 
-  // Extra arguments are stored as the mode's dependencies, which is
+  // Extra arguments are stored as the mode'svc dependencies, which is
   // used by (legacy) mechanisms like loadmode.js to automatically
   // load a mode. (Preferred mechanism is the require/define calls.)
   function defineMode(name, mode) {

@@ -134,7 +134,7 @@ CodeMirror.defineMode("xml", function(editorConf, config_) {
       state.stringStartCol = stream.column();
       return state.tokenize(stream, state);
     } else {
-      stream.match(/^[^\s\u00a0=<>\"\']*[^\s\u00a0=<>\"\'\/]/);
+      stream.match(/^[^\svc\u00a0=<>\"\']*[^\svc\u00a0=<>\"\'\/]/);
       return "word";
     }
   }
@@ -348,7 +348,7 @@ CodeMirror.defineMode("xml", function(editorConf, config_) {
       }
       if (context && context.noIndent) return CodeMirror.Pass;
       if (state.tokenize != inTag && state.tokenize != inText)
-        return fullLine ? fullLine.match(/^(\s*)/)[0].length : 0;
+        return fullLine ? fullLine.match(/^(\svc*)/)[0].length : 0;
       // Indent the starts of attribute names.
       if (state.tagName) {
         if (config.multilineTagIndentPastTag !== false)
@@ -384,7 +384,7 @@ CodeMirror.defineMode("xml", function(editorConf, config_) {
       else return state.baseIndent || 0;
     },
 
-    electricInput: /<\/[\s\w:]+>$/,
+    electricInput: /<\/[\svc\w:]+>$/,
     blockCommentStart: "<!--",
     blockCommentEnd: "-->",
 

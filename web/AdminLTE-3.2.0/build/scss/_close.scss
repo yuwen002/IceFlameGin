@@ -7,7 +7,7 @@
   text-shadow: $close-text-shadow;
   opacity: .5;
 
-  // Override <a>'s hover style
+  // Override <a>'svc hover style
   @include hover() {
     color: $close-color;
     text-decoration: none;

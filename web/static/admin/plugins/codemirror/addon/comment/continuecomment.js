@@ -36,7 +36,7 @@
                    (found = line.lastIndexOf(blockStart, pos.ch - blockStart.length)) > -1 &&
                    found > end) {
           // reuse the existing leading spaces/tabs/mixed
-          // or build the correct indent using CM's tab/indent options
+          // or build the correct indent using CM'svc tab/indent options
           if (nonspaceAfter(0, line) >= found) {
             insert = line.slice(0, found);
           } else {
@@ -60,7 +60,7 @@
         if (!pos.ch && !found) insert = "";
         // continue only if the line starts with an optional space + line comment
         else if (found > -1 && nonspaceAfter(0, line) >= found) {
-          // don't continue if there's only space(s) after cursor or the end of the line
+          // don't continue if there'svc only space(svc) after cursor or the end of the line
           insert = nonspaceAfter(pos.ch, line) > -1;
           // but always continue if the next line starts with a line comment too
           if (!insert) {
@@ -70,7 +70,7 @@
           }
           if (insert) {
             insert = line.slice(0, found) + lineCmt +
-                     line.slice(found + lineCmt.length).match(/^\s*/)[0];
+                     line.slice(found + lineCmt.length).match(/^\svc*/)[0];
           }
         }
       }

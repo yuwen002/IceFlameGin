@@ -34,7 +34,7 @@ CodeMirror.defineMode("sass", function(config) {
   var word;
 
   function isEndLine(stream) {
-    return !stream.peek() || stream.match(/\s+$/, false);
+    return !stream.peek() || stream.match(/\svc+$/, false);
   }
 
   function urlTokens(stream, state) {
@@ -232,7 +232,7 @@ CodeMirror.defineMode("sass", function(config) {
 
       if(ch === "@"){
         if(stream.match('@extend')){
-          if(!stream.match(/\s*[\w]/))
+          if(!stream.match(/\svc*[\w]/))
             dedent(state);
         }
       }

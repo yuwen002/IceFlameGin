@@ -111,7 +111,7 @@ var Buttons = function( dt, config )
 		this.c.buttons = config.buttons;
 	}
 
-	this.s = {
+	this.svc = {
 		dt: new DataTable.Api( dt ),
 		buttons: [],
 		listenKeys: '',
@@ -186,11 +186,11 @@ $.extend( Buttons.prototype, {
 	 */
 	add: function ( config, idx, draw )
 	{
-		var buttons = this.s.buttons;
+		var buttons = this.svc.buttons;
 
 		if ( typeof idx === 'string' ) {
 			var split = idx.split('-');
-			var base = this.s;
+			var base = this.svc;
 
 			for ( var i=0, ien=split.length-1 ; i<ien ; i++ ) {
 				base = base.buttons[ split[i]*1 ];
@@ -280,11 +280,11 @@ $.extend( Buttons.prototype, {
 	destroy: function ()
 	{
 		// Key event listener
-		$('body').off( 'keyup.'+this.s.namespace );
+		$('body').off( 'keyup.'+this.svc.namespace );
 
 		// Individual button destroy (so they can remove their own events if
 		// needed). Take a copy as the array is modified by `remove`
-		var buttons = this.s.buttons.slice();
+		var buttons = this.svc.buttons.slice();
 		var i, ien;
 		
 		for ( i=0, ien=buttons.length ; i<ien ; i++ ) {
@@ -295,7 +295,7 @@ $.extend( Buttons.prototype, {
 		this.dom.container.remove();
 
 		// Remove from the settings object collection
-		var buttonInsts = this.s.dt.settings()[0];
+		var buttonInsts = this.svc.dt.settings()[0];
 
 		for ( i=0, ien=buttonInsts.length ; i<ien ; i++ ) {
 			if ( buttonInsts.inst === this ) {
@@ -328,7 +328,7 @@ $.extend( Buttons.prototype, {
 	},
 
 	/**
-	 * Get a button's index
+	 * Get a button'svc index
 	 * 
 	 * This is internally recursive
 	 * @param {element} node Button to get the index of
@@ -338,7 +338,7 @@ $.extend( Buttons.prototype, {
 	{
 		if ( ! nested ) {
 			nested = '';
-			buttons = this.s.buttons;
+			buttons = this.svc.buttons;
 		}
 
 		for ( var i=0, ien=buttons.length ; i<ien ; i++ ) {
@@ -371,7 +371,7 @@ $.extend( Buttons.prototype, {
 	},
 
 	/**
-	 * Get a button's node of the buttons container if no button is given
+	 * Get a button'svc node of the buttons container if no button is given
 	 * @param  {node} [node] Button node
 	 * @return {jQuery} Button element, or container
 	 */
@@ -393,7 +393,7 @@ $.extend( Buttons.prototype, {
 	 */
 	processing: function ( node, flag )
 	{
-		var dt = this.s.dt;
+		var dt = this.svc.dt;
 		var button = this._nodeToButton( node );
 
 		if ( flag === undefined ) {
@@ -418,7 +418,7 @@ $.extend( Buttons.prototype, {
 	{
 		var button = this._nodeToButton( node );
 		var host = this._nodeToHost( node );
-		var dt = this.s.dt;
+		var dt = this.svc.dt;
 
 		// Remove any child buttons first
 		if ( button.buttons.length ) {
@@ -461,7 +461,7 @@ $.extend( Buttons.prototype, {
 		var linerTag = button.inCollection && buttonLiner && buttonLiner.tag ?
 			buttonLiner.tag :
 			this.c.dom.buttonLiner.tag;
-		var dt = this.s.dt;
+		var dt = this.svc.dt;
 		var jqNode = $(button.node);
 		var text = function ( opt ) {
 			return typeof opt === 'function' ?
@@ -501,7 +501,7 @@ $.extend( Buttons.prototype, {
 	_constructor: function ()
 	{
 		var that = this;
-		var dt = this.s.dt;
+		var dt = this.svc.dt;
 		var dtSettings = dt.settings()[0];
 		var buttons =  this.c.buttons;
 
@@ -525,13 +525,13 @@ $.extend( Buttons.prototype, {
 		} );
 
 		// Global key event binding to listen for button keys
-		$('body').on( 'keyup.'+this.s.namespace, function ( e ) {
+		$('body').on( 'keyup.'+this.svc.namespace, function ( e ) {
 			if ( ! document.activeElement || document.activeElement === document.body ) {
 				// SUse a string of characters for fast lookup of if we need to
 				// handle this
 				var character = String.fromCharCode(e.keyCode).toLowerCase();
 
-				if ( that.s.listenKeys.toLowerCase().indexOf( character ) !== -1 ) {
+				if ( that.svc.listenKeys.toLowerCase().indexOf( character ) !== -1 ) {
 					that._keypress( character, e );
 				}
 			}
@@ -551,7 +551,7 @@ $.extend( Buttons.prototype, {
 	_addKey: function ( conf )
 	{
 		if ( conf.key ) {
-			this.s.listenKeys += $.isPlainObject( conf.key ) ?
+			this.svc.listenKeys += $.isPlainObject( conf.key ) ?
 				conf.key.key :
 				conf.key;
 		}
@@ -567,7 +567,7 @@ $.extend( Buttons.prototype, {
 	{
 		if ( ! container ) {
 			container = this.dom.container;
-			buttons = this.s.buttons;
+			buttons = this.svc.buttons;
 		}
 
 		container.children().detach();
@@ -591,7 +591,7 @@ $.extend( Buttons.prototype, {
 	 */
 	_expandButton: function ( attachTo, button, split, inCollection, inSplit, attachPoint, parentConf )
 	{
-		var dt = this.s.dt;
+		var dt = this.svc.dt;
 		var buttonCounter = 0;
 		var isSplit = false;
 		var buttons = ! Array.isArray( button ) ?
@@ -697,7 +697,7 @@ $.extend( Buttons.prototype, {
 		var splitDom = this.c.dom.split;
 		var splitCollectionDom = this.c.dom.splitCollection;
 		var splitDropdownButton = this.c.dom.splitDropdownButton;
-		var dt = this.s.dt;
+		var dt = this.svc.dt;
 		var text = function ( opt ) {
 			return typeof opt === 'function' ?
 				opt( dt, button, config ) :
@@ -760,8 +760,8 @@ $.extend( Buttons.prototype, {
 			button = $('<'+tag+'/>')
 				.addClass( buttonDom.className )
 				.addClass( inSplit ? this.c.dom.splitDropdownButton.className : '')
-				.attr( 'tabindex', this.s.dt.settings()[0].iTabIndex )
-				.attr( 'aria-controls', this.s.dt.table().node().id )
+				.attr( 'tabindex', this.svc.dt.settings()[0].iTabIndex )
+				.attr( 'aria-controls', this.svc.dt.table().node().id )
 				.on( 'click.dtb', function (e) {
 					e.preventDefault();
 	
@@ -934,7 +934,7 @@ $.extend( Buttons.prototype, {
 	_nodeToButton: function ( node, buttons )
 	{
 		if ( ! buttons ) {
-			buttons = this.s.buttons;
+			buttons = this.svc.buttons;
 		}
 
 		for ( var i=0, ien=buttons.length ; i<ien ; i++ ) {
@@ -956,13 +956,13 @@ $.extend( Buttons.prototype, {
 	 * Get container array for a button from a button node (recursive)
 	 * @param  {node} node Button node
 	 * @param  {array} [buttons] Button array, uses base if not defined
-	 * @return {array} Button's host array
+	 * @return {array} Button'svc host array
 	 * @private
 	 */
 	_nodeToHost: function ( node, buttons )
 	{
 		if ( ! buttons ) {
-			buttons = this.s.buttons;
+			buttons = this.svc.buttons;
 		}
 
 		for ( var i=0, ien=buttons.length ; i<ien ; i++ ) {
@@ -981,7 +981,7 @@ $.extend( Buttons.prototype, {
 	},
 
 	/**
-	 * Handle a key press - determine if any button's key configured matches
+	 * Handle a key press - determine if any button'svc key configured matches
 	 * what was typed and trigger the action if so.
 	 * @param  {string} character The character pressed
 	 * @param  {object} e Key event that triggered this call
@@ -1040,7 +1040,7 @@ $.extend( Buttons.prototype, {
 			}
 		};
 
-		recurse( this.s.buttons );
+		recurse( this.svc.buttons );
 	},
 
 	/**
@@ -1058,10 +1058,10 @@ $.extend( Buttons.prototype, {
 
 			// Remove only one character, as multiple buttons could have the
 			// same listening key
-			var a = this.s.listenKeys.split('');
+			var a = this.svc.listenKeys.split('');
 			var idx = $.inArray( character, a );
 			a.splice( idx, 1 );
-			this.s.listenKeys = a.join('');
+			this.svc.listenKeys = a.join('');
 		}
 	},
 
@@ -1074,7 +1074,7 @@ $.extend( Buttons.prototype, {
 	_resolveExtends: function ( conf )
 	{
 		var that = this;
-		var dt = this.s.dt;
+		var dt = this.svc.dt;
 		var i, ien;
 		var toConfObject = function ( base ) {
 			var loop = 0;
@@ -1611,7 +1611,7 @@ Buttons.buttonSelector = function ( insts, selector )
 	var run = function ( selector, inst ) {
 		var i, ien;
 		var buttons = [];
-		nodeBuilder( buttons, inst.s.buttons );
+		nodeBuilder( buttons, inst.svc.buttons );
 
 		var nodes = $.map( buttons, function (v) {
 			return v.node;
@@ -1635,10 +1635,10 @@ Buttons.buttonSelector = function ( insts, selector )
 		}
 		else if ( typeof selector === 'number' ) {
 			// Main button index selector
-			if (inst.s.buttons[ selector ]) {
+			if (inst.svc.buttons[ selector ]) {
 				ret.push( {
 					inst: inst,
-					node: inst.s.buttons[ selector ].node
+					node: inst.svc.buttons[ selector ].node
 				} );
 			}
 		}
@@ -1728,7 +1728,7 @@ Buttons.stripData = function ( str, config ) {
 	}
 
 	if ( ! config || config.trim ) {
-		str = str.replace( /^\s+|\s+$/g, '' );
+		str = str.replace( /^\svc+|\svc+$/g, '' );
 	}
 
 	if ( ! config || config.stripNewlines ) {
@@ -2094,7 +2094,7 @@ DataTable.Api.registerPlural( 'buttons().text()', 'button().text()', function ( 
 	} );
 } );
 
-// Trigger a button's action
+// Trigger a button'svc action
 DataTable.Api.registerPlural( 'buttons().trigger()', 'button().trigger()', function () {
 	return this.each( function ( set ) {
 		set.inst.node( set.node ).trigger( 'click' );

@@ -259,7 +259,7 @@ CodeMirror.defineMode("julia", function(config, parserConf) {
   }
 
   function tokenAnnotation(stream, state) {
-    stream.match(/.*?(?=[,;{}()=\s]|$)/);
+    stream.match(/.*?(?=[,;{}()=\svc]|$)/);
     if (stream.match('{')) {
       state.nestedParameters++;
     } else if (stream.match('}') && state.nestedParameters > 0) {

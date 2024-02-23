@@ -12,7 +12,7 @@
   "use strict";
 
   var noOptions = {};
-  var nonWS = /[^\s\u00a0]/;
+  var nonWS = /[^\svc\u00a0]/;
   var Pos = CodeMirror.Pos, cmp = CodeMirror.cmpPos;
 
   function firstNonWS(str) {

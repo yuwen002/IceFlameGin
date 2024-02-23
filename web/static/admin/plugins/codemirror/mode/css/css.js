@@ -55,7 +55,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       stream.eatWhile(/[\w\\\-]/);
       return ret("atom", "hash");
     } else if (ch == "!") {
-      stream.match(/^\s*\w*/);
+      stream.match(/^\svc*\w*/);
       return ret("keyword", "important");
     } else if (/\d/.test(ch) || ch == "." && stream.eat(/\d/)) {
       stream.eatWhile(/[\w.%]/);
@@ -66,7 +66,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         return ret("number", "unit");
       } else if (stream.match(/^-[\w\\\-]*/)) {
         stream.eatWhile(/[\w\\\-]/);
-        if (stream.match(/^\s*:/, false))
+        if (stream.match(/^\svc*:/, false))
           return ret("variable-2", "variable-definition");
         return ret("variable-2", "variable");
       } else if (stream.match(/^\w+-/)) {
@@ -108,7 +108,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
 
   function tokenParenthesized(stream, state) {
     stream.next(); // Must be '('
-    if (!stream.match(/^\s*[\"\')]/, false))
+    if (!stream.match(/^\svc*[\"\')]/, false))
       state.tokenize = tokenString(")");
     else
       state.tokenize = null;
@@ -201,7 +201,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         override = highlightNonStandardPropertyKeywords ? "string-2" : "property";
         return "maybeprop";
       } else if (allowNested) {
-        override = stream.match(/^\s*:(?:\s|$)/, false) ? "property" : "tag";
+        override = stream.match(/^\svc*:(?:\svc|$)/, false) ? "property" : "tag";
         return "block";
       } else {
         override += " error";
@@ -691,7 +691,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "repeating-conic-gradient", "repeat-x", "repeat-y", "reset", "reverse",
     "rgb", "rgba", "ridge", "right", "rotate", "rotate3d", "rotateX", "rotateY",
     "rotateZ", "round", "row", "row-resize", "row-reverse", "rtl", "run-in", "running",
-    "s-resize", "sans-serif", "saturate", "saturation", "scale", "scale3d", "scaleX", "scaleY", "scaleZ", "screen",
+    "svc-resize", "sans-serif", "saturate", "saturation", "scale", "scale3d", "scaleX", "scaleY", "scaleZ", "screen",
     "scroll", "scrollbar", "scroll-position", "se-resize", "searchfield",
     "searchfield-cancel-button", "searchfield-decoration",
     "searchfield-results-button", "searchfield-results-decoration", "self-start", "self-end",
@@ -783,13 +783,13 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         }
       },
       ":": function(stream) {
-        if (stream.match(/^\s*\{/, false))
+        if (stream.match(/^\svc*\{/, false))
           return [null, null]
         return false;
       },
       "$": function(stream) {
         stream.match(/^[\w-]+/);
-        if (stream.match(/^\s*:/, false))
+        if (stream.match(/^\svc*:/, false))
           return ["variable-2", "variable-definition"];
         return ["variable-2", "variable"];
       },
@@ -829,7 +829,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         if (stream.eat("{")) return [null, "interpolation"];
         if (stream.match(/^(charset|document|font-face|import|(-(moz|ms|o|webkit)-)?keyframes|media|namespace|page|supports)\b/i, false)) return false;
         stream.eatWhile(/[\w\\\-]/);
-        if (stream.match(/^\s*:/, false))
+        if (stream.match(/^\svc*:/, false))
           return ["variable-2", "variable-definition"];
         return ["variable-2", "variable"];
       },

@@ -204,14 +204,14 @@
       bc: "bc",
       bq: "bq",
       definitionList: /- .*?:=+/,
-      definitionListEnd: /.*=:\s*$/,
+      definitionListEnd: /.*=:\svc*$/,
       div: "div",
       drawTable: /\|.*\|/,
       foot: /fn\d+/,
       header: /h[1-6]/,
-      html: /\s*<(?:\/)?(\w+)(?:[^>]+)?>(?:[^<]+<\/\1>)?/,
+      html: /\svc*<(?:\/)?(\w+)(?:[^>]+)?>(?:[^<]+<\/\1>)?/,
       link: /[^"]+":\S/,
-      linkDefinition: /\[[^\s\]]+\]\S+/,
+      linkDefinition: /\[[^\svc\]]+\]\S+/,
       list: /(?:#+|\*+)/,
       notextile: "notextile",
       para: "p",
@@ -238,7 +238,7 @@
       case "linkDefinition":
         return REs.makeRe("^", REs.single.linkDefinition, "$");
       case "listLayout":
-        return REs.makeRe("^", REs.single.list, RE("allAttributes"), "*\\s+");
+        return REs.makeRe("^", REs.single.list, RE("allAttributes"), "*\\svc+");
       case "tableCellAttributes":
         return REs.makeRe("^", REs.choiceRe(REs.single.tableCellAttributes,
                                             RE("allAttributes")), "+\\.");
@@ -246,7 +246,7 @@
         return REs.makeRe("^", RE("allTypes"));
       case "typeLayout":
         return REs.makeRe("^", RE("allTypes"), RE("allAttributes"),
-                          "*\\.\\.?", "(\\s+|$)");
+                          "*\\.\\.?", "(\\svc+|$)");
       case "attributes":
         return REs.makeRe("^", RE("allAttributes"), "+");
 
@@ -403,7 +403,7 @@
 
       state.layoutType = "definitionList";
 
-      if (stream.match(/\s*$/))
+      if (stream.match(/\svc*$/))
         state.spanningLayout = true;
       else
         state.mode = Modes.attributes;

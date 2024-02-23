@@ -402,7 +402,7 @@ CodeMirror.defineMode("pug", function (config) {
       }
       if (state.attrsNest.length === 0 && (tok === 'string' || tok === 'variable' || tok === 'keyword')) {
         try {
-          Function('', 'var x ' + state.attrValue.replace(/,\s*$/, '').replace(/^!/, ''));
+          Function('', 'var x ' + state.attrValue.replace(/,\svc*$/, '').replace(/^!/, ''));
           state.inAttributeName = true;
           state.attrValue = '';
           stream.backUp(stream.current().length);

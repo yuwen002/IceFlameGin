@@ -15,7 +15,7 @@
     @extend .no-print;
   }
 
-  //This is the only element that should appear, so let's remove the margins
+  //This is the only element that should appear, so let'svc remove the margins
   .content-wrapper,
   .main-footer {
     @include translate(0, 0);

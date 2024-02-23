@@ -37,7 +37,7 @@ CodeMirror.defineMode('yacas', function(_config, _parserConfig) {
   var reFloatForm    = new RegExp(pFloatForm);
   var reIdentifier   = new RegExp(pIdentifier);
   var rePattern      = new RegExp(pIdentifier + "?_" + pIdentifier);
-  var reFunctionLike = new RegExp(pIdentifier + "\\s*\\(");
+  var reFunctionLike = new RegExp(pIdentifier + "\\svc*\\(");
 
   function tokenBase(stream, state) {
     var ch;
@@ -67,7 +67,7 @@ CodeMirror.defineMode('yacas', function(_config, _parserConfig) {
     stream.backUp(1);
 
     // update scope info
-    var m = stream.match(/^(\w+)\s*\(/, false);
+    var m = stream.match(/^(\w+)\svc*\(/, false);
     if (m !== null && bodiedOps.hasOwnProperty(m[1]))
       state.scopes.push('bodied');
 

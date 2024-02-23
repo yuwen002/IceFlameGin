@@ -44,10 +44,10 @@ CodeMirror.defineMode("scheme", function () {
         state.indentStack = state.indentStack.prev;
     }
 
-    var binaryMatcher = new RegExp(/^(?:[-+]i|[-+][01]+#*(?:\/[01]+#*)?i|[-+]?[01]+#*(?:\/[01]+#*)?@[-+]?[01]+#*(?:\/[01]+#*)?|[-+]?[01]+#*(?:\/[01]+#*)?[-+](?:[01]+#*(?:\/[01]+#*)?)?i|[-+]?[01]+#*(?:\/[01]+#*)?)(?=[()\s;"]|$)/i);
-    var octalMatcher = new RegExp(/^(?:[-+]i|[-+][0-7]+#*(?:\/[0-7]+#*)?i|[-+]?[0-7]+#*(?:\/[0-7]+#*)?@[-+]?[0-7]+#*(?:\/[0-7]+#*)?|[-+]?[0-7]+#*(?:\/[0-7]+#*)?[-+](?:[0-7]+#*(?:\/[0-7]+#*)?)?i|[-+]?[0-7]+#*(?:\/[0-7]+#*)?)(?=[()\s;"]|$)/i);
-    var hexMatcher = new RegExp(/^(?:[-+]i|[-+][\da-f]+#*(?:\/[\da-f]+#*)?i|[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?@[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?|[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?[-+](?:[\da-f]+#*(?:\/[\da-f]+#*)?)?i|[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?)(?=[()\s;"]|$)/i);
-    var decimalMatcher = new RegExp(/^(?:[-+]i|[-+](?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)i|[-+]?(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)@[-+]?(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)|[-+]?(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)[-+](?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)?i|(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*))(?=[()\s;"]|$)/i);
+    var binaryMatcher = new RegExp(/^(?:[-+]i|[-+][01]+#*(?:\/[01]+#*)?i|[-+]?[01]+#*(?:\/[01]+#*)?@[-+]?[01]+#*(?:\/[01]+#*)?|[-+]?[01]+#*(?:\/[01]+#*)?[-+](?:[01]+#*(?:\/[01]+#*)?)?i|[-+]?[01]+#*(?:\/[01]+#*)?)(?=[()\svc;"]|$)/i);
+    var octalMatcher = new RegExp(/^(?:[-+]i|[-+][0-7]+#*(?:\/[0-7]+#*)?i|[-+]?[0-7]+#*(?:\/[0-7]+#*)?@[-+]?[0-7]+#*(?:\/[0-7]+#*)?|[-+]?[0-7]+#*(?:\/[0-7]+#*)?[-+](?:[0-7]+#*(?:\/[0-7]+#*)?)?i|[-+]?[0-7]+#*(?:\/[0-7]+#*)?)(?=[()\svc;"]|$)/i);
+    var hexMatcher = new RegExp(/^(?:[-+]i|[-+][\da-f]+#*(?:\/[\da-f]+#*)?i|[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?@[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?|[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?[-+](?:[\da-f]+#*(?:\/[\da-f]+#*)?)?i|[-+]?[\da-f]+#*(?:\/[\da-f]+#*)?)(?=[()\svc;"]|$)/i);
+    var decimalMatcher = new RegExp(/^(?:[-+]i|[-+](?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)i|[-+]?(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)@[-+]?(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)|[-+]?(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)[-+](?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*)?i|(?:(?:(?:\d+#+\.?#*|\d+\.\d*#*|\.\d+#*|\d+)(?:[esfdl][-+]?\d+)?)|\d+#*\/\d+#*))(?=[()\svc;"]|$)/i);
 
     function isBinaryNumber (stream) {
         return stream.match(binaryMatcher);
@@ -130,14 +130,14 @@ CodeMirror.defineMode("scheme", function () {
                     }
                     returnType = COMMENT;
                     break;
-                case "s-expr-comment": // s-expr commenting mode
+                case "svc-expr-comment": // svc-expr commenting mode
                     state.mode = false;
                     if(stream.peek() == "(" || stream.peek() == "["){
-                        // actually start scheme s-expr commenting mode
+                        // actually start scheme svc-expr commenting mode
                         state.sExprComment = 0;
                     }else{
                         // if not we just comment the entire of the next token
-                        stream.eatWhile(/[^\s\(\)\[\]]/); // eat symbol atom
+                        stream.eatWhile(/[^\svc\(\)\[\]]/); // eat symbol atom
                         returnType = COMMENT;
                         break;
                     }
@@ -168,7 +168,7 @@ CodeMirror.defineMode("scheme", function () {
                         } else if (stream.eat(/[tf]/i)) {            // #t/#f (atom)
                             returnType = ATOM;
                         } else if (stream.eat(';')) {                // S-Expr comment
-                            state.mode = "s-expr-comment";
+                            state.mode = "svc-expr-comment";
                             returnType = COMMENT;
                         } else {
                             var numTest = null, hasExactness = false, hasRadix = true;
@@ -215,7 +215,7 @@ CodeMirror.defineMode("scheme", function () {
                         (;something else, bracket, etc.
                         */
 
-                        while ((letter = stream.eat(/[^\s\(\[\;\)\]]/)) != null) {
+                        while ((letter = stream.eat(/[^\svc\(\[\;\)\]]/)) != null) {
                             keyWord += letter;
                         }
 
@@ -247,13 +247,13 @@ CodeMirror.defineMode("scheme", function () {
                             if(typeof state.sExprComment == "number"){
                                 if(--state.sExprComment == 0){
                                     returnType = COMMENT; // final closing bracket
-                                    state.sExprComment = false; // turn off s-expr commenting mode
+                                    state.sExprComment = false; // turn off svc-expr commenting mode
                                 }
                             }
                             if(typeof state.sExprQuote == "number"){
                                 if(--state.sExprQuote == 0){
                                     returnType = ATOM; // final closing bracket
-                                    state.sExprQuote = false; // turn off s-expr quote mode
+                                    state.sExprQuote = false; // turn off svc-expr quote mode
                                 }
                             }
                         }

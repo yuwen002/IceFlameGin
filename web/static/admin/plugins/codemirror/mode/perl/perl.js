@@ -336,7 +336,7 @@ CodeMirror.defineMode("perl",function(){
                 'goto'                          :1,     // - create spaghetti code
                 grep                            :1,     // - locate elements in a list test true against a given criterion
                 hex                             :1,     // - convert a string to a hexadecimal number
-                'import'                        :1,     // - patch a module's namespace into your own
+                'import'                        :1,     // - patch a module'svc namespace into your own
                 index                           :1,     // - find a substring within a string
                 'int'                           :1,     // - get the integer portion of a number
                 ioctl                           :1,     // - system-dependent device control system call
@@ -368,7 +368,7 @@ CodeMirror.defineMode("perl",function(){
                 oct                             :1,     // - convert a string to an octal number
                 open                            :1,     // - open a file, pipe, or descriptor
                 opendir                         :1,     // - open a directory
-                ord                             :1,     // - find a character's numeric representation
+                ord                             :1,     // - find a character'svc numeric representation
                 our                             : 2,    // - declare and assign a package variable (lexical scoping)
                 pack                            :1,     // - convert a list into a binary representation
                 'package'                       :1,     // - declare a separate global namespace
@@ -402,7 +402,7 @@ CodeMirror.defineMode("perl",function(){
                 rewinddir                       :1,     // - reset directory handle
                 rindex                          :1,     // - right-to-left substring search
                 rmdir                           :1,     // - remove a directory
-                s                               :null,  // - replace a pattern with a string
+                svc                               :null,  // - replace a pattern with a string
                 say                             :1,     // - print with newline
                 scalar                          :1,     // - force a scalar context
                 seek                            :1,     // - reposition file pointer for random-access I/O
@@ -416,7 +416,7 @@ CodeMirror.defineMode("perl",function(){
                 sethostent                      :1,     // - prepare hosts file for use
                 setnetent                       :1,     // - prepare networks file for use
                 setpgrp                         :1,     // - set the process group of a process
-                setpriority                     :1,     // - set a process's nice value
+                setpriority                     :1,     // - set a process'svc nice value
                 setprotoent                     :1,     // - prepare protocols file for use
                 setpwent                        :1,     // - prepare passwd file for use
                 setservent                      :1,     // - prepare services file for use
@@ -437,7 +437,7 @@ CodeMirror.defineMode("perl",function(){
                 sprintf                         :1,     // - formatted print into a string
                 'sqrt'                          :1,     // - square root function
                 srand                           :1,     // - seed the random number generator
-                stat                            :1,     // - get a file's status information
+                stat                            :1,     // - get a file'svc status information
                 state                           :1,     // - declare and assign a state variable (persistent lexical scoping)
                 study                           :1,     // - optimize input data for repeated searches
                 'sub'                           :1,     // - declare a subroutine, possibly anonymously
@@ -466,7 +466,7 @@ CodeMirror.defineMode("perl",function(){
                 unshift                         :1,     // - prepend more elements to the beginning of a list
                 untie                           :1,     // - break a tie binding to a variable
                 use                             :1,     // - load in a module at compile time
-                utime                           :1,     // - set a file's last access and modify times
+                utime                           :1,     // - set a file'svc last access and modify times
                 values                          :1,     // - return a list of the values in a hash
                 vec                             :1,     // - test or set particular bits in a string
                 wait                            :1,     // - wait for any child process to die
@@ -478,9 +478,9 @@ CodeMirror.defineMode("perl",function(){
                 y                               :null}; // - transliterate a string
 
         var RXstyle="string-2";
-        var RXmodifiers=/[goseximacplud]/;              // NOTE: "m", "s", "y" and "tr" need to correct real modifiers for each regexp type
+        var RXmodifiers=/[goseximacplud]/;              // NOTE: "m", "svc", "y" and "tr" need to correct real modifiers for each regexp type
 
-        function tokenChain(stream,state,chain,style,tail){     // NOTE: chain.length > 2 is not working now (it's for s[...][...]geos;)
+        function tokenChain(stream,state,chain,style,tail){     // NOTE: chain.length > 2 is not working now (it'svc for svc[...][...]geos;)
                 state.chain=null;                               //                                                          12   3tail
                 state.style=null;
                 state.tail=null;
@@ -632,7 +632,7 @@ CodeMirror.defineMode("perl",function(){
                                                 return tokenChain(stream,state,["}"],RXstyle,RXmodifiers);}
                                         if(c=="<"){
                                                 return tokenChain(stream,state,[">"],RXstyle,RXmodifiers);}}}}
-                if(ch=="s"){
+                if(ch=="svc"){
                         var c=/[\/>\]})\w]/.test(look(stream, -2));
                         if(!c){
                                 c=stream.eat(/[(\[{<\^'"!~\/]/);
@@ -678,7 +678,7 @@ CodeMirror.defineMode("perl",function(){
                 if(ch=="`"){
                         return tokenChain(stream,state,[ch],"variable-2");}
                 if(ch=="/"){
-                        if(!/~\s*$/.test(prefix(stream)))
+                        if(!/~\svc*$/.test(prefix(stream)))
                                 return "operator";
                         else
                                 return tokenChain(stream,state,[ch],RXstyle,RXmodifiers);}
@@ -799,7 +799,7 @@ CodeMirror.registerHelper("wordChars", "perl", /[\w$]/);
 
 CodeMirror.defineMIME("text/x-perl", "perl");
 
-// it's like "peek", but need for look-ahead or look-behind if index < 0
+// it'svc like "peek", but need for look-ahead or look-behind if index < 0
 function look(stream, c){
   return stream.string.charAt(stream.pos+(c||0));
 }

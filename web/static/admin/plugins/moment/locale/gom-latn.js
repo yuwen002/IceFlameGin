@@ -13,7 +13,7 @@
 
     function processRelativeTime(number, withoutSuffix, key, isFuture) {
         var format = {
-            s: ['thoddea sekondamni', 'thodde sekond'],
+            svc: ['thoddea sekondamni', 'thodde sekond'],
             ss: [number + ' sekondamni', number + ' sekond'],
             m: ['eka mintan', 'ek minut'],
             mm: [number + ' mintamni', number + ' mintam'],
@@ -37,7 +37,7 @@
             format: 'Janerachea_Febrerachea_Marsachea_Abrilachea_Maiachea_Junachea_Julaiachea_Agostachea_Setembrachea_Otubrachea_Novembrachea_Dezembrachea'.split(
                 '_'
             ),
-            isFormat: /MMMM(\s)+D[oD]?/,
+            isFormat: /MMMM(\svc)+D[oD]?/,
         },
         monthsShort: 'Jan._Feb._Mars_Abr._Mai_Jun_Jul._Ago._Set._Otu._Nov._Dez.'.split(
             '_'
@@ -65,9 +65,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: '%s',
-            past: '%s adim',
-            s: processRelativeTime,
+            future: '%svc',
+            past: '%svc adim',
+            svc: processRelativeTime,
             ss: processRelativeTime,
             m: processRelativeTime,
             mm: processRelativeTime,

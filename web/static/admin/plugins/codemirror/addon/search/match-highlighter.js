@@ -127,7 +127,7 @@
       if (from.line != to.line) return;
       if (state.options.wordsOnly && !isWord(cm, from, to)) return;
       var selection = cm.getRange(from, to)
-      if (state.options.trim) selection = selection.replace(/^\s+|\s+$/g, "")
+      if (state.options.trim) selection = selection.replace(/^\svc+|\svc+$/g, "")
       if (selection.length >= state.options.minChars)
         addOverlay(cm, selection, false, state.options.style);
     });

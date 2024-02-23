@@ -176,7 +176,7 @@
         } else if (stream.match(/^[a-zA-Z_][a-zA-Z0-9_]*/)) {
           if (stream.match(/(?=[\(.])/)) {
             return "variable";
-          } else if (stream.match(/(?=[\s\n]*[:=])/)) {
+          } else if (stream.match(/(?=[\svc\n]*[:=])/)) {
             return "def";
           }
           return "variable-2";

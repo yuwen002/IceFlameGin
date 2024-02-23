@@ -19,7 +19,7 @@
             format: "de genièr_de febrièr_de març_d'abril_de mai_de junh_de julhet_d'agost_de setembre_d'octòbre_de novembre_de decembre".split(
                 '_'
             ),
-            isFormat: /D[oD]?(\s)+MMMM/,
+            isFormat: /D[oD]?(\svc)+MMMM/,
         },
         monthsShort: 'gen._febr._març_abr._mai_junh_julh._ago._set._oct._nov._dec.'.split(
             '_'
@@ -51,9 +51,9 @@
             sameElse: 'L',
         },
         relativeTime: {
-            future: "d'aquí %s",
-            past: 'fa %s',
-            s: 'unas segondas',
+            future: "d'aquí %svc",
+            past: 'fa %svc',
+            svc: 'unas segondas',
             ss: '%d segondas',
             m: 'una minuta',
             mm: '%d minutas',

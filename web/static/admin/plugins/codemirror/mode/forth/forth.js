@@ -89,28 +89,28 @@
         return null;
       }
       if (stt.state === '') { // interpretation
-        if (stream.match(/^(\]|:NONAME)(\s|$)/i)) {
+        if (stream.match(/^(\]|:NONAME)(\svc|$)/i)) {
           stt.state = ' compilation';
           return 'builtin compilation';
         }
-        mat = stream.match(/^(\:)\s+(\S+)(\s|$)+/);
+        mat = stream.match(/^(\:)\svc+(\S+)(\svc|$)+/);
         if (mat) {
           stt.wordList.push({name: mat[2].toUpperCase()});
           stt.state = ' compilation';
           return 'def' + stt.state;
         }
-        mat = stream.match(/^(VARIABLE|2VARIABLE|CONSTANT|2CONSTANT|CREATE|POSTPONE|VALUE|WORD)\s+(\S+)(\s|$)+/i);
+        mat = stream.match(/^(VARIABLE|2VARIABLE|CONSTANT|2CONSTANT|CREATE|POSTPONE|VALUE|WORD)\svc+(\S+)(\svc|$)+/i);
         if (mat) {
           stt.wordList.push({name: mat[2].toUpperCase()});
           return 'def' + stt.state;
         }
-        mat = stream.match(/^(\'|\[\'\])\s+(\S+)(\s|$)+/);
+        mat = stream.match(/^(\'|\[\'\])\svc+(\S+)(\svc|$)+/);
         if (mat) {
           return 'builtin' + stt.state;
         }
         } else { // compilation
         // ; [
-        if (stream.match(/^(\;|\[)(\s)/)) {
+        if (stream.match(/^(\;|\[)(\svc)/)) {
           stt.state = '';
           stream.backUp(1);
           return 'builtin compilation';
@@ -119,13 +119,13 @@
           stt.state = '';
           return 'builtin compilation';
         }
-        if (stream.match(/^(POSTPONE)\s+\S+(\s|$)+/)) {
+        if (stream.match(/^(POSTPONE)\svc+\S+(\svc|$)+/)) {
           return 'builtin';
         }
       }
 
       // dynamic wordlist
-      mat = stream.match(/^(\S+)(\s+|$)/);
+      mat = stream.match(/^(\S+)(\svc+|$)/);
       if (mat) {
         if (searchWordList(stt.wordList, mat[1]) !== undefined) {
           return 'variable' + stt.state;
@@ -146,19 +146,19 @@
           }
 
           if (mat[1] === '(') {
-            stream.eatWhile(function (s) { return s !== ')'; });
+            stream.eatWhile(function (svc) { return svc !== ')'; });
             stream.eat(')');
             return 'comment' + stt.state;
           }
 
           // // strings
           if (mat[1] === '.(') {
-            stream.eatWhile(function (s) { return s !== ')'; });
+            stream.eatWhile(function (svc) { return svc !== ')'; });
             stream.eat(')');
             return 'string' + stt.state;
           }
           if (mat[1] === 'S"' || mat[1] === '."' || mat[1] === 'C"') {
-            stream.eatWhile(function (s) { return s !== '"'; });
+            stream.eatWhile(function (svc) { return svc !== '"'; });
             stream.eat('"');
             return 'string' + stt.state;
           }

@@ -26,7 +26,7 @@
             o: 'object',
             f: 'function',
             a: 'array',
-            s: 'string',
+            svc: 'string',
             b: 'boolean',
             n: 'number',
             u: 'undefined',
@@ -38,7 +38,7 @@
         };
         var LEXICON = {
             c: 'class',
-            s: 'style',
+            svc: 'style',
             i: 'id',
             l: 'length',
             p: 'prototype',
@@ -72,7 +72,7 @@
                         return result;
 
                     var uppercasedName = firstLetterToUpper(name);
-                    var elmStyle = document.createElement('div')[LEXICON.s];
+                    var elmStyle = document.createElement('div')[LEXICON.svc];
                     var resultPossibilities;
                     var i = 0;
                     var v;
@@ -104,7 +104,7 @@
                     if (cssCache[LEXICON.hOP](name))
                         return result;
 
-                    var dummyStyle = document.createElement('div')[LEXICON.s];
+                    var dummyStyle = document.createElement('div')[LEXICON.svc];
                     var possbleValues = values.split(' ');
                     var preparedSuffix = suffix || '';
                     var i = 0;
@@ -188,14 +188,14 @@
                 rO: bind(VENDORS._jsAPI, 0, 'ResizeObserver', true),
 
                 /**
-                 * Gets the RequestAnimationFrame method or it's corresponding polyfill.
-                 * @returns {*|Function} The RequestAnimationFrame method or it's corresponding polyfill.
+                 * Gets the RequestAnimationFrame method or it'svc corresponding polyfill.
+                 * @returns {*|Function} The RequestAnimationFrame method or it'svc corresponding polyfill.
                  */
                 rAF: bind(VENDORS._jsAPI, 0, 'requestAnimationFrame', false, function (func) { return window.setTimeout(func, 1000 / 60); }),
 
                 /**
-                 * Gets the CancelAnimationFrame method or it's corresponding polyfill.
-                 * @returns {*|Function} The CancelAnimationFrame method or it's corresponding polyfill.
+                 * Gets the CancelAnimationFrame method or it'svc corresponding polyfill.
+                 * @returns {*|Function} The CancelAnimationFrame method or it'svc corresponding polyfill.
                  */
                 cAF: bind(VENDORS._jsAPI, 0, 'cancelAnimationFrame', false, function (id) { return window.clearTimeout(id); }),
 
@@ -351,7 +351,7 @@
             var _easingsMath = {
                 p: MATH.PI,
                 c: MATH.cos,
-                s: MATH.sin,
+                svc: MATH.sin,
                 w: MATH.pow,
                 t: MATH.sqrt,
                 n: MATH.asin,
@@ -416,7 +416,7 @@
                     return -c * _easingsMath.c(t / d * (_easingsMath.p / 2)) + c + b;
                 },
                 easeOutSine: function (x, t, b, c, d) {
-                    return c * _easingsMath.s(t / d * (_easingsMath.p / 2)) + b;
+                    return c * _easingsMath.svc(t / d * (_easingsMath.p / 2)) + b;
                 },
                 easeInOutSine: function (x, t, b, c, d) {
                     return -c / 2 * (_easingsMath.c(_easingsMath.p * t / d) - 1) + b;
@@ -443,42 +443,42 @@
                     return ((t /= d / 2) < 1) ? -c / 2 * (_easingsMath.t(1 - t * t) - 1) + b : c / 2 * (_easingsMath.t(1 - (t -= 2) * t) + 1) + b;
                 },
                 easeInElastic: function (x, t, b, c, d) {
-                    var s = _easingsMath.o; var p = 0; var a = c;
+                    var svc = _easingsMath.o; var p = 0; var a = c;
                     if (t == 0) return b; if ((t /= d) == 1) return b + c; if (!p) p = d * .3;
-                    if (a < _easingsMath.a(c)) { a = c; s = p / 4; }
-                    else s = p / (2 * _easingsMath.p) * _easingsMath.n(c / a);
-                    return -(a * _easingsMath.w(2, 10 * (t -= 1)) * _easingsMath.s((t * d - s) * (2 * _easingsMath.p) / p)) + b;
+                    if (a < _easingsMath.a(c)) { a = c; svc = p / 4; }
+                    else svc = p / (2 * _easingsMath.p) * _easingsMath.n(c / a);
+                    return -(a * _easingsMath.w(2, 10 * (t -= 1)) * _easingsMath.svc((t * d - svc) * (2 * _easingsMath.p) / p)) + b;
                 },
                 easeOutElastic: function (x, t, b, c, d) {
-                    var s = _easingsMath.o; var p = 0; var a = c;
+                    var svc = _easingsMath.o; var p = 0; var a = c;
                     if (t == 0) return b;
                     if ((t /= d) == 1) return b + c;
                     if (!p) p = d * .3;
-                    if (a < _easingsMath.a(c)) { a = c; s = p / 4; }
-                    else s = p / (2 * _easingsMath.p) * _easingsMath.n(c / a);
-                    return a * _easingsMath.w(2, -10 * t) * _easingsMath.s((t * d - s) * (2 * _easingsMath.p) / p) + c + b;
+                    if (a < _easingsMath.a(c)) { a = c; svc = p / 4; }
+                    else svc = p / (2 * _easingsMath.p) * _easingsMath.n(c / a);
+                    return a * _easingsMath.w(2, -10 * t) * _easingsMath.svc((t * d - svc) * (2 * _easingsMath.p) / p) + c + b;
                 },
                 easeInOutElastic: function (x, t, b, c, d) {
-                    var s = _easingsMath.o; var p = 0; var a = c;
+                    var svc = _easingsMath.o; var p = 0; var a = c;
                     if (t == 0) return b;
                     if ((t /= d / 2) == 2) return b + c;
                     if (!p) p = d * (.3 * 1.5);
-                    if (a < _easingsMath.a(c)) { a = c; s = p / 4; }
-                    else s = p / (2 * _easingsMath.p) * _easingsMath.n(c / a);
-                    if (t < 1) return -.5 * (a * _easingsMath.w(2, 10 * (t -= 1)) * _easingsMath.s((t * d - s) * (2 * _easingsMath.p) / p)) + b;
-                    return a * _easingsMath.w(2, -10 * (t -= 1)) * _easingsMath.s((t * d - s) * (2 * _easingsMath.p) / p) * .5 + c + b;
+                    if (a < _easingsMath.a(c)) { a = c; svc = p / 4; }
+                    else svc = p / (2 * _easingsMath.p) * _easingsMath.n(c / a);
+                    if (t < 1) return -.5 * (a * _easingsMath.w(2, 10 * (t -= 1)) * _easingsMath.svc((t * d - svc) * (2 * _easingsMath.p) / p)) + b;
+                    return a * _easingsMath.w(2, -10 * (t -= 1)) * _easingsMath.svc((t * d - svc) * (2 * _easingsMath.p) / p) * .5 + c + b;
                 },
-                easeInBack: function (x, t, b, c, d, s) {
-                    s = s || _easingsMath.o;
-                    return c * (t /= d) * t * ((s + 1) * t - s) + b;
+                easeInBack: function (x, t, b, c, d, svc) {
+                    svc = svc || _easingsMath.o;
+                    return c * (t /= d) * t * ((svc + 1) * t - svc) + b;
                 },
-                easeOutBack: function (x, t, b, c, d, s) {
-                    s = s || _easingsMath.o;
-                    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+                easeOutBack: function (x, t, b, c, d, svc) {
+                    svc = svc || _easingsMath.o;
+                    return c * ((t = t / d - 1) * t * ((svc + 1) * t + svc) + 1) + b;
                 },
-                easeInOutBack: function (x, t, b, c, d, s) {
-                    s = s || _easingsMath.o;
-                    return ((t /= d / 2) < 1) ? c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b : c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
+                easeInOutBack: function (x, t, b, c, d, svc) {
+                    svc = svc || _easingsMath.o;
+                    return ((t /= d / 2) < 1) ? c / 2 * (t * t * (((svc *= (1.525)) + 1) * t - svc)) + b : c / 2 * ((t -= 2) * t * (((svc *= (1.525)) + 1) * t + svc) + 2) + b;
                 },
                 easeInBounce: function (x, t, b, c, d) {
                     return c - this.easeOutBounce(x, d - t, 0, c, d) + b;
@@ -502,33 +502,33 @@
             /*
              *
              * TERMS OF USE - EASING EQUATIONS
-             * 
-             * Open source under the BSD License. 
-             * 
+             *
+             * Open source under the BSD License.
+             *
              * Copyright Â© 2001 Robert Penner
              * All rights reserved.
-             * 
-             * Redistribution and use in source and binary forms, with or without modification, 
+             *
+             * Redistribution and use in source and binary forms, with or without modification,
              * are permitted provided that the following conditions are met:
-             * 
-             * Redistributions of source code must retain the above copyright notice, this list of 
+             *
+             * Redistributions of source code must retain the above copyright notice, this list of
              * conditions and the following disclaimer.
-             * Redistributions in binary form must reproduce the above copyright notice, this list 
-             * of conditions and the following disclaimer in the documentation and/or other materials 
+             * Redistributions in binary form must reproduce the above copyright notice, this list
+             * of conditions and the following disclaimer in the documentation and/or other materials
              * provided with the distribution.
-             * 
-             * Neither the name of the author nor the names of contributors may be used to endorse 
+             *
+             * Neither the name of the author nor the names of contributors may be used to endorse
              * or promote products derived from this software without specific prior written permission.
-             * 
-             * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+             *
+             * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
              * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
              * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
              *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
              *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-             *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+             *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
              * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-             *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
-             * OF THE POSSIBILITY OF SUCH DAMAGE. 
+             *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+             * OF THE POSSIBILITY OF SUCH DAMAGE.
              *
              */
         })();
@@ -702,7 +702,7 @@
                     for (var i = 0; i < child[LEXICON.l]; i++)
                         insertAdjacentElement(el, strategy, child[i]);
                 }
-                else if (_type(child) == TYPES.s)
+                else if (_type(child) == TYPES.svc)
                     el.insertAdjacentHTML(strategy, child);
                 else
                     el.insertAdjacentElement(strategy, child.nodeType ? child : child[0]);
@@ -710,8 +710,8 @@
 
             function setCSSVal(el, prop, val) {
                 try {
-                    if (el[LEXICON.s][prop] !== undefined)
-                        el[LEXICON.s][prop] = parseCSSVal(prop, val);
+                    if (el[LEXICON.svc][prop] !== undefined)
+                        el[LEXICON.svc][prop] = parseCSSVal(prop, val);
                 } catch (e) { }
             }
 
@@ -921,7 +921,7 @@
                 var elms;
                 var el;
 
-                if (_type(selector) == TYPES.s) {
+                if (_type(selector) == TYPES.svc) {
                     elements = [];
                     if (selector.charAt(0) === '<') {
                         el = document.createElement('div');
@@ -937,7 +937,7 @@
                 }
 
                 if (elements) {
-                    if (_type(elements) != TYPES.s && (!isArrayLike(elements) || elements === window || elements === elements.self))
+                    if (_type(elements) != TYPES.svc && (!isArrayLike(elements) || elements === window || elements === elements.self))
                         elements = [elements];
 
                     for (i = 0; i < elements[LEXICON.l]; i++)
@@ -1118,13 +1118,13 @@
                     var key;
                     var cptStyle;
                     var getCptStyle = window.getComputedStyle;
-                    if (_type(styles) == TYPES.s) {
+                    if (_type(styles) == TYPES.svc) {
                         if (val === undefined) {
                             el = this[0];
                             cptStyle = getCptStyle ? getCptStyle(el, null) : el.currentStyle[styles];
 
                             //https://bugzilla.mozilla.org/show_bug.cgi?id=548397 can be null sometimes if iframe with display: none (firefox only!)
-                            return getCptStyle ? cptStyle != null ? cptStyle.getPropertyValue(styles) : el[LEXICON.s][styles] : cptStyle;
+                            return getCptStyle ? cptStyle != null ? cptStyle.getPropertyValue(styles) : el[LEXICON.svc][styles] : cptStyle;
                         }
                         else {
                             return this.each(function () {
@@ -1245,11 +1245,11 @@
                 },
 
                 hide: function () {
-                    return this.each(function () { this[LEXICON.s].display = 'none'; });
+                    return this.each(function () { this[LEXICON.svc].display = 'none'; });
                 },
 
                 show: function () {
-                    return this.each(function () { this[LEXICON.s].display = 'block'; });
+                    return this.each(function () { this[LEXICON.svc].display = 'block'; });
                 },
 
                 attr: function (attrName, value) {
@@ -1484,7 +1484,7 @@
                 var possibleTemplateTypes = [
                     TYPES.b, //boolean
                     TYPES.n, //number
-                    TYPES.s, //string
+                    TYPES.svc, //string
                     TYPES.a, //array
                     TYPES.o, //object
                     TYPES.f, //function
@@ -1492,18 +1492,18 @@
                 ];
                 var restrictedStringsSplit = ' ';
                 var restrictedStringsPossibilitiesSplit = ':';
-                var classNameAllowedValues = [TYPES.z, TYPES.s];
+                var classNameAllowedValues = [TYPES.z, TYPES.svc];
                 var numberAllowedValues = TYPES.n;
                 var booleanNullAllowedValues = [TYPES.z, TYPES.b];
                 var booleanTrueTemplate = [true, TYPES.b];
                 var booleanFalseTemplate = [false, TYPES.b];
                 var callbackTemplate = [null, [TYPES.z, TYPES.f]];
-                var updateOnLoadTemplate = [['img'], [TYPES.s, TYPES.a, TYPES.z]];
-                var inheritedAttrsTemplate = [['style', 'class'], [TYPES.s, TYPES.a, TYPES.z]];
+                var updateOnLoadTemplate = [['img'], [TYPES.svc, TYPES.a, TYPES.z]];
+                var inheritedAttrsTemplate = [['style', 'class'], [TYPES.svc, TYPES.a, TYPES.z]];
                 var resizeAllowedValues = 'n:none b:both h:horizontal v:vertical';
-                var overflowBehaviorAllowedValues = 'v-h:visible-hidden v-s:visible-scroll s:scroll h:hidden';
+                var overflowBehaviorAllowedValues = 'v-h:visible-hidden v-svc:visible-scroll svc:scroll h:hidden';
                 var scrollbarsVisibilityAllowedValues = 'v:visible h:hidden a:auto';
-                var scrollbarsAutoHideAllowedValues = 'n:never s:scroll l:leave m:move';
+                var scrollbarsAutoHideAllowedValues = 'n:never svc:scroll l:leave m:move';
                 var optionsDefaultsAndTemplate = {
                     className: ['os-theme-dark', classNameAllowedValues],                //null || string
                     resize: ['none', resizeAllowedValues],                               //none || both  || horizontal || vertical || n || b || h || v
@@ -1519,12 +1519,12 @@
                         initialize: booleanTrueTemplate                                  //true || false
                     },
                     overflowBehavior: {
-                        x: ['scroll', overflowBehaviorAllowedValues],                    //visible-hidden  || visible-scroll || hidden || scroll || v-h || v-s || h || s
-                        y: ['scroll', overflowBehaviorAllowedValues]                     //visible-hidden  || visible-scroll || hidden || scroll || v-h || v-s || h || s
+                        x: ['scroll', overflowBehaviorAllowedValues],                    //visible-hidden  || visible-scroll || hidden || scroll || v-h || v-svc || h || svc
+                        y: ['scroll', overflowBehaviorAllowedValues]                     //visible-hidden  || visible-scroll || hidden || scroll || v-h || v-svc || h || svc
                     },
                     scrollbars: {
                         visibility: ['auto', scrollbarsVisibilityAllowedValues],         //visible || hidden || auto || v || h || a
-                        autoHide: ['never', scrollbarsAutoHideAllowedValues],            //never || scroll || leave || move || n || s || l || m
+                        autoHide: ['never', scrollbarsAutoHideAllowedValues],            //never || scroll || leave || move || n || svc || l || m
                         autoHideDelay: [800, numberAllowedValues],                       //number
                         dragScrolling: booleanTrueTemplate,                              //true || false
                         clickScrolling: booleanFalseTemplate,                            //true || false
@@ -1633,9 +1633,9 @@
                                             currType = templateTypes[i];
                                             templateValueType = type(currType);
                                             //if currtype is string and starts with restrictedStringPrefix and end with restrictedStringSuffix
-                                            isRestrictedValue = templateValueType == TYPES.s && inArray(currType, possibleTemplateTypes) === -1;
+                                            isRestrictedValue = templateValueType == TYPES.svc && inArray(currType, possibleTemplateTypes) === -1;
                                             if (isRestrictedValue) {
-                                                errorPossibleTypes.push(TYPES.s);
+                                                errorPossibleTypes.push(TYPES.svc);
 
                                                 //split it into a array which contains all possible values for example: ["y:yes", "n:no", "m:maybe"]
                                                 restrictedStringValuesSplit = currType.split(restrictedStringsSplit);
@@ -1840,7 +1840,7 @@
                     supportMutationObserver: !!COMPATIBILITY.mO()
                 });
 
-                scrollbarDummyElement.removeAttr(LEXICON.s).remove();
+                scrollbarDummyElement.removeAttr(LEXICON.svc).remove();
 
                 //Catch zoom event:
                 (function () {
@@ -2092,7 +2092,7 @@
                 var _viewportSize = {};
                 var _nativeScrollbarMinSize = {};
 
-                //naming:	
+                //naming:
                 var _strMinusHidden = '-hidden';
                 var _strMarginMinus = 'margin-';
                 var _strPaddingMinus = 'padding-';
@@ -2131,7 +2131,7 @@
                 var _strTransitionEndEvent = 'transitionend webkitTransitionEnd oTransitionEnd';
                 var _strResizeObserverProperty = '__overlayScrollbarsRO__';
 
-                //class names:	
+                //class names:
                 var _cassNamesPrefix = 'os-';
                 var _classNameHTMLElement = _cassNamesPrefix + 'html';
                 var _classNameHostElement = _cassNamesPrefix + 'host';
@@ -2190,22 +2190,22 @@
                     _classNameScrollbarCornerResizeV,
                     _classNameDragging].join(_strSpace);
 
-                //callbacks:	
+                //callbacks:
                 var _callbacksInitQeueue = [];
 
-                //attrs viewport shall inherit from target	
+                //attrs viewport shall inherit from target
                 var _viewportAttrsFromTarget = [LEXICON.ti];
 
-                //options:	
+                //options:
                 var _defaultOptions;
                 var _currentOptions;
                 var _currentPreparedOptions;
 
-                //extensions:	
+                //extensions:
                 var _extensions = {};
                 var _extensionsPrivateMethods = 'added removed on contract';
 
-                //update	
+                //update
                 var _lastUpdateTime;
                 var _swallowedUpdateHints = {};
                 var _swallowedUpdateTimeout;
@@ -2213,21 +2213,21 @@
                 var _updateOnLoadEventName = 'load';
                 var _updateOnLoadElms = [];
 
-                //DOM elements:	
+                //DOM elements:
                 var _windowElement;
                 var _documentElement;
                 var _htmlElement;
                 var _bodyElement;
-                var _targetElement;                     //the target element of this OverlayScrollbars object	
-                var _hostElement;                       //the host element of this OverlayScrollbars object -> may be the same as targetElement	
-                var _sizeAutoObserverElement;           //observes size auto changes	
-                var _sizeObserverElement;               //observes size and padding changes	
-                var _paddingElement;                    //manages the padding	
-                var _viewportElement;                   //is the viewport of our scrollbar model	
-                var _contentElement;                    //the element which holds the content	
-                var _contentArrangeElement;             //is needed for correct sizing of the content element (only if native scrollbars are overlays)	
-                var _contentGlueElement;                //has always the size of the content element	
-                var _textareaCoverElement;              //only applied if target is a textarea element. Used for correct size calculation and for prevention of uncontrolled scrolling	
+                var _targetElement;                     //the target element of this OverlayScrollbars object
+                var _hostElement;                       //the host element of this OverlayScrollbars object -> may be the same as targetElement
+                var _sizeAutoObserverElement;           //observes size auto changes
+                var _sizeObserverElement;               //observes size and padding changes
+                var _paddingElement;                    //manages the padding
+                var _viewportElement;                   //is the viewport of our scrollbar model
+                var _contentElement;                    //the element which holds the content
+                var _contentArrangeElement;             //is needed for correct sizing of the content element (only if native scrollbars are overlays)
+                var _contentGlueElement;                //has always the size of the content element
+                var _textareaCoverElement;              //only applied if target is a textarea element. Used for correct size calculation and for prevention of uncontrolled scrolling
                 var _scrollbarCornerElement;
                 var _scrollbarHorizontalElement;
                 var _scrollbarHorizontalTrackElement;
@@ -2245,7 +2245,7 @@
                 var _viewportElementNative;
                 var _contentElementNative;
 
-                //Cache:	
+                //Cache:
                 var _hostSizeCache;
                 var _contentScrollSizeCache;
                 var _arrangeContentSizeCache;
@@ -2285,22 +2285,22 @@
                 var _bodyMinSizeCache;
                 var _updateAutoCache = {};
 
-                //MutationObserver:	
+                //MutationObserver:
                 var _mutationObserverHost;
                 var _mutationObserverContent;
                 var _mutationObserverHostCallback;
                 var _mutationObserverContentCallback;
                 var _mutationObserversConnected;
                 var _mutationObserverAttrsTextarea = ['wrap', 'cols', 'rows'];
-                var _mutationObserverAttrsHost = [LEXICON.i, LEXICON.c, LEXICON.s, 'open'].concat(_viewportAttrsFromTarget);
+                var _mutationObserverAttrsHost = [LEXICON.i, LEXICON.c, LEXICON.svc, 'open'].concat(_viewportAttrsFromTarget);
 
-                //events:	
+                //events:
                 var _destroyEvents = [];
 
-                //textarea:	
+                //textarea:
                 var _textareaHasFocus;
 
-                //scrollbars:	
+                //scrollbars:
                 var _scrollbarsAutoHideTimeoutId;
                 var _scrollbarsAutoHideMoveTimeoutId;
                 var _scrollbarsAutoHideDelay;
@@ -2311,21 +2311,21 @@
                 var _scrollbarsHandleHovered;
                 var _scrollbarsHandlesDefineScrollPos;
 
-                //resize	
+                //resize
                 var _resizeNone;
                 var _resizeBoth;
                 var _resizeHorizontal;
                 var _resizeVertical;
 
 
-                //==== Event Listener ====//	
+                //==== Event Listener ====//
 
-                /**	
-                 * Adds or removes a event listener from the given element. 	
-                 * @param element The element to which the event listener shall be applied or removed.	
-                 * @param eventNames The name(s) of the events.	
-                 * @param listener The method which shall be called.	
-                 * @param remove True if the handler shall be removed, false or undefined if the handler shall be added.	
+                /**
+                 * Adds or removes a event listener from the given element.
+                 * @param element The element to which the event listener shall be applied or removed.
+                 * @param eventNames The name(svc) of the events.
+                 * @param listener The method which shall be called.
+                 * @param remove True if the handler shall be removed, false or undefined if the handler shall be added.
                  * @param passiveOrOptions The options for the event.
                  */
                 function setupResponsiveEventListener(element, eventNames, listener, remove, passiveOrOptions) {
@@ -2354,7 +2354,7 @@
                             }
                             else {
                                 element[onOff](events[i], listener);
-                            }     
+                            }
                         }
                     }
                 }
@@ -2566,7 +2566,7 @@
                  * Freezes or unfreezes the given resize observer.
                  * @param targetElement The element to which the target resize observer is applied.
                  * @param freeze True if the resize observer shall be frozen, false otherwise.
-                 
+
                 function freezeResizeObserver(targetElement, freeze) {
                     if (targetElement !== undefined) {
                         if(freeze) {
@@ -2652,8 +2652,8 @@
                                     if (!doUpdate) {
                                         doUpdate = mutationIsClass
                                             ? hostClassNamesChanged(oldMutationVal, newClassVal)
-                                            : mutationAttrName === LEXICON.s
-                                                ? oldMutationVal !== mutationTarget[LEXICON.s].cssText
+                                            : mutationAttrName === LEXICON.svc
+                                                ? oldMutationVal !== mutationTarget[LEXICON.svc].cssText
                                                 : true;
                                     }
 
@@ -2808,8 +2808,8 @@
                     return false;
                 }
 
-                /**	
-                 * A callback which will be called after a element has loaded.	
+                /**
+                 * A callback which will be called after a element has loaded.
                  */
                 function updateOnLoadCallback(event) {
                     var elm = FRAMEWORK(event.target);
@@ -2869,8 +2869,8 @@
                  * @returns {boolean} True if the class names has really changed, false otherwise.
                  */
                 function hostClassNamesChanged(oldClassNames, newClassNames) {
-                    var currClasses = typeof newClassNames == TYPES.s ? newClassNames.split(_strSpace) : [];
-                    var oldClasses = typeof oldClassNames == TYPES.s ? oldClassNames.split(_strSpace) : [];
+                    var currClasses = typeof newClassNames == TYPES.svc ? newClassNames.split(_strSpace) : [];
+                    var oldClasses = typeof oldClassNames == TYPES.svc ? oldClassNames.split(_strSpace) : [];
                     var diff = getArrayDifferences(oldClasses, currClasses);
 
                     // remove none theme from diff list to prevent update
@@ -2905,12 +2905,12 @@
 
                     if (mutationTarget === _contentElementNative)
                         return attributeName === null;
-                    if (mutationType === 'attributes' && (attributeName === LEXICON.c || attributeName === LEXICON.s) && !_isTextarea) {
-                        //ignore className changes by the plugin	
+                    if (mutationType === 'attributes' && (attributeName === LEXICON.c || attributeName === LEXICON.svc) && !_isTextarea) {
+                        //ignore className changes by the plugin
                         if (attributeName === LEXICON.c && FRAMEWORK(mutationTarget).hasClass(_classNameHostElement))
                             return hostClassNamesChanged(mutation.oldValue, mutationTarget.className);
 
-                        //only do it of browser support it natively	
+                        //only do it of browser support it natively
                         if (typeof mutationTarget[strClosest] != TYPES.f)
                             return true;
                         if (mutationTarget[strClosest](_strDot + _classNameResizeObserverElement) !== null ||
@@ -2963,7 +2963,7 @@
                 }
 
                 /**
-                 * Returns true when a attribute which the MutationObserver would observe has changed.  
+                 * Returns true when a attribute which the MutationObserver would observe has changed.
                  * @returns {boolean} True if one of the attributes which a MutationObserver would observe has changed, false or undefined otherwise.
                  */
                 function meaningfulAttrsChanged() {
@@ -3056,8 +3056,8 @@
                         _strBorderMinus + _strTop + _strWidth,
                         _strBorderMinus + _strBottom + _strWidth
                     ];
-                    var _strS = 's';
-                    var _strVS = 'v-s';
+                    var _strS = 'svc';
+                    var _strVS = 'v-svc';
                     var checkX = _overflowBehaviorCache.x === _strS || _overflowBehaviorCache.x === _strVS;
                     var checkY = _overflowBehaviorCache.y === _strS || _overflowBehaviorCache.y === _strVS;
                     var sizeIsAffected = false;
@@ -3095,7 +3095,7 @@
                     each(attrs, function (index, attr) {
                         if (COMPATIBILITY.inA(attr, _viewportAttrsFromTarget) > -1) {
                             var targetAttr = _targetElement.attr(attr);
-                            if (type(targetAttr) == TYPES.s) {
+                            if (type(targetAttr) == TYPES.svc) {
                                 _viewportElement.attr(attr, targetAttr);
                             }
                             else {
@@ -3299,7 +3299,7 @@
 
                     //scrollbars visibility
                     _scrollbarsAutoHideNever = scrollbarsAutoHide === 'n';
-                    _scrollbarsAutoHideScroll = scrollbarsAutoHide === 's';
+                    _scrollbarsAutoHideScroll = scrollbarsAutoHide === 'svc';
                     _scrollbarsAutoHideMove = scrollbarsAutoHide === 'm';
                     _scrollbarsAutoHideLeave = scrollbarsAutoHide === 'l';
 
@@ -3753,9 +3753,9 @@
                             var scrollMax = _strScroll + scrollbarVars._Left_Top + 'Max';
                             var fractionalOverflowAmount = viewportRect[widthHeight] ? MATH.abs(viewportRect[widthHeight] - _viewportSize[wh]) : 0;
                             var checkFractionalOverflowAmount = previousOverflowAmount && previousOverflowAmount[xy] > 0 && _viewportElementNative[scrollMax] === 0;
-                            overflowBehaviorIsVS[xy] = overflowBehavior[xy] === 'v-s';
+                            overflowBehaviorIsVS[xy] = overflowBehavior[xy] === 'v-svc';
                             overflowBehaviorIsVH[xy] = overflowBehavior[xy] === 'v-h';
-                            overflowBehaviorIsS[xy] = overflowBehavior[xy] === 's';
+                            overflowBehaviorIsS[xy] = overflowBehavior[xy] === 'svc';
                             overflowAmount[xy] = MATH.max(0, MATH.round((contentScrollSize[wh] - _viewportSize[wh]) * 100) / 100);
                             overflowAmount[xy] *= (hideOverflowForceTextarea || (checkFractionalOverflowAmount && fractionalOverflowAmount > 0 && fractionalOverflowAmount < 1)) ? 0 : 1;
                             hasOverflow[xy] = overflowAmount[xy] > 0;
@@ -3764,9 +3764,9 @@
                             //x || y : true === overflow is hidden by "overflow: scroll" OR "overflow: hidden"
                             //xs || ys : true === overflow is hidden by "overflow: scroll"
                             hideOverflow[xy] = overflowBehaviorIsVS[xy] || overflowBehaviorIsVH[xy] ? (hasOverflow[xyI] && !overflowBehaviorIsVS[xyI] && !overflowBehaviorIsVH[xyI]) : hasOverflow[xy];
-                            hideOverflow[xy + 's'] = hideOverflow[xy] ? (overflowBehaviorIsS[xy] || overflowBehaviorIsVS[xy]) : false;
+                            hideOverflow[xy + 'svc'] = hideOverflow[xy] ? (overflowBehaviorIsS[xy] || overflowBehaviorIsVS[xy]) : false;
 
-                            canScroll[xy] = hasOverflow[xy] && hideOverflow[xy + 's'];
+                            canScroll[xy] = hasOverflow[xy] && hideOverflow[xy + 'svc'];
                         };
                         setOverflowVariables(true);
                         setOverflowVariables(false);
@@ -3802,7 +3802,7 @@
                                     var strDirection = horizontal ? _strBottom : isRTLLeft;
                                     var invertedAutoSize = horizontal ? heightAuto : widthAuto;
 
-                                    if (_nativeScrollbarIsOverlaid[xy] && hasOverflow[xy] && hideOverflow[xy + 's']) {
+                                    if (_nativeScrollbarIsOverlaid[xy] && hasOverflow[xy] && hideOverflow[xy + 'svc']) {
                                         contentElementCSS[_strMarginMinus + strDirection] = invertedAutoSize ? (ignoreOverlayScrollbarHiding ? _strEmpty : _overlayScrollbarDummySize[xy]) : _strEmpty;
                                         contentElementCSS[_strBorderMinus + strDirection] = ((horizontal ? !invertedAutoSize : true) && !ignoreOverlayScrollbarHiding) ? (_overlayScrollbarDummySize[xy] + borderDesign) : _strEmpty;
                                     }
@@ -3855,7 +3855,7 @@
                                     viewportElementCSS[strDirection] = _strEmpty;
                                     _contentBorderSize[scrollbarVarsInverted._w_h] = 0;
                                 };
-                                if (hasOverflow[xy] && hideOverflow[xy + 's']) {
+                                if (hasOverflow[xy] && hideOverflow[xy + 'svc']) {
                                     viewportElementCSS[strOverflow + XY] = _strScroll;
                                     if (ignoreOverlayScrollbarHiding || _nativeScrollbarStyling) {
                                         reset();
@@ -3872,7 +3872,7 @@
                             setViewportCSS(true);
                             setViewportCSS(false);
 
-                            // if the scroll container is too small and if there is any overflow with no overlay scrollbar (and scrollbar styling isn't possible), 
+                            // if the scroll container is too small and if there is any overflow with no overlay scrollbar (and scrollbar styling isn't possible),
                             // make viewport element greater in size (Firefox hide Scrollbars fix)
                             // because firefox starts hiding scrollbars on too small elements
                             // with this behavior the overflow calculation may be incorrect or the scrollbars would appear suddenly
@@ -3921,7 +3921,7 @@
 
                             //force soft redraw in webkit because without the scrollbars will may appear because DOM wont be redrawn under special conditions
                             if ((hasOverflow.c || boxSizingChanged || widthAutoChanged || heightAutoChanged) && !(_nativeScrollbarIsOverlaid.x && _nativeScrollbarIsOverlaid.y)) {
-                                var elementStyle = _contentElementNative[LEXICON.s];
+                                var elementStyle = _contentElementNative[LEXICON.svc];
                                 var dump;
                                 elementStyle.webkitTransform = 'scale(1)';
                                 elementStyle.display = 'run-in';
@@ -4164,7 +4164,7 @@
                     var applyAdoptedAttrs = function () {
                         var applyAdoptedAttrsElm = destroy ? _targetElement : _hostElement;
                         each(adoptAttrsMap, function (key, value) {
-                            if (type(value) == TYPES.s) {
+                            if (type(value) == TYPES.svc) {
                                 if (key == LEXICON.c)
                                     applyAdoptedAttrsElm.addClass(value);
                                 else
@@ -4191,7 +4191,7 @@
                         _classNameCache].join(_strSpace);
                     var hostElementCSS = {};
 
-                    //get host element as first element, because that's the most upper element and required for the other elements
+                    //get host element as first element, because that'svc the most upper element and required for the other elements
                     _hostElement = _hostElement || (_isTextarea ? (_domExists ? _targetElement[strParent]()[strParent]()[strParent]()[strParent]() : FRAMEWORK(generateDiv(_classNameHostTextareaElement))) : _targetElement);
                     _contentElement = _contentElement || selectOrGenerateDivByClass(_classNameContentElement + textareaClass);
                     _viewportElement = _viewportElement || selectOrGenerateDivByClass(_classNameViewportElement + textareaClass);
@@ -4203,16 +4203,16 @@
                     if (_domExists)
                         addClass(_hostElement, _classNameHostElementForeign);
 
-                    //on destroy, remove all generated class names from the host element before collecting the adopted attributes 
+                    //on destroy, remove all generated class names from the host element before collecting the adopted attributes
                     //to prevent adopting generated class names
                     if (destroy)
                         removeClass(_hostElement, hostElementClassNames);
 
                     //collect all adopted attributes
-                    adoptAttrs = type(adoptAttrs) == TYPES.s ? adoptAttrs.split(_strSpace) : adoptAttrs;
+                    adoptAttrs = type(adoptAttrs) == TYPES.svc ? adoptAttrs.split(_strSpace) : adoptAttrs;
                     if (COMPATIBILITY.isA(adoptAttrs) && _isTextarea) {
                         each(adoptAttrs, function (i, v) {
-                            if (type(v) == TYPES.s) {
+                            if (type(v) == TYPES.svc) {
                                 adoptAttrsMap[v] = destroy ? _hostElement.attr(v) : _targetElement.attr(v);
                             }
                         });
@@ -4276,7 +4276,7 @@
                             //remove the style property and classes from already generated elements
                             each([_paddingElement, _viewportElement, _contentElement, _textareaCoverElement], function (i, elm) {
                                 if (elm) {
-                                    removeClass(elm.removeAttr(LEXICON.s), _classNamesDynamicDestroy);
+                                    removeClass(elm.removeAttr(LEXICON.svc), _classNamesDynamicDestroy);
                                 }
                             });
 
@@ -4302,7 +4302,7 @@
                         }
 
                         if (_isTextarea)
-                            _targetElement.removeAttr(LEXICON.s);
+                            _targetElement.removeAttr(LEXICON.svc);
 
                         if (_isBody)
                             removeClass(_htmlElement, _classNameHTMLElement);
@@ -4480,7 +4480,7 @@
 
                         if (_domExists && _initialized) {
                             each([scrollbar, track, handle], function (i, elm) {
-                                removeClass(elm.removeAttr(LEXICON.s), _classNamesDynamicDestroy);
+                                removeClass(elm.removeAttr(LEXICON.svc), _classNamesDynamicDestroy);
                             });
                         }
                         else {
@@ -4594,8 +4594,8 @@
                         COMPATIBILITY.rAF()(function() {
                             setupResponsiveEventListener(_documentElement, strClickEvent, stopClickEventPropagation, true, { _capture: true });
                         });
-                        
-                            
+
+
                         if (_scrollbarsHandlesDefineScrollPos)
                             refreshScrollbarHandleOffset(isHorizontal, true);
 
@@ -4653,7 +4653,7 @@
                         COMPATIBILITY.rAF()(function() {
                             setupResponsiveEventListener(_documentElement, strClickEvent, stopClickEventPropagation, false, { _capture: true });
                         });
-                        
+
 
                         if (_msieVersion || !_documentMixed)
                             COMPATIBILITY.prvD(event);
@@ -4975,7 +4975,7 @@
                 /**
                  * Returns a object which is used for fast access for specific variables.
                  * @param isHorizontal True if the horizontal scrollbar vars shall be accessed, false if the vertical scrollbar vars shall be accessed.
-                 * @returns {{wh: string, WH: string, lt: string, _wh: string, _lt: string, t: *, h: *, c: {}, s: *}}
+                 * @returns {{wh: string, WH: string, lt: string, _wh: string, _lt: string, t: *, h: *, c: {}, svc: *}}
                  */
                 function getScrollbarVars(isHorizontal) {
                     return {
@@ -5011,7 +5011,7 @@
                     }
                     else {
                         if (_domExists && _initialized) {
-                            removeClass(_scrollbarCornerElement.removeAttr(LEXICON.s), _classNamesDynamicDestroy);
+                            removeClass(_scrollbarCornerElement.removeAttr(LEXICON.svc), _classNamesDynamicDestroy);
                         }
                         else {
                             remove(_scrollbarCornerElement);
@@ -5178,7 +5178,7 @@
                     var assembledValue = element.css(transitionStr);
                     if (assembledValue)
                         return assembledValue;
-                    var regExpString = '\\s*(' + '([^,(]+(\\(.+?\\))?)+' + ')[\\s,]*';
+                    var regExpString = '\\svc*(' + '([^,(]+(\\(.+?\\))?)+' + ')[\\svc,]*';
                     var regExpMain = new RegExp(regExpString);
                     var regExpValidate = new RegExp('^(' + regExpString + ')+$');
                     var properties = 'property duration timing-function delay'.split(' ');
@@ -5217,7 +5217,7 @@
                     var appendix;
                     var appendClasses = function (classes, condition) {
                         appendix = '';
-                        if (condition && typeof classes == TYPES.s) {
+                        if (condition && typeof classes == TYPES.svc) {
                             split = classes.split(_strSpace);
                             for (i = 0; i < split[LEXICON.l]; i++)
                                 appendix += '|' + split[i] + '$';
@@ -5255,7 +5255,7 @@
                     var wnd = o && o[strOwnerDocument] ? (o[strOwnerDocument].parentWindow || window) : window;
                     return (
                         typeof wnd[strHTMLElement] == TYPES.o ? o instanceof wnd[strHTMLElement] : //DOM2
-                            o && typeof o == TYPES.o && o !== null && o.nodeType === 1 && typeof o.nodeName == TYPES.s
+                            o && typeof o == TYPES.o && o !== null && o.nodeType === 1 && typeof o.nodeName == TYPES.svc
                     );
                 }
 
@@ -5358,7 +5358,7 @@
                  * @returns {string} The concated string which represents a HTML div and its content.
                  */
                 function generateDiv(classesOrAttrs, content) {
-                    return '<div ' + (classesOrAttrs ? type(classesOrAttrs) == TYPES.s ?
+                    return '<div ' + (classesOrAttrs ? type(classesOrAttrs) == TYPES.svc ?
                         'class="' + classesOrAttrs + '"' :
                         (function () {
                             var key;
@@ -5389,7 +5389,7 @@
                     return (_domExists && !selectParent[LEXICON.l])
                         ? null
                         : _domExists
-                            ? selectParent[onlyChildren ? 'children' : 'find'](_strDot + className.replace(/\s/g, _strDot)).eq(0)
+                            ? selectParent[onlyChildren ? 'children' : 'find'](_strDot + className.replace(/\svc/g, _strDot)).eq(0)
                             : FRAMEWORK(generateDiv(className))
                 }
 
@@ -5430,13 +5430,13 @@
                     FRAMEWORK.extend(obj, extendObjRoot, true);
                 }
 
-                /**	
-                 * Runs a action for each selector inside the updateOnLoad option.	
-                 * @param {Function} action The action for each updateOnLoad selector, the arguments the function takes is the index and the value (the selector).	
+                /**
+                 * Runs a action for each selector inside the updateOnLoad option.
+                 * @param {Function} action The action for each updateOnLoad selector, the arguments the function takes is the index and the value (the selector).
                  */
                 function eachUpdateOnLoad(action) {
                     var updateOnLoad = _currentPreparedOptions.updateOnLoad;
-                    updateOnLoad = type(updateOnLoad) == TYPES.s ? updateOnLoad.split(_strSpace) : updateOnLoad;
+                    updateOnLoad = type(updateOnLoad) == TYPES.svc ? updateOnLoad.split(_strSpace) : updateOnLoad;
 
                     if (COMPATIBILITY.isA(updateOnLoad) && !_destroyed) {
                         each(updateOnLoad, action);
@@ -5541,8 +5541,8 @@
                  * !INTERNAL USAGE! : force can be a string "auto", "sync" or "zoom" too
                  * if "auto" then before a real update the content size and host element attributes gets checked, and if they changed only then the update method will be called.
                  * if "sync" then the async update process (MutationObserver or UpdateLoop) gets synchronized and a corresponding update takes place if one was needed due to pending changes.
-                 * if "zoom" then a update takes place where it's assumed that content and host size changed
-                 * @returns {boolean|undefined} 
+                 * if "zoom" then a update takes place where it'svc assumed that content and host size changed
+                 * @returns {boolean|undefined}
                  * If force is "sync" then a boolean is returned which indicates whether a update was needed due to pending changes.
                  * If force is "auto" then a boolean is returned whether a update was needed due to attribute or size changes.
                  * undefined otherwise.
@@ -5553,7 +5553,7 @@
 
                     var attrsChanged;
                     var contentSizeC;
-                    var isString = type(force) == TYPES.s;
+                    var isString = type(force) == TYPES.svc;
                     var doUpdateAuto;
                     var mutHost;
                     var mutContent;
@@ -5610,7 +5610,7 @@
 
                     //return current options if newOptions are undefined or empty
                     if (FRAMEWORK.isEmptyObject(newOptions) || !FRAMEWORK.isPlainObject(newOptions)) {
-                        if (type(newOptions) == TYPES.s) {
+                        if (type(newOptions) == TYPES.svc) {
                             if (arguments.length > 1) {
                                 setObjectPropVal(option, newOptions, value);
                                 changedOps = setOptions(option);
@@ -5737,7 +5737,7 @@
                  *    'begin'   Both axis shall be docked to the "begin" edge. - The element will be docked to the top and left edge of the viewport.
                  *    'end'     Both axis shall be docked to the "end" edge. - The element will be docked to the bottom and right edge of the viewport. (If direction is RTL to the bottom and left edge.)
                  *    'center'  Both axis shall be docked to "center". - The element will be centered in the viewport.
-                 *    'nearest' The element will be docked to the nearest edge(s).
+                 *    'nearest' The element will be docked to the nearest edge(svc).
                  *
                  *    Possible margin settings are: -- The actual margin of the element wont be affect, this option affects only the final scroll offset.
                  *    [BOOLEAN]                                         If true the css margin of the element will be used, if false no margin will be used.
@@ -5863,20 +5863,20 @@
                     }
                     function getRawScroll(isX, coordinates) {
                         var coordinateProps = isX ? coordinatesXAxisProps : coordinatesYAxisProps;
-                        coordinates = type(coordinates) == TYPES.s || type(coordinates) == TYPES.n ? [coordinates, coordinates] : coordinates;
+                        coordinates = type(coordinates) == TYPES.svc || type(coordinates) == TYPES.n ? [coordinates, coordinates] : coordinates;
 
                         if (COMPATIBILITY.isA(coordinates))
                             return isX ? coordinates[0] : coordinates[1];
                         else if (type(coordinates) == TYPES.o) {
                             //decides RTL normalization "hack" with .n
-                            //normalizeRTL = type(coordinates.n) == TYPES.b ? coordinates.n : normalizeRTL; 
+                            //normalizeRTL = type(coordinates.n) == TYPES.b ? coordinates.n : normalizeRTL;
                             for (i = 0; i < coordinateProps[strLength]; i++)
                                 if (coordinateProps[i] in coordinates)
                                     return coordinates[coordinateProps[i]];
                         }
                     }
                     function getFinalScroll(isX, rawScroll) {
-                        var isString = type(rawScroll) == TYPES.s;
+                        var isString = type(rawScroll) == TYPES.svc;
                         var operator;
                         var amount;
                         var scrollInfo = isX ? _scrollHorizontalInfo : _scrollVerticalInfo;
@@ -6024,8 +6024,8 @@
 
                             //block = type(block) === TYPES.b ? block ? [ strNearest, strBegin ] : [ strNearest, strEnd ] : block;
                             settingsAxis = checkSettingsStringValue(axis, elementObjSettingsAxisValues) ? axis : 'xy';
-                            settingsScroll = getPerAxisValue(scroll, TYPES.s, strAlways, elementObjSettingsScrollValues);
-                            settingsBlock = getPerAxisValue(block, TYPES.s, strBegin, elementObjSettingsBlockValues);
+                            settingsScroll = getPerAxisValue(scroll, TYPES.svc, strAlways, elementObjSettingsScrollValues);
+                            settingsBlock = getPerAxisValue(block, TYPES.svc, strBegin, elementObjSettingsBlockValues);
                             settingsMargin = margin;
 
                             var viewportScroll = {
@@ -6180,7 +6180,7 @@
                         },
                         scrollbarCorner: _scrollbarCornerElement[0]
                     };
-                    return type(elementName) == TYPES.s ? getObjectPropVal(obj, elementName) : obj;
+                    return type(elementName) == TYPES.svc ? getObjectPropVal(obj, elementName) : obj;
                 };
 
                 /**
@@ -6219,7 +6219,7 @@
                         hostSize: prepare(_hostSizeCache),
                         documentMixed: prepare(_documentMixed)
                     };
-                    return type(stateProperty) == TYPES.s ? getObjectPropVal(obj, stateProperty) : obj;
+                    return type(stateProperty) == TYPES.svc ? getObjectPropVal(obj, stateProperty) : obj;
                 };
 
                 /**
@@ -6231,7 +6231,7 @@
                     var result;
                     var privateMethods = _extensionsPrivateMethods.split(' ');
                     var i = 0;
-                    if (type(extName) == TYPES.s) {
+                    if (type(extName) == TYPES.svc) {
                         if (_extensions[LEXICON.hOP](extName)) {
                             result = extendDeep({}, _extensions[extName]);
                             for (; i < privateMethods.length; i++)
@@ -6313,7 +6313,7 @@
                  * Constructs the plugin.
                  * @param targetElement The element to which the plugin shall be applied.
                  * @param options The initial options of the plugin.
-                 * @param extensions The extension(s) which shall be added right after the initialization.
+                 * @param extensions The extension(svc) which shall be added right after the initialization.
                  * @returns {boolean} True if the plugin was successfully initialized, false otherwise.
                  */
                 function construct(targetElement, options, extensions) {
@@ -6351,8 +6351,8 @@
                     /* On a div Element The if checks only whether:
                      * - the targetElement has the class "os-host"
                      * - the targetElement has a a child with the class "os-padding"
-                     * 
-                     * If that's the case, its assumed the DOM has already the following structure:
+                     *
+                     * If that'svc the case, its assumed the DOM has already the following structure:
                      * (The ".os-host" element is the targetElement)
                      *
                      *  <div class="os-host">
@@ -6376,12 +6376,12 @@
                      *  </div>
                      *
                      * =====================================================================================
-                     * 
+                     *
                      * On a Textarea Element The if checks only whether:
-                     * - the targetElement has the class "os-textarea" 
-                     * - the targetElement is inside a element with the class "os-content" 
-                     * 
-                     * If that's the case, its assumed the DOM has already the following structure:
+                     * - the targetElement has the class "os-textarea"
+                     * - the targetElement is inside a element with the class "os-content"
+                     *
+                     * If that'svc the case, its assumed the DOM has already the following structure:
                      * (The ".os-textarea" (textarea) element is the targetElement)
                      *
                      *  <div class="os-host-textarea">
@@ -6487,7 +6487,7 @@
                     _callbacksInitQeueue = [];
 
                     //add extensions
-                    if (type(extensions) == TYPES.s)
+                    if (type(extensions) == TYPES.svc)
                         extensions = [extensions];
                     if (COMPATIBILITY.isA(extensions))
                         each(extensions, function (index, value) { _base.addExt(value); });
@@ -6514,7 +6514,7 @@
              * Initializes a new OverlayScrollbarsInstance object or changes options if already initialized or returns the current instance.
              * @param pluginTargetElements The elements to which the Plugin shall be initialized.
              * @param options The custom options with which the plugin shall be initialized.
-             * @param extensions The extension(s) which shall be added right after initialization.
+             * @param extensions The extension(svc) which shall be added right after initialization.
              * @returns {*}
              */
             _plugin = window[PLUGINNAME] = function (pluginTargetElements, options, extensions) {
@@ -6607,7 +6607,7 @@
              * @param defaultOptions The default options which shall be used for the registered extension.
              */
             _plugin.extension = function (extensionName, extension, defaultOptions) {
-                var extNameTypeString = COMPATIBILITY.type(extensionName) == TYPES.s;
+                var extNameTypeString = COMPATIBILITY.type(extensionName) == TYPES.svc;
                 var argLen = arguments[LEXICON.l];
                 var i = 0;
                 if (argLen < 1 || !extNameTypeString) {
@@ -6642,9 +6642,9 @@
         if (JQUERY && JQUERY.fn) {
             /**
              * The jQuery initialization interface.
-             * @param options The initial options for the construction of the plugin. To initialize the plugin, this option has to be a object! If it isn't a object, the instance(s) are returned and the plugin wont be initialized.
-             * @param extensions The extension(s) which shall be added right after initialization.
-             * @returns {*} After initialization it returns the jQuery element array, else it returns the instance(s) of the elements which are selected.
+             * @param options The initial options for the construction of the plugin. To initialize the plugin, this option has to be a object! If it isn't a object, the instance(svc) are returned and the plugin wont be initialized.
+             * @param extensions The extension(svc) which shall be added right after initialization.
+             * @returns {*} After initialization it returns the jQuery element array, else it returns the instance(svc) of the elements which are selected.
              */
             JQUERY.fn.overlayScrollbars = function (options, extensions) {
                 var _elements = this;

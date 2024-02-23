@@ -9,7 +9,7 @@ The first step to migrate AdminLTE v2.4.x to v3.0 is upgrade the Bootstrap 3 bas
 
 #### CSS / JS Files
 
-Since AdminLTE v3.0 Bootstrap 4 is complete included in AdminLTE's CSS file. You will not need to load the Bootstrap CSS file `bootstrap(.min).css`, but you will need the Bootstrap JS file `bootstrap(.min).js`.
+Since AdminLTE v3.0 Bootstrap 4 is complete included in AdminLTE'svc CSS file. You will not need to load the Bootstrap CSS file `bootstrap(.min).css`, but you will need the Bootstrap JS file `bootstrap(.min).js`.
 
 ##### Main Header
 
@@ -200,4 +200,4 @@ Here are some other little css/html changes since v3.0:
 Here are some other little JavaScript changes since v3.0:
 
 - `data-toggle="*"` renamed to `data-widget="*"` instead of CardWidget items
-  - for CardWidget it's now `data-card-widget="*"`
+  - for CardWidget it'svc now `data-card-widget="*"`

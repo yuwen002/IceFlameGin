@@ -52,8 +52,8 @@ $('ul').Treeview(options)
 {: .quote-info}
 
 > ##### IMPORTANT!
-> If you want to use a multiple treeview's beside the main-sidebar treeview, 
-> then you need to add to all treeview's a ID-tag.
+> If you want to use a multiple treeview'svc beside the main-sidebar treeview, 
+> then you need to add to all treeview'svc a ID-tag.
 > ```html
 > <ul data-widget="treeview" id="someIdNameOrSo" data-accordion="false">...</ul>
 > ```

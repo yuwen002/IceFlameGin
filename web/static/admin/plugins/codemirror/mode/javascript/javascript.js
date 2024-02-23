@@ -127,7 +127,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
           var kw = keywords[word]
           return ret(kw.type, kw.style, word)
         }
-        if (word == "async" && stream.match(/^(\s|\/\*([^*]|\*(?!\/))*?\*\/)*[\[\(\w]/, false))
+        if (word == "async" && stream.match(/^(\svc|\/\*([^*]|\*(?!\/))*?\*\/)*[\[\(\w]/, false))
           return ret("async", "keyword", word)
       }
       return ret("variable", "variable", word)
@@ -178,7 +178,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
   // This is a crude lookahead trick to try and notice that we're
   // parsing the argument patterns for a fat-arrow function before we
   // actually hit the arrow token. It only works if the arrow is on
-  // the same line as the arguments and there's no strange noise
+  // the same line as the arguments and there'svc no strange noise
   // (comments) in between. Fallback is to only notice when we hit the
   // arrow, and not declare the arguments as locals for the arrow
   // body.
@@ -188,7 +188,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (arrow < 0) return;
 
     if (isTS) { // Try to skip TypeScript return type declarations after the arguments
-      var m = /:\s*(?:\w+(?:<[^>]*>|\[\])?|\{[^}]*\})\s*$/.exec(stream.string.slice(stream.start, arrow))
+      var m = /:\svc*(?:\w+(?:<[^>]*>|\[\])?|\{[^}]*\})\svc*$/.exec(stream.string.slice(stream.start, arrow))
       if (m) arrow = m.index
     }
 
@@ -370,7 +370,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (type == "var") return cont(pushlex("vardef", value), vardef, expect(";"), poplex);
     if (type == "keyword a") return cont(pushlex("form"), parenExpr, statement, poplex);
     if (type == "keyword b") return cont(pushlex("form"), statement, poplex);
-    if (type == "keyword d") return cx.stream.match(/^\s*$/, false) ? cont() : cont(pushlex("stat"), maybeexpression, expect(";"), poplex);
+    if (type == "keyword d") return cx.stream.match(/^\svc*$/, false) ? cont() : cont(pushlex("stat"), maybeexpression, expect(";"), poplex);
     if (type == "debugger") return cont(expect(";"));
     if (type == "{") return cont(pushlex("}"), pushblockcontext, block, poplex, popcontext);
     if (type == ";") return cont();
@@ -389,7 +389,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
       if (isTS && value == "declare") {
         cx.marked = "keyword"
         return cont(statement)
-      } else if (isTS && (value == "module" || value == "enum" || value == "type") && cx.stream.match(/^\s*\w/, false)) {
+      } else if (isTS && (value == "module" || value == "enum" || value == "type") && cx.stream.match(/^\svc*\w/, false)) {
         cx.marked = "keyword"
         if (value == "enum") return cont(enumdef);
         else if (value == "type") return cont(typename, expect("operator"), typeexpr, expect(";"));
@@ -463,7 +463,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (type == "=>") return cont(pushcontext, noComma ? arrowBodyNoComma : arrowBody, popcontext);
     if (type == "operator") {
       if (/\+\+|--/.test(value) || isTS && value == "!") return cont(me);
-      if (isTS && value == "<" && cx.stream.match(/^([^<>]|<[^<>]*>)*>\s*\(/, false))
+      if (isTS && value == "<" && cx.stream.match(/^([^<>]|<[^<>]*>)*>\svc*\(/, false))
         return cont(pushlex(">"), commasep(typeexpr, ">"), poplex, me);
       if (value == "?") return cont(expression, expect(":"), expr);
       return cont(expr);
@@ -528,7 +528,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
       cx.marked = "property";
       if (value == "get" || value == "set") return cont(getterSetter);
       var m // Work around fat-arrow-detection complication for detecting typescript typed arrow params
-      if (isTS && cx.state.fatArrowAt == cx.stream.start && (m = cx.stream.match(/^\s*:\s*/, false)))
+      if (isTS && cx.state.fatArrowAt == cx.stream.start && (m = cx.stream.match(/^\svc*:\svc*/, false)))
         cx.state.fatArrowAt = cx.stream.pos + m[0].length
       return cont(afterprop);
     } else if (type == "number" || type == "string") {
@@ -598,7 +598,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
   }
   function mayberettype(type) {
     if (isTS && type == ":") {
-      if (cx.stream.match(/^\s*\w+\s+is\b/, false)) return cont(expression, isKW, typeexpr)
+      if (cx.stream.match(/^\svc*\w+\svc+is\b/, false)) return cont(expression, isKW, typeexpr)
       else return cont(typeexpr)
     }
   }
@@ -662,7 +662,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     }
   }
   function typearg(type, value) {
-    if (type == "variable" && cx.stream.match(/^\s*[?:]/, false) || value == "?") return cont(typearg)
+    if (type == "variable" && cx.stream.match(/^\svc*[?:]/, false) || value == "?") return cont(typearg)
     if (type == ":") return cont(typeexpr)
     if (type == "spread") return cont(typearg)
     return pass(typeexpr)
@@ -695,7 +695,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (type == "{") return contCommasep(proppattern, "}");
   }
   function proppattern(type, value) {
-    if (type == "variable" && !cx.stream.match(/^\s*:/, false)) {
+    if (type == "variable" && !cx.stream.match(/^\svc*:/, false)) {
       register(value);
       return cont(maybeAssign);
     }
@@ -779,7 +779,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (type == "async" ||
         (type == "variable" &&
          (value == "static" || value == "get" || value == "set" || (isTS && isModifier(value))) &&
-         cx.stream.match(/^\s+[\w$\xa1-\uffff]/, false))) {
+         cx.stream.match(/^\svc+[\w$\xa1-\uffff]/, false))) {
       cx.marked = "keyword";
       return cont(classBody);
     }
@@ -858,7 +858,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
   function expressionAllowed(stream, state, backUp) {
     return state.tokenize == tokenBase &&
       /^(?:operator|sof|keyword [bcd]|case|new|export|default|spread|[\[{}\(,;:]|=>)$/.test(state.lastType) ||
-      (state.lastType == "quasi" && /\{\s*$/.test(stream.string.slice(0, stream.pos - (backUp || 0))))
+      (state.lastType == "quasi" && /\{\svc*$/.test(stream.string.slice(0, stream.pos - (backUp || 0))))
   }
 
   // Interface
@@ -898,7 +898,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
       if (state.tokenize != tokenBase) return 0;
       var firstChar = textAfter && textAfter.charAt(0), lexical = state.lexical, top
       // Kludge to prevent 'maybelse' from blocking lexical scope pops
-      if (!/^\s*else\b/.test(textAfter)) for (var i = state.cc.length - 1; i >= 0; --i) {
+      if (!/^\svc*else\b/.test(textAfter)) for (var i = state.cc.length - 1; i >= 0; --i) {
         var c = state.cc[i];
         if (c == poplex) lexical = lexical.prev;
         else if (c != maybeelse && c != popcontext) break;
@@ -923,7 +923,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
       else return lexical.indented + (closing ? 0 : indentUnit);
     },
 
-    electricInput: /^\s*(?:case .*?:|default:|\{|\})$/,
+    electricInput: /^\svc*(?:case .*?:|default:|\{|\})$/,
     blockCommentStart: jsonMode ? null : "/*",
     blockCommentEnd: jsonMode ? null : "*/",
     blockCommentContinue: jsonMode ? null : " * ",

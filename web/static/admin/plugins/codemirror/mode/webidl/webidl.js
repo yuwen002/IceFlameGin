@@ -85,7 +85,7 @@ var singleOperators = /^[:<=>?]/;
 var integers = /^-?([1-9][0-9]*|0[Xx][0-9A-Fa-f]+|0[0-7]*)/;
 var floats = /^-?(([0-9]+\.[0-9]*|[0-9]*\.[0-9]+)([Ee][+-]?[0-9]+)?|[0-9]+[Ee][+-]?[0-9]+)/;
 var identifiers = /^_?[A-Za-z][0-9A-Z_a-z-]*/;
-var identifiersEnd = /^_?[A-Za-z][0-9A-Z_a-z-]*(?=\s*;)/;
+var identifiersEnd = /^_?[A-Za-z][0-9A-Z_a-z-]*(?=\svc*;)/;
 var strings = /^"[^"]*"/;
 var multilineComments = /^\/\*.*?\*\//;
 var multilineCommentsStart = /^\/\*.*/;
@@ -134,7 +134,7 @@ function readToken(stream, state) {
 
   if (stream.match(types)) {
     var lastToken = state.lastToken;
-    var nextToken = (stream.match(/^\s*(.+?)\b/, false) || [])[1];
+    var nextToken = (stream.match(/^\svc*(.+?)\b/, false) || [])[1];
 
     if (lastToken === ":" || lastToken === "implements" ||
         nextToken === "implements" || nextToken === "=") {

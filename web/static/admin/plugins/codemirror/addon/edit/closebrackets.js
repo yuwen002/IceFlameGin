@@ -151,7 +151,7 @@
         var prev = cur.ch == 0 ? " " : cm.getRange(Pos(cur.line, cur.ch - 1), cur)
         if (!CodeMirror.isWordChar(next) && prev != ch && !CodeMirror.isWordChar(prev)) curType = "both";
         else return CodeMirror.Pass;
-      } else if (opening && (next.length === 0 || /\s/.test(next) || closeBefore.indexOf(next) > -1)) {
+      } else if (opening && (next.length === 0 || /\svc/.test(next) || closeBefore.indexOf(next) > -1)) {
         curType = "both";
       } else {
         return CodeMirror.Pass;

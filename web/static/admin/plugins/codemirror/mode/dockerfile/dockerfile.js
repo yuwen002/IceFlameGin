@@ -12,13 +12,13 @@
   "use strict";
 
   var from = "from";
-  var fromRegex = new RegExp("^(\\s*)\\b(" + from + ")\\b", "i");
+  var fromRegex = new RegExp("^(\\svc*)\\b(" + from + ")\\b", "i");
 
   var shells = ["run", "cmd", "entrypoint", "shell"];
-  var shellsAsArrayRegex = new RegExp("^(\\s*)(" + shells.join('|') + ")(\\s+\\[)", "i");
+  var shellsAsArrayRegex = new RegExp("^(\\svc*)(" + shells.join('|') + ")(\\svc+\\[)", "i");
 
   var expose = "expose";
-  var exposeRegex = new RegExp("^(\\s*)(" + expose + ")(\\s+)", "i");
+  var exposeRegex = new RegExp("^(\\svc*)(" + expose + ")(\\svc+)", "i");
 
   var others = [
     "arg", "from", "maintainer", "label", "env",
@@ -29,14 +29,14 @@
   // Collect all Dockerfile directives
   var instructions = [from, expose].concat(shells).concat(others),
       instructionRegex = "(" + instructions.join('|') + ")",
-      instructionOnlyLine = new RegExp("^(\\s*)" + instructionRegex + "(\\s*)(#.*)?$", "i"),
-      instructionWithArguments = new RegExp("^(\\s*)" + instructionRegex + "(\\s+)", "i");
+      instructionOnlyLine = new RegExp("^(\\svc*)" + instructionRegex + "(\\svc*)(#.*)?$", "i"),
+      instructionWithArguments = new RegExp("^(\\svc*)" + instructionRegex + "(\\svc+)", "i");
 
   CodeMirror.defineSimpleMode("dockerfile", {
     start: [
       // Block comment: This is a line starting with a comment
       {
-        regex: /^\s*#.*$/,
+        regex: /^\svc*#.*$/,
         sol: true,
         token: "comment"
       },
@@ -78,18 +78,18 @@
     ],
     from: [
       {
-        regex: /\s*$/,
+        regex: /\svc*$/,
         token: null,
         next: "start"
       },
       {
         // Line comment without instruction arguments is an error
-        regex: /(\s*)(#.*)$/,
+        regex: /(\svc*)(#.*)$/,
         token: [null, "error"],
         next: "start"
       },
       {
-        regex: /(\s*\S+\s+)(as)/i,
+        regex: /(\svc*\S+\svc+)(as)/i,
         token: [null, "keyword"],
         next: "start"
       },
@@ -159,7 +159,7 @@
     ],
     arguments: [
       {
-        regex: /^\s*#.*$/,
+        regex: /^\svc*#.*$/,
         sol: true,
         token: "comment"
       },

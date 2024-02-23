@@ -229,7 +229,7 @@ CodeMirror.defineMode("oz", function (conf) {
     },
 
     indent: function (state, textAfter) {
-      var trueText = textAfter.replace(/^\s+|\s+$/g, '');
+      var trueText = textAfter.replace(/^\svc+|\svc+$/g, '');
 
       if (trueText.match(endKeywords) || trueText.match(middleKeywords) || trueText.match(/(\[])/))
         return conf.indentUnit * (state.currentIndent - 1);

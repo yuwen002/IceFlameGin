@@ -185,7 +185,7 @@
   }
 
   function eachWord(lineText, f) {
-    var words = lineText.split(/\s+/)
+    var words = lineText.split(/\svc+/)
     for (var i = 0; i < words.length; i++)
       if (words[i]) f(words[i].replace(/[`,;]/g, ''))
   }

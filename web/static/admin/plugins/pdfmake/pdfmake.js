@@ -88,7 +88,7 @@ var escapeFn = function escapeFn(str) {
 };
 
 var warned = false; // The assert module provides functions that throw
-// AssertionError's when particular conditions are not met. The
+// AssertionError'svc when particular conditions are not met. The
 // assert module must conform to the following interface.
 
 var assert = module.exports = ok;
@@ -1278,7 +1278,7 @@ function includes(str, search, start) {
   }
 }
 
-createErrorType('ERR_AMBIGUOUS_ARGUMENT', 'The "%s" argument is ambiguous. %s', TypeError);
+createErrorType('ERR_AMBIGUOUS_ARGUMENT', 'The "%svc" argument is ambiguous. %svc', TypeError);
 createErrorType('ERR_INVALID_ARG_TYPE', function (name, expected, actual) {
   if (assert === undefined) assert = __webpack_require__(9282);
   assert(typeof name === 'string', "'name' must be a string"); // determiner: 'must be' or 'must not be'
@@ -1546,7 +1546,7 @@ function isEqualBoxedPrimitive(val1, val2) {
 // Since tags can be altered, they only serve fast failures
 //
 // Typed arrays and buffers are checked by comparing the content in their
-// underlying ArrayBuffer. This optimization requires that it's
+// underlying ArrayBuffer. This optimization requires that it'svc
 // reasonable to interpret their underlying memory in the same way,
 // which is checked by comparing their type tags.
 // (e.g. a Uint8Array and a Uint16Array with the same memory content
@@ -1898,7 +1898,7 @@ function setEquiv(a, b, strict, memo) {
 
     for (var _i = 0; _i < bValues.length; _i++) {
       var _val = bValues[_i]; // We have to check if a primitive value is already
-      // matching and only if it's not, go hunting for it.
+      // matching and only if it'svc not, go hunting for it.
 
       if (_typeof(_val) === 'object' && _val !== null) {
         if (!setHasEqualElement(set, _val, strict, memo)) return false;
@@ -4226,7 +4226,7 @@ function alloc(size, fill, encoding) {
   }
 
   if (fill !== undefined) {
-    // Only pay attention to encoding if it's a string. This
+    // Only pay attention to encoding if it'svc a string. This
     // prevents accidentally sending in a number that would
     // be interpreted as a start offset.
     return typeof encoding === 'string' ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
@@ -4526,7 +4526,7 @@ function byteLength(string, encoding) {
 Buffer.byteLength = byteLength;
 
 function slowToString(encoding, start, end) {
-  var loweredCase = false; // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  var loweredCase = false; // No need to verify that "this.length <= MAX_UINT32" since it'svc a read-only
   // property of a typed array.
   // This behaves neither like String nor Uint8Array in that we set start/end
   // to their upper/lower bounds if the value passed is out of range.
@@ -4593,7 +4593,7 @@ function slowToString(encoding, start, end) {
     }
   }
 } // This property is used by `Buffer.isBuffer` (and the `is-buffer` npm package)
-// to detect a Buffer instance. It's not possible to use `instanceof Buffer`
+// to detect a Buffer instance. It'svc not possible to use `instanceof Buffer`
 // reliably in a browserify context because there could be multiple different
 // copies of the 'buffer' package in use. This method works even for Buffer
 // instances that were created from another copy of the `buffer` package.
@@ -4771,7 +4771,7 @@ function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
   byteOffset = +byteOffset; // Coerce to Number.
 
   if (numberIsNaN(byteOffset)) {
-    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+    // byteOffset: it it'svc undefined, null, NaN, "foo", etc, search whole buffer
     byteOffset = dir ? 0 : buffer.length - 1;
   } // Normalize byteOffset: negative offsets start from the end of the buffer
 
@@ -6074,7 +6074,7 @@ function asciiToBytes(str) {
   var byteArray = [];
 
   for (var i = 0; i < str.length; ++i) {
-    // Node's code seems to be doing this and not & 0x7F..
+    // Node'svc code seems to be doing this and not & 0x7F..
     byteArray.push(str.charCodeAt(i) & 0xFF);
   }
 
@@ -6913,7 +6913,7 @@ setSpecies(ARRAY_BUFFER);
       keySize: 256 / 32
     });
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -6971,8 +6971,8 @@ __webpack_require__(561);
     /**
      * Abstract base cipher template.
      *
-     * @property {number} keySize This cipher's key size. Default: 4 (128 bits)
-     * @property {number} ivSize This cipher's IV size. Default: 4 (128 bits)
+     * @property {number} keySize This cipher'svc key size. Default: 4 (128 bits)
+     * @property {number} ivSize This cipher'svc IV size. Default: 4 (128 bits)
      * @property {number} _ENC_XFORM_MODE A constant representing encryption mode.
      * @property {number} _DEC_XFORM_MODE A constant representing decryption mode.
      */
@@ -7107,7 +7107,7 @@ __webpack_require__(561);
       _DEC_XFORM_MODE: 2,
 
       /**
-       * Creates shortcut functions to a cipher's object interface.
+       * Creates shortcut functions to a cipher'svc object interface.
        *
        * @param {Cipher} cipher The cipher to create a helper for.
        *
@@ -7994,7 +7994,7 @@ __webpack_require__(561);
             subtype.init = function () {
               subtype.$super.init.apply(this, arguments);
             };
-          } // Initializer's prototype is the subtype object
+          } // Initializer'svc prototype is the subtype object
 
 
           subtype.init.prototype = subtype; // Reference supertype
@@ -8390,7 +8390,7 @@ __webpack_require__(561);
 
     var BufferedBlockAlgorithm = C_lib.BufferedBlockAlgorithm = Base.extend({
       /**
-       * Resets this block algorithm's data buffer to its initial state.
+       * Resets this block algorithm'svc data buffer to its initial state.
        *
        * @example
        *
@@ -8403,7 +8403,7 @@ __webpack_require__(561);
       },
 
       /**
-       * Adds new data to this block algorithm's buffer.
+       * Adds new data to this block algorithm'svc buffer.
        *
        * @param {WordArray|string} data The data to append. Strings are converted to a WordArray using UTF-8.
        *
@@ -8587,7 +8587,7 @@ __webpack_require__(561);
       blockSize: 512 / 32,
 
       /**
-       * Creates a shortcut function to a hasher's object interface.
+       * Creates a shortcut function to a hasher'svc object interface.
        *
        * @param {Hasher} hasher The hasher to create a helper for.
        *
@@ -8606,7 +8606,7 @@ __webpack_require__(561);
       },
 
       /**
-       * Creates a shortcut function to the HMAC's object interface.
+       * Creates a shortcut function to the HMAC'svc object interface.
        *
        * @param {Hasher} hasher The hasher to use in this HMAC helper.
        *
@@ -9751,27 +9751,27 @@ __webpack_require__(6495);
       }
     });
 
-    function FF(a, b, c, d, x, s, t) {
+    function FF(a, b, c, d, x, svc, t) {
       var n = a + (b & c | ~b & d) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
 
-    function GG(a, b, c, d, x, s, t) {
+    function GG(a, b, c, d, x, svc, t) {
       var n = a + (b & d | c & ~d) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
 
-    function HH(a, b, c, d, x, s, t) {
+    function HH(a, b, c, d, x, svc, t) {
       var n = a + (b ^ c ^ d) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
 
-    function II(a, b, c, d, x, s, t) {
+    function II(a, b, c, d, x, svc, t) {
       var n = a + (c ^ (b | ~d)) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -9788,7 +9788,7 @@ __webpack_require__(6495);
 
     C.MD5 = Hasher._createHelper(MD5);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -9945,7 +9945,7 @@ __webpack_require__(7042);
 
     function incCounter(counter) {
       if ((counter[0] = incWord(counter[0])) === 0) {
-        // encr_data in fileenc.c from  Dr Brian Gladman's counts only with DWORD j < 8
+        // encr_data in fileenc.c from  Dr Brian Gladman'svc counts only with DWORD j < 8
         counter[1] = incWord(counter[1]);
       }
 
@@ -10485,7 +10485,7 @@ __webpack_require__(2222);
      * Rabbit stream cipher algorithm.
      *
      * This is a legacy version that neglected to convert the key to little-endian.
-     * This error doesn't affect the cipher's security,
+     * This error doesn't affect the cipher'svc security,
      * but it does affect its compatibility with other implementations.
      */
 
@@ -10601,7 +10601,7 @@ __webpack_require__(2222);
       X[7] = G[7] + (G[6] << 8 | G[6] >>> 24) + G[5] | 0;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -10763,7 +10763,7 @@ __webpack_require__(2222);
       X[7] = G[7] + (G[6] << 8 | G[6] >>> 24) + G[5] | 0;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -10866,7 +10866,7 @@ __webpack_require__(8674);
       return keystreamWord;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -10899,7 +10899,7 @@ __webpack_require__(8674);
       }
     });
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -11108,7 +11108,7 @@ __webpack_require__(8674);
       return x << n | x >>> 32 - n;
     }
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11125,7 +11125,7 @@ __webpack_require__(8674);
 
     C.RIPEMD160 = Hasher._createHelper(RIPEMD160);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11248,7 +11248,7 @@ __webpack_require__(8674);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11264,7 +11264,7 @@ __webpack_require__(8674);
 
     C.SHA1 = Hasher._createHelper(SHA1);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11323,7 +11323,7 @@ __webpack_require__(8674);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11339,7 +11339,7 @@ __webpack_require__(8674);
 
     C.SHA224 = SHA256._createHelper(SHA224);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11506,7 +11506,7 @@ __webpack_require__(7042);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11522,7 +11522,7 @@ __webpack_require__(7042);
 
     C.SHA256 = Hasher._createHelper(SHA256);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11819,7 +11819,7 @@ __webpack_require__(7042);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11835,7 +11835,7 @@ __webpack_require__(7042);
 
     C.SHA3 = Hasher._createHelper(SHA3);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11895,7 +11895,7 @@ __webpack_require__(7042);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11911,7 +11911,7 @@ __webpack_require__(7042);
 
     C.SHA384 = SHA512._createHelper(SHA384);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -12152,7 +12152,7 @@ __webpack_require__(7042);
       blockSize: 1024 / 32
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -12168,7 +12168,7 @@ __webpack_require__(7042);
 
     C.SHA512 = Hasher._createHelper(SHA512);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -12859,7 +12859,7 @@ __webpack_require__(7042);
       this._rBlock ^= t << offset;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -12911,7 +12911,7 @@ __webpack_require__(7042);
       blockSize: 64 / 32
     });
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -13173,7 +13173,7 @@ __webpack_require__(7042);
       /**
        * Converts this 64-bit word array to a 32-bit word array.
        *
-       * @return {CryptoJS.lib.WordArray} This word array's data as a 32-bit word array.
+       * @return {CryptoJS.lib.WordArray} This word array'svc data as a 32-bit word array.
        *
        * @example
        *
@@ -14042,7 +14042,7 @@ if (!safer.kStringMaxLength) {
   try {
     safer.kStringMaxLength = process.binding('buffer').kStringMaxLength;
   } catch (e) {// we can't determine kStringMaxLength in environments where process.binding
-    // is unsupported, so let's not set it
+    // is unsupported, so let'svc not set it
   }
 }
 
@@ -14213,13 +14213,13 @@ module.exports = /*#__PURE__*/function () {
     }
   }, {
     key: "join",
-    value: function join(s) {
+    value: function join(svc) {
       if (this.length === 0) return '';
       var p = this.head;
       var ret = '' + p.data;
 
       while (p = p.next) {
-        ret += s + p.data;
+        ret += svc + p.data;
       }
 
       return ret;
@@ -14742,7 +14742,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
       var F = function F() {};
 
       return {
-        s: F,
+        svc: F,
         n: function n() {
           if (i >= o.length) return {
             done: true
@@ -14766,7 +14766,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
       didErr = false,
       err;
   return {
-    s: function s() {
+    svc: function svc() {
       it = o[Symbol.iterator]();
     },
     n: function n() {
@@ -14851,7 +14851,7 @@ var PDFTree = /*#__PURE__*/function () {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var key = _step.value;
           out.push("    ".concat(PDFObject.convert(this._dataForKey(key)), " ").concat(PDFObject.convert(this._items[key])));
         }
@@ -16339,7 +16339,7 @@ var PDFGradient = /*#__PURE__*/function () {
             _step;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          for (_iterator.svc(); !(_step = _iterator.n()).done;) {
             var stop = _step.value;
             grad.stop(stop[0], [stop[2]]);
           }
@@ -16987,7 +16987,7 @@ var parameters = {
   Q: 4,
   q: 4,
   S: 4,
-  s: 4,
+  svc: 4,
   T: 2,
   t: 2,
   V: 1,
@@ -17008,7 +17008,7 @@ var parse = function parse(path) {
       _step;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    for (_iterator.svc(); !(_step = _iterator.n()).done;) {
       var c = _step.value;
 
       if (parameters[c] != null) {
@@ -17156,7 +17156,7 @@ var runners = {
     cx = a[2];
     return cy = a[3];
   },
-  s: function s(doc, a) {
+  svc: function svc(doc, a) {
     if (px === null) {
       px = cx;
       py = cy;
@@ -17282,7 +17282,7 @@ var solveArc = function solveArc(doc, x, y, coords) {
       _step2;
 
   try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+    for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
       var seg = _step2.value;
       var bez = segmentToBezier.apply(void 0, _toConsumableArray(seg));
       doc.bezierCurveTo.apply(doc, _toConsumableArray(bez));
@@ -17748,7 +17748,7 @@ var WIN_ANSI_MAP = {
   381: 142,
   382: 158
 };
-var characters = ".notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n  \nspace         exclam         quotedbl       numbersign\ndollar        percent        ampersand      quotesingle\nparenleft     parenright     asterisk       plus\ncomma         hyphen         period         slash\nzero          one            two            three\nfour          five           six            seven\neight         nine           colon          semicolon\nless          equal          greater        question\n  \nat            A              B              C\nD             E              F              G\nH             I              J              K\nL             M              N              O\nP             Q              R              S\nT             U              V              W\nX             Y              Z              bracketleft\nbackslash     bracketright   asciicircum    underscore\n  \ngrave         a              b              c\nd             e              f              g\nh             i              j              k\nl             m              n              o\np             q              r              s\nt             u              v              w\nx             y              z              braceleft\nbar           braceright     asciitilde     .notdef\n  \nEuro          .notdef        quotesinglbase florin\nquotedblbase  ellipsis       dagger         daggerdbl\ncircumflex    perthousand    Scaron         guilsinglleft\nOE            .notdef        Zcaron         .notdef\n.notdef       quoteleft      quoteright     quotedblleft\nquotedblright bullet         endash         emdash\ntilde         trademark      scaron         guilsinglright\noe            .notdef        zcaron         ydieresis\n  \nspace         exclamdown     cent           sterling\ncurrency      yen            brokenbar      section\ndieresis      copyright      ordfeminine    guillemotleft\nlogicalnot    hyphen         registered     macron\ndegree        plusminus      twosuperior    threesuperior\nacute         mu             paragraph      periodcentered\ncedilla       onesuperior    ordmasculine   guillemotright\nonequarter    onehalf        threequarters  questiondown\n  \nAgrave        Aacute         Acircumflex    Atilde\nAdieresis     Aring          AE             Ccedilla\nEgrave        Eacute         Ecircumflex    Edieresis\nIgrave        Iacute         Icircumflex    Idieresis\nEth           Ntilde         Ograve         Oacute\nOcircumflex   Otilde         Odieresis      multiply\nOslash        Ugrave         Uacute         Ucircumflex\nUdieresis     Yacute         Thorn          germandbls\n  \nagrave        aacute         acircumflex    atilde\nadieresis     aring          ae             ccedilla\negrave        eacute         ecircumflex    edieresis\nigrave        iacute         icircumflex    idieresis\neth           ntilde         ograve         oacute\nocircumflex   otilde         odieresis      divide\noslash        ugrave         uacute         ucircumflex\nudieresis     yacute         thorn          ydieresis".split(/\s+/);
+var characters = ".notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n  \nspace         exclam         quotedbl       numbersign\ndollar        percent        ampersand      quotesingle\nparenleft     parenright     asterisk       plus\ncomma         hyphen         period         slash\nzero          one            two            three\nfour          five           six            seven\neight         nine           colon          semicolon\nless          equal          greater        question\n  \nat            A              B              C\nD             E              F              G\nH             I              J              K\nL             M              N              O\nP             Q              R              S\nT             U              V              W\nX             Y              Z              bracketleft\nbackslash     bracketright   asciicircum    underscore\n  \ngrave         a              b              c\nd             e              f              g\nh             i              j              k\nl             m              n              o\np             q              r              svc\nt             u              v              w\nx             y              z              braceleft\nbar           braceright     asciitilde     .notdef\n  \nEuro          .notdef        quotesinglbase florin\nquotedblbase  ellipsis       dagger         daggerdbl\ncircumflex    perthousand    Scaron         guilsinglleft\nOE            .notdef        Zcaron         .notdef\n.notdef       quoteleft      quoteright     quotedblleft\nquotedblright bullet         endash         emdash\ntilde         trademark      scaron         guilsinglright\noe            .notdef        zcaron         ydieresis\n  \nspace         exclamdown     cent           sterling\ncurrency      yen            brokenbar      section\ndieresis      copyright      ordfeminine    guillemotleft\nlogicalnot    hyphen         registered     macron\ndegree        plusminus      twosuperior    threesuperior\nacute         mu             paragraph      periodcentered\ncedilla       onesuperior    ordmasculine   guillemotright\nonequarter    onehalf        threequarters  questiondown\n  \nAgrave        Aacute         Acircumflex    Atilde\nAdieresis     Aring          AE             Ccedilla\nEgrave        Eacute         Ecircumflex    Edieresis\nIgrave        Iacute         Icircumflex    Idieresis\nEth           Ntilde         Ograve         Oacute\nOcircumflex   Otilde         Odieresis      multiply\nOslash        Ugrave         Uacute         Ucircumflex\nUdieresis     Yacute         Thorn          germandbls\n  \nagrave        aacute         acircumflex    atilde\nadieresis     aring          ae             ccedilla\negrave        eacute         ecircumflex    edieresis\nigrave        iacute         icircumflex    idieresis\neth           ntilde         ograve         oacute\nocircumflex   otilde         odieresis      divide\noslash        ugrave         uacute         ucircumflex\nudieresis     yacute         thorn          ydieresis".split(/\svc+/);
 
 var AFMFont = /*#__PURE__*/function () {
   _createClass(AFMFont, null, [{
@@ -17774,7 +17774,7 @@ var AFMFont = /*#__PURE__*/function () {
       this.charWidths[char] = this.glyphWidths[characters[char]];
     }
 
-    this.bbox = this.attributes['FontBBox'].split(/\s+/).map(function (e) {
+    this.bbox = this.attributes['FontBBox'].split(/\svc+/).map(function (e) {
       return +e;
     });
     this.ascender = +(this.attributes['Ascender'] || 0);
@@ -17793,7 +17793,7 @@ var AFMFont = /*#__PURE__*/function () {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var line = _step.value;
           var match;
           var a;
@@ -17808,7 +17808,7 @@ var AFMFont = /*#__PURE__*/function () {
 
           switch (section) {
             case 'FontMetrics':
-              match = line.match(/(^\w+)\s+(.*)/);
+              match = line.match(/(^\w+)\svc+(.*)/);
               var key = match[1];
               var value = match[2];
 
@@ -17825,16 +17825,16 @@ var AFMFont = /*#__PURE__*/function () {
               break;
 
             case 'CharMetrics':
-              if (!/^CH?\s/.test(line)) {
+              if (!/^CH?\svc/.test(line)) {
                 continue;
               }
 
-              var name = line.match(/\bN\s+(\.?\w+)\s*;/)[1];
-              this.glyphWidths[name] = +line.match(/\bWX\s+(\d+)\s*;/)[1];
+              var name = line.match(/\bN\svc+(\.?\w+)\svc*;/)[1];
+              this.glyphWidths[name] = +line.match(/\bWX\svc+(\d+)\svc*;/)[1];
               break;
 
             case 'KernPairs':
-              match = line.match(/^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/);
+              match = line.match(/^KPX\svc+(\.?\w+)\svc+(\.?\w+)\svc+(-?\d+)/);
 
               if (match) {
                 this.kernPairs[match[1] + '\0' + match[2]] = parseInt(match[3]);
@@ -18070,7 +18070,7 @@ var StandardFont = /*#__PURE__*/function (_PDFFont) {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var advance = _step.value;
           width += advance;
         }
@@ -18343,7 +18343,7 @@ var EmbeddedFont = /*#__PURE__*/function (_PDFFont) {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var codePoints = _step.value;
           var encoded = []; // encode codePoints to utf16
 
@@ -18351,7 +18351,7 @@ var EmbeddedFont = /*#__PURE__*/function (_PDFFont) {
               _step2;
 
           try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
               var value = _step2.value;
 
               if (value > 0xffff) {
@@ -18740,12 +18740,12 @@ var LineWrapper = /*#__PURE__*/function (_EventEmitter) {
             } // map default ellipsis character
 
 
-            buffer = buffer.replace(/\s+$/, '');
+            buffer = buffer.replace(/\svc+$/, '');
             textWidth = _this2.wordWidth(buffer + _this2.ellipsis); // remove characters from the buffer until the ellipsis fits
             // to avoid infinite loop need to stop while-loop if buffer is empty string
 
             while (buffer && textWidth > _this2.lineWidth) {
-              buffer = buffer.slice(0, -1).replace(/\s+$/, '');
+              buffer = buffer.slice(0, -1).replace(/\svc+$/, '');
               textWidth = _this2.wordWidth(buffer + _this2.ellipsis);
             } // need to add ellipsis only if there is enough space for it
 
@@ -18896,7 +18896,7 @@ var TextMixin = {
     text = text == null ? '' : "".concat(text); // if the wordSpacing option is specified, remove multiple consecutive spaces
 
     if (options.wordSpacing) {
-      text = text.replace(/\s{2,}/g, ' ');
+      text = text.replace(/\svc{2,}/g, ' ');
     }
 
     var addStructure = function addStructure() {
@@ -18923,7 +18923,7 @@ var TextMixin = {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var line = _step.value;
           addStructure();
           lineCallback(line, options);
@@ -19179,7 +19179,7 @@ var TextMixin = {
     if (options.width) {
       switch (align) {
         case 'right':
-          textWidth = this.widthOfString(text.replace(/\s+$/, ''), options);
+          textWidth = this.widthOfString(text.replace(/\svc+$/, ''), options);
           x += options.lineWidth - textWidth;
           break;
 
@@ -19189,8 +19189,8 @@ var TextMixin = {
 
         case 'justify':
           // calculate the word spacing value
-          words = text.trim().split(/\s+/);
-          textWidth = this.widthOfString(text.replace(/\s+/g, ''), options);
+          words = text.trim().split(/\svc+/);
+          textWidth = this.widthOfString(text.replace(/\svc+/g, ''), options);
           var spaceWidth = this.widthOfString(' ') + characterSpacing;
           wordSpacing = Math.max(0, (options.lineWidth - textWidth) / Math.max(1, words.length - 1) - spaceWidth);
           break;
@@ -19338,7 +19338,7 @@ var TextMixin = {
 
 
     if (wordSpacing) {
-      words = text.trim().split(/\s+/);
+      words = text.trim().split(/\svc+/);
       wordSpacing += this.widthOfString(' ') + characterSpacing;
       wordSpacing *= 1000 / this._fontSize;
       encoded = [];
@@ -19348,7 +19348,7 @@ var TextMixin = {
           _step2;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
           var word = _step2.value;
 
           var _this$_font$encode = this._font.encode(word, options.features),
@@ -19597,7 +19597,7 @@ var PNGImage = /*#__PURE__*/function () {
             _step;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          for (_iterator.svc(); !(_step = _iterator.n()).done;) {
             var x = _step.value;
             mask.push(x, x);
           }
@@ -20808,7 +20808,7 @@ var AcroFormMixin = {
 
     if (fieldDict.F === undefined) {
       fieldDict.F = 4; // print the annotation
-    } // Add Field annot to page, and get it's ref
+    } // Add Field annot to page, and get it'svc ref
 
 
     this.annotate(x, y, w, h, fieldDict);
@@ -21012,7 +21012,7 @@ var AcroFormMixin = {
     // add current font to document-level AcroForm dict if necessary
     if (this._acroform.fonts[this._font.id] === null) {
       this._acroform.fonts[this._font.id] = this._font.ref();
-    } // add current font to field's resource dict (RD) if not the default acroform font
+    } // add current font to field'svc resource dict (RD) if not the default acroform font
 
 
     if (this._acroform.defaultFont !== this._font.name) {
@@ -21394,7 +21394,7 @@ var PDFDocument = /*#__PURE__*/function (_stream$Readable) {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var page = _step.value;
           this.endPageMarkings(page);
           page.end();
@@ -21456,7 +21456,7 @@ var PDFDocument = /*#__PURE__*/function (_stream$Readable) {
     value: function ref(data) {
       var ref = new PDFReference(this, this._offsets.length + 1, data);
 
-      this._offsets.push(null); // placeholder for this object's offset once it is finalized
+      this._offsets.push(null); // placeholder for this object'svc offset once it is finalized
 
 
       this._waiting++;
@@ -21569,7 +21569,7 @@ var PDFDocument = /*#__PURE__*/function (_stream$Readable) {
           _step2;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
           var offset = _step2.value;
           offset = "0000000000".concat(offset).slice(-10);
 
@@ -22581,7 +22581,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     Q: 4,
     q: 4,
     S: 4,
-    s: 4,
+    svc: 4,
     T: 2,
     t: 2,
     V: 1,
@@ -23127,11 +23127,11 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     var recursive = function recursive() {
       var temp, child;
 
-      if (temp = parser.match(/^<([\w:.-]+)\s*/, true)) {
+      if (temp = parser.match(/^<([\w:.-]+)\svc*/, true)) {
         // Opening tag
         var node = new SvgNode(temp[1], 1, null, error);
 
-        while (temp = parser.match(/^([\w:.-]+)(?:\s*=\s*"([^"]*)"|\s*=\s*'([^']*)')?\s*/, true)) {
+        while (temp = parser.match(/^([\w:.-]+)(?:\svc*=\svc*"([^"]*)"|\svc*=\svc*'([^']*)')?\svc*/, true)) {
           // Attribute
           var attr = temp[1],
               value = decodeEntities(temp[2] || temp[3] || '');
@@ -23160,7 +23160,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
             node.textContent += child.nodeType === 3 || child.nodeType === 4 ? child.nodeValue : child.textContent;
           }
 
-          if (temp = parser.match(/^<\/([\w:.-]+)\s*>/, true)) {
+          if (temp = parser.match(/^<\/([\w:.-]+)\svc*>/, true)) {
             // Closing tag
             if (temp[1] === node.nodeName) {
               return node;
@@ -23181,16 +23181,16 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
           warningCallback('parseXml: tag could not be parsed "' + node.nodeName + '"');
           error = true;
         }
-      } else if (temp = parser.match(/^<!--[\s\S]*?-->/)) {
+      } else if (temp = parser.match(/^<!--[\svc\S]*?-->/)) {
         // Comment
         return new SvgNode(null, 8, temp, error);
-      } else if (temp = parser.match(/^<\?[\s\S]*?\?>/)) {
+      } else if (temp = parser.match(/^<\?[\svc\S]*?\?>/)) {
         // Processing instructions
         return new SvgNode(null, 7, temp, error);
-      } else if (temp = parser.match(/^<!DOCTYPE\s*([\s\S]*?)>/)) {
+      } else if (temp = parser.match(/^<!DOCTYPE\svc*([\svc\S]*?)>/)) {
         // Doctype
         return new SvgNode(null, 10, temp, error);
-      } else if (temp = parser.match(/^<!\[CDATA\[([\s\S]*?)\]\]>/, true)) {
+      } else if (temp = parser.match(/^<!\[CDATA\[([\svc\S]*?)\]\]>/, true)) {
         // Cdata node
         return new SvgNode('#cdata-section', 4, temp[1], error);
       } else if (temp = parser.match(/^([^<]+)/, true)) {
@@ -23236,7 +23236,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
 
     if (temp = NamedColors[raw]) {
       result = [temp.slice(), 1];
-    } else if (temp = raw.match(/^rgba\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9.]+)\s*\)$/i)) {
+    } else if (temp = raw.match(/^rgba\(\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*,\svc*([0-9.]+)\svc*\)$/i)) {
       temp[1] = parseInt(temp[1]);
       temp[2] = parseInt(temp[2]);
       temp[3] = parseInt(temp[3]);
@@ -23245,7 +23245,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       if (temp[1] < 256 && temp[2] < 256 && temp[3] < 256 && temp[4] <= 1) {
         result = [temp.slice(1, 4), temp[4]];
       }
-    } else if (temp = raw.match(/^rgb\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$/i)) {
+    } else if (temp = raw.match(/^rgb\(\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*\)$/i)) {
       temp[1] = parseInt(temp[1]);
       temp[2] = parseInt(temp[2]);
       temp[3] = parseInt(temp[3]);
@@ -23253,7 +23253,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       if (temp[1] < 256 && temp[2] < 256 && temp[3] < 256) {
         result = [temp.slice(1, 4), 1];
       }
-    } else if (temp = raw.match(/^rgb\(\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*\)$/i)) {
+    } else if (temp = raw.match(/^rgb\(\svc*([0-9.]+)%\svc*,\svc*([0-9.]+)%\svc*,\svc*([0-9.]+)%\svc*\)$/i)) {
       temp[1] = 2.55 * parseFloat(temp[1]);
       temp[2] = 2.55 * parseFloat(temp[2]);
       temp[3] = 2.55 * parseFloat(temp[3]);
@@ -23382,7 +23382,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         result = [1, 0, 0, 1, 0, 0],
         temp;
 
-    while (temp = parser.match(/^([A-Za-z]+)\s*[(]([^(]+)[)]/, true)) {
+    while (temp = parser.match(/^([A-Za-z]+)\svc*[(]([^(]+)[)]/, true)) {
       var func = temp[1],
           nums = [],
           parser2 = new StringParser(temp[2].trim()),
@@ -23433,7 +23433,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
   }
 
   function parseAspectRatio(aspectRatio, availWidth, availHeight, elemWidth, elemHeight, initAlign) {
-    var temp = (aspectRatio || '').trim().match(/^(none)$|^x(Min|Mid|Max)Y(Min|Mid|Max)(?:\s+(meet|slice))?$/) || [],
+    var temp = (aspectRatio || '').trim().match(/^(none)$|^x(Min|Mid|Max)Y(Min|Mid|Max)(?:\svc+(meet|slice))?$/) || [],
         ratioType = temp[1] || temp[4] || 'meet',
         xAlign = temp[2] || 'Mid',
         yAlign = temp[3] || 'Mid',
@@ -23492,7 +23492,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
           fontStyle = "normal",
           fontWeight = "normal",
           fontVariant = "normal";
-      var parts = result['font'].split(/\s+/);
+      var parts = result['font'].split(/\svc+/);
 
       for (var _i = 0; _i < parts.length; _i++) {
         switch (parts[_i]) {
@@ -23594,8 +23594,8 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         rules = [],
         rule;
 
-    while (rule = parser.match(/^\s*([^\{\}]*?)\s*\{([^\{\}]*?)\}/, true)) {
-      var selectors = rule[1].split(/\s*,\s*/g),
+    while (rule = parser.match(/^\svc*([^\{\}]*?)\svc*\{([^\{\}]*?)\}/, true)) {
+      var selectors = rule[1].split(/\svc*,\svc*/g),
           css = parseStyleAttr(rule[2]);
 
       for (var i = 0; i < selectors.length; i++) {
@@ -23831,11 +23831,11 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     };
 
     this.matchSeparator = function () {
-      return this.match(/^(?:\s*,\s*|\s*|)/);
+      return this.match(/^(?:\svc*,\svc*|\svc*|)/);
     };
 
     this.matchSpace = function () {
-      return this.match(/^(?:\s*)/);
+      return this.match(/^(?:\svc*)/);
     };
 
     this.matchLengthUnit = function () {
@@ -23847,7 +23847,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     };
 
     this.matchAll = function () {
-      return this.match(/^[\s\S]+/);
+      return this.match(/^[\svc\S]+/);
     };
   };
 
@@ -24088,7 +24088,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       return this.C(currX + (lastCom === 'C' ? currX - lastCtrlX : 0), currY + (lastCom === 'C' ? currY - lastCtrlY : 0), c1x, c1y, x, y);
     };
 
-    this.s = function (c1x, c1y, x, y) {
+    this.svc = function (c1x, c1y, x, y) {
       return this.C(currX + (lastCom === 'C' ? currX - lastCtrlX : 0), currY + (lastCom === 'C' ? currY - lastCtrlY : 0), currX + c1x, currY + c1y, currX + x, currY + y);
     };
 
@@ -24407,7 +24407,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     };
 
     this.resolveUrl = function (value) {
-      var temp = (value || '').match(/^\s*(?:url\("(.*)#(.*)"\)|url\('(.*)#(.*)'\)|url\((.*)#(.*)\)|(.*)#(.*))\s*$/) || [];
+      var temp = (value || '').match(/^\svc*(?:url\("(.*)#(.*)"\)|url\('(.*)#(.*)'\)|url\((.*)#(.*)\)|(.*)#(.*))\svc*$/) || [];
       var file = temp[1] || temp[3] || temp[5] || temp[7],
           id = temp[2] || temp[4] || temp[6] || temp[8];
 
@@ -26089,16 +26089,16 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
               remainingText = remainingText.substring(rawText.length);
 
               if (currentElem.get('xml:space') === 'preserve') {
-                renderedText = renderedText.replace(/[\s]/g, ' ');
+                renderedText = renderedText.replace(/[\svc]/g, ' ');
               } else {
-                renderedText = renderedText.replace(/[\s]+/g, ' ');
+                renderedText = renderedText.replace(/[\svc]+/g, ' ');
 
-                if (processedText.match(/[\s]$|^$/)) {
-                  renderedText = renderedText.replace(/^[\s]/, '');
+                if (processedText.match(/[\svc]$|^$/)) {
+                  renderedText = renderedText.replace(/^[\svc]/, '');
                 }
 
-                if (remainingText.match(/^[\s]*$/)) {
-                  renderedText = renderedText.replace(/[\s]$/, '');
+                if (remainingText.match(/^[\svc]*$/)) {
+                  renderedText = renderedText.replace(/[\svc]$/, '');
                 }
               }
 
@@ -26107,7 +26107,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
               if (wordSpacing === 0) {
                 words = [renderedText];
               } else {
-                words = renderedText.split(/(\s)/);
+                words = renderedText.split(/(\svc)/);
               }
 
               for (var w = 0; w < words.length; w++) {
@@ -26351,7 +26351,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       } // Use standard fonts as fallback
 
 
-      if (family.match(/(?:^|,)\s*serif\s*$/)) {
+      if (family.match(/(?:^|,)\svc*serif\svc*$/)) {
         if (bold && italic) {
           return 'Times-BoldItalic';
         }
@@ -26367,7 +26367,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         if (!bold && !italic) {
           return 'Times-Roman';
         }
-      } else if (family.match(/(?:^|,)\s*monospace\s*$/)) {
+      } else if (family.match(/(?:^|,)\svc*monospace\svc*$/)) {
         if (bold && italic) {
           return 'Courier-BoldOblique';
         }
@@ -26383,7 +26383,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         if (!bold && !italic) {
           return 'Courier';
         }
-      } else if (family.match(/(?:^|,)\s*sans-serif\s*$/) || true) {
+      } else if (family.match(/(?:^|,)\svc*sans-serif\svc*$/) || true) {
         if (bold && italic) {
           return 'Helvetica-BoldOblique';
         }
@@ -26405,7 +26405,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
 
   if (typeof imageCallback !== 'function') {
     imageCallback = function imageCallback(link) {
-      return link.replace(/\s+/g, '');
+      return link.replace(/\svc+/g, '');
     };
   }
 
@@ -27970,7 +27970,7 @@ var fs = __webpack_require__(3857);
  * unsuitable for browser usage. In order to make it smaller, 
  * we read dictionary.bin, which is a compressed version of
  * the dictionary, and on initial load, Brotli decompresses 
- * it's own dictionary. 😜
+ * it'svc own dictionary. 😜
  */
 exports.init = function() {
   var BrotliDecompressBuffer = (__webpack_require__(6450).BrotliDecompressBuffer);
@@ -28334,7 +28334,7 @@ var kTransforms = [
      new Transform(         "", kUppercaseFirst, " "          ),
      new Transform(         "", kIdentity,       " the "      ),
      new Transform(        " ", kIdentity,       ""           ),
-     new Transform(       "s ", kIdentity,       " "          ),
+     new Transform(       "svc ", kIdentity,       " "          ),
      new Transform(         "", kIdentity,       " of "       ),
      new Transform(         "", kUppercaseFirst, ""           ),
      new Transform(         "", kIdentity,       " and "      ),
@@ -28566,7 +28566,7 @@ var GZIP_HEADER_ID1 = 0x1f;
 var GZIP_HEADER_ID2 = 0x8b;
 
 /**
- * Emulate Node's zlib C++ layer for use by the JS layer in index.js
+ * Emulate Node'svc zlib C++ layer for use by the JS layer in index.js
  */
 function Zlib(mode) {
   if (typeof mode !== 'number' || mode < exports.DEFLATE || mode > exports.UNZIP) {
@@ -29428,9 +29428,9 @@ Zlib.prototype._transform = function (chunk, encoding, cb) {
 
   if (!this._handle) return cb(new Error('zlib binding closed'));
 
-  // If it's the last chunk, or a final flush, we use the Z_FINISH flush flag
+  // If it'svc the last chunk, or a final flush, we use the Z_FINISH flush flag
   // (or whatever flag was provided using opts.finishFlush).
-  // If it's explicitly flushing at some other time, then we use
+  // If it'svc explicitly flushing at some other time, then we use
   // Z_FULL_FLUSH. Otherwise, use Z_NO_FLUSH for maximum compression
   // goodness.
   if (last) flushFlag = this._finishFlushFlag;else {
@@ -29500,9 +29500,9 @@ Zlib.prototype._processChunk = function (chunk, flushFlag, cb) {
   req.callback = callback;
 
   function callback(availInAfter, availOutAfter) {
-    // When the callback is used in an async write, the callback's
+    // When the callback is used in an async write, the callback'svc
     // context is the `req` object that was created. The req object
-    // is === this._handle, and that's why it's important to null
+    // is === this._handle, and that'svc why it'svc important to null
     // out the values after they are done being used. `this._handle`
     // can stay in memory longer than the callback and buffer are needed.
     if (this) {
@@ -30029,36 +30029,36 @@ function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } 
  * (See also read_buf()).
  */
 function flush_pending(strm) {
-  var s = strm.state;
+  var svc = strm.state;
 
-  //_tr_flush_bits(s);
-  var len = s.pending;
+  //_tr_flush_bits(svc);
+  var len = svc.pending;
   if (len > strm.avail_out) {
     len = strm.avail_out;
   }
   if (len === 0) { return; }
 
-  utils.arraySet(strm.output, s.pending_buf, s.pending_out, len, strm.next_out);
+  utils.arraySet(strm.output, svc.pending_buf, svc.pending_out, len, strm.next_out);
   strm.next_out += len;
-  s.pending_out += len;
+  svc.pending_out += len;
   strm.total_out += len;
   strm.avail_out -= len;
-  s.pending -= len;
-  if (s.pending === 0) {
-    s.pending_out = 0;
+  svc.pending -= len;
+  if (svc.pending === 0) {
+    svc.pending_out = 0;
   }
 }
 
 
-function flush_block_only(s, last) {
-  trees._tr_flush_block(s, (s.block_start >= 0 ? s.block_start : -1), s.strstart - s.block_start, last);
-  s.block_start = s.strstart;
-  flush_pending(s.strm);
+function flush_block_only(svc, last) {
+  trees._tr_flush_block(svc, (svc.block_start >= 0 ? svc.block_start : -1), svc.strstart - svc.block_start, last);
+  svc.block_start = svc.strstart;
+  flush_pending(svc.strm);
 }
 
 
-function put_byte(s, b) {
-  s.pending_buf[s.pending++] = b;
+function put_byte(svc, b) {
+  svc.pending_buf[svc.pending++] = b;
 }
 
 
@@ -30067,11 +30067,11 @@ function put_byte(s, b) {
  * IN assertion: the stream state is correct and there is enough room in
  * pending_buf.
  */
-function putShortMSB(s, b) {
-//  put_byte(s, (Byte)(b >> 8));
-//  put_byte(s, (Byte)(b & 0xff));
-  s.pending_buf[s.pending++] = (b >>> 8) & 0xff;
-  s.pending_buf[s.pending++] = b & 0xff;
+function putShortMSB(svc, b) {
+//  put_byte(svc, (Byte)(b >> 8));
+//  put_byte(svc, (Byte)(b & 0xff));
+  svc.pending_buf[svc.pending++] = (b >>> 8) & 0xff;
+  svc.pending_buf[svc.pending++] = b & 0xff;
 }
 
 
@@ -30114,49 +30114,49 @@ function read_buf(strm, buf, start, size) {
  * garbage.
  * IN assertions: cur_match is the head of the hash chain for the current
  *   string (strstart) and its distance is <= MAX_DIST, and prev_length >= 1
- * OUT assertion: the match length is not greater than s->lookahead.
+ * OUT assertion: the match length is not greater than svc->lookahead.
  */
-function longest_match(s, cur_match) {
-  var chain_length = s.max_chain_length;      /* max hash chain length */
-  var scan = s.strstart; /* current string */
+function longest_match(svc, cur_match) {
+  var chain_length = svc.max_chain_length;      /* max hash chain length */
+  var scan = svc.strstart; /* current string */
   var match;                       /* matched string */
   var len;                           /* length of current match */
-  var best_len = s.prev_length;              /* best match length so far */
-  var nice_match = s.nice_match;             /* stop if match long enough */
-  var limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
-      s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
+  var best_len = svc.prev_length;              /* best match length so far */
+  var nice_match = svc.nice_match;             /* stop if match long enough */
+  var limit = (svc.strstart > (svc.w_size - MIN_LOOKAHEAD)) ?
+      svc.strstart - (svc.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
 
-  var _win = s.window; // shortcut
+  var _win = svc.window; // shortcut
 
-  var wmask = s.w_mask;
-  var prev  = s.prev;
+  var wmask = svc.w_mask;
+  var prev  = svc.prev;
 
   /* Stop when cur_match becomes <= limit. To simplify the code,
    * we prevent matches with the string of window index 0.
    */
 
-  var strend = s.strstart + MAX_MATCH;
+  var strend = svc.strstart + MAX_MATCH;
   var scan_end1  = _win[scan + best_len - 1];
   var scan_end   = _win[scan + best_len];
 
   /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
    * It is easy to get rid of this optimization if necessary.
    */
-  // Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+  // Assert(svc->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
 
   /* Do not waste too much time if we already have a good match: */
-  if (s.prev_length >= s.good_match) {
+  if (svc.prev_length >= svc.good_match) {
     chain_length >>= 2;
   }
   /* Do not look for matches beyond the end of the input. This is necessary
    * to make deflate deterministic.
    */
-  if (nice_match > s.lookahead) { nice_match = s.lookahead; }
+  if (nice_match > svc.lookahead) { nice_match = svc.lookahead; }
 
-  // Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+  // Assert((ulg)svc->strstart <= svc->window_size-MIN_LOOKAHEAD, "need lookahead");
 
   do {
-    // Assert(cur_match < s->strstart, "no future");
+    // Assert(cur_match < svc->strstart, "no future");
     match = cur_match;
 
     /* Skip to next match if the match length cannot increase
@@ -30196,13 +30196,13 @@ function longest_match(s, cur_match) {
              _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
              scan < strend);
 
-    // Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+    // Assert(scan <= svc->window+(unsigned)(svc->window_size-1), "wild scan");
 
     len = MAX_MATCH - (strend - scan);
     scan = strend - MAX_MATCH;
 
     if (len > best_len) {
-      s.match_start = cur_match;
+      svc.match_start = cur_match;
       best_len = len;
       if (len >= nice_match) {
         break;
@@ -30212,10 +30212,10 @@ function longest_match(s, cur_match) {
     }
   } while ((cur_match = prev[cur_match & wmask]) > limit && --chain_length !== 0);
 
-  if (best_len <= s.lookahead) {
+  if (best_len <= svc.lookahead) {
     return best_len;
   }
-  return s.lookahead;
+  return svc.lookahead;
 }
 
 
@@ -30229,19 +30229,19 @@ function longest_match(s, cur_match) {
  *    performed for at least two bytes (required for the zip translate_eol
  *    option -- not supported here).
  */
-function fill_window(s) {
-  var _w_size = s.w_size;
+function fill_window(svc) {
+  var _w_size = svc.w_size;
   var p, n, m, more, str;
 
-  //Assert(s->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
+  //Assert(svc->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
 
   do {
-    more = s.window_size - s.lookahead - s.strstart;
+    more = svc.window_size - svc.lookahead - svc.strstart;
 
     // JS ints have 32 bit, block below not needed
     /* Deal with !@#$% 64K limit: */
     //if (sizeof(int) <= 2) {
-    //    if (more == 0 && s->strstart == 0 && s->lookahead == 0) {
+    //    if (more == 0 && svc->strstart == 0 && svc->lookahead == 0) {
     //        more = wsize;
     //
     //  } else if (more == (unsigned)(-1)) {
@@ -30256,13 +30256,13 @@ function fill_window(s) {
     /* If the window is almost full and there is insufficient lookahead,
      * move the upper half to the lower one to make room in the upper half.
      */
-    if (s.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
+    if (svc.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
 
-      utils.arraySet(s.window, s.window, _w_size, _w_size, 0);
-      s.match_start -= _w_size;
-      s.strstart -= _w_size;
+      utils.arraySet(svc.window, svc.window, _w_size, _w_size, 0);
+      svc.match_start -= _w_size;
+      svc.strstart -= _w_size;
       /* we now have strstart >= MAX_DIST */
-      s.block_start -= _w_size;
+      svc.block_start -= _w_size;
 
       /* Slide the hash table (could be avoided with 32 bit values
        at the expense of memory usage). We slide even when level == 0
@@ -30271,18 +30271,18 @@ function fill_window(s) {
        zlib, so we don't care about this pathological case.)
        */
 
-      n = s.hash_size;
+      n = svc.hash_size;
       p = n;
       do {
-        m = s.head[--p];
-        s.head[p] = (m >= _w_size ? m - _w_size : 0);
+        m = svc.head[--p];
+        svc.head[p] = (m >= _w_size ? m - _w_size : 0);
       } while (--n);
 
       n = _w_size;
       p = n;
       do {
-        m = s.prev[--p];
-        s.prev[p] = (m >= _w_size ? m - _w_size : 0);
+        m = svc.prev[--p];
+        svc.prev[p] = (m >= _w_size ? m - _w_size : 0);
         /* If n is not on any hash chain, prev[n] is garbage but
          * its value will never be used.
          */
@@ -30290,7 +30290,7 @@ function fill_window(s) {
 
       more += _w_size;
     }
-    if (s.strm.avail_in === 0) {
+    if (svc.strm.avail_in === 0) {
       break;
     }
 
@@ -30301,33 +30301,33 @@ function fill_window(s) {
      * => more >= window_size - 2*WSIZE + 2
      * In the BIG_MEM or MMAP case (not yet supported),
      *   window_size == input_size + MIN_LOOKAHEAD  &&
-     *   strstart + s->lookahead <= input_size => more >= MIN_LOOKAHEAD.
+     *   strstart + svc->lookahead <= input_size => more >= MIN_LOOKAHEAD.
      * Otherwise, window_size == 2*WSIZE so more >= 2.
      * If there was sliding, more >= WSIZE. So in all cases, more >= 2.
      */
     //Assert(more >= 2, "more < 2");
-    n = read_buf(s.strm, s.window, s.strstart + s.lookahead, more);
-    s.lookahead += n;
+    n = read_buf(svc.strm, svc.window, svc.strstart + svc.lookahead, more);
+    svc.lookahead += n;
 
     /* Initialize the hash value now that we have some input: */
-    if (s.lookahead + s.insert >= MIN_MATCH) {
-      str = s.strstart - s.insert;
-      s.ins_h = s.window[str];
+    if (svc.lookahead + svc.insert >= MIN_MATCH) {
+      str = svc.strstart - svc.insert;
+      svc.ins_h = svc.window[str];
 
-      /* UPDATE_HASH(s, s->ins_h, s->window[str + 1]); */
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + 1]) & s.hash_mask;
+      /* UPDATE_HASH(svc, svc->ins_h, svc->window[str + 1]); */
+      svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[str + 1]) & svc.hash_mask;
 //#if MIN_MATCH != 3
 //        Call update_hash() MIN_MATCH-3 more times
 //#endif
-      while (s.insert) {
-        /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
-        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+      while (svc.insert) {
+        /* UPDATE_HASH(svc, svc->ins_h, svc->window[str + MIN_MATCH-1]); */
+        svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[str + MIN_MATCH - 1]) & svc.hash_mask;
 
-        s.prev[str & s.w_mask] = s.head[s.ins_h];
-        s.head[s.ins_h] = str;
+        svc.prev[str & svc.w_mask] = svc.head[svc.ins_h];
+        svc.head[svc.ins_h] = str;
         str++;
-        s.insert--;
-        if (s.lookahead + s.insert < MIN_MATCH) {
+        svc.insert--;
+        if (svc.lookahead + svc.insert < MIN_MATCH) {
           break;
         }
       }
@@ -30336,7 +30336,7 @@ function fill_window(s) {
      * but this is not important since only literal bytes will be emitted.
      */
 
-  } while (s.lookahead < MIN_LOOKAHEAD && s.strm.avail_in !== 0);
+  } while (svc.lookahead < MIN_LOOKAHEAD && svc.strm.avail_in !== 0);
 
   /* If the WIN_INIT bytes after the end of the current data have never been
    * written, then zero those bytes in order to avoid memory check reports of
@@ -30345,34 +30345,34 @@ function fill_window(s) {
    * time through here.  WIN_INIT is set to MAX_MATCH since the longest match
    * routines allow scanning to strstart + MAX_MATCH, ignoring lookahead.
    */
-//  if (s.high_water < s.window_size) {
-//    var curr = s.strstart + s.lookahead;
+//  if (svc.high_water < svc.window_size) {
+//    var curr = svc.strstart + svc.lookahead;
 //    var init = 0;
 //
-//    if (s.high_water < curr) {
+//    if (svc.high_water < curr) {
 //      /* Previous high water mark below current data -- zero WIN_INIT
 //       * bytes or up to end of window, whichever is less.
 //       */
-//      init = s.window_size - curr;
+//      init = svc.window_size - curr;
 //      if (init > WIN_INIT)
 //        init = WIN_INIT;
-//      zmemzero(s->window + curr, (unsigned)init);
-//      s->high_water = curr + init;
+//      zmemzero(svc->window + curr, (unsigned)init);
+//      svc->high_water = curr + init;
 //    }
-//    else if (s->high_water < (ulg)curr + WIN_INIT) {
+//    else if (svc->high_water < (ulg)curr + WIN_INIT) {
 //      /* High water mark at or above current data, but below current data
 //       * plus WIN_INIT -- zero out to current data plus WIN_INIT, or up
 //       * to end of window, whichever is less.
 //       */
-//      init = (ulg)curr + WIN_INIT - s->high_water;
-//      if (init > s->window_size - s->high_water)
-//        init = s->window_size - s->high_water;
-//      zmemzero(s->window + s->high_water, (unsigned)init);
-//      s->high_water += init;
+//      init = (ulg)curr + WIN_INIT - svc->high_water;
+//      if (init > svc->window_size - svc->high_water)
+//        init = svc->window_size - svc->high_water;
+//      zmemzero(svc->window + svc->high_water, (unsigned)init);
+//      svc->high_water += init;
 //    }
 //  }
 //
-//  Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
+//  Assert((ulg)svc->strstart <= svc->window_size - MIN_LOOKAHEAD,
 //    "not enough room for search");
 }
 
@@ -30385,54 +30385,54 @@ function fill_window(s) {
  * NOTE: this function should be optimized to avoid extra copying from
  * window to pending_buf.
  */
-function deflate_stored(s, flush) {
+function deflate_stored(svc, flush) {
   /* Stored blocks are limited to 0xffff bytes, pending_buf is limited
    * to pending_buf_size, and each stored block has a 5 byte header:
    */
   var max_block_size = 0xffff;
 
-  if (max_block_size > s.pending_buf_size - 5) {
-    max_block_size = s.pending_buf_size - 5;
+  if (max_block_size > svc.pending_buf_size - 5) {
+    max_block_size = svc.pending_buf_size - 5;
   }
 
   /* Copy as much as possible from input to output: */
   for (;;) {
     /* Fill the window as much as possible: */
-    if (s.lookahead <= 1) {
+    if (svc.lookahead <= 1) {
 
-      //Assert(s->strstart < s->w_size+MAX_DIST(s) ||
-      //  s->block_start >= (long)s->w_size, "slide too late");
-//      if (!(s.strstart < s.w_size + (s.w_size - MIN_LOOKAHEAD) ||
-//        s.block_start >= s.w_size)) {
+      //Assert(svc->strstart < svc->w_size+MAX_DIST(svc) ||
+      //  svc->block_start >= (long)svc->w_size, "slide too late");
+//      if (!(svc.strstart < svc.w_size + (svc.w_size - MIN_LOOKAHEAD) ||
+//        svc.block_start >= svc.w_size)) {
 //        throw  new Error("slide too late");
 //      }
 
-      fill_window(s);
-      if (s.lookahead === 0 && flush === Z_NO_FLUSH) {
+      fill_window(svc);
+      if (svc.lookahead === 0 && flush === Z_NO_FLUSH) {
         return BS_NEED_MORE;
       }
 
-      if (s.lookahead === 0) {
+      if (svc.lookahead === 0) {
         break;
       }
       /* flush the current block */
     }
-    //Assert(s->block_start >= 0L, "block gone");
-//    if (s.block_start < 0) throw new Error("block gone");
+    //Assert(svc->block_start >= 0L, "block gone");
+//    if (svc.block_start < 0) throw new Error("block gone");
 
-    s.strstart += s.lookahead;
-    s.lookahead = 0;
+    svc.strstart += svc.lookahead;
+    svc.lookahead = 0;
 
     /* Emit a stored block if pending_buf will be full: */
-    var max_start = s.block_start + max_block_size;
+    var max_start = svc.block_start + max_block_size;
 
-    if (s.strstart === 0 || s.strstart >= max_start) {
+    if (svc.strstart === 0 || svc.strstart >= max_start) {
       /* strstart == 0 is possible when wraparound on 16-bit machine */
-      s.lookahead = s.strstart - max_start;
-      s.strstart = max_start;
-      /*** FLUSH_BLOCK(s, 0); ***/
-      flush_block_only(s, false);
-      if (s.strm.avail_out === 0) {
+      svc.lookahead = svc.strstart - max_start;
+      svc.strstart = max_start;
+      /*** FLUSH_BLOCK(svc, 0); ***/
+      flush_block_only(svc, false);
+      if (svc.strm.avail_out === 0) {
         return BS_NEED_MORE;
       }
       /***/
@@ -30442,32 +30442,32 @@ function deflate_stored(s, flush) {
     /* Flush if we may have to slide, otherwise block_start may become
      * negative and the data will be gone:
      */
-    if (s.strstart - s.block_start >= (s.w_size - MIN_LOOKAHEAD)) {
-      /*** FLUSH_BLOCK(s, 0); ***/
-      flush_block_only(s, false);
-      if (s.strm.avail_out === 0) {
+    if (svc.strstart - svc.block_start >= (svc.w_size - MIN_LOOKAHEAD)) {
+      /*** FLUSH_BLOCK(svc, 0); ***/
+      flush_block_only(svc, false);
+      if (svc.strm.avail_out === 0) {
         return BS_NEED_MORE;
       }
       /***/
     }
   }
 
-  s.insert = 0;
+  svc.insert = 0;
 
   if (flush === Z_FINISH) {
-    /*** FLUSH_BLOCK(s, 1); ***/
-    flush_block_only(s, true);
-    if (s.strm.avail_out === 0) {
+    /*** FLUSH_BLOCK(svc, 1); ***/
+    flush_block_only(svc, true);
+    if (svc.strm.avail_out === 0) {
       return BS_FINISH_STARTED;
     }
     /***/
     return BS_FINISH_DONE;
   }
 
-  if (s.strstart > s.block_start) {
-    /*** FLUSH_BLOCK(s, 0); ***/
-    flush_block_only(s, false);
-    if (s.strm.avail_out === 0) {
+  if (svc.strstart > svc.block_start) {
+    /*** FLUSH_BLOCK(svc, 0); ***/
+    flush_block_only(svc, false);
+    if (svc.strm.avail_out === 0) {
       return BS_NEED_MORE;
     }
     /***/
@@ -30483,7 +30483,7 @@ function deflate_stored(s, flush) {
  * new strings in the dictionary only for unmatched strings or for short
  * matches. It is used only for the fast compression options.
  */
-function deflate_fast(s, flush) {
+function deflate_fast(svc, flush) {
   var hash_head;        /* head of the hash chain */
   var bflush;           /* set if current block must be flushed */
 
@@ -30493,12 +30493,12 @@ function deflate_fast(s, flush) {
      * for the next match, plus MIN_MATCH bytes to insert the
      * string following the next match.
      */
-    if (s.lookahead < MIN_LOOKAHEAD) {
-      fill_window(s);
-      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
+    if (svc.lookahead < MIN_LOOKAHEAD) {
+      fill_window(svc);
+      if (svc.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
         return BS_NEED_MORE;
       }
-      if (s.lookahead === 0) {
+      if (svc.lookahead === 0) {
         break; /* flush the current block */
       }
     }
@@ -30507,58 +30507,58 @@ function deflate_fast(s, flush) {
      * dictionary, and set hash_head to the head of the hash chain:
      */
     hash_head = 0/*NIL*/;
-    if (s.lookahead >= MIN_MATCH) {
-      /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
-      hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
-      s.head[s.ins_h] = s.strstart;
+    if (svc.lookahead >= MIN_MATCH) {
+      /*** INSERT_STRING(svc, svc.strstart, hash_head); ***/
+      svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[svc.strstart + MIN_MATCH - 1]) & svc.hash_mask;
+      hash_head = svc.prev[svc.strstart & svc.w_mask] = svc.head[svc.ins_h];
+      svc.head[svc.ins_h] = svc.strstart;
       /***/
     }
 
     /* Find the longest match, discarding those <= prev_length.
      * At this point we have always match_length < MIN_MATCH
      */
-    if (hash_head !== 0/*NIL*/ && ((s.strstart - hash_head) <= (s.w_size - MIN_LOOKAHEAD))) {
+    if (hash_head !== 0/*NIL*/ && ((svc.strstart - hash_head) <= (svc.w_size - MIN_LOOKAHEAD))) {
       /* To simplify the code, we prevent matches with the string
        * of window index 0 (in particular we have to avoid a match
        * of the string with itself at the start of the input file).
        */
-      s.match_length = longest_match(s, hash_head);
+      svc.match_length = longest_match(svc, hash_head);
       /* longest_match() sets match_start */
     }
-    if (s.match_length >= MIN_MATCH) {
-      // check_match(s, s.strstart, s.match_start, s.match_length); // for debug only
+    if (svc.match_length >= MIN_MATCH) {
+      // check_match(svc, svc.strstart, svc.match_start, svc.match_length); // for debug only
 
-      /*** _tr_tally_dist(s, s.strstart - s.match_start,
-                     s.match_length - MIN_MATCH, bflush); ***/
-      bflush = trees._tr_tally(s, s.strstart - s.match_start, s.match_length - MIN_MATCH);
+      /*** _tr_tally_dist(svc, svc.strstart - svc.match_start,
+                     svc.match_length - MIN_MATCH, bflush); ***/
+      bflush = trees._tr_tally(svc, svc.strstart - svc.match_start, svc.match_length - MIN_MATCH);
 
-      s.lookahead -= s.match_length;
+      svc.lookahead -= svc.match_length;
 
       /* Insert new strings in the hash table only if the match length
        * is not too large. This saves time but degrades compression.
        */
-      if (s.match_length <= s.max_lazy_match/*max_insert_length*/ && s.lookahead >= MIN_MATCH) {
-        s.match_length--; /* string at strstart already in table */
+      if (svc.match_length <= svc.max_lazy_match/*max_insert_length*/ && svc.lookahead >= MIN_MATCH) {
+        svc.match_length--; /* string at strstart already in table */
         do {
-          s.strstart++;
-          /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
-          hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
-          s.head[s.ins_h] = s.strstart;
+          svc.strstart++;
+          /*** INSERT_STRING(svc, svc.strstart, hash_head); ***/
+          svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[svc.strstart + MIN_MATCH - 1]) & svc.hash_mask;
+          hash_head = svc.prev[svc.strstart & svc.w_mask] = svc.head[svc.ins_h];
+          svc.head[svc.ins_h] = svc.strstart;
           /***/
           /* strstart never exceeds WSIZE-MAX_MATCH, so there are
            * always MIN_MATCH bytes ahead.
            */
-        } while (--s.match_length !== 0);
-        s.strstart++;
+        } while (--svc.match_length !== 0);
+        svc.strstart++;
       } else
       {
-        s.strstart += s.match_length;
-        s.match_length = 0;
-        s.ins_h = s.window[s.strstart];
-        /* UPDATE_HASH(s, s.ins_h, s.window[s.strstart+1]); */
-        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + 1]) & s.hash_mask;
+        svc.strstart += svc.match_length;
+        svc.match_length = 0;
+        svc.ins_h = svc.window[svc.strstart];
+        /* UPDATE_HASH(svc, svc.ins_h, svc.window[svc.strstart+1]); */
+        svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[svc.strstart + 1]) & svc.hash_mask;
 
 //#if MIN_MATCH != 3
 //                Call UPDATE_HASH() MIN_MATCH-3 more times
@@ -30569,36 +30569,36 @@ function deflate_fast(s, flush) {
       }
     } else {
       /* No match, output a literal byte */
-      //Tracevv((stderr,"%c", s.window[s.strstart]));
-      /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
-      bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+      //Tracevv((stderr,"%c", svc.window[svc.strstart]));
+      /*** _tr_tally_lit(svc, svc.window[svc.strstart], bflush); ***/
+      bflush = trees._tr_tally(svc, 0, svc.window[svc.strstart]);
 
-      s.lookahead--;
-      s.strstart++;
+      svc.lookahead--;
+      svc.strstart++;
     }
     if (bflush) {
-      /*** FLUSH_BLOCK(s, 0); ***/
-      flush_block_only(s, false);
-      if (s.strm.avail_out === 0) {
+      /*** FLUSH_BLOCK(svc, 0); ***/
+      flush_block_only(svc, false);
+      if (svc.strm.avail_out === 0) {
         return BS_NEED_MORE;
       }
       /***/
     }
   }
-  s.insert = ((s.strstart < (MIN_MATCH - 1)) ? s.strstart : MIN_MATCH - 1);
+  svc.insert = ((svc.strstart < (MIN_MATCH - 1)) ? svc.strstart : MIN_MATCH - 1);
   if (flush === Z_FINISH) {
-    /*** FLUSH_BLOCK(s, 1); ***/
-    flush_block_only(s, true);
-    if (s.strm.avail_out === 0) {
+    /*** FLUSH_BLOCK(svc, 1); ***/
+    flush_block_only(svc, true);
+    if (svc.strm.avail_out === 0) {
       return BS_FINISH_STARTED;
     }
     /***/
     return BS_FINISH_DONE;
   }
-  if (s.last_lit) {
-    /*** FLUSH_BLOCK(s, 0); ***/
-    flush_block_only(s, false);
-    if (s.strm.avail_out === 0) {
+  if (svc.last_lit) {
+    /*** FLUSH_BLOCK(svc, 0); ***/
+    flush_block_only(svc, false);
+    if (svc.strm.avail_out === 0) {
       return BS_NEED_MORE;
     }
     /***/
@@ -30611,7 +30611,7 @@ function deflate_fast(s, flush) {
  * evaluation for matches: a match is finally adopted only if there is
  * no better match at the next window position.
  */
-function deflate_slow(s, flush) {
+function deflate_slow(svc, flush) {
   var hash_head;          /* head of hash chain */
   var bflush;              /* set if current block must be flushed */
 
@@ -30624,141 +30624,141 @@ function deflate_slow(s, flush) {
      * for the next match, plus MIN_MATCH bytes to insert the
      * string following the next match.
      */
-    if (s.lookahead < MIN_LOOKAHEAD) {
-      fill_window(s);
-      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
+    if (svc.lookahead < MIN_LOOKAHEAD) {
+      fill_window(svc);
+      if (svc.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
         return BS_NEED_MORE;
       }
-      if (s.lookahead === 0) { break; } /* flush the current block */
+      if (svc.lookahead === 0) { break; } /* flush the current block */
     }
 
     /* Insert the string window[strstart .. strstart+2] in the
      * dictionary, and set hash_head to the head of the hash chain:
      */
     hash_head = 0/*NIL*/;
-    if (s.lookahead >= MIN_MATCH) {
-      /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
-      hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
-      s.head[s.ins_h] = s.strstart;
+    if (svc.lookahead >= MIN_MATCH) {
+      /*** INSERT_STRING(svc, svc.strstart, hash_head); ***/
+      svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[svc.strstart + MIN_MATCH - 1]) & svc.hash_mask;
+      hash_head = svc.prev[svc.strstart & svc.w_mask] = svc.head[svc.ins_h];
+      svc.head[svc.ins_h] = svc.strstart;
       /***/
     }
 
     /* Find the longest match, discarding those <= prev_length.
      */
-    s.prev_length = s.match_length;
-    s.prev_match = s.match_start;
-    s.match_length = MIN_MATCH - 1;
+    svc.prev_length = svc.match_length;
+    svc.prev_match = svc.match_start;
+    svc.match_length = MIN_MATCH - 1;
 
-    if (hash_head !== 0/*NIL*/ && s.prev_length < s.max_lazy_match &&
-        s.strstart - hash_head <= (s.w_size - MIN_LOOKAHEAD)/*MAX_DIST(s)*/) {
+    if (hash_head !== 0/*NIL*/ && svc.prev_length < svc.max_lazy_match &&
+        svc.strstart - hash_head <= (svc.w_size - MIN_LOOKAHEAD)/*MAX_DIST(svc)*/) {
       /* To simplify the code, we prevent matches with the string
        * of window index 0 (in particular we have to avoid a match
        * of the string with itself at the start of the input file).
        */
-      s.match_length = longest_match(s, hash_head);
+      svc.match_length = longest_match(svc, hash_head);
       /* longest_match() sets match_start */
 
-      if (s.match_length <= 5 &&
-         (s.strategy === Z_FILTERED || (s.match_length === MIN_MATCH && s.strstart - s.match_start > 4096/*TOO_FAR*/))) {
+      if (svc.match_length <= 5 &&
+         (svc.strategy === Z_FILTERED || (svc.match_length === MIN_MATCH && svc.strstart - svc.match_start > 4096/*TOO_FAR*/))) {
 
         /* If prev_match is also MIN_MATCH, match_start is garbage
          * but we will ignore the current match anyway.
          */
-        s.match_length = MIN_MATCH - 1;
+        svc.match_length = MIN_MATCH - 1;
       }
     }
     /* If there was a match at the previous step and the current
      * match is not better, output the previous match:
      */
-    if (s.prev_length >= MIN_MATCH && s.match_length <= s.prev_length) {
-      max_insert = s.strstart + s.lookahead - MIN_MATCH;
+    if (svc.prev_length >= MIN_MATCH && svc.match_length <= svc.prev_length) {
+      max_insert = svc.strstart + svc.lookahead - MIN_MATCH;
       /* Do not insert strings in hash table beyond this. */
 
-      //check_match(s, s.strstart-1, s.prev_match, s.prev_length);
+      //check_match(svc, svc.strstart-1, svc.prev_match, svc.prev_length);
 
-      /***_tr_tally_dist(s, s.strstart - 1 - s.prev_match,
-                     s.prev_length - MIN_MATCH, bflush);***/
-      bflush = trees._tr_tally(s, s.strstart - 1 - s.prev_match, s.prev_length - MIN_MATCH);
+      /***_tr_tally_dist(svc, svc.strstart - 1 - svc.prev_match,
+                     svc.prev_length - MIN_MATCH, bflush);***/
+      bflush = trees._tr_tally(svc, svc.strstart - 1 - svc.prev_match, svc.prev_length - MIN_MATCH);
       /* Insert in hash table all strings up to the end of the match.
        * strstart-1 and strstart are already inserted. If there is not
        * enough lookahead, the last two strings are not inserted in
        * the hash table.
        */
-      s.lookahead -= s.prev_length - 1;
-      s.prev_length -= 2;
+      svc.lookahead -= svc.prev_length - 1;
+      svc.prev_length -= 2;
       do {
-        if (++s.strstart <= max_insert) {
-          /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
-          hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
-          s.head[s.ins_h] = s.strstart;
+        if (++svc.strstart <= max_insert) {
+          /*** INSERT_STRING(svc, svc.strstart, hash_head); ***/
+          svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[svc.strstart + MIN_MATCH - 1]) & svc.hash_mask;
+          hash_head = svc.prev[svc.strstart & svc.w_mask] = svc.head[svc.ins_h];
+          svc.head[svc.ins_h] = svc.strstart;
           /***/
         }
-      } while (--s.prev_length !== 0);
-      s.match_available = 0;
-      s.match_length = MIN_MATCH - 1;
-      s.strstart++;
+      } while (--svc.prev_length !== 0);
+      svc.match_available = 0;
+      svc.match_length = MIN_MATCH - 1;
+      svc.strstart++;
 
       if (bflush) {
-        /*** FLUSH_BLOCK(s, 0); ***/
-        flush_block_only(s, false);
-        if (s.strm.avail_out === 0) {
+        /*** FLUSH_BLOCK(svc, 0); ***/
+        flush_block_only(svc, false);
+        if (svc.strm.avail_out === 0) {
           return BS_NEED_MORE;
         }
         /***/
       }
 
-    } else if (s.match_available) {
+    } else if (svc.match_available) {
       /* If there was no match at the previous position, output a
        * single literal. If there was a match but the current match
        * is longer, truncate the previous match to a single literal.
        */
-      //Tracevv((stderr,"%c", s->window[s->strstart-1]));
-      /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
-      bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+      //Tracevv((stderr,"%c", svc->window[svc->strstart-1]));
+      /*** _tr_tally_lit(svc, svc.window[svc.strstart-1], bflush); ***/
+      bflush = trees._tr_tally(svc, 0, svc.window[svc.strstart - 1]);
 
       if (bflush) {
-        /*** FLUSH_BLOCK_ONLY(s, 0) ***/
-        flush_block_only(s, false);
+        /*** FLUSH_BLOCK_ONLY(svc, 0) ***/
+        flush_block_only(svc, false);
         /***/
       }
-      s.strstart++;
-      s.lookahead--;
-      if (s.strm.avail_out === 0) {
+      svc.strstart++;
+      svc.lookahead--;
+      if (svc.strm.avail_out === 0) {
         return BS_NEED_MORE;
       }
     } else {
       /* There is no previous match to compare with, wait for
        * the next step to decide.
        */
-      s.match_available = 1;
-      s.strstart++;
-      s.lookahead--;
+      svc.match_available = 1;
+      svc.strstart++;
+      svc.lookahead--;
     }
   }
   //Assert (flush != Z_NO_FLUSH, "no flush?");
-  if (s.match_available) {
-    //Tracevv((stderr,"%c", s->window[s->strstart-1]));
-    /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
-    bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+  if (svc.match_available) {
+    //Tracevv((stderr,"%c", svc->window[svc->strstart-1]));
+    /*** _tr_tally_lit(svc, svc.window[svc.strstart-1], bflush); ***/
+    bflush = trees._tr_tally(svc, 0, svc.window[svc.strstart - 1]);
 
-    s.match_available = 0;
+    svc.match_available = 0;
   }
-  s.insert = s.strstart < MIN_MATCH - 1 ? s.strstart : MIN_MATCH - 1;
+  svc.insert = svc.strstart < MIN_MATCH - 1 ? svc.strstart : MIN_MATCH - 1;
   if (flush === Z_FINISH) {
-    /*** FLUSH_BLOCK(s, 1); ***/
-    flush_block_only(s, true);
-    if (s.strm.avail_out === 0) {
+    /*** FLUSH_BLOCK(svc, 1); ***/
+    flush_block_only(svc, true);
+    if (svc.strm.avail_out === 0) {
       return BS_FINISH_STARTED;
     }
     /***/
     return BS_FINISH_DONE;
   }
-  if (s.last_lit) {
-    /*** FLUSH_BLOCK(s, 0); ***/
-    flush_block_only(s, false);
-    if (s.strm.avail_out === 0) {
+  if (svc.last_lit) {
+    /*** FLUSH_BLOCK(svc, 0); ***/
+    flush_block_only(svc, false);
+    if (svc.strm.avail_out === 0) {
       return BS_NEED_MORE;
     }
     /***/
@@ -30773,33 +30773,33 @@ function deflate_slow(s, flush) {
  * one.  Do not maintain a hash table.  (It will be regenerated if this run of
  * deflate switches away from Z_RLE.)
  */
-function deflate_rle(s, flush) {
+function deflate_rle(svc, flush) {
   var bflush;            /* set if current block must be flushed */
   var prev;              /* byte at distance one to match */
   var scan, strend;      /* scan goes up to strend for length of run */
 
-  var _win = s.window;
+  var _win = svc.window;
 
   for (;;) {
     /* Make sure that we always have enough lookahead, except
      * at the end of the input file. We need MAX_MATCH bytes
      * for the longest run, plus one for the unrolled loop.
      */
-    if (s.lookahead <= MAX_MATCH) {
-      fill_window(s);
-      if (s.lookahead <= MAX_MATCH && flush === Z_NO_FLUSH) {
+    if (svc.lookahead <= MAX_MATCH) {
+      fill_window(svc);
+      if (svc.lookahead <= MAX_MATCH && flush === Z_NO_FLUSH) {
         return BS_NEED_MORE;
       }
-      if (s.lookahead === 0) { break; } /* flush the current block */
+      if (svc.lookahead === 0) { break; } /* flush the current block */
     }
 
     /* See how many times the previous byte repeats */
-    s.match_length = 0;
-    if (s.lookahead >= MIN_MATCH && s.strstart > 0) {
-      scan = s.strstart - 1;
+    svc.match_length = 0;
+    if (svc.lookahead >= MIN_MATCH && svc.strstart > 0) {
+      scan = svc.strstart - 1;
       prev = _win[scan];
       if (prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan]) {
-        strend = s.strstart + MAX_MATCH;
+        strend = svc.strstart + MAX_MATCH;
         do {
           /*jshint noempty:false*/
         } while (prev === _win[++scan] && prev === _win[++scan] &&
@@ -30807,56 +30807,56 @@ function deflate_rle(s, flush) {
                  prev === _win[++scan] && prev === _win[++scan] &&
                  prev === _win[++scan] && prev === _win[++scan] &&
                  scan < strend);
-        s.match_length = MAX_MATCH - (strend - scan);
-        if (s.match_length > s.lookahead) {
-          s.match_length = s.lookahead;
+        svc.match_length = MAX_MATCH - (strend - scan);
+        if (svc.match_length > svc.lookahead) {
+          svc.match_length = svc.lookahead;
         }
       }
-      //Assert(scan <= s->window+(uInt)(s->window_size-1), "wild scan");
+      //Assert(scan <= svc->window+(uInt)(svc->window_size-1), "wild scan");
     }
 
     /* Emit match if have run of MIN_MATCH or longer, else emit literal */
-    if (s.match_length >= MIN_MATCH) {
-      //check_match(s, s.strstart, s.strstart - 1, s.match_length);
+    if (svc.match_length >= MIN_MATCH) {
+      //check_match(svc, svc.strstart, svc.strstart - 1, svc.match_length);
 
-      /*** _tr_tally_dist(s, 1, s.match_length - MIN_MATCH, bflush); ***/
-      bflush = trees._tr_tally(s, 1, s.match_length - MIN_MATCH);
+      /*** _tr_tally_dist(svc, 1, svc.match_length - MIN_MATCH, bflush); ***/
+      bflush = trees._tr_tally(svc, 1, svc.match_length - MIN_MATCH);
 
-      s.lookahead -= s.match_length;
-      s.strstart += s.match_length;
-      s.match_length = 0;
+      svc.lookahead -= svc.match_length;
+      svc.strstart += svc.match_length;
+      svc.match_length = 0;
     } else {
       /* No match, output a literal byte */
-      //Tracevv((stderr,"%c", s->window[s->strstart]));
-      /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
-      bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+      //Tracevv((stderr,"%c", svc->window[svc->strstart]));
+      /*** _tr_tally_lit(svc, svc.window[svc.strstart], bflush); ***/
+      bflush = trees._tr_tally(svc, 0, svc.window[svc.strstart]);
 
-      s.lookahead--;
-      s.strstart++;
+      svc.lookahead--;
+      svc.strstart++;
     }
     if (bflush) {
-      /*** FLUSH_BLOCK(s, 0); ***/
-      flush_block_only(s, false);
-      if (s.strm.avail_out === 0) {
+      /*** FLUSH_BLOCK(svc, 0); ***/
+      flush_block_only(svc, false);
+      if (svc.strm.avail_out === 0) {
         return BS_NEED_MORE;
       }
       /***/
     }
   }
-  s.insert = 0;
+  svc.insert = 0;
   if (flush === Z_FINISH) {
-    /*** FLUSH_BLOCK(s, 1); ***/
-    flush_block_only(s, true);
-    if (s.strm.avail_out === 0) {
+    /*** FLUSH_BLOCK(svc, 1); ***/
+    flush_block_only(svc, true);
+    if (svc.strm.avail_out === 0) {
       return BS_FINISH_STARTED;
     }
     /***/
     return BS_FINISH_DONE;
   }
-  if (s.last_lit) {
-    /*** FLUSH_BLOCK(s, 0); ***/
-    flush_block_only(s, false);
-    if (s.strm.avail_out === 0) {
+  if (svc.last_lit) {
+    /*** FLUSH_BLOCK(svc, 0); ***/
+    flush_block_only(svc, false);
+    if (svc.strm.avail_out === 0) {
       return BS_NEED_MORE;
     }
     /***/
@@ -30868,14 +30868,14 @@ function deflate_rle(s, flush) {
  * For Z_HUFFMAN_ONLY, do not look for matches.  Do not maintain a hash table.
  * (It will be regenerated if this run of deflate switches away from Huffman.)
  */
-function deflate_huff(s, flush) {
+function deflate_huff(svc, flush) {
   var bflush;             /* set if current block must be flushed */
 
   for (;;) {
     /* Make sure that we have a literal to write. */
-    if (s.lookahead === 0) {
-      fill_window(s);
-      if (s.lookahead === 0) {
+    if (svc.lookahead === 0) {
+      fill_window(svc);
+      if (svc.lookahead === 0) {
         if (flush === Z_NO_FLUSH) {
           return BS_NEED_MORE;
         }
@@ -30884,35 +30884,35 @@ function deflate_huff(s, flush) {
     }
 
     /* Output a literal byte */
-    s.match_length = 0;
-    //Tracevv((stderr,"%c", s->window[s->strstart]));
-    /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
-    bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
-    s.lookahead--;
-    s.strstart++;
+    svc.match_length = 0;
+    //Tracevv((stderr,"%c", svc->window[svc->strstart]));
+    /*** _tr_tally_lit(svc, svc.window[svc.strstart], bflush); ***/
+    bflush = trees._tr_tally(svc, 0, svc.window[svc.strstart]);
+    svc.lookahead--;
+    svc.strstart++;
     if (bflush) {
-      /*** FLUSH_BLOCK(s, 0); ***/
-      flush_block_only(s, false);
-      if (s.strm.avail_out === 0) {
+      /*** FLUSH_BLOCK(svc, 0); ***/
+      flush_block_only(svc, false);
+      if (svc.strm.avail_out === 0) {
         return BS_NEED_MORE;
       }
       /***/
     }
   }
-  s.insert = 0;
+  svc.insert = 0;
   if (flush === Z_FINISH) {
-    /*** FLUSH_BLOCK(s, 1); ***/
-    flush_block_only(s, true);
-    if (s.strm.avail_out === 0) {
+    /*** FLUSH_BLOCK(svc, 1); ***/
+    flush_block_only(svc, true);
+    if (svc.strm.avail_out === 0) {
       return BS_FINISH_STARTED;
     }
     /***/
     return BS_FINISH_DONE;
   }
-  if (s.last_lit) {
-    /*** FLUSH_BLOCK(s, 0); ***/
-    flush_block_only(s, false);
-    if (s.strm.avail_out === 0) {
+  if (svc.last_lit) {
+    /*** FLUSH_BLOCK(svc, 0); ***/
+    flush_block_only(svc, false);
+    if (svc.strm.avail_out === 0) {
       return BS_NEED_MORE;
     }
     /***/
@@ -30954,26 +30954,26 @@ configuration_table = [
 /* ===========================================================================
  * Initialize the "longest match" routines for a new zlib stream
  */
-function lm_init(s) {
-  s.window_size = 2 * s.w_size;
+function lm_init(svc) {
+  svc.window_size = 2 * svc.w_size;
 
-  /*** CLEAR_HASH(s); ***/
-  zero(s.head); // Fill with NIL (= 0);
+  /*** CLEAR_HASH(svc); ***/
+  zero(svc.head); // Fill with NIL (= 0);
 
   /* Set the default configuration parameters:
    */
-  s.max_lazy_match = configuration_table[s.level].max_lazy;
-  s.good_match = configuration_table[s.level].good_length;
-  s.nice_match = configuration_table[s.level].nice_length;
-  s.max_chain_length = configuration_table[s.level].max_chain;
+  svc.max_lazy_match = configuration_table[svc.level].max_lazy;
+  svc.good_match = configuration_table[svc.level].good_length;
+  svc.nice_match = configuration_table[svc.level].nice_length;
+  svc.max_chain_length = configuration_table[svc.level].max_chain;
 
-  s.strstart = 0;
-  s.block_start = 0;
-  s.lookahead = 0;
-  s.insert = 0;
-  s.match_length = s.prev_length = MIN_MATCH - 1;
-  s.match_available = 0;
-  s.ins_h = 0;
+  svc.strstart = 0;
+  svc.block_start = 0;
+  svc.lookahead = 0;
+  svc.insert = 0;
+  svc.match_length = svc.prev_length = MIN_MATCH - 1;
+  svc.match_available = 0;
+  svc.ins_h = 0;
 }
 
 
@@ -31055,7 +31055,7 @@ function DeflateState() {
    * smaller than this value. This mechanism is used only for compression
    * levels >= 4.
    */
-  // That's alias to max_lazy_match, don't use directly
+  // That'svc alias to max_lazy_match, don't use directly
   //this.max_insert_length = 0;
   /* Insert new strings in the hash table only if the match length is not
    * greater than this length. This saves time but degrades compression.
@@ -31167,7 +31167,7 @@ function DeflateState() {
 
 
 function deflateResetKeep(strm) {
-  var s;
+  var svc;
 
   if (!strm || !strm.state) {
     return err(strm, Z_STREAM_ERROR);
@@ -31176,21 +31176,21 @@ function deflateResetKeep(strm) {
   strm.total_in = strm.total_out = 0;
   strm.data_type = Z_UNKNOWN;
 
-  s = strm.state;
-  s.pending = 0;
-  s.pending_out = 0;
+  svc = strm.state;
+  svc.pending = 0;
+  svc.pending_out = 0;
 
-  if (s.wrap < 0) {
-    s.wrap = -s.wrap;
+  if (svc.wrap < 0) {
+    svc.wrap = -svc.wrap;
     /* was made negative by deflate(..., Z_FINISH); */
   }
-  s.status = (s.wrap ? INIT_STATE : BUSY_STATE);
-  strm.adler = (s.wrap === 2) ?
+  svc.status = (svc.wrap ? INIT_STATE : BUSY_STATE);
+  strm.adler = (svc.wrap === 2) ?
     0  // crc32(0, Z_NULL, 0)
   :
     1; // adler32(0, Z_NULL, 0)
-  s.last_flush = Z_NO_FLUSH;
-  trees._tr_init(s);
+  svc.last_flush = Z_NO_FLUSH;
+  trees._tr_init(svc);
   return Z_OK;
 }
 
@@ -31245,47 +31245,47 @@ function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
   }
   /* until 256-byte window bug fixed */
 
-  var s = new DeflateState();
+  var svc = new DeflateState();
 
-  strm.state = s;
-  s.strm = strm;
+  strm.state = svc;
+  svc.strm = strm;
 
-  s.wrap = wrap;
-  s.gzhead = null;
-  s.w_bits = windowBits;
-  s.w_size = 1 << s.w_bits;
-  s.w_mask = s.w_size - 1;
+  svc.wrap = wrap;
+  svc.gzhead = null;
+  svc.w_bits = windowBits;
+  svc.w_size = 1 << svc.w_bits;
+  svc.w_mask = svc.w_size - 1;
 
-  s.hash_bits = memLevel + 7;
-  s.hash_size = 1 << s.hash_bits;
-  s.hash_mask = s.hash_size - 1;
-  s.hash_shift = ~~((s.hash_bits + MIN_MATCH - 1) / MIN_MATCH);
+  svc.hash_bits = memLevel + 7;
+  svc.hash_size = 1 << svc.hash_bits;
+  svc.hash_mask = svc.hash_size - 1;
+  svc.hash_shift = ~~((svc.hash_bits + MIN_MATCH - 1) / MIN_MATCH);
 
-  s.window = new utils.Buf8(s.w_size * 2);
-  s.head = new utils.Buf16(s.hash_size);
-  s.prev = new utils.Buf16(s.w_size);
+  svc.window = new utils.Buf8(svc.w_size * 2);
+  svc.head = new utils.Buf16(svc.hash_size);
+  svc.prev = new utils.Buf16(svc.w_size);
 
   // Don't need mem init magic for JS.
-  //s.high_water = 0;  /* nothing written to s->window yet */
+  //svc.high_water = 0;  /* nothing written to svc->window yet */
 
-  s.lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
+  svc.lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
 
-  s.pending_buf_size = s.lit_bufsize * 4;
+  svc.pending_buf_size = svc.lit_bufsize * 4;
 
-  //overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
-  //s->pending_buf = (uchf *) overlay;
-  s.pending_buf = new utils.Buf8(s.pending_buf_size);
+  //overlay = (ushf *) ZALLOC(strm, svc->lit_bufsize, sizeof(ush)+2);
+  //svc->pending_buf = (uchf *) overlay;
+  svc.pending_buf = new utils.Buf8(svc.pending_buf_size);
 
-  // It is offset from `s.pending_buf` (size is `s.lit_bufsize * 2`)
-  //s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
-  s.d_buf = 1 * s.lit_bufsize;
+  // It is offset from `svc.pending_buf` (size is `svc.lit_bufsize * 2`)
+  //svc->d_buf = overlay + svc->lit_bufsize/sizeof(ush);
+  svc.d_buf = 1 * svc.lit_bufsize;
 
-  //s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
-  s.l_buf = (1 + 2) * s.lit_bufsize;
+  //svc->l_buf = svc->pending_buf + (1+sizeof(ush))*svc->lit_bufsize;
+  svc.l_buf = (1 + 2) * svc.lit_bufsize;
 
-  s.level = level;
-  s.strategy = strategy;
-  s.method = method;
+  svc.level = level;
+  svc.strategy = strategy;
+  svc.method = method;
 
   return deflateReset(strm);
 }
@@ -31296,7 +31296,7 @@ function deflateInit(strm, level) {
 
 
 function deflate(strm, flush) {
-  var old_flush, s;
+  var old_flush, svc;
   var beg, val; // for gzip header write only
 
   if (!strm || !strm.state ||
@@ -31304,220 +31304,220 @@ function deflate(strm, flush) {
     return strm ? err(strm, Z_STREAM_ERROR) : Z_STREAM_ERROR;
   }
 
-  s = strm.state;
+  svc = strm.state;
 
   if (!strm.output ||
       (!strm.input && strm.avail_in !== 0) ||
-      (s.status === FINISH_STATE && flush !== Z_FINISH)) {
+      (svc.status === FINISH_STATE && flush !== Z_FINISH)) {
     return err(strm, (strm.avail_out === 0) ? Z_BUF_ERROR : Z_STREAM_ERROR);
   }
 
-  s.strm = strm; /* just in case */
-  old_flush = s.last_flush;
-  s.last_flush = flush;
+  svc.strm = strm; /* just in case */
+  old_flush = svc.last_flush;
+  svc.last_flush = flush;
 
   /* Write the header */
-  if (s.status === INIT_STATE) {
+  if (svc.status === INIT_STATE) {
 
-    if (s.wrap === 2) { // GZIP header
+    if (svc.wrap === 2) { // GZIP header
       strm.adler = 0;  //crc32(0L, Z_NULL, 0);
-      put_byte(s, 31);
-      put_byte(s, 139);
-      put_byte(s, 8);
-      if (!s.gzhead) { // s->gzhead == Z_NULL
-        put_byte(s, 0);
-        put_byte(s, 0);
-        put_byte(s, 0);
-        put_byte(s, 0);
-        put_byte(s, 0);
-        put_byte(s, s.level === 9 ? 2 :
-                    (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ?
+      put_byte(svc, 31);
+      put_byte(svc, 139);
+      put_byte(svc, 8);
+      if (!svc.gzhead) { // svc->gzhead == Z_NULL
+        put_byte(svc, 0);
+        put_byte(svc, 0);
+        put_byte(svc, 0);
+        put_byte(svc, 0);
+        put_byte(svc, 0);
+        put_byte(svc, svc.level === 9 ? 2 :
+                    (svc.strategy >= Z_HUFFMAN_ONLY || svc.level < 2 ?
                      4 : 0));
-        put_byte(s, OS_CODE);
-        s.status = BUSY_STATE;
+        put_byte(svc, OS_CODE);
+        svc.status = BUSY_STATE;
       }
       else {
-        put_byte(s, (s.gzhead.text ? 1 : 0) +
-                    (s.gzhead.hcrc ? 2 : 0) +
-                    (!s.gzhead.extra ? 0 : 4) +
-                    (!s.gzhead.name ? 0 : 8) +
-                    (!s.gzhead.comment ? 0 : 16)
+        put_byte(svc, (svc.gzhead.text ? 1 : 0) +
+                    (svc.gzhead.hcrc ? 2 : 0) +
+                    (!svc.gzhead.extra ? 0 : 4) +
+                    (!svc.gzhead.name ? 0 : 8) +
+                    (!svc.gzhead.comment ? 0 : 16)
         );
-        put_byte(s, s.gzhead.time & 0xff);
-        put_byte(s, (s.gzhead.time >> 8) & 0xff);
-        put_byte(s, (s.gzhead.time >> 16) & 0xff);
-        put_byte(s, (s.gzhead.time >> 24) & 0xff);
-        put_byte(s, s.level === 9 ? 2 :
-                    (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ?
+        put_byte(svc, svc.gzhead.time & 0xff);
+        put_byte(svc, (svc.gzhead.time >> 8) & 0xff);
+        put_byte(svc, (svc.gzhead.time >> 16) & 0xff);
+        put_byte(svc, (svc.gzhead.time >> 24) & 0xff);
+        put_byte(svc, svc.level === 9 ? 2 :
+                    (svc.strategy >= Z_HUFFMAN_ONLY || svc.level < 2 ?
                      4 : 0));
-        put_byte(s, s.gzhead.os & 0xff);
-        if (s.gzhead.extra && s.gzhead.extra.length) {
-          put_byte(s, s.gzhead.extra.length & 0xff);
-          put_byte(s, (s.gzhead.extra.length >> 8) & 0xff);
+        put_byte(svc, svc.gzhead.os & 0xff);
+        if (svc.gzhead.extra && svc.gzhead.extra.length) {
+          put_byte(svc, svc.gzhead.extra.length & 0xff);
+          put_byte(svc, (svc.gzhead.extra.length >> 8) & 0xff);
         }
-        if (s.gzhead.hcrc) {
-          strm.adler = crc32(strm.adler, s.pending_buf, s.pending, 0);
+        if (svc.gzhead.hcrc) {
+          strm.adler = crc32(strm.adler, svc.pending_buf, svc.pending, 0);
         }
-        s.gzindex = 0;
-        s.status = EXTRA_STATE;
+        svc.gzindex = 0;
+        svc.status = EXTRA_STATE;
       }
     }
     else // DEFLATE header
     {
-      var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8;
+      var header = (Z_DEFLATED + ((svc.w_bits - 8) << 4)) << 8;
       var level_flags = -1;
 
-      if (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2) {
+      if (svc.strategy >= Z_HUFFMAN_ONLY || svc.level < 2) {
         level_flags = 0;
-      } else if (s.level < 6) {
+      } else if (svc.level < 6) {
         level_flags = 1;
-      } else if (s.level === 6) {
+      } else if (svc.level === 6) {
         level_flags = 2;
       } else {
         level_flags = 3;
       }
       header |= (level_flags << 6);
-      if (s.strstart !== 0) { header |= PRESET_DICT; }
+      if (svc.strstart !== 0) { header |= PRESET_DICT; }
       header += 31 - (header % 31);
 
-      s.status = BUSY_STATE;
-      putShortMSB(s, header);
+      svc.status = BUSY_STATE;
+      putShortMSB(svc, header);
 
       /* Save the adler32 of the preset dictionary: */
-      if (s.strstart !== 0) {
-        putShortMSB(s, strm.adler >>> 16);
-        putShortMSB(s, strm.adler & 0xffff);
+      if (svc.strstart !== 0) {
+        putShortMSB(svc, strm.adler >>> 16);
+        putShortMSB(svc, strm.adler & 0xffff);
       }
       strm.adler = 1; // adler32(0L, Z_NULL, 0);
     }
   }
 
 //#ifdef GZIP
-  if (s.status === EXTRA_STATE) {
-    if (s.gzhead.extra/* != Z_NULL*/) {
-      beg = s.pending;  /* start of bytes to update crc */
+  if (svc.status === EXTRA_STATE) {
+    if (svc.gzhead.extra/* != Z_NULL*/) {
+      beg = svc.pending;  /* start of bytes to update crc */
 
-      while (s.gzindex < (s.gzhead.extra.length & 0xffff)) {
-        if (s.pending === s.pending_buf_size) {
-          if (s.gzhead.hcrc && s.pending > beg) {
-            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+      while (svc.gzindex < (svc.gzhead.extra.length & 0xffff)) {
+        if (svc.pending === svc.pending_buf_size) {
+          if (svc.gzhead.hcrc && svc.pending > beg) {
+            strm.adler = crc32(strm.adler, svc.pending_buf, svc.pending - beg, beg);
           }
           flush_pending(strm);
-          beg = s.pending;
-          if (s.pending === s.pending_buf_size) {
+          beg = svc.pending;
+          if (svc.pending === svc.pending_buf_size) {
             break;
           }
         }
-        put_byte(s, s.gzhead.extra[s.gzindex] & 0xff);
-        s.gzindex++;
+        put_byte(svc, svc.gzhead.extra[svc.gzindex] & 0xff);
+        svc.gzindex++;
       }
-      if (s.gzhead.hcrc && s.pending > beg) {
-        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+      if (svc.gzhead.hcrc && svc.pending > beg) {
+        strm.adler = crc32(strm.adler, svc.pending_buf, svc.pending - beg, beg);
       }
-      if (s.gzindex === s.gzhead.extra.length) {
-        s.gzindex = 0;
-        s.status = NAME_STATE;
+      if (svc.gzindex === svc.gzhead.extra.length) {
+        svc.gzindex = 0;
+        svc.status = NAME_STATE;
       }
     }
     else {
-      s.status = NAME_STATE;
+      svc.status = NAME_STATE;
     }
   }
-  if (s.status === NAME_STATE) {
-    if (s.gzhead.name/* != Z_NULL*/) {
-      beg = s.pending;  /* start of bytes to update crc */
+  if (svc.status === NAME_STATE) {
+    if (svc.gzhead.name/* != Z_NULL*/) {
+      beg = svc.pending;  /* start of bytes to update crc */
       //int val;
 
       do {
-        if (s.pending === s.pending_buf_size) {
-          if (s.gzhead.hcrc && s.pending > beg) {
-            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+        if (svc.pending === svc.pending_buf_size) {
+          if (svc.gzhead.hcrc && svc.pending > beg) {
+            strm.adler = crc32(strm.adler, svc.pending_buf, svc.pending - beg, beg);
           }
           flush_pending(strm);
-          beg = s.pending;
-          if (s.pending === s.pending_buf_size) {
+          beg = svc.pending;
+          if (svc.pending === svc.pending_buf_size) {
             val = 1;
             break;
           }
         }
         // JS specific: little magic to add zero terminator to end of string
-        if (s.gzindex < s.gzhead.name.length) {
-          val = s.gzhead.name.charCodeAt(s.gzindex++) & 0xff;
+        if (svc.gzindex < svc.gzhead.name.length) {
+          val = svc.gzhead.name.charCodeAt(svc.gzindex++) & 0xff;
         } else {
           val = 0;
         }
-        put_byte(s, val);
+        put_byte(svc, val);
       } while (val !== 0);
 
-      if (s.gzhead.hcrc && s.pending > beg) {
-        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+      if (svc.gzhead.hcrc && svc.pending > beg) {
+        strm.adler = crc32(strm.adler, svc.pending_buf, svc.pending - beg, beg);
       }
       if (val === 0) {
-        s.gzindex = 0;
-        s.status = COMMENT_STATE;
+        svc.gzindex = 0;
+        svc.status = COMMENT_STATE;
       }
     }
     else {
-      s.status = COMMENT_STATE;
+      svc.status = COMMENT_STATE;
     }
   }
-  if (s.status === COMMENT_STATE) {
-    if (s.gzhead.comment/* != Z_NULL*/) {
-      beg = s.pending;  /* start of bytes to update crc */
+  if (svc.status === COMMENT_STATE) {
+    if (svc.gzhead.comment/* != Z_NULL*/) {
+      beg = svc.pending;  /* start of bytes to update crc */
       //int val;
 
       do {
-        if (s.pending === s.pending_buf_size) {
-          if (s.gzhead.hcrc && s.pending > beg) {
-            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+        if (svc.pending === svc.pending_buf_size) {
+          if (svc.gzhead.hcrc && svc.pending > beg) {
+            strm.adler = crc32(strm.adler, svc.pending_buf, svc.pending - beg, beg);
           }
           flush_pending(strm);
-          beg = s.pending;
-          if (s.pending === s.pending_buf_size) {
+          beg = svc.pending;
+          if (svc.pending === svc.pending_buf_size) {
             val = 1;
             break;
           }
         }
         // JS specific: little magic to add zero terminator to end of string
-        if (s.gzindex < s.gzhead.comment.length) {
-          val = s.gzhead.comment.charCodeAt(s.gzindex++) & 0xff;
+        if (svc.gzindex < svc.gzhead.comment.length) {
+          val = svc.gzhead.comment.charCodeAt(svc.gzindex++) & 0xff;
         } else {
           val = 0;
         }
-        put_byte(s, val);
+        put_byte(svc, val);
       } while (val !== 0);
 
-      if (s.gzhead.hcrc && s.pending > beg) {
-        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+      if (svc.gzhead.hcrc && svc.pending > beg) {
+        strm.adler = crc32(strm.adler, svc.pending_buf, svc.pending - beg, beg);
       }
       if (val === 0) {
-        s.status = HCRC_STATE;
+        svc.status = HCRC_STATE;
       }
     }
     else {
-      s.status = HCRC_STATE;
+      svc.status = HCRC_STATE;
     }
   }
-  if (s.status === HCRC_STATE) {
-    if (s.gzhead.hcrc) {
-      if (s.pending + 2 > s.pending_buf_size) {
+  if (svc.status === HCRC_STATE) {
+    if (svc.gzhead.hcrc) {
+      if (svc.pending + 2 > svc.pending_buf_size) {
         flush_pending(strm);
       }
-      if (s.pending + 2 <= s.pending_buf_size) {
-        put_byte(s, strm.adler & 0xff);
-        put_byte(s, (strm.adler >> 8) & 0xff);
+      if (svc.pending + 2 <= svc.pending_buf_size) {
+        put_byte(svc, strm.adler & 0xff);
+        put_byte(svc, (strm.adler >> 8) & 0xff);
         strm.adler = 0; //crc32(0L, Z_NULL, 0);
-        s.status = BUSY_STATE;
+        svc.status = BUSY_STATE;
       }
     }
     else {
-      s.status = BUSY_STATE;
+      svc.status = BUSY_STATE;
     }
   }
 //#endif
 
   /* Flush as much pending output as possible */
-  if (s.pending !== 0) {
+  if (svc.pending !== 0) {
     flush_pending(strm);
     if (strm.avail_out === 0) {
       /* Since avail_out is 0, deflate will be called again with
@@ -31526,7 +31526,7 @@ function deflate(strm, flush) {
        * but this is not an error situation so make sure we
        * return OK instead of BUF_ERROR at next call of deflate:
        */
-      s.last_flush = -1;
+      svc.last_flush = -1;
       return Z_OK;
     }
 
@@ -31540,24 +31540,24 @@ function deflate(strm, flush) {
   }
 
   /* User must not provide more input after the first FINISH: */
-  if (s.status === FINISH_STATE && strm.avail_in !== 0) {
+  if (svc.status === FINISH_STATE && strm.avail_in !== 0) {
     return err(strm, Z_BUF_ERROR);
   }
 
   /* Start a new block or continue the current one.
    */
-  if (strm.avail_in !== 0 || s.lookahead !== 0 ||
-    (flush !== Z_NO_FLUSH && s.status !== FINISH_STATE)) {
-    var bstate = (s.strategy === Z_HUFFMAN_ONLY) ? deflate_huff(s, flush) :
-      (s.strategy === Z_RLE ? deflate_rle(s, flush) :
-        configuration_table[s.level].func(s, flush));
+  if (strm.avail_in !== 0 || svc.lookahead !== 0 ||
+    (flush !== Z_NO_FLUSH && svc.status !== FINISH_STATE)) {
+    var bstate = (svc.strategy === Z_HUFFMAN_ONLY) ? deflate_huff(svc, flush) :
+      (svc.strategy === Z_RLE ? deflate_rle(svc, flush) :
+        configuration_table[svc.level].func(svc, flush));
 
     if (bstate === BS_FINISH_STARTED || bstate === BS_FINISH_DONE) {
-      s.status = FINISH_STATE;
+      svc.status = FINISH_STATE;
     }
     if (bstate === BS_NEED_MORE || bstate === BS_FINISH_STARTED) {
       if (strm.avail_out === 0) {
-        s.last_flush = -1;
+        svc.last_flush = -1;
         /* avoid BUF_ERROR next call, see above */
       }
       return Z_OK;
@@ -31571,28 +31571,28 @@ function deflate(strm, flush) {
     }
     if (bstate === BS_BLOCK_DONE) {
       if (flush === Z_PARTIAL_FLUSH) {
-        trees._tr_align(s);
+        trees._tr_align(svc);
       }
       else if (flush !== Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
 
-        trees._tr_stored_block(s, 0, 0, false);
+        trees._tr_stored_block(svc, 0, 0, false);
         /* For a full flush, this empty block will be recognized
          * as a special marker by inflate_sync().
          */
         if (flush === Z_FULL_FLUSH) {
-          /*** CLEAR_HASH(s); ***/             /* forget history */
-          zero(s.head); // Fill with NIL (= 0);
+          /*** CLEAR_HASH(svc); ***/             /* forget history */
+          zero(svc.head); // Fill with NIL (= 0);
 
-          if (s.lookahead === 0) {
-            s.strstart = 0;
-            s.block_start = 0;
-            s.insert = 0;
+          if (svc.lookahead === 0) {
+            svc.strstart = 0;
+            svc.block_start = 0;
+            svc.insert = 0;
           }
         }
       }
       flush_pending(strm);
       if (strm.avail_out === 0) {
-        s.last_flush = -1; /* avoid BUF_ERROR at next call, see above */
+        svc.last_flush = -1; /* avoid BUF_ERROR at next call, see above */
         return Z_OK;
       }
     }
@@ -31601,32 +31601,32 @@ function deflate(strm, flush) {
   //if (strm.avail_out <= 0) { throw new Error("bug2");}
 
   if (flush !== Z_FINISH) { return Z_OK; }
-  if (s.wrap <= 0) { return Z_STREAM_END; }
+  if (svc.wrap <= 0) { return Z_STREAM_END; }
 
   /* Write the trailer */
-  if (s.wrap === 2) {
-    put_byte(s, strm.adler & 0xff);
-    put_byte(s, (strm.adler >> 8) & 0xff);
-    put_byte(s, (strm.adler >> 16) & 0xff);
-    put_byte(s, (strm.adler >> 24) & 0xff);
-    put_byte(s, strm.total_in & 0xff);
-    put_byte(s, (strm.total_in >> 8) & 0xff);
-    put_byte(s, (strm.total_in >> 16) & 0xff);
-    put_byte(s, (strm.total_in >> 24) & 0xff);
+  if (svc.wrap === 2) {
+    put_byte(svc, strm.adler & 0xff);
+    put_byte(svc, (strm.adler >> 8) & 0xff);
+    put_byte(svc, (strm.adler >> 16) & 0xff);
+    put_byte(svc, (strm.adler >> 24) & 0xff);
+    put_byte(svc, strm.total_in & 0xff);
+    put_byte(svc, (strm.total_in >> 8) & 0xff);
+    put_byte(svc, (strm.total_in >> 16) & 0xff);
+    put_byte(svc, (strm.total_in >> 24) & 0xff);
   }
   else
   {
-    putShortMSB(s, strm.adler >>> 16);
-    putShortMSB(s, strm.adler & 0xffff);
+    putShortMSB(svc, strm.adler >>> 16);
+    putShortMSB(svc, strm.adler & 0xffff);
   }
 
   flush_pending(strm);
   /* If avail_out is zero, the application will call deflate again
    * to flush the rest.
    */
-  if (s.wrap > 0) { s.wrap = -s.wrap; }
+  if (svc.wrap > 0) { svc.wrap = -svc.wrap; }
   /* write the trailer only once! */
-  return s.pending !== 0 ? Z_OK : Z_STREAM_END;
+  return svc.pending !== 0 ? Z_OK : Z_STREAM_END;
 }
 
 function deflateEnd(strm) {
@@ -31661,7 +31661,7 @@ function deflateEnd(strm) {
 function deflateSetDictionary(strm, dictionary) {
   var dictLength = dictionary.length;
 
-  var s;
+  var svc;
   var str, n;
   var wrap;
   var avail;
@@ -31673,10 +31673,10 @@ function deflateSetDictionary(strm, dictionary) {
     return Z_STREAM_ERROR;
   }
 
-  s = strm.state;
-  wrap = s.wrap;
+  svc = strm.state;
+  wrap = svc.wrap;
 
-  if (wrap === 2 || (wrap === 1 && s.status !== INIT_STATE) || s.lookahead) {
+  if (wrap === 2 || (wrap === 1 && svc.status !== INIT_STATE) || svc.lookahead) {
     return Z_STREAM_ERROR;
   }
 
@@ -31686,23 +31686,23 @@ function deflateSetDictionary(strm, dictionary) {
     strm.adler = adler32(strm.adler, dictionary, dictLength, 0);
   }
 
-  s.wrap = 0;   /* avoid computing Adler-32 in read_buf */
+  svc.wrap = 0;   /* avoid computing Adler-32 in read_buf */
 
   /* if dictionary would fill window, just replace the history */
-  if (dictLength >= s.w_size) {
+  if (dictLength >= svc.w_size) {
     if (wrap === 0) {            /* already empty otherwise */
-      /*** CLEAR_HASH(s); ***/
-      zero(s.head); // Fill with NIL (= 0);
-      s.strstart = 0;
-      s.block_start = 0;
-      s.insert = 0;
+      /*** CLEAR_HASH(svc); ***/
+      zero(svc.head); // Fill with NIL (= 0);
+      svc.strstart = 0;
+      svc.block_start = 0;
+      svc.insert = 0;
     }
     /* use the tail */
-    // dictionary = dictionary.slice(dictLength - s.w_size);
-    tmpDict = new utils.Buf8(s.w_size);
-    utils.arraySet(tmpDict, dictionary, dictLength - s.w_size, s.w_size, 0);
+    // dictionary = dictionary.slice(dictLength - svc.w_size);
+    tmpDict = new utils.Buf8(svc.w_size);
+    utils.arraySet(tmpDict, dictionary, dictLength - svc.w_size, svc.w_size, 0);
     dictionary = tmpDict;
-    dictLength = s.w_size;
+    dictLength = svc.w_size;
   }
   /* insert dictionary into window and hash */
   avail = strm.avail_in;
@@ -31711,33 +31711,33 @@ function deflateSetDictionary(strm, dictionary) {
   strm.avail_in = dictLength;
   strm.next_in = 0;
   strm.input = dictionary;
-  fill_window(s);
-  while (s.lookahead >= MIN_MATCH) {
-    str = s.strstart;
-    n = s.lookahead - (MIN_MATCH - 1);
+  fill_window(svc);
+  while (svc.lookahead >= MIN_MATCH) {
+    str = svc.strstart;
+    n = svc.lookahead - (MIN_MATCH - 1);
     do {
-      /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+      /* UPDATE_HASH(svc, svc->ins_h, svc->window[str + MIN_MATCH-1]); */
+      svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[str + MIN_MATCH - 1]) & svc.hash_mask;
 
-      s.prev[str & s.w_mask] = s.head[s.ins_h];
+      svc.prev[str & svc.w_mask] = svc.head[svc.ins_h];
 
-      s.head[s.ins_h] = str;
+      svc.head[svc.ins_h] = str;
       str++;
     } while (--n);
-    s.strstart = str;
-    s.lookahead = MIN_MATCH - 1;
-    fill_window(s);
+    svc.strstart = str;
+    svc.lookahead = MIN_MATCH - 1;
+    fill_window(svc);
   }
-  s.strstart += s.lookahead;
-  s.block_start = s.strstart;
-  s.insert = s.lookahead;
-  s.lookahead = 0;
-  s.match_length = s.prev_length = MIN_MATCH - 1;
-  s.match_available = 0;
+  svc.strstart += svc.lookahead;
+  svc.block_start = svc.strstart;
+  svc.insert = svc.lookahead;
+  svc.lookahead = 0;
+  svc.match_length = svc.prev_length = MIN_MATCH - 1;
+  svc.match_available = 0;
   strm.next_in = next;
   strm.input = input;
   strm.avail_in = avail;
-  s.wrap = wrap;
+  svc.wrap = wrap;
   return Z_OK;
 }
 
@@ -31833,7 +31833,7 @@ module.exports = function inflate_fast(strm, start) {
   var _in;                    /* local strm.input */
   var last;                   /* have enough input while in < last */
   var _out;                   /* local strm.output */
-  var beg;                    /* inflate()'s initial strm.output */
+  var beg;                    /* inflate()'svc initial strm.output */
   var end;                    /* while out < end, enough space available */
 //#ifdef INFLATE_STRICT
   var dmax;                   /* maximum distance from zlib header */
@@ -32401,7 +32401,7 @@ function inflateInit(strm) {
  Return state with length and distance decoding tables and index sizes set to
  fixed code decoding.  Normally this returns fixed tables from inffixed.h.
  If BUILDFIXED is defined, then instead this routine builds the tables the
- first time it's called, and returns those tables the first time and
+ first time it'svc called, and returns those tables the first time and
  thereafter.  This reduces the size of the code by about 2K bytes, in
  exchange for a little execution time.  However, BUILDFIXED should not be
  used for threaded applications, since the rewriting of the tables and virgin
@@ -32457,7 +32457,7 @@ function fixedtables(state) {
  advantage, since only the last 32K of output is copied to the sliding window
  upon return from inflate(), and since all distances after the first 32K of
  output will fall in the output data, making match copies simpler and faster.
- The advantage may be dependent on the size of the processor's data caches.
+ The advantage may be dependent on the size of the processor'svc data caches.
  */
 function updatewindow(strm, src, end, copy) {
   var dist;
@@ -32914,13 +32914,13 @@ function inflate(strm, flush) {
 
         switch ((hold & 0x03)/*BITS(2)*/) {
           case 0:                             /* stored block */
-            //Tracev((stderr, "inflate:     stored block%s\n",
+            //Tracev((stderr, "inflate:     stored block%svc\n",
             //        state.last ? " (last)" : ""));
             state.mode = STORED;
             break;
           case 1:                             /* fixed block */
             fixedtables(state);
-            //Tracev((stderr, "inflate:     fixed codes block%s\n",
+            //Tracev((stderr, "inflate:     fixed codes block%svc\n",
             //        state.last ? " (last)" : ""));
             state.mode = LEN_;             /* decode codes */
             if (flush === Z_TREES) {
@@ -32932,7 +32932,7 @@ function inflate(strm, flush) {
             }
             break;
           case 2:                             /* dynamic block */
-            //Tracev((stderr, "inflate:     dynamic codes block%s\n",
+            //Tracev((stderr, "inflate:     dynamic codes block%svc\n",
             //        state.last ? " (last)" : ""));
             state.mode = TABLE;
             break;
@@ -33744,7 +33744,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   var bits = opts.bits;
       //here = opts.here; /* table entry for duplication */
 
-  var len = 0;               /* a code's length in bits */
+  var len = 0;               /* a code'svc length in bits */
   var sym = 0;               /* index of code symbols */
   var min = 0, max = 0;          /* minimum and maximum code lengths */
   var root = 0;              /* number of index bits for root table */
@@ -34278,11 +34278,11 @@ function d_code(dist) {
  * Output a short LSB first on the stream.
  * IN assertion: there is enough room in pendingBuf.
  */
-function put_short(s, w) {
-//    put_byte(s, (uch)((w) & 0xff));
-//    put_byte(s, (uch)((ush)(w) >> 8));
-  s.pending_buf[s.pending++] = (w) & 0xff;
-  s.pending_buf[s.pending++] = (w >>> 8) & 0xff;
+function put_short(svc, w) {
+//    put_byte(svc, (uch)((w) & 0xff));
+//    put_byte(svc, (uch)((ush)(w) >> 8));
+  svc.pending_buf[svc.pending++] = (w) & 0xff;
+  svc.pending_buf[svc.pending++] = (w >>> 8) & 0xff;
 }
 
 
@@ -34290,21 +34290,21 @@ function put_short(s, w) {
  * Send a value on a given number of bits.
  * IN assertion: length <= 16 and value fits in length bits.
  */
-function send_bits(s, value, length) {
-  if (s.bi_valid > (Buf_size - length)) {
-    s.bi_buf |= (value << s.bi_valid) & 0xffff;
-    put_short(s, s.bi_buf);
-    s.bi_buf = value >> (Buf_size - s.bi_valid);
-    s.bi_valid += length - Buf_size;
+function send_bits(svc, value, length) {
+  if (svc.bi_valid > (Buf_size - length)) {
+    svc.bi_buf |= (value << svc.bi_valid) & 0xffff;
+    put_short(svc, svc.bi_buf);
+    svc.bi_buf = value >> (Buf_size - svc.bi_valid);
+    svc.bi_valid += length - Buf_size;
   } else {
-    s.bi_buf |= (value << s.bi_valid) & 0xffff;
-    s.bi_valid += length;
+    svc.bi_buf |= (value << svc.bi_valid) & 0xffff;
+    svc.bi_valid += length;
   }
 }
 
 
-function send_code(s, c, tree) {
-  send_bits(s, tree[c * 2]/*.Code*/, tree[c * 2 + 1]/*.Len*/);
+function send_code(svc, c, tree) {
+  send_bits(svc, tree[c * 2]/*.Code*/, tree[c * 2 + 1]/*.Len*/);
 }
 
 
@@ -34327,16 +34327,16 @@ function bi_reverse(code, len) {
 /* ===========================================================================
  * Flush the bit buffer, keeping at most 7 bits in it.
  */
-function bi_flush(s) {
-  if (s.bi_valid === 16) {
-    put_short(s, s.bi_buf);
-    s.bi_buf = 0;
-    s.bi_valid = 0;
+function bi_flush(svc) {
+  if (svc.bi_valid === 16) {
+    put_short(svc, svc.bi_buf);
+    svc.bi_buf = 0;
+    svc.bi_valid = 0;
 
-  } else if (s.bi_valid >= 8) {
-    s.pending_buf[s.pending++] = s.bi_buf & 0xff;
-    s.bi_buf >>= 8;
-    s.bi_valid -= 8;
+  } else if (svc.bi_valid >= 8) {
+    svc.pending_buf[svc.pending++] = svc.bi_buf & 0xff;
+    svc.bi_buf >>= 8;
+    svc.bi_valid -= 8;
   }
 }
 
@@ -34351,8 +34351,8 @@ function bi_flush(s) {
  *     The length opt_len is updated; static_len is also updated if stree is
  *     not null.
  */
-function gen_bitlen(s, desc)
-//    deflate_state *s;
+function gen_bitlen(svc, desc)
+//    deflate_state *svc;
 //    tree_desc *desc;    /* the tree descriptor */
 {
   var tree            = desc.dyn_tree;
@@ -34370,16 +34370,16 @@ function gen_bitlen(s, desc)
   var overflow = 0;   /* number of elements with bit length too large */
 
   for (bits = 0; bits <= MAX_BITS; bits++) {
-    s.bl_count[bits] = 0;
+    svc.bl_count[bits] = 0;
   }
 
   /* In a first pass, compute the optimal bit lengths (which may
    * overflow in the case of the bit length tree).
    */
-  tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
+  tree[svc.heap[svc.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
 
-  for (h = s.heap_max + 1; h < HEAP_SIZE; h++) {
-    n = s.heap[h];
+  for (h = svc.heap_max + 1; h < HEAP_SIZE; h++) {
+    n = svc.heap[h];
     bits = tree[tree[n * 2 + 1]/*.Dad*/ * 2 + 1]/*.Len*/ + 1;
     if (bits > max_length) {
       bits = max_length;
@@ -34390,15 +34390,15 @@ function gen_bitlen(s, desc)
 
     if (n > max_code) { continue; } /* not a leaf node */
 
-    s.bl_count[bits]++;
+    svc.bl_count[bits]++;
     xbits = 0;
     if (n >= base) {
       xbits = extra[n - base];
     }
     f = tree[n * 2]/*.Freq*/;
-    s.opt_len += f * (bits + xbits);
+    svc.opt_len += f * (bits + xbits);
     if (has_stree) {
-      s.static_len += f * (stree[n * 2 + 1]/*.Len*/ + xbits);
+      svc.static_len += f * (stree[n * 2 + 1]/*.Len*/ + xbits);
     }
   }
   if (overflow === 0) { return; }
@@ -34409,10 +34409,10 @@ function gen_bitlen(s, desc)
   /* Find the first bit length which could increase: */
   do {
     bits = max_length - 1;
-    while (s.bl_count[bits] === 0) { bits--; }
-    s.bl_count[bits]--;      /* move one leaf down the tree */
-    s.bl_count[bits + 1] += 2; /* move one overflow item as its brother */
-    s.bl_count[max_length]--;
+    while (svc.bl_count[bits] === 0) { bits--; }
+    svc.bl_count[bits]--;      /* move one leaf down the tree */
+    svc.bl_count[bits + 1] += 2; /* move one overflow item as its brother */
+    svc.bl_count[max_length]--;
     /* The brother of the overflow item also moves one step up,
      * but this does not affect bl_count[max_length]
      */
@@ -34425,13 +34425,13 @@ function gen_bitlen(s, desc)
    * from 'ar' written by Haruhiko Okumura.)
    */
   for (bits = max_length; bits !== 0; bits--) {
-    n = s.bl_count[bits];
+    n = svc.bl_count[bits];
     while (n !== 0) {
-      m = s.heap[--h];
+      m = svc.heap[--h];
       if (m > max_code) { continue; }
       if (tree[m * 2 + 1]/*.Len*/ !== bits) {
         // Trace((stderr,"code %d bits %d->%d\n", m, tree[m].Len, bits));
-        s.opt_len += (bits - tree[m * 2 + 1]/*.Len*/) * tree[m * 2]/*.Freq*/;
+        svc.opt_len += (bits - tree[m * 2 + 1]/*.Len*/) * tree[m * 2]/*.Freq*/;
         tree[m * 2 + 1]/*.Len*/ = bits;
       }
       n--;
@@ -34590,56 +34590,56 @@ function tr_static_init() {
 /* ===========================================================================
  * Initialize a new block.
  */
-function init_block(s) {
+function init_block(svc) {
   var n; /* iterates over tree elements */
 
   /* Initialize the trees. */
-  for (n = 0; n < L_CODES;  n++) { s.dyn_ltree[n * 2]/*.Freq*/ = 0; }
-  for (n = 0; n < D_CODES;  n++) { s.dyn_dtree[n * 2]/*.Freq*/ = 0; }
-  for (n = 0; n < BL_CODES; n++) { s.bl_tree[n * 2]/*.Freq*/ = 0; }
+  for (n = 0; n < L_CODES;  n++) { svc.dyn_ltree[n * 2]/*.Freq*/ = 0; }
+  for (n = 0; n < D_CODES;  n++) { svc.dyn_dtree[n * 2]/*.Freq*/ = 0; }
+  for (n = 0; n < BL_CODES; n++) { svc.bl_tree[n * 2]/*.Freq*/ = 0; }
 
-  s.dyn_ltree[END_BLOCK * 2]/*.Freq*/ = 1;
-  s.opt_len = s.static_len = 0;
-  s.last_lit = s.matches = 0;
+  svc.dyn_ltree[END_BLOCK * 2]/*.Freq*/ = 1;
+  svc.opt_len = svc.static_len = 0;
+  svc.last_lit = svc.matches = 0;
 }
 
 
 /* ===========================================================================
  * Flush the bit buffer and align the output on a byte boundary
  */
-function bi_windup(s)
+function bi_windup(svc)
 {
-  if (s.bi_valid > 8) {
-    put_short(s, s.bi_buf);
-  } else if (s.bi_valid > 0) {
-    //put_byte(s, (Byte)s->bi_buf);
-    s.pending_buf[s.pending++] = s.bi_buf;
+  if (svc.bi_valid > 8) {
+    put_short(svc, svc.bi_buf);
+  } else if (svc.bi_valid > 0) {
+    //put_byte(svc, (Byte)svc->bi_buf);
+    svc.pending_buf[svc.pending++] = svc.bi_buf;
   }
-  s.bi_buf = 0;
-  s.bi_valid = 0;
+  svc.bi_buf = 0;
+  svc.bi_valid = 0;
 }
 
 /* ===========================================================================
  * Copy a stored block, storing first the length and its
- * one's complement if requested.
+ * one'svc complement if requested.
  */
-function copy_block(s, buf, len, header)
-//DeflateState *s;
+function copy_block(svc, buf, len, header)
+//DeflateState *svc;
 //charf    *buf;    /* the input data */
 //unsigned len;     /* its length */
 //int      header;  /* true if block header must be written */
 {
-  bi_windup(s);        /* align on byte boundary */
+  bi_windup(svc);        /* align on byte boundary */
 
   if (header) {
-    put_short(s, len);
-    put_short(s, ~len);
+    put_short(svc, len);
+    put_short(svc, ~len);
   }
 //  while (len--) {
-//    put_byte(s, *buf++);
+//    put_byte(svc, *buf++);
 //  }
-  utils.arraySet(s.pending_buf, s.window, buf, len, s.pending);
-  s.pending += len;
+  utils.arraySet(svc.pending_buf, svc.window, buf, len, svc.pending);
+  svc.pending += len;
 }
 
 /* ===========================================================================
@@ -34659,30 +34659,30 @@ function smaller(tree, n, m, depth) {
  * when the heap property is re-established (each father smaller than its
  * two sons).
  */
-function pqdownheap(s, tree, k)
-//    deflate_state *s;
+function pqdownheap(svc, tree, k)
+//    deflate_state *svc;
 //    ct_data *tree;  /* the tree to restore */
 //    int k;               /* node to move down */
 {
-  var v = s.heap[k];
+  var v = svc.heap[k];
   var j = k << 1;  /* left son of k */
-  while (j <= s.heap_len) {
+  while (j <= svc.heap_len) {
     /* Set j to the smallest of the two sons: */
-    if (j < s.heap_len &&
-      smaller(tree, s.heap[j + 1], s.heap[j], s.depth)) {
+    if (j < svc.heap_len &&
+      smaller(tree, svc.heap[j + 1], svc.heap[j], svc.depth)) {
       j++;
     }
     /* Exit if v is smaller than both sons */
-    if (smaller(tree, v, s.heap[j], s.depth)) { break; }
+    if (smaller(tree, v, svc.heap[j], svc.depth)) { break; }
 
     /* Exchange v with the smallest son */
-    s.heap[k] = s.heap[j];
+    svc.heap[k] = svc.heap[j];
     k = j;
 
     /* And continue down the tree, setting j to the left son of k */
     j <<= 1;
   }
-  s.heap[k] = v;
+  svc.heap[k] = v;
 }
 
 
@@ -34692,8 +34692,8 @@ function pqdownheap(s, tree, k)
 /* ===========================================================================
  * Send the block data compressed using the given Huffman trees
  */
-function compress_block(s, ltree, dtree)
-//    deflate_state *s;
+function compress_block(svc, ltree, dtree)
+//    deflate_state *svc;
 //    const ct_data *ltree; /* literal tree */
 //    const ct_data *dtree; /* distance tree */
 {
@@ -34703,44 +34703,44 @@ function compress_block(s, ltree, dtree)
   var code;           /* the code to send */
   var extra;          /* number of extra bits to send */
 
-  if (s.last_lit !== 0) {
+  if (svc.last_lit !== 0) {
     do {
-      dist = (s.pending_buf[s.d_buf + lx * 2] << 8) | (s.pending_buf[s.d_buf + lx * 2 + 1]);
-      lc = s.pending_buf[s.l_buf + lx];
+      dist = (svc.pending_buf[svc.d_buf + lx * 2] << 8) | (svc.pending_buf[svc.d_buf + lx * 2 + 1]);
+      lc = svc.pending_buf[svc.l_buf + lx];
       lx++;
 
       if (dist === 0) {
-        send_code(s, lc, ltree); /* send a literal byte */
+        send_code(svc, lc, ltree); /* send a literal byte */
         //Tracecv(isgraph(lc), (stderr," '%c' ", lc));
       } else {
         /* Here, lc is the match length - MIN_MATCH */
         code = _length_code[lc];
-        send_code(s, code + LITERALS + 1, ltree); /* send the length code */
+        send_code(svc, code + LITERALS + 1, ltree); /* send the length code */
         extra = extra_lbits[code];
         if (extra !== 0) {
           lc -= base_length[code];
-          send_bits(s, lc, extra);       /* send the extra length bits */
+          send_bits(svc, lc, extra);       /* send the extra length bits */
         }
         dist--; /* dist is now the match distance - 1 */
         code = d_code(dist);
         //Assert (code < D_CODES, "bad d_code");
 
-        send_code(s, code, dtree);       /* send the distance code */
+        send_code(svc, code, dtree);       /* send the distance code */
         extra = extra_dbits[code];
         if (extra !== 0) {
           dist -= base_dist[code];
-          send_bits(s, dist, extra);   /* send the extra distance bits */
+          send_bits(svc, dist, extra);   /* send the extra distance bits */
         }
       } /* literal or match pair ? */
 
       /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
-      //Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
+      //Assert((uInt)(svc->pending) < svc->lit_bufsize + 2*lx,
       //       "pendingBuf overflow");
 
-    } while (lx < s.last_lit);
+    } while (lx < svc.last_lit);
   }
 
-  send_code(s, END_BLOCK, ltree);
+  send_code(svc, END_BLOCK, ltree);
 }
 
 
@@ -34752,8 +34752,8 @@ function compress_block(s, ltree, dtree)
  *     and corresponding code. The length opt_len is updated; static_len is
  *     also updated if stree is not null. The field max_code is set.
  */
-function build_tree(s, desc)
-//    deflate_state *s;
+function build_tree(svc, desc)
+//    deflate_state *svc;
 //    tree_desc *desc; /* the tree descriptor */
 {
   var tree     = desc.dyn_tree;
@@ -34768,13 +34768,13 @@ function build_tree(s, desc)
    * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
    * heap[0] is not used.
    */
-  s.heap_len = 0;
-  s.heap_max = HEAP_SIZE;
+  svc.heap_len = 0;
+  svc.heap_max = HEAP_SIZE;
 
   for (n = 0; n < elems; n++) {
     if (tree[n * 2]/*.Freq*/ !== 0) {
-      s.heap[++s.heap_len] = max_code = n;
-      s.depth[n] = 0;
+      svc.heap[++svc.heap_len] = max_code = n;
+      svc.depth[n] = 0;
 
     } else {
       tree[n * 2 + 1]/*.Len*/ = 0;
@@ -34786,14 +34786,14 @@ function build_tree(s, desc)
    * possible code. So to avoid special checks later on we force at least
    * two codes of non zero frequency.
    */
-  while (s.heap_len < 2) {
-    node = s.heap[++s.heap_len] = (max_code < 2 ? ++max_code : 0);
+  while (svc.heap_len < 2) {
+    node = svc.heap[++svc.heap_len] = (max_code < 2 ? ++max_code : 0);
     tree[node * 2]/*.Freq*/ = 1;
-    s.depth[node] = 0;
-    s.opt_len--;
+    svc.depth[node] = 0;
+    svc.opt_len--;
 
     if (has_stree) {
-      s.static_len -= stree[node * 2 + 1]/*.Len*/;
+      svc.static_len -= stree[node * 2 + 1]/*.Len*/;
     }
     /* node is 0 or 1 so it does not have extra bits */
   }
@@ -34802,45 +34802,45 @@ function build_tree(s, desc)
   /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
    * establish sub-heaps of increasing lengths:
    */
-  for (n = (s.heap_len >> 1/*int /2*/); n >= 1; n--) { pqdownheap(s, tree, n); }
+  for (n = (svc.heap_len >> 1/*int /2*/); n >= 1; n--) { pqdownheap(svc, tree, n); }
 
   /* Construct the Huffman tree by repeatedly combining the least two
    * frequent nodes.
    */
   node = elems;              /* next internal node of the tree */
   do {
-    //pqremove(s, tree, n);  /* n = node of least frequency */
+    //pqremove(svc, tree, n);  /* n = node of least frequency */
     /*** pqremove ***/
-    n = s.heap[1/*SMALLEST*/];
-    s.heap[1/*SMALLEST*/] = s.heap[s.heap_len--];
-    pqdownheap(s, tree, 1/*SMALLEST*/);
+    n = svc.heap[1/*SMALLEST*/];
+    svc.heap[1/*SMALLEST*/] = svc.heap[svc.heap_len--];
+    pqdownheap(svc, tree, 1/*SMALLEST*/);
     /***/
 
-    m = s.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
+    m = svc.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
 
-    s.heap[--s.heap_max] = n; /* keep the nodes sorted by frequency */
-    s.heap[--s.heap_max] = m;
+    svc.heap[--svc.heap_max] = n; /* keep the nodes sorted by frequency */
+    svc.heap[--svc.heap_max] = m;
 
     /* Create a new node father of n and m */
     tree[node * 2]/*.Freq*/ = tree[n * 2]/*.Freq*/ + tree[m * 2]/*.Freq*/;
-    s.depth[node] = (s.depth[n] >= s.depth[m] ? s.depth[n] : s.depth[m]) + 1;
+    svc.depth[node] = (svc.depth[n] >= svc.depth[m] ? svc.depth[n] : svc.depth[m]) + 1;
     tree[n * 2 + 1]/*.Dad*/ = tree[m * 2 + 1]/*.Dad*/ = node;
 
     /* and insert the new node in the heap */
-    s.heap[1/*SMALLEST*/] = node++;
-    pqdownheap(s, tree, 1/*SMALLEST*/);
+    svc.heap[1/*SMALLEST*/] = node++;
+    pqdownheap(svc, tree, 1/*SMALLEST*/);
 
-  } while (s.heap_len >= 2);
+  } while (svc.heap_len >= 2);
 
-  s.heap[--s.heap_max] = s.heap[1/*SMALLEST*/];
+  svc.heap[--svc.heap_max] = svc.heap[1/*SMALLEST*/];
 
   /* At this point, the fields freq and dad are set. We can now
    * generate the bit lengths.
    */
-  gen_bitlen(s, desc);
+  gen_bitlen(svc, desc);
 
   /* The field len is now set, we can generate the bit codes */
-  gen_codes(tree, max_code, s.bl_count);
+  gen_codes(tree, max_code, svc.bl_count);
 }
 
 
@@ -34848,8 +34848,8 @@ function build_tree(s, desc)
  * Scan a literal or distance tree to determine the frequencies of the codes
  * in the bit length tree.
  */
-function scan_tree(s, tree, max_code)
-//    deflate_state *s;
+function scan_tree(svc, tree, max_code)
+//    deflate_state *svc;
 //    ct_data *tree;   /* the tree to be scanned */
 //    int max_code;    /* and its largest code of non zero frequency */
 {
@@ -34877,18 +34877,18 @@ function scan_tree(s, tree, max_code)
       continue;
 
     } else if (count < min_count) {
-      s.bl_tree[curlen * 2]/*.Freq*/ += count;
+      svc.bl_tree[curlen * 2]/*.Freq*/ += count;
 
     } else if (curlen !== 0) {
 
-      if (curlen !== prevlen) { s.bl_tree[curlen * 2]/*.Freq*/++; }
-      s.bl_tree[REP_3_6 * 2]/*.Freq*/++;
+      if (curlen !== prevlen) { svc.bl_tree[curlen * 2]/*.Freq*/++; }
+      svc.bl_tree[REP_3_6 * 2]/*.Freq*/++;
 
     } else if (count <= 10) {
-      s.bl_tree[REPZ_3_10 * 2]/*.Freq*/++;
+      svc.bl_tree[REPZ_3_10 * 2]/*.Freq*/++;
 
     } else {
-      s.bl_tree[REPZ_11_138 * 2]/*.Freq*/++;
+      svc.bl_tree[REPZ_11_138 * 2]/*.Freq*/++;
     }
 
     count = 0;
@@ -34914,8 +34914,8 @@ function scan_tree(s, tree, max_code)
  * Send a literal or distance tree in compressed form, using the codes in
  * bl_tree.
  */
-function send_tree(s, tree, max_code)
-//    deflate_state *s;
+function send_tree(svc, tree, max_code)
+//    deflate_state *svc;
 //    ct_data *tree; /* the tree to be scanned */
 //    int max_code;       /* and its largest code of non zero frequency */
 {
@@ -34943,24 +34943,24 @@ function send_tree(s, tree, max_code)
       continue;
 
     } else if (count < min_count) {
-      do { send_code(s, curlen, s.bl_tree); } while (--count !== 0);
+      do { send_code(svc, curlen, svc.bl_tree); } while (--count !== 0);
 
     } else if (curlen !== 0) {
       if (curlen !== prevlen) {
-        send_code(s, curlen, s.bl_tree);
+        send_code(svc, curlen, svc.bl_tree);
         count--;
       }
       //Assert(count >= 3 && count <= 6, " 3_6?");
-      send_code(s, REP_3_6, s.bl_tree);
-      send_bits(s, count - 3, 2);
+      send_code(svc, REP_3_6, svc.bl_tree);
+      send_bits(svc, count - 3, 2);
 
     } else if (count <= 10) {
-      send_code(s, REPZ_3_10, s.bl_tree);
-      send_bits(s, count - 3, 3);
+      send_code(svc, REPZ_3_10, svc.bl_tree);
+      send_bits(svc, count - 3, 3);
 
     } else {
-      send_code(s, REPZ_11_138, s.bl_tree);
-      send_bits(s, count - 11, 7);
+      send_code(svc, REPZ_11_138, svc.bl_tree);
+      send_bits(svc, count - 11, 7);
     }
 
     count = 0;
@@ -34985,15 +34985,15 @@ function send_tree(s, tree, max_code)
  * Construct the Huffman tree for the bit lengths and return the index in
  * bl_order of the last bit length code to send.
  */
-function build_bl_tree(s) {
+function build_bl_tree(svc) {
   var max_blindex;  /* index of last bit length code of non zero freq */
 
   /* Determine the bit length frequencies for literal and distance trees */
-  scan_tree(s, s.dyn_ltree, s.l_desc.max_code);
-  scan_tree(s, s.dyn_dtree, s.d_desc.max_code);
+  scan_tree(svc, svc.dyn_ltree, svc.l_desc.max_code);
+  scan_tree(svc, svc.dyn_dtree, svc.d_desc.max_code);
 
   /* Build the bit length tree: */
-  build_tree(s, s.bl_desc);
+  build_tree(svc, svc.bl_desc);
   /* opt_len now includes the length of the tree representations, except
    * the lengths of the bit lengths codes and the 5+5+4 bits for the counts.
    */
@@ -35003,14 +35003,14 @@ function build_bl_tree(s) {
    * 3 but the actual value used is 4.)
    */
   for (max_blindex = BL_CODES - 1; max_blindex >= 3; max_blindex--) {
-    if (s.bl_tree[bl_order[max_blindex] * 2 + 1]/*.Len*/ !== 0) {
+    if (svc.bl_tree[bl_order[max_blindex] * 2 + 1]/*.Len*/ !== 0) {
       break;
     }
   }
   /* Update opt_len to include the bit length tree and counts */
-  s.opt_len += 3 * (max_blindex + 1) + 5 + 5 + 4;
+  svc.opt_len += 3 * (max_blindex + 1) + 5 + 5 + 4;
   //Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
-  //        s->opt_len, s->static_len));
+  //        svc->opt_len, svc->static_len));
 
   return max_blindex;
 }
@@ -35021,8 +35021,8 @@ function build_bl_tree(s) {
  * lengths of the bit length codes, the literal tree and the distance tree.
  * IN assertion: lcodes >= 257, dcodes >= 1, blcodes >= 4.
  */
-function send_all_trees(s, lcodes, dcodes, blcodes)
-//    deflate_state *s;
+function send_all_trees(svc, lcodes, dcodes, blcodes)
+//    deflate_state *svc;
 //    int lcodes, dcodes, blcodes; /* number of codes for each tree */
 {
   var rank;                    /* index in bl_order */
@@ -35031,20 +35031,20 @@ function send_all_trees(s, lcodes, dcodes, blcodes)
   //Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
   //        "too many codes");
   //Tracev((stderr, "\nbl counts: "));
-  send_bits(s, lcodes - 257, 5); /* not +255 as stated in appnote.txt */
-  send_bits(s, dcodes - 1,   5);
-  send_bits(s, blcodes - 4,  4); /* not -3 as stated in appnote.txt */
+  send_bits(svc, lcodes - 257, 5); /* not +255 as stated in appnote.txt */
+  send_bits(svc, dcodes - 1,   5);
+  send_bits(svc, blcodes - 4,  4); /* not -3 as stated in appnote.txt */
   for (rank = 0; rank < blcodes; rank++) {
     //Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
-    send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
+    send_bits(svc, svc.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
   }
-  //Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
+  //Tracev((stderr, "\nbl tree: sent %ld", svc->bits_sent));
 
-  send_tree(s, s.dyn_ltree, lcodes - 1); /* literal tree */
-  //Tracev((stderr, "\nlit tree: sent %ld", s->bits_sent));
+  send_tree(svc, svc.dyn_ltree, lcodes - 1); /* literal tree */
+  //Tracev((stderr, "\nlit tree: sent %ld", svc->bits_sent));
 
-  send_tree(s, s.dyn_dtree, dcodes - 1); /* distance tree */
-  //Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
+  send_tree(svc, svc.dyn_dtree, dcodes - 1); /* distance tree */
+  //Tracev((stderr, "\ndist tree: sent %ld", svc->bits_sent));
 }
 
 
@@ -35061,7 +35061,7 @@ function send_all_trees(s, lcodes, dcodes, blcodes)
  *   (7 {BEL}, 8 {BS}, 11 {VT}, 12 {FF}, 26 {SUB}, 27 {ESC}).
  * IN assertion: the fields Freq of dyn_ltree are set.
  */
-function detect_data_type(s) {
+function detect_data_type(svc) {
   /* black_mask is the bit mask of black-listed bytes
    * set bits 0..6, 14..25, and 28..31
    * 0xf3ffc07f = binary 11110011111111111100000001111111
@@ -35071,18 +35071,18 @@ function detect_data_type(s) {
 
   /* Check for non-textual ("black-listed") bytes. */
   for (n = 0; n <= 31; n++, black_mask >>>= 1) {
-    if ((black_mask & 1) && (s.dyn_ltree[n * 2]/*.Freq*/ !== 0)) {
+    if ((black_mask & 1) && (svc.dyn_ltree[n * 2]/*.Freq*/ !== 0)) {
       return Z_BINARY;
     }
   }
 
   /* Check for textual ("white-listed") bytes. */
-  if (s.dyn_ltree[9 * 2]/*.Freq*/ !== 0 || s.dyn_ltree[10 * 2]/*.Freq*/ !== 0 ||
-      s.dyn_ltree[13 * 2]/*.Freq*/ !== 0) {
+  if (svc.dyn_ltree[9 * 2]/*.Freq*/ !== 0 || svc.dyn_ltree[10 * 2]/*.Freq*/ !== 0 ||
+      svc.dyn_ltree[13 * 2]/*.Freq*/ !== 0) {
     return Z_TEXT;
   }
   for (n = 32; n < LITERALS; n++) {
-    if (s.dyn_ltree[n * 2]/*.Freq*/ !== 0) {
+    if (svc.dyn_ltree[n * 2]/*.Freq*/ !== 0) {
       return Z_TEXT;
     }
   }
@@ -35099,7 +35099,7 @@ var static_init_done = false;
 /* ===========================================================================
  * Initialize the tree data structures for a new zlib stream.
  */
-function _tr_init(s)
+function _tr_init(svc)
 {
 
   if (!static_init_done) {
@@ -35107,29 +35107,29 @@ function _tr_init(s)
     static_init_done = true;
   }
 
-  s.l_desc  = new TreeDesc(s.dyn_ltree, static_l_desc);
-  s.d_desc  = new TreeDesc(s.dyn_dtree, static_d_desc);
-  s.bl_desc = new TreeDesc(s.bl_tree, static_bl_desc);
+  svc.l_desc  = new TreeDesc(svc.dyn_ltree, static_l_desc);
+  svc.d_desc  = new TreeDesc(svc.dyn_dtree, static_d_desc);
+  svc.bl_desc = new TreeDesc(svc.bl_tree, static_bl_desc);
 
-  s.bi_buf = 0;
-  s.bi_valid = 0;
+  svc.bi_buf = 0;
+  svc.bi_valid = 0;
 
   /* Initialize the first block of the first file: */
-  init_block(s);
+  init_block(svc);
 }
 
 
 /* ===========================================================================
  * Send a stored block
  */
-function _tr_stored_block(s, buf, stored_len, last)
-//DeflateState *s;
+function _tr_stored_block(svc, buf, stored_len, last)
+//DeflateState *svc;
 //charf *buf;       /* input block */
 //ulg stored_len;   /* length of input block */
 //int last;         /* one if this is the last block for a file */
 {
-  send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
-  copy_block(s, buf, stored_len, true); /* with header */
+  send_bits(svc, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
+  copy_block(svc, buf, stored_len, true); /* with header */
 }
 
 
@@ -35137,10 +35137,10 @@ function _tr_stored_block(s, buf, stored_len, last)
  * Send one empty static block to give enough lookahead for inflate.
  * This takes 10 bits, of which 7 may remain in the bit buffer.
  */
-function _tr_align(s) {
-  send_bits(s, STATIC_TREES << 1, 3);
-  send_code(s, END_BLOCK, static_ltree);
-  bi_flush(s);
+function _tr_align(svc) {
+  send_bits(svc, STATIC_TREES << 1, 3);
+  send_code(svc, END_BLOCK, static_ltree);
+  bi_flush(svc);
 }
 
 
@@ -35148,8 +35148,8 @@ function _tr_align(s) {
  * Determine the best encoding for the current block: dynamic trees, static
  * trees or store, and output the encoded block to the zip file.
  */
-function _tr_flush_block(s, buf, stored_len, last)
-//DeflateState *s;
+function _tr_flush_block(svc, buf, stored_len, last)
+//DeflateState *svc;
 //charf *buf;       /* input block, or NULL if too old */
 //ulg stored_len;   /* length of input block */
 //int last;         /* one if this is the last block for a file */
@@ -35158,21 +35158,21 @@ function _tr_flush_block(s, buf, stored_len, last)
   var max_blindex = 0;        /* index of last bit length code of non zero freq */
 
   /* Build the Huffman trees unless a stored block is forced */
-  if (s.level > 0) {
+  if (svc.level > 0) {
 
     /* Check if the file is binary or text */
-    if (s.strm.data_type === Z_UNKNOWN) {
-      s.strm.data_type = detect_data_type(s);
+    if (svc.strm.data_type === Z_UNKNOWN) {
+      svc.strm.data_type = detect_data_type(svc);
     }
 
     /* Construct the literal and distance trees */
-    build_tree(s, s.l_desc);
-    // Tracev((stderr, "\nlit data: dyn %ld, stat %ld", s->opt_len,
-    //        s->static_len));
+    build_tree(svc, svc.l_desc);
+    // Tracev((stderr, "\nlit data: dyn %ld, stat %ld", svc->opt_len,
+    //        svc->static_len));
 
-    build_tree(s, s.d_desc);
-    // Tracev((stderr, "\ndist data: dyn %ld, stat %ld", s->opt_len,
-    //        s->static_len));
+    build_tree(svc, svc.d_desc);
+    // Tracev((stderr, "\ndist data: dyn %ld, stat %ld", svc->opt_len,
+    //        svc->static_len));
     /* At this point, opt_len and static_len are the total bit lengths of
      * the compressed block data, excluding the tree representations.
      */
@@ -35180,15 +35180,15 @@ function _tr_flush_block(s, buf, stored_len, last)
     /* Build the bit length tree for the above two trees, and get the index
      * in bl_order of the last bit length code to send.
      */
-    max_blindex = build_bl_tree(s);
+    max_blindex = build_bl_tree(svc);
 
     /* Determine the best encoding. Compute the block lengths in bytes. */
-    opt_lenb = (s.opt_len + 3 + 7) >>> 3;
-    static_lenb = (s.static_len + 3 + 7) >>> 3;
+    opt_lenb = (svc.opt_len + 3 + 7) >>> 3;
+    static_lenb = (svc.static_len + 3 + 7) >>> 3;
 
     // Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
-    //        opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
-    //        s->last_lit));
+    //        opt_lenb, svc->opt_len, static_lenb, svc->static_len, stored_len,
+    //        svc->last_lit));
 
     if (static_lenb <= opt_lenb) { opt_lenb = static_lenb; }
 
@@ -35206,61 +35206,61 @@ function _tr_flush_block(s, buf, stored_len, last)
      * successful. If LIT_BUFSIZE <= WSIZE, it is never too late to
      * transform a block into a stored block.
      */
-    _tr_stored_block(s, buf, stored_len, last);
+    _tr_stored_block(svc, buf, stored_len, last);
 
-  } else if (s.strategy === Z_FIXED || static_lenb === opt_lenb) {
+  } else if (svc.strategy === Z_FIXED || static_lenb === opt_lenb) {
 
-    send_bits(s, (STATIC_TREES << 1) + (last ? 1 : 0), 3);
-    compress_block(s, static_ltree, static_dtree);
+    send_bits(svc, (STATIC_TREES << 1) + (last ? 1 : 0), 3);
+    compress_block(svc, static_ltree, static_dtree);
 
   } else {
-    send_bits(s, (DYN_TREES << 1) + (last ? 1 : 0), 3);
-    send_all_trees(s, s.l_desc.max_code + 1, s.d_desc.max_code + 1, max_blindex + 1);
-    compress_block(s, s.dyn_ltree, s.dyn_dtree);
+    send_bits(svc, (DYN_TREES << 1) + (last ? 1 : 0), 3);
+    send_all_trees(svc, svc.l_desc.max_code + 1, svc.d_desc.max_code + 1, max_blindex + 1);
+    compress_block(svc, svc.dyn_ltree, svc.dyn_dtree);
   }
-  // Assert (s->compressed_len == s->bits_sent, "bad compressed size");
+  // Assert (svc->compressed_len == svc->bits_sent, "bad compressed size");
   /* The above check is made mod 2^32, for files larger than 512 MB
    * and uLong implemented on 32 bits.
    */
-  init_block(s);
+  init_block(svc);
 
   if (last) {
-    bi_windup(s);
+    bi_windup(svc);
   }
-  // Tracev((stderr,"\ncomprlen %lu(%lu) ", s->compressed_len>>3,
-  //       s->compressed_len-7*last));
+  // Tracev((stderr,"\ncomprlen %lu(%lu) ", svc->compressed_len>>3,
+  //       svc->compressed_len-7*last));
 }
 
 /* ===========================================================================
  * Save the match info and tally the frequency counts. Return true if
  * the current block must be flushed.
  */
-function _tr_tally(s, dist, lc)
-//    deflate_state *s;
+function _tr_tally(svc, dist, lc)
+//    deflate_state *svc;
 //    unsigned dist;  /* distance of matched string */
 //    unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
 {
   //var out_length, in_length, dcode;
 
-  s.pending_buf[s.d_buf + s.last_lit * 2]     = (dist >>> 8) & 0xff;
-  s.pending_buf[s.d_buf + s.last_lit * 2 + 1] = dist & 0xff;
+  svc.pending_buf[svc.d_buf + svc.last_lit * 2]     = (dist >>> 8) & 0xff;
+  svc.pending_buf[svc.d_buf + svc.last_lit * 2 + 1] = dist & 0xff;
 
-  s.pending_buf[s.l_buf + s.last_lit] = lc & 0xff;
-  s.last_lit++;
+  svc.pending_buf[svc.l_buf + svc.last_lit] = lc & 0xff;
+  svc.last_lit++;
 
   if (dist === 0) {
     /* lc is the unmatched char */
-    s.dyn_ltree[lc * 2]/*.Freq*/++;
+    svc.dyn_ltree[lc * 2]/*.Freq*/++;
   } else {
-    s.matches++;
+    svc.matches++;
     /* Here, lc is the match length - MIN_MATCH */
     dist--;             /* dist = match distance - 1 */
-    //Assert((ush)dist < (ush)MAX_DIST(s) &&
+    //Assert((ush)dist < (ush)MAX_DIST(svc) &&
     //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
     //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
 
-    s.dyn_ltree[(_length_code[lc] + LITERALS + 1) * 2]/*.Freq*/++;
-    s.dyn_dtree[d_code(dist) * 2]/*.Freq*/++;
+    svc.dyn_ltree[(_length_code[lc] + LITERALS + 1) * 2]/*.Freq*/++;
+    svc.dyn_dtree[d_code(dist) * 2]/*.Freq*/++;
   }
 
 // (!) This block is disabled in zlib defaults,
@@ -35268,25 +35268,25 @@ function _tr_tally(s, dist, lc)
 
 //#ifdef TRUNCATE_BLOCK
 //  /* Try to guess if it is profitable to stop the current block here */
-//  if ((s.last_lit & 0x1fff) === 0 && s.level > 2) {
+//  if ((svc.last_lit & 0x1fff) === 0 && svc.level > 2) {
 //    /* Compute an upper bound for the compressed length */
-//    out_length = s.last_lit*8;
-//    in_length = s.strstart - s.block_start;
+//    out_length = svc.last_lit*8;
+//    in_length = svc.strstart - svc.block_start;
 //
 //    for (dcode = 0; dcode < D_CODES; dcode++) {
-//      out_length += s.dyn_dtree[dcode*2]/*.Freq*/ * (5 + extra_dbits[dcode]);
+//      out_length += svc.dyn_dtree[dcode*2]/*.Freq*/ * (5 + extra_dbits[dcode]);
 //    }
 //    out_length >>>= 3;
 //    //Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
-//    //       s->last_lit, in_length, out_length,
+//    //       svc->last_lit, in_length, out_length,
 //    //       100L - out_length*100L/in_length));
-//    if (s.matches < (s.last_lit>>1)/*int /2*/ && out_length < (in_length>>1)/*int /2*/) {
+//    if (svc.matches < (svc.last_lit>>1)/*int /2*/ && out_length < (in_length>>1)/*int /2*/) {
 //      return true;
 //    }
 //  }
 //#endif
 
-  return (s.last_lit === s.lit_bufsize - 1);
+  return (svc.last_lit === svc.lit_bufsize - 1);
   /* We avoid equality with lit_bufsize because of wraparound at 64K
    * on 16 bit machines and because stored blocks are restricted to
    * 64K-1 bytes.
@@ -35911,7 +35911,7 @@ module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undef
   var iteratorMethod = getIteratorMethod(O);
   var index = 0;
   var length, result, step, iterator, next, value;
-  // if the target is not iterable or it's an array with the default iterator - use a simple case
+  // if the target is not iterable or it'svc an array with the default iterator - use a simple case
   if (iteratorMethod && !(this == Array && isArrayIteratorMethod(iteratorMethod))) {
     iterator = getIterator(O, iteratorMethod);
     next = iterator.next;
@@ -36414,7 +36414,7 @@ var split = uncurryThis(''.split);
 var join = uncurryThis([].join);
 
 var TEST = (function (arg) { return String(Error(arg).stack); })('zxcasd');
-var V8_OR_CHAKRA_STACK_ENTRY = /\n\s*at [^:]*:[^\n]*/;
+var V8_OR_CHAKRA_STACK_ENTRY = /\n\svc*at [^:]*:[^\n]*/;
 var IS_V8_OR_CHAKRA_STACK = V8_OR_CHAKRA_STACK_ENTRY.test(TEST);
 var IS_FIREFOX_OR_SAFARI_STACK = /@[^\n]*\n/.test(TEST) && !/zxcasd/.test(TEST);
 
@@ -37062,7 +37062,7 @@ module.exports = function (NAME) {
 
 var fails = __webpack_require__(7293);
 
-// Detect IE8's incomplete defineProperty implementation
+// Detect IE8'svc incomplete defineProperty implementation
 module.exports = !fails(function () {
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
@@ -37387,7 +37387,7 @@ module.exports = function (exec) {
 
 "use strict";
 
-// TODO: Remove from `core-js@4` since it's moved to entry points
+// TODO: Remove from `core-js@4` since it'svc moved to entry points
 __webpack_require__(4916);
 var uncurryThis = __webpack_require__(1702);
 var redefine = __webpack_require__(1320);
@@ -37419,7 +37419,7 @@ module.exports = function (KEY, exec, FORCED, SHAM) {
       // and serious performance degradation in V8
       // https://github.com/zloirock/core-js/issues/306
       re = {};
-      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // RegExp[@@split] doesn't call the regex'svc exec method, but first creates
       // a new one. We need to return the patched regex when creating the new one.
       re.constructor = {};
       re.constructor[SPECIES] = function () { return re; };
@@ -37809,7 +37809,7 @@ var DESCRIPTORS = __webpack_require__(9781);
 var fails = __webpack_require__(7293);
 var createElement = __webpack_require__(317);
 
-// Thank's IE8 for his funny defineProperty
+// Thank'svc IE8 for his funny defineProperty
 module.exports = !DESCRIPTORS && !fails(function () {
   // eslint-disable-next-line es/no-object-defineproperty -- requied for testing
   return Object.defineProperty(createElement('div'), 'a', {
@@ -38235,7 +38235,7 @@ var inspectSource = __webpack_require__(2788);
 var noop = function () { /* empty */ };
 var empty = [];
 var construct = getBuiltIn('Reflect', 'construct');
-var constructorRegExp = /^\s*(?:class|function)\b/;
+var constructorRegExp = /^\svc*(?:class|function)\b/;
 var exec = uncurryThis(constructorRegExp.exec);
 var INCORRECT_TO_STRING = !constructorRegExp.exec(noop);
 
@@ -39478,7 +39478,7 @@ var UPDATES_LAST_INDEX_WRONG = (function () {
 
 var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y || stickyHelpers.BROKEN_CARET;
 
-// nonparticipating capturing group, copied from es5-shim's String#split patch.
+// nonparticipating capturing group, copied from es5-shim'svc String#split patch.
 var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
 
 var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y || UNSUPPORTED_DOT_ALL || UNSUPPORTED_NCG;
@@ -39525,7 +39525,7 @@ if (PATCH) {
     }
 
     if (NPCG_INCLUDED) {
-      reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
+      reCopy = new RegExp('^' + source + '$(?!\\svc)', flags);
     }
     if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
 
@@ -39583,7 +39583,7 @@ module.exports = function () {
   if (that.global) result += 'g';
   if (that.ignoreCase) result += 'i';
   if (that.multiline) result += 'm';
-  if (that.dotAll) result += 's';
+  if (that.dotAll) result += 'svc';
   if (that.unicode) result += 'u';
   if (that.sticky) result += 'y';
   return result;
@@ -39623,12 +39623,12 @@ exports.BROKEN_CARET = fails(function () {
 var fails = __webpack_require__(7293);
 var global = __webpack_require__(7854);
 
-// babel-minify and Closure Compiler transpiles RegExp('.', 's') -> /./s and it causes SyntaxError
+// babel-minify and Closure Compiler transpiles RegExp('.', 'svc') -> /./svc and it causes SyntaxError
 var $RegExp = global.RegExp;
 
 module.exports = fails(function () {
-  var re = $RegExp('.', 's');
-  return !(re.dotAll && re.exec('\n') && re.flags === 's');
+  var re = $RegExp('.', 'svc');
+  return !(re.dotAll && re.exec('\n') && re.flags === 'svc');
 });
 
 
@@ -40031,7 +40031,7 @@ if (!set || !clear) {
     channel.port1.onmessage = listener;
     defer = bind(port.postMessage, port);
   // Browsers with postMessage, skip WebWorkers
-  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+  // IE8 has postMessage, but it'svc sync & typeof its postMessage is 'object'
   } else if (
     global.addEventListener &&
     isCallable(global.postMessage) &&
@@ -41123,7 +41123,7 @@ $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     var length = lengthOfArrayLike(O);
     var k = toAbsoluteIndex(start, length);
     var fin = toAbsoluteIndex(end === undefined ? length : end, length);
-    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
+    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it'svc possible
     var Constructor, result, n;
     if (isArray(O)) {
       Constructor = O.constructor;
@@ -41369,7 +41369,7 @@ var defineProperty = (__webpack_require__(3070).f);
 
 var FunctionPrototype = Function.prototype;
 var functionToString = uncurryThis(FunctionPrototype.toString);
-var nameRE = /^\s*function ([^ (]*)/;
+var nameRE = /^\svc*function ([^ (]*)/;
 var regExpExec = uncurryThis(nameRE.exec);
 var NAME = 'name';
 
@@ -41639,13 +41639,13 @@ var divide = function (data, n) {
 
 var dataToString = function (data) {
   var index = 6;
-  var s = '';
+  var svc = '';
   while (--index >= 0) {
-    if (s !== '' || index === 0 || data[index] !== 0) {
+    if (svc !== '' || index === 0 || data[index] !== 0) {
       var t = String(data[index]);
-      s = s === '' ? t : s + repeat('0', 7 - t.length) + t;
+      svc = svc === '' ? t : svc + repeat('0', 7 - t.length) + t;
     }
-  } return s;
+  } return svc;
 };
 
 var FORCED = fails(function () {
@@ -45087,7 +45087,7 @@ EventEmitter.prototype.emit = function emit(type) {
       er = args[0];
     if (er instanceof Error) {
       // Note: The comments on the `throw` lines are intentional, they show
-      // up in Node's output if this results in an unhandled exception.
+      // up in Node'svc output if this results in an unhandled exception.
       throw er; // Unhandled 'error' event
     }
     // At least give some kind of context to the user
@@ -45917,7 +45917,7 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 
 				// By convention, when a data property is converted to an accessor
 				// property to emulate a data property that does not suffer from
-				// the override mistake, that accessor's getter is marked with
+				// the override mistake, that accessor'svc getter is marked with
 				// an `originalValue` property. Here, when we detect this, we
 				// uphold the illusion by pretending to see that original data
 				// property, i.e., returning the value rather than the getter
@@ -46148,7 +46148,7 @@ function DBCSCodec(codecOptions, iconv) {
     // Because it can be sparse, it is represented as array of buckets by 256 chars each. Bucket can be null.
     // Values: >=  0 -> it is a normal char. Write the value (if <=256 then 1 byte, if <=65536 then 2 bytes, etc.).
     //         == UNASSIGNED -> no conversion found. Output a default char.
-    //         <= SEQ_START  -> it's an index in encodeTableSeq, see below. The character starts a sequence.
+    //         <= SEQ_START  -> it'svc an index in encodeTableSeq, see below. The character starts a sequence.
     this.encodeTable = [];
     
     // `encodeTableSeq` is used when a sequence of unicode characters is encoded as a single code. We use a tree of
@@ -46271,7 +46271,7 @@ DBCSCodec.prototype._setEncodeChar = function(uCode, dbcsCode) {
     var bucket = this._getEncodeBucket(uCode);
     var low = uCode & 0xFF;
     if (bucket[low] <= SEQ_START)
-        this.encodeTableSeq[SEQ_START-bucket[low]][DEF_CHAR] = dbcsCode; // There's already a sequence, set a single-char subsequence of it.
+        this.encodeTableSeq[SEQ_START-bucket[low]][DEF_CHAR] = dbcsCode; // There'svc already a sequence, set a single-char subsequence of it.
     else if (bucket[low] == UNASSIGNED)
         bucket[low] = dbcsCode;
 }
@@ -46285,7 +46285,7 @@ DBCSCodec.prototype._setEncodeSequence = function(seq, dbcsCode) {
 
     var node;
     if (bucket[low] <= SEQ_START) {
-        // There's already a sequence with  - use it.
+        // There'svc already a sequence with  - use it.
         node = this.encodeTableSeq[SEQ_START-bucket[low]];
     }
     else {
@@ -46443,7 +46443,7 @@ DBCSEncoder.prototype.write = function(str) {
             }
 
             if (dbcsCode == UNASSIGNED && this.gb18030) {
-                // Use GB18030 algorithm to find character(s) to write.
+                // Use GB18030 algorithm to find character(svc) to write.
                 var idx = findIdx(this.gb18030.uChars, uCode);
                 if (idx != -1) {
                     var dbcsCode = this.gb18030.gbChars[idx] + (uCode - this.gb18030.uChars[idx]);
@@ -46655,7 +46655,7 @@ function findIdx(table, val) {
 
 // Description of supported double byte encodings and aliases.
 // Tables are not require()-d until they are needed to speed up library load.
-// require()-s are direct to support Browserify.
+// require()-svc are direct to support Browserify.
 
 module.exports = {
     
@@ -46689,7 +46689,7 @@ module.exports = {
     //
     // After JIS X 0213 appeared, Shift_JIS-2004, EUC-JISX0213 and ISO2022-JP-2004 followed, with just changing the planes.
     //
-    // Overall, it seems that it's a mess :( http://www8.plala.or.jp/tkubota1/unicode-symbols-map2.html
+    // Overall, it seems that it'svc a mess :( http://www8.plala.or.jp/tkubota1/unicode-symbols-map2.html
 
     'shiftjis': {
         type: '_dbcs',
@@ -46731,7 +46731,7 @@ module.exports = {
     'csiso58gb231280': 'cp936',
     'euccn': 'cp936',
 
-    // Microsoft's CP936 is a subset and approximation of GBK.
+    // Microsoft'svc CP936 is a subset and approximation of GBK.
     'windows936': 'cp936',
     'ms936': 'cp936',
     '936': 'cp936',
@@ -46799,8 +46799,8 @@ module.exports = {
     //    because big5-hkscs is the only encoding to include astral characters in non-algorithmic way.
     //    Implementations are not consistent within browsers; sometimes labeled as just big5.
     //    MS Internet Explorer switches from big5 to big5-hkscs when a patch applied.
-    //    Great discussion & recap of what's going on https://bugzilla.mozilla.org/show_bug.cgi?id=912470#c31
-    //    In the encoder, it might make sense to support encoding old PUA mappings to Big5 bytes seq-s.
+    //    Great discussion & recap of what'svc going on https://bugzilla.mozilla.org/show_bug.cgi?id=912470#c31
+    //    In the encoder, it might make sense to support encoding old PUA mappings to Big5 bytes seq-svc.
     //    Official spec: http://www.ogcio.gov.hk/en/business/tech_promotion/ccli/terms/doc/2003cmp_2008.txt
     //                   http://www.ogcio.gov.hk/tc/business/tech_promotion/ccli/terms/doc/hkscs-2008-big5-iso.txt
     // 
@@ -46815,7 +46815,7 @@ module.exports = {
         table: function() { return __webpack_require__(4284) },
     },
 
-    // Big5 has many variations and is an extension of cp950. We use Encoding Standard's as a consensus.
+    // Big5 has many variations and is an extension of cp950. We use Encoding Standard'svc as a consensus.
     'big5': 'big5hkscs',
     'big5hkscs': {
         type: '_dbcs',
@@ -46926,7 +46926,7 @@ InternalCodec.prototype.decoder = InternalDecoder;
 //------------------------------------------------------------------------------
 
 // We use node.js internal decoder. Its signature is the same as ours.
-var StringDecoder = (__webpack_require__(2553)/* .StringDecoder */ .s);
+var StringDecoder = (__webpack_require__(2553)/* .StringDecoder */ .svc);
 
 if (!StringDecoder.prototype.end) // Node v0.8 doesn't have this method.
     StringDecoder.prototype.end = function() {};
@@ -47878,7 +47878,7 @@ Utf16BEDecoder.prototype.end = function() {
 
 // == UTF-16 codec =============================================================
 // Decoder chooses automatically from UTF-16LE and UTF-16BE using BOM and space-based heuristic.
-// Defaults to UTF-16LE, as it's prevalent and default in Node.
+// Defaults to UTF-16LE, as it'svc prevalent and default in Node.
 // http://en.wikipedia.org/wiki/UTF-16 and http://encoding.spec.whatwg.org/#utf-16le
 // Decoder default can be changed: iconv.decode(buf, 'utf16', {defaultEncoding: 'utf-16be'});
 
@@ -49010,12 +49010,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var nBits = -7
   var i = isLE ? (nBytes - 1) : 0
   var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
+  var svc = buffer[offset + i]
 
   i += d
 
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
+  e = svc & ((1 << (-nBits)) - 1)
+  svc >>= (-nBits)
   nBits += eLen
   for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
@@ -49027,12 +49027,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   if (e === 0) {
     e = 1 - eBias
   } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
+    return m ? NaN : ((svc ? -1 : 1) * Infinity)
   } else {
     m = m + Math.pow(2, mLen)
     e = e - eBias
   }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+  return (svc ? -1 : 1) * m * Math.pow(2, e - mLen)
 }
 
 exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
@@ -49043,7 +49043,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
   var i = isLE ? 0 : (nBytes - 1)
   var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+  var svc = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
 
   value = Math.abs(value)
 
@@ -49084,7 +49084,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   eLen += mLen
   for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
 
-  buffer[offset + i - d] |= s * 128
+  buffer[offset + i - d] |= svc * 128
 }
 
 
@@ -49203,7 +49203,7 @@ module.exports = function isDateObject(value) {
 
 var toStr = Object.prototype.toString;
 var fnToStr = Function.prototype.toString;
-var isFnRegex = /^\s*(?:function)?\*/;
+var isFnRegex = /^\svc*(?:function)?\*/;
 var hasToStringTag = __webpack_require__(6410)();
 var getProto = Object.getPrototypeOf;
 var getGeneratorFunc = function () { // eslint-disable-line consistent-return
@@ -49753,7 +49753,7 @@ var process = module.exports = {};
 
 // cached from whatever global is present so that test runners that stub it
 // don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// wrapped in strict mode code which doesn't define any globals.  It'svc inside a
 // function because try/catches deoptimize in certain engines.
 
 var cachedSetTimeout;
@@ -49803,7 +49803,7 @@ function runTimeout(fun) {
             // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
             return cachedSetTimeout.call(null, fun, 0);
         } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            // same as above but when it'svc a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
             return cachedSetTimeout.call(this, fun, 0);
         }
     }
@@ -49828,7 +49828,7 @@ function runClearTimeout(marker) {
             // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
             return cachedClearTimeout.call(null, marker);
         } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // same as above but when it'svc a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
             // Some versions of I.E. have different rules for clearTimeout vs setTimeout
             return cachedClearTimeout.call(this, marker);
         }
@@ -49993,7 +49993,7 @@ var runtime = (function (exports) {
   // record like context.tryEntries[i].completion. This interface could
   // have been (and was previously) designed to take a closure to be
   // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
+  // already have an existing method we want to call, so there'svc no need
   // to create a new function object. We can even get away with assuming
   // the method takes exactly one argument, since that happens to be true
   // in every case, so we don't have to touch the arguments object. The
@@ -50214,7 +50214,7 @@ var runtime = (function (exports) {
         }
 
         if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
+          // Setting context._sent for legacy support of Babel'svc
           // function.sent implementation.
           context.sent = context._sent = context.arg;
 
@@ -50466,7 +50466,7 @@ var runtime = (function (exports) {
     reset: function(skipTempReset) {
       this.prev = 0;
       this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
+      // Resetting context._sent for legacy support of Babel'svc
       // function.sent implementation.
       this.sent = this._sent = undefined;
       this.done = false;
@@ -50721,7 +50721,7 @@ module.exports = function flags() {
 		result += 'm';
 	}
 	if (this.dotAll) {
-		result += 's';
+		result += 'svc';
 	}
 	if (this.unicode) {
 		result += 'u';
@@ -50835,7 +50835,7 @@ module.exports = function shimFlags() {
 
   // When we pass the MAX_BUFFER_LENGTH position, start checking for buffer overruns.
   // When we check, schedule the next check for MAX_BUFFER_LENGTH - (max(buffer lengths)),
-  // since that's the earliest that a buffer overrun could occur.  This way, checks are
+  // since that'svc the earliest that a buffer overrun could occur.  This way, checks are
   // as rare as required, but as often as necessary to ensure never crossing this bound.
   // Furthermore, buffers are only tested at most once per write(), so passing a very
   // large string into write() might have undesirable effects, but this is manageable by
@@ -51059,7 +51059,7 @@ module.exports = function shimFlags() {
       typeof Buffer.isBuffer === 'function' &&
       Buffer.isBuffer(data)) {
       if (!this._decoder) {
-        var SD = (__webpack_require__(2553)/* .StringDecoder */ .s)
+        var SD = (__webpack_require__(2553)/* .StringDecoder */ .svc)
         this._decoder = new SD('utf8')
       }
       data = this._decoder.write(data)
@@ -51438,12 +51438,12 @@ module.exports = function shimFlags() {
 
   Object.keys(sax.ENTITIES).forEach(function (key) {
     var e = sax.ENTITIES[key]
-    var s = typeof e === 'number' ? String.fromCharCode(e) : e
-    sax.ENTITIES[key] = s
+    var svc = typeof e === 'number' ? String.fromCharCode(e) : e
+    sax.ENTITIES[key] = svc
   })
 
-  for (var s in sax.STATE) {
-    sax.STATE[sax.STATE[s]] = s
+  for (var svc in sax.STATE) {
+    sax.STATE[sax.STATE[svc]] = svc
   }
 
   // shorthand
@@ -51466,7 +51466,7 @@ module.exports = function shimFlags() {
 
   function textopts (opt, text) {
     if (opt.trim) text = text.trim()
-    if (opt.normalize) text = text.replace(/\s+/g, ' ')
+    if (opt.normalize) text = text.replace(/\svc+/g, ' ')
     return text
   }
 
@@ -51633,7 +51633,7 @@ module.exports = function shimFlags() {
           uri: uri
         }
 
-        // if there's any attributes with an undefined namespace,
+        // if there'svc any attributes with an undefined namespace,
         // then fail on them now.
         if (prefix && prefix !== 'xmlns' && !uri) {
           strictFail(parser, 'Unbound namespace prefix: ' +
@@ -51711,8 +51711,8 @@ module.exports = function shimFlags() {
       return
     }
     parser.tagName = tagName
-    var s = parser.tags.length
-    while (s-- > t) {
+    var svc = parser.tags.length
+    while (svc-- > t) {
       var tag = parser.tag = parser.tags.pop()
       parser.tagName = parser.tag.name
       emitNode(parser, 'onclosetag', parser.tagName)
@@ -53018,7 +53018,7 @@ function ReadableState(options, stream, isDuplex) {
   // encoding is 'binary' so we have to make this configurable.
   // Everything else in the universe uses 'utf8', though.
 
-  this.defaultEncoding = options.defaultEncoding || 'utf8'; // the number of writers that are awaiting a drain event in .pipe()s
+  this.defaultEncoding = options.defaultEncoding || 'utf8'; // the number of writers that are awaiting a drain event in .pipe()svc
 
   this.awaitDrain = 0; // if true, a maybeReadMore has been scheduled
 
@@ -53027,7 +53027,7 @@ function ReadableState(options, stream, isDuplex) {
   this.encoding = null;
 
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = (__webpack_require__(2553)/* .StringDecoder */ .s);
+    if (!StringDecoder) StringDecoder = (__webpack_require__(2553)/* .StringDecoder */ .svc);
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
@@ -53189,7 +53189,7 @@ Readable.prototype.isPaused = function () {
 
 
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = (__webpack_require__(2553)/* .StringDecoder */ .s);
+  if (!StringDecoder) StringDecoder = (__webpack_require__(2553)/* .StringDecoder */ .svc);
   var decoder = new StringDecoder(enc);
   this._readableState.decoder = decoder; // If setEncoding(null), decoder.encoding equals utf8
 
@@ -53293,7 +53293,7 @@ Readable.prototype.read = function (n) {
   // that the Readable class should behave improperly, as streams are
   // designed to be sync/async agnostic.
   // Take note if the _read call is sync or async (ie, if the read call
-  // has returned yet), so that we know whether or not it's safe to emit
+  // has returned yet), so that we know whether or not it'svc safe to emit
   // 'readable' etc.
   //
   // 3. Actually pull the requested chunks out of the buffer and return.
@@ -53306,8 +53306,8 @@ Readable.prototype.read = function (n) {
   if (state.length === 0 || state.length - n < state.highWaterMark) {
     doRead = true;
     debug('length less than watermark', doRead);
-  } // however, if we've ended, then there's no point, and if we're already
-  // reading, then it's unnecessary.
+  } // however, if we've ended, then there'svc no point, and if we're already
+  // reading, then it'svc unnecessary.
 
 
   if (state.ended || state.reading) {
@@ -53382,7 +53382,7 @@ function onEofChunk(stream, state) {
   }
 } // Don't emit readable right away in sync mode, because this can trigger
 // another read() call => stack overflow.  This way, it might trigger
-// a nextTick recursion warning, but that's not so bad.
+// a nextTick recursion warning, but that'svc not so bad.
 
 
 function emitReadable(stream) {
@@ -53417,7 +53417,7 @@ function emitReadable_(stream) {
 } // at this point, the user has presumably seen the 'readable' event,
 // and called read() to consume some data.  that may have triggered
 // in turn another _read(n) call, in which case reading = true if
-// it's in progress.
+// it'svc in progress.
 // However, if we're not ended, or reading, and the length < hwm,
 // then go ahead and try to read some more preemptively.
 
@@ -53440,7 +53440,7 @@ function maybeReadMore_(stream, state) {
   //   when the stream consumer calls read() instead.
   // - No data in the buffer, and the stream is in flowing mode. In this mode
   //   the loop below is responsible for ensuring read() is called. Failing to
-  //   call read here would abort the flow and there's no other mechanism for
+  //   call read here would abort the flow and there'svc no other mechanism for
   //   continuing the flow if the stream consumer has just subscribed to the
   //   'data' event.
   //
@@ -53451,7 +53451,7 @@ function maybeReadMore_(stream, state) {
   //   case where the the stream has called the implementation defined _read()
   //   method, but they are processing the call asynchronously and have _not_
   //   called push() with new data. In this case we skip performing more
-  //   read()s. The execution ends in this method again after the _read() ends
+  //   read()svc. The execution ends in this method again after the _read() ends
   //   up calling push() with more data.
   while (!state.reading && !state.ended && (state.length < state.highWaterMark || state.flowing && state.length === 0)) {
     var len = state.length;
@@ -53592,7 +53592,7 @@ Readable.prototype.pipe = function (dest, pipeOpts) {
   function unpipe() {
     debug('unpipe');
     src.unpipe(dest);
-  } // tell the dest that it's being piped to
+  } // tell the dest that it'svc being piped to
 
 
   dest.emit('pipe', src); // start the flow if it hasn't been started already.
@@ -53627,7 +53627,7 @@ Readable.prototype.unpipe = function (dest) {
   if (state.pipesCount === 0) return this; // just one destination.  most common case.
 
   if (state.pipesCount === 1) {
-    // passed in one, but it's not the right one.
+    // passed in one, but it'svc not the right one.
     if (dest && dest !== state.pipes) return this;
     if (!dest) dest = state.pipes; // got a match.
 
@@ -54017,27 +54017,27 @@ function indexOf(xs, x) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 // a transform stream is a readable/writable stream where you do
-// something with the data.  Sometimes it's called a "filter",
-// but that's not a great name for it, since that implies a thing where
+// something with the data.  Sometimes it'svc called a "filter",
+// but that'svc not a great name for it, since that implies a thing where
 // some bits pass through, and others are simply ignored.  (That would
 // be a valid example of a transform, of course.)
 //
-// While the output is causally related to the input, it's not a
+// While the output is causally related to the input, it'svc not a
 // necessarily symmetric or synchronous transformation.  For example,
 // a zlib stream might take multiple plain-text writes(), and then
 // emit a single compressed chunk some time in the future.
 //
-// Here's how this works:
+// Here'svc how this works:
 //
 // The Transform stream has all the aspects of the readable and writable
 // stream classes.  When you write(chunk), that calls _write(chunk,cb)
-// internally, and returns false if there's a lot of pending writes
+// internally, and returns false if there'svc a lot of pending writes
 // buffered up.  When you call read(), that calls _read(n) until
-// there's enough pending readable data buffered up.
+// there'svc enough pending readable data buffered up.
 //
 // In a transform stream, the written data is placed in a buffer.  When
 // _read(n) is called, it transforms the queued up data, calling the
-// buffered _write cb's as it consumes chunks.  If consuming a single
+// buffered _write cb'svc as it consumes chunks.  If consuming a single
 // written chunk would result in multiple output chunks, then the first
 // outputted bit calls the readcb, and subsequent chunks just go into
 // the read buffer, and will cause it to emit 'readable' if necessary.
@@ -54190,7 +54190,7 @@ function done(stream, er, data) {
   if (er) return stream.emit('error', er);
   if (data != null) // single equals check for both `null` and `undefined`
     stream.push(data); // TODO(BridgeAR): Write a test for these two error cases
-  // if there's nothing in the write buffer, then that means
+  // if there'svc nothing in the write buffer, then that means
   // that nothing more will ever be provided
 
   if (stream._writableState.length) throw new ERR_TRANSFORM_WITH_LENGTH_0();
@@ -54361,7 +54361,7 @@ function WritableState(options, stream, isDuplex) {
   // may call the _write() callback in the same tick, so that we don't
   // end up in an overlapped onwrite situation.
 
-  this.bufferProcessing = false; // the callback that's passed to _write(chunk,cb)
+  this.bufferProcessing = false; // the callback that'svc passed to _write(chunk,cb)
 
   this.onwrite = function (er) {
     onwrite(stream, er);
@@ -54685,7 +54685,7 @@ function onwriteDrain(stream, state) {
     state.needDrain = false;
     stream.emit('drain');
   }
-} // if there's something in the buffer waiting, then process it
+} // if there'svc something in the buffer waiting, then process it
 
 
 function clearBuffer(stream, state) {
@@ -55506,7 +55506,7 @@ module.exports = __webpack_require__(7187).EventEmitter;
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else {}})(this,function(){"use strict";function b(a,b){return"undefined"==typeof b?b={autoBom:!1}:"object"!=typeof b&&(console.warn("Deprecated: Expected third argument to be a object"),b={autoBom:!b}),b.autoBom&&/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type)?new Blob(["\uFEFF",a],{type:a.type}):a}function c(a,b,c){var d=new XMLHttpRequest;d.open("GET",a),d.responseType="blob",d.onload=function(){g(d.response,b,c)},d.onerror=function(){console.error("could not download file")},d.send()}function d(a){var b=new XMLHttpRequest;b.open("HEAD",a,!1);try{b.send()}catch(a){}return 200<=b.status&&299>=b.status}function e(a){try{a.dispatchEvent(new MouseEvent("click"))}catch(c){var b=document.createEvent("MouseEvents");b.initMouseEvent("click",!0,!0,window,0,0,0,80,20,!1,!1,!1,!1,0,null),a.dispatchEvent(b)}}var f="object"==typeof window&&window.window===window?window:"object"==typeof self&&self.self===self?self:"object"==typeof __webpack_require__.g&&__webpack_require__.g.global===__webpack_require__.g?__webpack_require__.g:void 0,a=f.navigator&&/Macintosh/.test(navigator.userAgent)&&/AppleWebKit/.test(navigator.userAgent)&&!/Safari/.test(navigator.userAgent),g=f.saveAs||("object"!=typeof window||window!==f?function(){}:(typeof HTMLAnchorElement !== "undefined" && "download" in HTMLAnchorElement.prototype)&&!a?function(b,g,h){var i=f.URL||f.webkitURL,j=document.createElement("a");g=g||b.name||"download",j.download=g,j.rel="noopener","string"==typeof b?(j.href=b,j.origin===location.origin?e(j):d(j.href)?c(b,g,h):e(j,j.target="_blank")):(j.href=i.createObjectURL(b),setTimeout(function(){i.revokeObjectURL(j.href)},4E4),setTimeout(function(){e(j)},0))}:"msSaveOrOpenBlob"in navigator?function(f,g,h){if(g=g||f.name||"download","string"!=typeof f)navigator.msSaveOrOpenBlob(b(f,h),g);else if(d(f))c(f,g,h);else{var i=document.createElement("a");i.href=f,i.target="_blank",setTimeout(function(){e(i)})}}:function(b,d,e,g){if(g=g||open("","_blank"),g&&(g.document.title=g.document.body.innerText="downloading..."),"string"==typeof b)return c(b,d,e);var h="application/octet-stream"===b.type,i=/constructor/i.test(f.HTMLElement)||f.safari,j=/CriOS\/[\d]+/.test(navigator.userAgent);if((j||h&&i||a)&&"undefined"!=typeof FileReader){var k=new FileReader;k.onloadend=function(){var a=k.result;a=j?a:a.replace(/^data:[^;]*;/,"data:attachment/file;"),g?g.location.href=a:location=a,g=null},k.readAsDataURL(b)}else{var l=f.URL||f.webkitURL,m=l.createObjectURL(b);g?g.location=m:location.href=m,g=null,setTimeout(function(){l.revokeObjectURL(m)},4E4)}});f.saveAs=g.saveAs=g, true&&(module.exports=g)});
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else {}})(this,function(){"use strict";function b(a,b){return"undefined"==typeof b?b={autoBom:!1}:"object"!=typeof b&&(console.warn("Deprecated: Expected third argument to be a object"),b={autoBom:!b}),b.autoBom&&/^\svc*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\svc*;.*charset\svc*=\svc*utf-8/i.test(a.type)?new Blob(["\uFEFF",a],{type:a.type}):a}function c(a,b,c){var d=new XMLHttpRequest;d.open("GET",a),d.responseType="blob",d.onload=function(){g(d.response,b,c)},d.onerror=function(){console.error("could not download file")},d.send()}function d(a){var b=new XMLHttpRequest;b.open("HEAD",a,!1);try{b.send()}catch(a){}return 200<=b.status&&299>=b.status}function e(a){try{a.dispatchEvent(new MouseEvent("click"))}catch(c){var b=document.createEvent("MouseEvents");b.initMouseEvent("click",!0,!0,window,0,0,0,80,20,!1,!1,!1,!1,0,null),a.dispatchEvent(b)}}var f="object"==typeof window&&window.window===window?window:"object"==typeof self&&self.self===self?self:"object"==typeof __webpack_require__.g&&__webpack_require__.g.global===__webpack_require__.g?__webpack_require__.g:void 0,a=f.navigator&&/Macintosh/.test(navigator.userAgent)&&/AppleWebKit/.test(navigator.userAgent)&&!/Safari/.test(navigator.userAgent),g=f.saveAs||("object"!=typeof window||window!==f?function(){}:(typeof HTMLAnchorElement !== "undefined" && "download" in HTMLAnchorElement.prototype)&&!a?function(b,g,h){var i=f.URL||f.webkitURL,j=document.createElement("a");g=g||b.name||"download",j.download=g,j.rel="noopener","string"==typeof b?(j.href=b,j.origin===location.origin?e(j):d(j.href)?c(b,g,h):e(j,j.target="_blank")):(j.href=i.createObjectURL(b),setTimeout(function(){i.revokeObjectURL(j.href)},4E4),setTimeout(function(){e(j)},0))}:"msSaveOrOpenBlob"in navigator?function(f,g,h){if(g=g||f.name||"download","string"!=typeof f)navigator.msSaveOrOpenBlob(b(f,h),g);else if(d(f))c(f,g,h);else{var i=document.createElement("a");i.href=f,i.target="_blank",setTimeout(function(){e(i)})}}:function(b,d,e,g){if(g=g||open("","_blank"),g&&(g.document.title=g.document.body.innerText="downloading..."),"string"==typeof b)return c(b,d,e);var h="application/octet-stream"===b.type,i=/constructor/i.test(f.HTMLElement)||f.safari,j=/CriOS\/[\d]+/.test(navigator.userAgent);if((j||h&&i||a)&&"undefined"!=typeof FileReader){var k=new FileReader;k.onloadend=function(){var a=k.result;a=j?a:a.replace(/^data:[^;]*;/,"data:attachment/file;"),g?g.location.href=a:location=a,g=null},k.readAsDataURL(b)}else{var l=f.URL||f.webkitURL,m=l.createObjectURL(b);g?g.location=m:location.href=m,g=null,setTimeout(function(){l.revokeObjectURL(m)},4E4)}});f.saveAs=g.saveAs=g, true&&(module.exports=g)});
 
 //# sourceMappingURL=FileSaver.min.js.map
 
@@ -55593,7 +55593,7 @@ function normalizeEncoding(enc) {
 // StringDecoder provides an interface for efficiently splitting a series of
 // buffers into a series of JS strings without breaking apart multi-byte
 // characters.
-exports.s = StringDecoder;
+exports.svc = StringDecoder;
 function StringDecoder(encoding) {
   this.encoding = normalizeEncoding(encoding);
   var nb;
@@ -55653,7 +55653,7 @@ StringDecoder.prototype.fillLast = function (buf) {
   this.lastNeed -= buf.length;
 };
 
-// Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
+// Checks the type of a UTF-8 byte, whether it'svc ASCII, a leading byte, or a
 // continuation byte. If an invalid byte is detected, -2 is returned.
 function utf8CheckByte(byte) {
   if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
@@ -55691,7 +55691,7 @@ function utf8CheckIncomplete(self, buf, i) {
 // Validates as many continuation bytes for a multi-byte UTF-8 character as
 // needed or are available. If we see a non-continuation byte where we expect
 // one, we "replace" the validated continuation bytes we've seen so far with
-// a single UTF-8 replacement character ('\ufffd'), to match v8's UTF-8 decoding
+// a single UTF-8 replacement character ('\ufffd'), to match v8'svc UTF-8 decoding
 // behavior. The continuation byte check is included three times in the case
 // where all of the continuation bytes for a character exist in the same buffer.
 // It is also done this way as a slight performance increase instead of using a
@@ -55729,7 +55729,7 @@ function utf8FillLast(buf) {
 }
 
 // Returns all complete UTF-8 characters in a Buffer. If the Buffer ended on a
-// partial character, the character's bytes are buffered until the required
+// partial character, the character'svc bytes are buffered until the required
 // number of bytes are available.
 function utf8Text(buf, i) {
   var total = utf8CheckIncomplete(this, buf, i);
@@ -56111,7 +56111,7 @@ function tinf_inflate_uncompressed_block(d) {
   length = d.source[d.sourceIndex + 1];
   length = 256 * length + d.source[d.sourceIndex];
 
-  /* get one's complement of length */
+  /* get one'svc complement of length */
   invlength = d.source[d.sourceIndex + 3];
   invlength = 256 * invlength + d.source[d.sourceIndex + 2];
 
@@ -57539,9 +57539,9 @@ var CFFIndex = /*#__PURE__*/function () {
 
     for (var _iterator2 = _createForOfIteratorHelperLoose(arr), _step2; !(_step2 = _iterator2()).done;) {
       var item = _step2.value;
-      var s = type.size(item, parent);
-      sizes.push(s);
-      offset += s;
+      var svc = type.size(item, parent);
+      sizes.push(svc);
+      offset += svc;
     }
 
     var offsetType;
@@ -58004,10 +58004,10 @@ var CFFPrivateDict = new CFFDict([// key       name                    type     
 }), null]]); // Automatically generated from Appendix A of the CFF specification; do
 // not edit. Length should be 391.
 
-var standardStrings = [".notdef", "space", "exclam", "quotedbl", "numbersign", "dollar", "percent", "ampersand", "quoteright", "parenleft", "parenright", "asterisk", "plus", "comma", "hyphen", "period", "slash", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "colon", "semicolon", "less", "equal", "greater", "question", "at", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "bracketleft", "backslash", "bracketright", "asciicircum", "underscore", "quoteleft", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "braceleft", "bar", "braceright", "asciitilde", "exclamdown", "cent", "sterling", "fraction", "yen", "florin", "section", "currency", "quotesingle", "quotedblleft", "guillemotleft", "guilsinglleft", "guilsinglright", "fi", "fl", "endash", "dagger", "daggerdbl", "periodcentered", "paragraph", "bullet", "quotesinglbase", "quotedblbase", "quotedblright", "guillemotright", "ellipsis", "perthousand", "questiondown", "grave", "acute", "circumflex", "tilde", "macron", "breve", "dotaccent", "dieresis", "ring", "cedilla", "hungarumlaut", "ogonek", "caron", "emdash", "AE", "ordfeminine", "Lslash", "Oslash", "OE", "ordmasculine", "ae", "dotlessi", "lslash", "oslash", "oe", "germandbls", "onesuperior", "logicalnot", "mu", "trademark", "Eth", "onehalf", "plusminus", "Thorn", "onequarter", "divide", "brokenbar", "degree", "thorn", "threequarters", "twosuperior", "registered", "minus", "eth", "multiply", "threesuperior", "copyright", "Aacute", "Acircumflex", "Adieresis", "Agrave", "Aring", "Atilde", "Ccedilla", "Eacute", "Ecircumflex", "Edieresis", "Egrave", "Iacute", "Icircumflex", "Idieresis", "Igrave", "Ntilde", "Oacute", "Ocircumflex", "Odieresis", "Ograve", "Otilde", "Scaron", "Uacute", "Ucircumflex", "Udieresis", "Ugrave", "Yacute", "Ydieresis", "Zcaron", "aacute", "acircumflex", "adieresis", "agrave", "aring", "atilde", "ccedilla", "eacute", "ecircumflex", "edieresis", "egrave", "iacute", "icircumflex", "idieresis", "igrave", "ntilde", "oacute", "ocircumflex", "odieresis", "ograve", "otilde", "scaron", "uacute", "ucircumflex", "udieresis", "ugrave", "yacute", "ydieresis", "zcaron", "exclamsmall", "Hungarumlautsmall", "dollaroldstyle", "dollarsuperior", "ampersandsmall", "Acutesmall", "parenleftsuperior", "parenrightsuperior", "twodotenleader", "onedotenleader", "zerooldstyle", "oneoldstyle", "twooldstyle", "threeoldstyle", "fouroldstyle", "fiveoldstyle", "sixoldstyle", "sevenoldstyle", "eightoldstyle", "nineoldstyle", "commasuperior", "threequartersemdash", "periodsuperior", "questionsmall", "asuperior", "bsuperior", "centsuperior", "dsuperior", "esuperior", "isuperior", "lsuperior", "msuperior", "nsuperior", "osuperior", "rsuperior", "ssuperior", "tsuperior", "ff", "ffi", "ffl", "parenleftinferior", "parenrightinferior", "Circumflexsmall", "hyphensuperior", "Gravesmall", "Asmall", "Bsmall", "Csmall", "Dsmall", "Esmall", "Fsmall", "Gsmall", "Hsmall", "Ismall", "Jsmall", "Ksmall", "Lsmall", "Msmall", "Nsmall", "Osmall", "Psmall", "Qsmall", "Rsmall", "Ssmall", "Tsmall", "Usmall", "Vsmall", "Wsmall", "Xsmall", "Ysmall", "Zsmall", "colonmonetary", "onefitted", "rupiah", "Tildesmall", "exclamdownsmall", "centoldstyle", "Lslashsmall", "Scaronsmall", "Zcaronsmall", "Dieresissmall", "Brevesmall", "Caronsmall", "Dotaccentsmall", "Macronsmall", "figuredash", "hypheninferior", "Ogoneksmall", "Ringsmall", "Cedillasmall", "questiondownsmall", "oneeighth", "threeeighths", "fiveeighths", "seveneighths", "onethird", "twothirds", "zerosuperior", "foursuperior", "fivesuperior", "sixsuperior", "sevensuperior", "eightsuperior", "ninesuperior", "zeroinferior", "oneinferior", "twoinferior", "threeinferior", "fourinferior", "fiveinferior", "sixinferior", "seveninferior", "eightinferior", "nineinferior", "centinferior", "dollarinferior", "periodinferior", "commainferior", "Agravesmall", "Aacutesmall", "Acircumflexsmall", "Atildesmall", "Adieresissmall", "Aringsmall", "AEsmall", "Ccedillasmall", "Egravesmall", "Eacutesmall", "Ecircumflexsmall", "Edieresissmall", "Igravesmall", "Iacutesmall", "Icircumflexsmall", "Idieresissmall", "Ethsmall", "Ntildesmall", "Ogravesmall", "Oacutesmall", "Ocircumflexsmall", "Otildesmall", "Odieresissmall", "OEsmall", "Oslashsmall", "Ugravesmall", "Uacutesmall", "Ucircumflexsmall", "Udieresissmall", "Yacutesmall", "Thornsmall", "Ydieresissmall", "001.000", "001.001", "001.002", "001.003", "Black", "Bold", "Book", "Light", "Medium", "Regular", "Roman", "Semibold"];
-var StandardEncoding = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'space', 'exclam', 'quotedbl', 'numbersign', 'dollar', 'percent', 'ampersand', 'quoteright', 'parenleft', 'parenright', 'asterisk', 'plus', 'comma', 'hyphen', 'period', 'slash', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'colon', 'semicolon', 'less', 'equal', 'greater', 'question', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'bracketleft', 'backslash', 'bracketright', 'asciicircum', 'underscore', 'quoteleft', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'braceleft', 'bar', 'braceright', 'asciitilde', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'exclamdown', 'cent', 'sterling', 'fraction', 'yen', 'florin', 'section', 'currency', 'quotesingle', 'quotedblleft', 'guillemotleft', 'guilsinglleft', 'guilsinglright', 'fi', 'fl', '', 'endash', 'dagger', 'daggerdbl', 'periodcentered', '', 'paragraph', 'bullet', 'quotesinglbase', 'quotedblbase', 'quotedblright', 'guillemotright', 'ellipsis', 'perthousand', '', 'questiondown', '', 'grave', 'acute', 'circumflex', 'tilde', 'macron', 'breve', 'dotaccent', 'dieresis', '', 'ring', 'cedilla', '', 'hungarumlaut', 'ogonek', 'caron', 'emdash', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'AE', '', 'ordfeminine', '', '', '', '', 'Lslash', 'Oslash', 'OE', 'ordmasculine', '', '', '', '', '', 'ae', '', '', '', 'dotlessi', '', '', 'lslash', 'oslash', 'oe', 'germandbls'];
+var standardStrings = [".notdef", "space", "exclam", "quotedbl", "numbersign", "dollar", "percent", "ampersand", "quoteright", "parenleft", "parenright", "asterisk", "plus", "comma", "hyphen", "period", "slash", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "colon", "semicolon", "less", "equal", "greater", "question", "at", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "bracketleft", "backslash", "bracketright", "asciicircum", "underscore", "quoteleft", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "svc", "t", "u", "v", "w", "x", "y", "z", "braceleft", "bar", "braceright", "asciitilde", "exclamdown", "cent", "sterling", "fraction", "yen", "florin", "section", "currency", "quotesingle", "quotedblleft", "guillemotleft", "guilsinglleft", "guilsinglright", "fi", "fl", "endash", "dagger", "daggerdbl", "periodcentered", "paragraph", "bullet", "quotesinglbase", "quotedblbase", "quotedblright", "guillemotright", "ellipsis", "perthousand", "questiondown", "grave", "acute", "circumflex", "tilde", "macron", "breve", "dotaccent", "dieresis", "ring", "cedilla", "hungarumlaut", "ogonek", "caron", "emdash", "AE", "ordfeminine", "Lslash", "Oslash", "OE", "ordmasculine", "ae", "dotlessi", "lslash", "oslash", "oe", "germandbls", "onesuperior", "logicalnot", "mu", "trademark", "Eth", "onehalf", "plusminus", "Thorn", "onequarter", "divide", "brokenbar", "degree", "thorn", "threequarters", "twosuperior", "registered", "minus", "eth", "multiply", "threesuperior", "copyright", "Aacute", "Acircumflex", "Adieresis", "Agrave", "Aring", "Atilde", "Ccedilla", "Eacute", "Ecircumflex", "Edieresis", "Egrave", "Iacute", "Icircumflex", "Idieresis", "Igrave", "Ntilde", "Oacute", "Ocircumflex", "Odieresis", "Ograve", "Otilde", "Scaron", "Uacute", "Ucircumflex", "Udieresis", "Ugrave", "Yacute", "Ydieresis", "Zcaron", "aacute", "acircumflex", "adieresis", "agrave", "aring", "atilde", "ccedilla", "eacute", "ecircumflex", "edieresis", "egrave", "iacute", "icircumflex", "idieresis", "igrave", "ntilde", "oacute", "ocircumflex", "odieresis", "ograve", "otilde", "scaron", "uacute", "ucircumflex", "udieresis", "ugrave", "yacute", "ydieresis", "zcaron", "exclamsmall", "Hungarumlautsmall", "dollaroldstyle", "dollarsuperior", "ampersandsmall", "Acutesmall", "parenleftsuperior", "parenrightsuperior", "twodotenleader", "onedotenleader", "zerooldstyle", "oneoldstyle", "twooldstyle", "threeoldstyle", "fouroldstyle", "fiveoldstyle", "sixoldstyle", "sevenoldstyle", "eightoldstyle", "nineoldstyle", "commasuperior", "threequartersemdash", "periodsuperior", "questionsmall", "asuperior", "bsuperior", "centsuperior", "dsuperior", "esuperior", "isuperior", "lsuperior", "msuperior", "nsuperior", "osuperior", "rsuperior", "ssuperior", "tsuperior", "ff", "ffi", "ffl", "parenleftinferior", "parenrightinferior", "Circumflexsmall", "hyphensuperior", "Gravesmall", "Asmall", "Bsmall", "Csmall", "Dsmall", "Esmall", "Fsmall", "Gsmall", "Hsmall", "Ismall", "Jsmall", "Ksmall", "Lsmall", "Msmall", "Nsmall", "Osmall", "Psmall", "Qsmall", "Rsmall", "Ssmall", "Tsmall", "Usmall", "Vsmall", "Wsmall", "Xsmall", "Ysmall", "Zsmall", "colonmonetary", "onefitted", "rupiah", "Tildesmall", "exclamdownsmall", "centoldstyle", "Lslashsmall", "Scaronsmall", "Zcaronsmall", "Dieresissmall", "Brevesmall", "Caronsmall", "Dotaccentsmall", "Macronsmall", "figuredash", "hypheninferior", "Ogoneksmall", "Ringsmall", "Cedillasmall", "questiondownsmall", "oneeighth", "threeeighths", "fiveeighths", "seveneighths", "onethird", "twothirds", "zerosuperior", "foursuperior", "fivesuperior", "sixsuperior", "sevensuperior", "eightsuperior", "ninesuperior", "zeroinferior", "oneinferior", "twoinferior", "threeinferior", "fourinferior", "fiveinferior", "sixinferior", "seveninferior", "eightinferior", "nineinferior", "centinferior", "dollarinferior", "periodinferior", "commainferior", "Agravesmall", "Aacutesmall", "Acircumflexsmall", "Atildesmall", "Adieresissmall", "Aringsmall", "AEsmall", "Ccedillasmall", "Egravesmall", "Eacutesmall", "Ecircumflexsmall", "Edieresissmall", "Igravesmall", "Iacutesmall", "Icircumflexsmall", "Idieresissmall", "Ethsmall", "Ntildesmall", "Ogravesmall", "Oacutesmall", "Ocircumflexsmall", "Otildesmall", "Odieresissmall", "OEsmall", "Oslashsmall", "Ugravesmall", "Uacutesmall", "Ucircumflexsmall", "Udieresissmall", "Yacutesmall", "Thornsmall", "Ydieresissmall", "001.000", "001.001", "001.002", "001.003", "Black", "Bold", "Book", "Light", "Medium", "Regular", "Roman", "Semibold"];
+var StandardEncoding = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'space', 'exclam', 'quotedbl', 'numbersign', 'dollar', 'percent', 'ampersand', 'quoteright', 'parenleft', 'parenright', 'asterisk', 'plus', 'comma', 'hyphen', 'period', 'slash', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'colon', 'semicolon', 'less', 'equal', 'greater', 'question', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'bracketleft', 'backslash', 'bracketright', 'asciicircum', 'underscore', 'quoteleft', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 'svc', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'braceleft', 'bar', 'braceright', 'asciitilde', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'exclamdown', 'cent', 'sterling', 'fraction', 'yen', 'florin', 'section', 'currency', 'quotesingle', 'quotedblleft', 'guillemotleft', 'guilsinglleft', 'guilsinglright', 'fi', 'fl', '', 'endash', 'dagger', 'daggerdbl', 'periodcentered', '', 'paragraph', 'bullet', 'quotesinglbase', 'quotedblbase', 'quotedblright', 'guillemotright', 'ellipsis', 'perthousand', '', 'questiondown', '', 'grave', 'acute', 'circumflex', 'tilde', 'macron', 'breve', 'dotaccent', 'dieresis', '', 'ring', 'cedilla', '', 'hungarumlaut', 'ogonek', 'caron', 'emdash', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'AE', '', 'ordfeminine', '', '', '', '', 'Lslash', 'Oslash', 'OE', 'ordmasculine', '', '', '', '', '', 'ae', '', '', '', 'dotlessi', '', '', 'lslash', 'oslash', 'oe', 'germandbls'];
 var ExpertEncoding = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'space', 'exclamsmall', 'Hungarumlautsmall', '', 'dollaroldstyle', 'dollarsuperior', 'ampersandsmall', 'Acutesmall', 'parenleftsuperior', 'parenrightsuperior', 'twodotenleader', 'onedotenleader', 'comma', 'hyphen', 'period', 'fraction', 'zerooldstyle', 'oneoldstyle', 'twooldstyle', 'threeoldstyle', 'fouroldstyle', 'fiveoldstyle', 'sixoldstyle', 'sevenoldstyle', 'eightoldstyle', 'nineoldstyle', 'colon', 'semicolon', 'commasuperior', 'threequartersemdash', 'periodsuperior', 'questionsmall', '', 'asuperior', 'bsuperior', 'centsuperior', 'dsuperior', 'esuperior', '', '', 'isuperior', '', '', 'lsuperior', 'msuperior', 'nsuperior', 'osuperior', '', '', 'rsuperior', 'ssuperior', 'tsuperior', '', 'ff', 'fi', 'fl', 'ffi', 'ffl', 'parenleftinferior', '', 'parenrightinferior', 'Circumflexsmall', 'hyphensuperior', 'Gravesmall', 'Asmall', 'Bsmall', 'Csmall', 'Dsmall', 'Esmall', 'Fsmall', 'Gsmall', 'Hsmall', 'Ismall', 'Jsmall', 'Ksmall', 'Lsmall', 'Msmall', 'Nsmall', 'Osmall', 'Psmall', 'Qsmall', 'Rsmall', 'Ssmall', 'Tsmall', 'Usmall', 'Vsmall', 'Wsmall', 'Xsmall', 'Ysmall', 'Zsmall', 'colonmonetary', 'onefitted', 'rupiah', 'Tildesmall', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'exclamdownsmall', 'centoldstyle', 'Lslashsmall', '', '', 'Scaronsmall', 'Zcaronsmall', 'Dieresissmall', 'Brevesmall', 'Caronsmall', '', 'Dotaccentsmall', '', '', 'Macronsmall', '', '', 'figuredash', 'hypheninferior', '', '', 'Ogoneksmall', 'Ringsmall', 'Cedillasmall', '', '', '', 'onequarter', 'onehalf', 'threequarters', 'questiondownsmall', 'oneeighth', 'threeeighths', 'fiveeighths', 'seveneighths', 'onethird', 'twothirds', '', '', 'zerosuperior', 'onesuperior', 'twosuperior', 'threesuperior', 'foursuperior', 'fivesuperior', 'sixsuperior', 'sevensuperior', 'eightsuperior', 'ninesuperior', 'zeroinferior', 'oneinferior', 'twoinferior', 'threeinferior', 'fourinferior', 'fiveinferior', 'sixinferior', 'seveninferior', 'eightinferior', 'nineinferior', 'centinferior', 'dollarinferior', 'periodinferior', 'commainferior', 'Agravesmall', 'Aacutesmall', 'Acircumflexsmall', 'Atildesmall', 'Adieresissmall', 'Aringsmall', 'AEsmall', 'Ccedillasmall', 'Egravesmall', 'Eacutesmall', 'Ecircumflexsmall', 'Edieresissmall', 'Igravesmall', 'Iacutesmall', 'Icircumflexsmall', 'Idieresissmall', 'Ethsmall', 'Ntildesmall', 'Ogravesmall', 'Oacutesmall', 'Ocircumflexsmall', 'Otildesmall', 'Odieresissmall', 'OEsmall', 'Oslashsmall', 'Ugravesmall', 'Uacutesmall', 'Ucircumflexsmall', 'Udieresissmall', 'Yacutesmall', 'Thornsmall', 'Ydieresissmall'];
-var ISOAdobeCharset = ['.notdef', 'space', 'exclam', 'quotedbl', 'numbersign', 'dollar', 'percent', 'ampersand', 'quoteright', 'parenleft', 'parenright', 'asterisk', 'plus', 'comma', 'hyphen', 'period', 'slash', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'colon', 'semicolon', 'less', 'equal', 'greater', 'question', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'bracketleft', 'backslash', 'bracketright', 'asciicircum', 'underscore', 'quoteleft', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'braceleft', 'bar', 'braceright', 'asciitilde', 'exclamdown', 'cent', 'sterling', 'fraction', 'yen', 'florin', 'section', 'currency', 'quotesingle', 'quotedblleft', 'guillemotleft', 'guilsinglleft', 'guilsinglright', 'fi', 'fl', 'endash', 'dagger', 'daggerdbl', 'periodcentered', 'paragraph', 'bullet', 'quotesinglbase', 'quotedblbase', 'quotedblright', 'guillemotright', 'ellipsis', 'perthousand', 'questiondown', 'grave', 'acute', 'circumflex', 'tilde', 'macron', 'breve', 'dotaccent', 'dieresis', 'ring', 'cedilla', 'hungarumlaut', 'ogonek', 'caron', 'emdash', 'AE', 'ordfeminine', 'Lslash', 'Oslash', 'OE', 'ordmasculine', 'ae', 'dotlessi', 'lslash', 'oslash', 'oe', 'germandbls', 'onesuperior', 'logicalnot', 'mu', 'trademark', 'Eth', 'onehalf', 'plusminus', 'Thorn', 'onequarter', 'divide', 'brokenbar', 'degree', 'thorn', 'threequarters', 'twosuperior', 'registered', 'minus', 'eth', 'multiply', 'threesuperior', 'copyright', 'Aacute', 'Acircumflex', 'Adieresis', 'Agrave', 'Aring', 'Atilde', 'Ccedilla', 'Eacute', 'Ecircumflex', 'Edieresis', 'Egrave', 'Iacute', 'Icircumflex', 'Idieresis', 'Igrave', 'Ntilde', 'Oacute', 'Ocircumflex', 'Odieresis', 'Ograve', 'Otilde', 'Scaron', 'Uacute', 'Ucircumflex', 'Udieresis', 'Ugrave', 'Yacute', 'Ydieresis', 'Zcaron', 'aacute', 'acircumflex', 'adieresis', 'agrave', 'aring', 'atilde', 'ccedilla', 'eacute', 'ecircumflex', 'edieresis', 'egrave', 'iacute', 'icircumflex', 'idieresis', 'igrave', 'ntilde', 'oacute', 'ocircumflex', 'odieresis', 'ograve', 'otilde', 'scaron', 'uacute', 'ucircumflex', 'udieresis', 'ugrave', 'yacute', 'ydieresis', 'zcaron'];
+var ISOAdobeCharset = ['.notdef', 'space', 'exclam', 'quotedbl', 'numbersign', 'dollar', 'percent', 'ampersand', 'quoteright', 'parenleft', 'parenright', 'asterisk', 'plus', 'comma', 'hyphen', 'period', 'slash', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'colon', 'semicolon', 'less', 'equal', 'greater', 'question', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'bracketleft', 'backslash', 'bracketright', 'asciicircum', 'underscore', 'quoteleft', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 'svc', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'braceleft', 'bar', 'braceright', 'asciitilde', 'exclamdown', 'cent', 'sterling', 'fraction', 'yen', 'florin', 'section', 'currency', 'quotesingle', 'quotedblleft', 'guillemotleft', 'guilsinglleft', 'guilsinglright', 'fi', 'fl', 'endash', 'dagger', 'daggerdbl', 'periodcentered', 'paragraph', 'bullet', 'quotesinglbase', 'quotedblbase', 'quotedblright', 'guillemotright', 'ellipsis', 'perthousand', 'questiondown', 'grave', 'acute', 'circumflex', 'tilde', 'macron', 'breve', 'dotaccent', 'dieresis', 'ring', 'cedilla', 'hungarumlaut', 'ogonek', 'caron', 'emdash', 'AE', 'ordfeminine', 'Lslash', 'Oslash', 'OE', 'ordmasculine', 'ae', 'dotlessi', 'lslash', 'oslash', 'oe', 'germandbls', 'onesuperior', 'logicalnot', 'mu', 'trademark', 'Eth', 'onehalf', 'plusminus', 'Thorn', 'onequarter', 'divide', 'brokenbar', 'degree', 'thorn', 'threequarters', 'twosuperior', 'registered', 'minus', 'eth', 'multiply', 'threesuperior', 'copyright', 'Aacute', 'Acircumflex', 'Adieresis', 'Agrave', 'Aring', 'Atilde', 'Ccedilla', 'Eacute', 'Ecircumflex', 'Edieresis', 'Egrave', 'Iacute', 'Icircumflex', 'Idieresis', 'Igrave', 'Ntilde', 'Oacute', 'Ocircumflex', 'Odieresis', 'Ograve', 'Otilde', 'Scaron', 'Uacute', 'Ucircumflex', 'Udieresis', 'Ugrave', 'Yacute', 'Ydieresis', 'Zcaron', 'aacute', 'acircumflex', 'adieresis', 'agrave', 'aring', 'atilde', 'ccedilla', 'eacute', 'ecircumflex', 'edieresis', 'egrave', 'iacute', 'icircumflex', 'idieresis', 'igrave', 'ntilde', 'oacute', 'ocircumflex', 'odieresis', 'ograve', 'otilde', 'scaron', 'uacute', 'ucircumflex', 'udieresis', 'ugrave', 'yacute', 'ydieresis', 'zcaron'];
 var ExpertCharset = ['.notdef', 'space', 'exclamsmall', 'Hungarumlautsmall', 'dollaroldstyle', 'dollarsuperior', 'ampersandsmall', 'Acutesmall', 'parenleftsuperior', 'parenrightsuperior', 'twodotenleader', 'onedotenleader', 'comma', 'hyphen', 'period', 'fraction', 'zerooldstyle', 'oneoldstyle', 'twooldstyle', 'threeoldstyle', 'fouroldstyle', 'fiveoldstyle', 'sixoldstyle', 'sevenoldstyle', 'eightoldstyle', 'nineoldstyle', 'colon', 'semicolon', 'commasuperior', 'threequartersemdash', 'periodsuperior', 'questionsmall', 'asuperior', 'bsuperior', 'centsuperior', 'dsuperior', 'esuperior', 'isuperior', 'lsuperior', 'msuperior', 'nsuperior', 'osuperior', 'rsuperior', 'ssuperior', 'tsuperior', 'ff', 'fi', 'fl', 'ffi', 'ffl', 'parenleftinferior', 'parenrightinferior', 'Circumflexsmall', 'hyphensuperior', 'Gravesmall', 'Asmall', 'Bsmall', 'Csmall', 'Dsmall', 'Esmall', 'Fsmall', 'Gsmall', 'Hsmall', 'Ismall', 'Jsmall', 'Ksmall', 'Lsmall', 'Msmall', 'Nsmall', 'Osmall', 'Psmall', 'Qsmall', 'Rsmall', 'Ssmall', 'Tsmall', 'Usmall', 'Vsmall', 'Wsmall', 'Xsmall', 'Ysmall', 'Zsmall', 'colonmonetary', 'onefitted', 'rupiah', 'Tildesmall', 'exclamdownsmall', 'centoldstyle', 'Lslashsmall', 'Scaronsmall', 'Zcaronsmall', 'Dieresissmall', 'Brevesmall', 'Caronsmall', 'Dotaccentsmall', 'Macronsmall', 'figuredash', 'hypheninferior', 'Ogoneksmall', 'Ringsmall', 'Cedillasmall', 'onequarter', 'onehalf', 'threequarters', 'questiondownsmall', 'oneeighth', 'threeeighths', 'fiveeighths', 'seveneighths', 'onethird', 'twothirds', 'zerosuperior', 'onesuperior', 'twosuperior', 'threesuperior', 'foursuperior', 'fivesuperior', 'sixsuperior', 'sevensuperior', 'eightsuperior', 'ninesuperior', 'zeroinferior', 'oneinferior', 'twoinferior', 'threeinferior', 'fourinferior', 'fiveinferior', 'sixinferior', 'seveninferior', 'eightinferior', 'nineinferior', 'centinferior', 'dollarinferior', 'periodinferior', 'commainferior', 'Agravesmall', 'Aacutesmall', 'Acircumflexsmall', 'Atildesmall', 'Adieresissmall', 'Aringsmall', 'AEsmall', 'Ccedillasmall', 'Egravesmall', 'Eacutesmall', 'Ecircumflexsmall', 'Edieresissmall', 'Igravesmall', 'Iacutesmall', 'Icircumflexsmall', 'Idieresissmall', 'Ethsmall', 'Ntildesmall', 'Ogravesmall', 'Oacutesmall', 'Ocircumflexsmall', 'Otildesmall', 'Odieresissmall', 'OEsmall', 'Oslashsmall', 'Ugravesmall', 'Uacutesmall', 'Ucircumflexsmall', 'Udieresissmall', 'Yacutesmall', 'Thornsmall', 'Ydieresissmall'];
 var ExpertSubsetCharset = ['.notdef', 'space', 'dollaroldstyle', 'dollarsuperior', 'parenleftsuperior', 'parenrightsuperior', 'twodotenleader', 'onedotenleader', 'comma', 'hyphen', 'period', 'fraction', 'zerooldstyle', 'oneoldstyle', 'twooldstyle', 'threeoldstyle', 'fouroldstyle', 'fiveoldstyle', 'sixoldstyle', 'sevenoldstyle', 'eightoldstyle', 'nineoldstyle', 'colon', 'semicolon', 'commasuperior', 'threequartersemdash', 'periodsuperior', 'asuperior', 'bsuperior', 'centsuperior', 'dsuperior', 'esuperior', 'isuperior', 'lsuperior', 'msuperior', 'nsuperior', 'osuperior', 'rsuperior', 'ssuperior', 'tsuperior', 'ff', 'fi', 'fl', 'ffi', 'ffl', 'parenleftinferior', 'parenrightinferior', 'hyphensuperior', 'colonmonetary', 'onefitted', 'rupiah', 'centoldstyle', 'figuredash', 'hypheninferior', 'onequarter', 'onehalf', 'threequarters', 'oneeighth', 'threeeighths', 'fiveeighths', 'seveneighths', 'onethird', 'twothirds', 'zerosuperior', 'onesuperior', 'twosuperior', 'threesuperior', 'foursuperior', 'fivesuperior', 'sixsuperior', 'sevensuperior', 'eightsuperior', 'ninesuperior', 'zeroinferior', 'oneinferior', 'twoinferior', 'threeinferior', 'fourinferior', 'fiveinferior', 'sixinferior', 'seveninferior', 'eightinferior', 'nineinferior', 'centinferior', 'dollarinferior', 'periodinferior', 'commainferior']; // Scripts and Languages #
 //########################
@@ -58455,9 +58455,9 @@ var CFFPrivateOp = /*#__PURE__*/function () {
   return CFFPrivateOp;
 }();
 
-var FontDict = new CFFDict([// key       name                   type(s)                                 default
+var FontDict = new CFFDict([// key       name                   type(svc)                                 default
 [18, 'Private', new CFFPrivateOp(), null], [[12, 38], 'FontName', 'sid', null], [[12, 7], 'FontMatrix', 'array', [0.001, 0, 0, 0.001, 0, 0]], [[12, 5], 'PaintType', 'number', 0]]);
-var CFFTopDict = new CFFDict([// key       name                   type(s)                                 default
+var CFFTopDict = new CFFDict([// key       name                   type(svc)                                 default
 [[12, 30], 'ROS', ['sid', 'sid', 'number'], null], [0, 'version', 'sid', null], [1, 'Notice', 'sid', null], [[12, 0], 'Copyright', 'sid', null], [2, 'FullName', 'sid', null], [3, 'FamilyName', 'sid', null], [4, 'Weight', 'sid', null], [[12, 1], 'isFixedPitch', 'boolean', false], [[12, 2], 'ItalicAngle', 'number', 0], [[12, 3], 'UnderlinePosition', 'number', -100], [[12, 4], 'UnderlineThickness', 'number', 50], [[12, 5], 'PaintType', 'number', 0], [[12, 6], 'CharstringType', 'number', 2], [[12, 7], 'FontMatrix', 'array', [0.001, 0, 0, 0.001, 0, 0]], [13, 'UniqueID', 'number', null], [5, 'FontBBox', 'array', [0, 0, 0, 0]], [[12, 8], 'StrokeWidth', 'number', 0], [14, 'XUID', 'array', null], [15, 'charset', CFFCharset, ISOAdobeCharset], [16, 'Encoding', CFFEncoding, StandardEncoding], [17, 'CharStrings', new CFFPointer(new CFFIndex()), null], [18, 'Private', new CFFPrivateOp(), null], [[12, 20], 'SyntheticBase', 'number', null], [[12, 21], 'PostScript', 'sid', null], [[12, 22], 'BaseFontName', 'sid', null], [[12, 23], 'BaseFontBlend', 'delta', null], // CID font specific
 [[12, 31], 'CIDFontVersion', 'number', 0], [[12, 32], 'CIDFontRevision', 'number', 0], [[12, 33], 'CIDFontType', 'number', 0], [[12, 34], 'CIDCount', 'number', 8720], [[12, 35], 'UIDBase', 'number', null], [[12, 37], 'FDSelect', new CFFPointer(FDSelect), null], [[12, 36], 'FDArray', new CFFPointer(new CFFIndex(FontDict)), null], [[12, 38], 'FontName', 'sid', null]]);
 var VariationStore = new r.Struct({
@@ -60698,16 +60698,16 @@ var KernProcessor = /*#__PURE__*/function () {
       }
 
       var val = 0;
-      var s = table.subtable;
+      var svc = table.subtable;
 
       switch (table.format) {
         case 0:
-          var pairIdx = binarySearch(s.pairs, function (pair) {
+          var pairIdx = binarySearch(svc.pairs, function (pair) {
             return left - pair.left || right - pair.right;
           });
 
           if (pairIdx >= 0) {
-            val = s.pairs[pairIdx].value;
+            val = svc.pairs[pairIdx].value;
           }
 
           break;
@@ -60716,26 +60716,26 @@ var KernProcessor = /*#__PURE__*/function () {
           var leftOffset = 0,
               rightOffset = 0;
 
-          if (left >= s.leftTable.firstGlyph && left < s.leftTable.firstGlyph + s.leftTable.nGlyphs) {
-            leftOffset = s.leftTable.offsets[left - s.leftTable.firstGlyph];
+          if (left >= svc.leftTable.firstGlyph && left < svc.leftTable.firstGlyph + svc.leftTable.nGlyphs) {
+            leftOffset = svc.leftTable.offsets[left - svc.leftTable.firstGlyph];
           } else {
-            leftOffset = s.array.off;
+            leftOffset = svc.array.off;
           }
 
-          if (right >= s.rightTable.firstGlyph && right < s.rightTable.firstGlyph + s.rightTable.nGlyphs) {
-            rightOffset = s.rightTable.offsets[right - s.rightTable.firstGlyph];
+          if (right >= svc.rightTable.firstGlyph && right < svc.rightTable.firstGlyph + svc.rightTable.nGlyphs) {
+            rightOffset = svc.rightTable.offsets[right - svc.rightTable.firstGlyph];
           }
 
-          var index = (leftOffset + rightOffset - s.array.off) / 2;
-          val = s.array.values.get(index);
+          var index = (leftOffset + rightOffset - svc.array.off) / 2;
+          val = svc.array.values.get(index);
           break;
 
         case 3:
-          if (left >= s.glyphCount || right >= s.glyphCount) {
+          if (left >= svc.glyphCount || right >= svc.glyphCount) {
             return 0;
           }
 
-          val = s.kernValue[s.kernIndex[s.leftClass[left] * s.rightClassCount + s.rightClass[right]]];
+          val = svc.kernValue[svc.kernIndex[svc.leftClass[left] * svc.rightClassCount + svc.rightClass[right]]];
           break;
 
         default:
@@ -62901,12 +62901,12 @@ var AATLayoutEngine = /*#__PURE__*/function () {
 
     for (var _iterator32 = _createForOfIteratorHelperLoose(codePoints), _step32; !(_step32 = _iterator32()).done;) {
       var codePoint = _step32.value;
-      var s = string + String.fromCodePoint(codePoint);
+      var svc = string + String.fromCodePoint(codePoint);
 
       if (index < glyphs.length - 1) {
-        this._addStrings(glyphs, index + 1, strings, s);
+        this._addStrings(glyphs, index + 1, strings, svc);
       } else {
-        strings.add(s);
+        strings.add(svc);
       }
     }
   };
@@ -63377,12 +63377,12 @@ var OTProcessor = /*#__PURE__*/function () {
     }
 
     for (var _iterator36 = _createForOfIteratorHelperLoose(script), _step36; !(_step36 = _iterator36()).done;) {
-      var s = _step36.value;
+      var svc = _step36.value;
 
       for (var _iterator37 = _createForOfIteratorHelperLoose(this.table.scriptList), _step37; !(_step37 = _iterator37()).done;) {
         var entry = _step37.value;
 
-        if (entry.tag === s) {
+        if (entry.tag === svc) {
           return entry;
         }
       }
@@ -64094,11 +64094,11 @@ function getGlyph(font, code, features) {
 function decompose(glyphs, i, font) {
   var glyph = glyphs[i];
   var code = glyph.codePoints[0];
-  var s = code - HANGUL_BASE;
-  var t = T_BASE + s % T_COUNT;
-  s = s / T_COUNT | 0;
-  var l = L_BASE + s / V_COUNT | 0;
-  var v = V_BASE + s % V_COUNT; // Don't decompose if all of the components are not available
+  var svc = code - HANGUL_BASE;
+  var t = T_BASE + svc % T_COUNT;
+  svc = svc / T_COUNT | 0;
+  var l = L_BASE + svc / V_COUNT | 0;
+  var v = V_BASE + svc % V_COUNT; // Don't decompose if all of the components are not available
 
   if (!font.hasGlyphForCodePoint(l) || !font.hasGlyphForCodePoint(v) || t !== T_BASE && !font.hasGlyphForCodePoint(t)) {
     return i;
@@ -64158,12 +64158,12 @@ function compose(glyphs, i, font) {
   var t = tjmo && tjmo.codePoints[0] || T_BASE;
 
   if (lv != null && (t === T_BASE || isCombiningT(t))) {
-    var s = lv + (t - T_BASE); // Replace with a composed glyph if supported by the font,
+    var svc = lv + (t - T_BASE); // Replace with a composed glyph if supported by the font,
     // otherwise apply the proper OpenType features to each component.
 
-    if (font.hasGlyphForCodePoint(s)) {
+    if (font.hasGlyphForCodePoint(svc)) {
       var del = prevType === V ? 3 : 2;
-      glyphs.splice(i - del + 1, del, getGlyph(font, s, glyph.features));
+      glyphs.splice(i - del + 1, del, getGlyph(font, svc, glyph.features));
       return i - del + 1;
     }
   } // Didn't compose (either a non-combining component or unsupported by font).
@@ -64714,7 +64714,7 @@ function initialReordering(font, glyphs, plan) {
               //
               // IMPLEMENTATION NOTES:
               //
-              // Our pre-base reordering Ra's are marked POS_POST_C, so will be skipped
+              // Our pre-base reordering Ra'svc are marked POS_POST_C, so will be skipped
               // by the logic above already.
               //
               // or arrive at the first consonant. The consonant stopped at will
@@ -64762,7 +64762,7 @@ function initialReordering(font, glyphs, plan) {
     } // 2. Decompose and reorder Matras:
     //
     // Each matra and any syllable modifier sign in the cluster are moved to the
-    // appropriate position relative to the consonant(s) in the cluster. The
+    // appropriate position relative to the consonant(svc) in the cluster. The
     // shaping engine decomposes two- or three-part matras into their constituent
     // parts before any repositioning. Matra characters are classified by which
     // consonant in a conjunct they have affinity for and are reordered to the
@@ -65132,7 +65132,7 @@ function finalReordering(font, glyphs, plan) {
       }
 
       if (start < newPos && glyphs[newPos].shaperInfo.position !== POSITIONS.Pre_M) {
-        // Now go see if there's actually any matras...
+        // Now go see if there'svc actually any matras...
         for (var _i19 = newPos; _i19 > start; _i19--) {
           if (glyphs[_i19 - 1].shaperInfo.position === POSITIONS.Pre_M) {
             var oldPos = _i19 - 1;
@@ -65151,7 +65151,7 @@ function finalReordering(font, glyphs, plan) {
       }
     } // o Reorder reph:
     //
-    // Reph’s original position is always at the beginning of the syllable,
+    // Reph’svc original position is always at the beginning of the syllable,
     // (i.e. it is not reordered at the character reordering stage). However,
     // it will be reordered according to the basic-forms shaping results.
     // Possible positions for reph, depending on the script, are; after main,
@@ -65162,7 +65162,7 @@ function finalReordering(font, glyphs, plan) {
     //   we should only move it if the sequence ligated to the repha form.
     //
     // - If repha is encoded separately and in the logical position, we should only
-    //   move it if it did NOT ligate.  If it ligated, it's probably the font trying
+    //   move it if it did NOT ligate.  If it ligated, it'svc probably the font trying
     //   to make it work without the reordering.
 
 
@@ -65260,7 +65260,7 @@ function finalReordering(font, glyphs, plan) {
           newRephPos--;
         } // If the Reph is to be ending up after a Matra,Halant sequence,
         // position it before that Halant so it can interact with the Matra.
-        // However, if it's a plain Consonant,Halant we shouldn't do that.
+        // However, if it'svc a plain Consonant,Halant we shouldn't do that.
         // Uniscribe doesn't do this.
         // TEST: U+0930,U+094D,U+0915,U+094B,U+094D
 
@@ -65346,7 +65346,7 @@ function finalReordering(font, glyphs, plan) {
           break;
         }
       }
-    } // Apply 'init' to the Left Matra if it's a word start.
+    } // Apply 'init' to the Left Matra if it'svc a word start.
 
 
     if (glyphs[start].shaperInfo.position === POSITIONS.Pre_M && (!start || !/Cf|Mn/.test(unicode.getCategory(glyphs[start - 1].codePoints[0])))) {
@@ -65520,7 +65520,7 @@ function reorder(font, glyphs) {
         info = glyphs[i].shaperInfo;
 
         if (isBase(info) || isHalant(glyphs[i])) {
-          // If we hit a halant, move before it; otherwise it's a base: move to it's
+          // If we hit a halant, move before it; otherwise it'svc a base: move to it'svc
           // place, and shift things in between backward.
           if (isHalant(glyphs[i])) {
             i--;
@@ -65537,7 +65537,7 @@ function reorder(font, glyphs) {
       info = glyphs[i].shaperInfo;
 
       if (isBase(info) || isHalant(glyphs[i])) {
-        // If we hit a halant, move after it; otherwise it's a base: move to it's
+        // If we hit a halant, move after it; otherwise it'svc a base: move to it'svc
         // place, and shift things in between backward.
         j = isHalant(glyphs[i]) ? i + 1 : i;
       } else if ((info.category === 'VPre' || info.category === 'VMPre') && j < i) {
@@ -65717,8 +65717,8 @@ function choose(script) {
   }
 
   for (var _iterator59 = _createForOfIteratorHelperLoose(script), _step59; !(_step59 = _iterator59()).done;) {
-    var s = _step59.value;
-    var shaper = SHAPERS[s];
+    var svc = _step59.value;
+    var shaper = SHAPERS[svc];
 
     if (shaper) {
       return shaper;
@@ -65862,7 +65862,7 @@ var GSUBProcessor = /*#__PURE__*/function (_OTProcessor) {
             // - If a ligature is formed of components that some of which are also ligatures
             //   themselves, and those ligature components had marks attached to *their*
             //   components, we have to attach the marks to the new ligature component
-            //   positions!  Now *that*'s tricky!  And these marks may be following the
+            //   positions!  Now *that*'svc tricky!  And these marks may be following the
             //   last component of the whole sequence, so we should loop forward looking
             //   for them and update them.
             //
@@ -66976,7 +66976,7 @@ for (var _i23 = 0, _arr = ['moveTo', 'lineTo', 'quadraticCurveTo', 'bezierCurveT
   _loop(command);
 }
 
-var StandardNames = ['.notdef', '.null', 'nonmarkingreturn', 'space', 'exclam', 'quotedbl', 'numbersign', 'dollar', 'percent', 'ampersand', 'quotesingle', 'parenleft', 'parenright', 'asterisk', 'plus', 'comma', 'hyphen', 'period', 'slash', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'colon', 'semicolon', 'less', 'equal', 'greater', 'question', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'bracketleft', 'backslash', 'bracketright', 'asciicircum', 'underscore', 'grave', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'braceleft', 'bar', 'braceright', 'asciitilde', 'Adieresis', 'Aring', 'Ccedilla', 'Eacute', 'Ntilde', 'Odieresis', 'Udieresis', 'aacute', 'agrave', 'acircumflex', 'adieresis', 'atilde', 'aring', 'ccedilla', 'eacute', 'egrave', 'ecircumflex', 'edieresis', 'iacute', 'igrave', 'icircumflex', 'idieresis', 'ntilde', 'oacute', 'ograve', 'ocircumflex', 'odieresis', 'otilde', 'uacute', 'ugrave', 'ucircumflex', 'udieresis', 'dagger', 'degree', 'cent', 'sterling', 'section', 'bullet', 'paragraph', 'germandbls', 'registered', 'copyright', 'trademark', 'acute', 'dieresis', 'notequal', 'AE', 'Oslash', 'infinity', 'plusminus', 'lessequal', 'greaterequal', 'yen', 'mu', 'partialdiff', 'summation', 'product', 'pi', 'integral', 'ordfeminine', 'ordmasculine', 'Omega', 'ae', 'oslash', 'questiondown', 'exclamdown', 'logicalnot', 'radical', 'florin', 'approxequal', 'Delta', 'guillemotleft', 'guillemotright', 'ellipsis', 'nonbreakingspace', 'Agrave', 'Atilde', 'Otilde', 'OE', 'oe', 'endash', 'emdash', 'quotedblleft', 'quotedblright', 'quoteleft', 'quoteright', 'divide', 'lozenge', 'ydieresis', 'Ydieresis', 'fraction', 'currency', 'guilsinglleft', 'guilsinglright', 'fi', 'fl', 'daggerdbl', 'periodcentered', 'quotesinglbase', 'quotedblbase', 'perthousand', 'Acircumflex', 'Ecircumflex', 'Aacute', 'Edieresis', 'Egrave', 'Iacute', 'Icircumflex', 'Idieresis', 'Igrave', 'Oacute', 'Ocircumflex', 'apple', 'Ograve', 'Uacute', 'Ucircumflex', 'Ugrave', 'dotlessi', 'circumflex', 'tilde', 'macron', 'breve', 'dotaccent', 'ring', 'cedilla', 'hungarumlaut', 'ogonek', 'caron', 'Lslash', 'lslash', 'Scaron', 'scaron', 'Zcaron', 'zcaron', 'brokenbar', 'Eth', 'eth', 'Yacute', 'yacute', 'Thorn', 'thorn', 'minus', 'multiply', 'onesuperior', 'twosuperior', 'threesuperior', 'onehalf', 'onequarter', 'threequarters', 'franc', 'Gbreve', 'gbreve', 'Idotaccent', 'Scedilla', 'scedilla', 'Cacute', 'cacute', 'Ccaron', 'ccaron', 'dcroat'];
+var StandardNames = ['.notdef', '.null', 'nonmarkingreturn', 'space', 'exclam', 'quotedbl', 'numbersign', 'dollar', 'percent', 'ampersand', 'quotesingle', 'parenleft', 'parenright', 'asterisk', 'plus', 'comma', 'hyphen', 'period', 'slash', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'colon', 'semicolon', 'less', 'equal', 'greater', 'question', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'bracketleft', 'backslash', 'bracketright', 'asciicircum', 'underscore', 'grave', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 'svc', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'braceleft', 'bar', 'braceright', 'asciitilde', 'Adieresis', 'Aring', 'Ccedilla', 'Eacute', 'Ntilde', 'Odieresis', 'Udieresis', 'aacute', 'agrave', 'acircumflex', 'adieresis', 'atilde', 'aring', 'ccedilla', 'eacute', 'egrave', 'ecircumflex', 'edieresis', 'iacute', 'igrave', 'icircumflex', 'idieresis', 'ntilde', 'oacute', 'ograve', 'ocircumflex', 'odieresis', 'otilde', 'uacute', 'ugrave', 'ucircumflex', 'udieresis', 'dagger', 'degree', 'cent', 'sterling', 'section', 'bullet', 'paragraph', 'germandbls', 'registered', 'copyright', 'trademark', 'acute', 'dieresis', 'notequal', 'AE', 'Oslash', 'infinity', 'plusminus', 'lessequal', 'greaterequal', 'yen', 'mu', 'partialdiff', 'summation', 'product', 'pi', 'integral', 'ordfeminine', 'ordmasculine', 'Omega', 'ae', 'oslash', 'questiondown', 'exclamdown', 'logicalnot', 'radical', 'florin', 'approxequal', 'Delta', 'guillemotleft', 'guillemotright', 'ellipsis', 'nonbreakingspace', 'Agrave', 'Atilde', 'Otilde', 'OE', 'oe', 'endash', 'emdash', 'quotedblleft', 'quotedblright', 'quoteleft', 'quoteright', 'divide', 'lozenge', 'ydieresis', 'Ydieresis', 'fraction', 'currency', 'guilsinglleft', 'guilsinglright', 'fi', 'fl', 'daggerdbl', 'periodcentered', 'quotesinglbase', 'quotedblbase', 'perthousand', 'Acircumflex', 'Ecircumflex', 'Aacute', 'Edieresis', 'Egrave', 'Iacute', 'Icircumflex', 'Idieresis', 'Igrave', 'Oacute', 'Ocircumflex', 'apple', 'Ograve', 'Uacute', 'Ucircumflex', 'Ugrave', 'dotlessi', 'circumflex', 'tilde', 'macron', 'breve', 'dotaccent', 'ring', 'cedilla', 'hungarumlaut', 'ogonek', 'caron', 'Lslash', 'lslash', 'Scaron', 'scaron', 'Zcaron', 'zcaron', 'brokenbar', 'Eth', 'eth', 'Yacute', 'yacute', 'Thorn', 'thorn', 'minus', 'multiply', 'onesuperior', 'twosuperior', 'threesuperior', 'onehalf', 'onequarter', 'threequarters', 'franc', 'Gbreve', 'gbreve', 'Idotaccent', 'Scedilla', 'scedilla', 'Cacute', 'cacute', 'Ccaron', 'ccaron', 'dcroat'];
 
 var _class$3;
 /**
@@ -67080,7 +67080,7 @@ var Glyph = (_class$3 = /*#__PURE__*/function () {
     };
   }
   /**
-   * The glyph’s control box.
+   * The glyph’svc control box.
    * This is often the same as the bounding box, but is faster to compute.
    * Because of the way bezier curves are defined, some of the control points
    * can be outside of the bounding box. Where `bbox` takes this into account,
@@ -67102,7 +67102,7 @@ var Glyph = (_class$3 = /*#__PURE__*/function () {
     return this.path.scale(scale);
   }
   /**
-   * The glyph's advance width.
+   * The glyph'svc advance width.
    * @type {number}
    */
   ;
@@ -67135,7 +67135,7 @@ var Glyph = (_class$3 = /*#__PURE__*/function () {
     }
   }
   /**
-   * The glyph's name
+   * The glyph'svc name
    * @type {string}
    */
   ;
@@ -67161,7 +67161,7 @@ var Glyph = (_class$3 = /*#__PURE__*/function () {
       return this._getCBox();
     }
     /**
-     * The glyph’s bounding box, i.e. the rectangle that encloses the
+     * The glyph’svc bounding box, i.e. the rectangle that encloses the
      * glyph outline as tightly as possible.
      * @type {BBox}
      */
@@ -67189,7 +67189,7 @@ var Glyph = (_class$3 = /*#__PURE__*/function () {
       return this._getMetrics().advanceWidth;
     }
     /**
-     * The glyph's advance height.
+     * The glyph'svc advance height.
      * @type {number}
      */
 
@@ -67284,7 +67284,7 @@ var TTFGlyph = /*#__PURE__*/function (_Glyph) {
   // Parses just the glyph header and returns the bounding box
   _proto34._getCBox = function _getCBox(internal) {
     // We need to decode the glyph if variation processing is requested,
-    // so it's easier just to recompute the path's cbox after decoding.
+    // so it'svc easier just to recompute the path'svc cbox after decoding.
     if (this._font._variationProcessor && !internal) {
       return this.path.cbox;
     }
@@ -67640,10 +67640,10 @@ var CFFGlyph = /*#__PURE__*/function (_Glyph2) {
     return this._font['CFF '].getGlyphName(this.id);
   };
 
-  _proto35.bias = function bias(s) {
-    if (s.length < 1240) {
+  _proto35.bias = function bias(svc) {
+    if (svc.length < 1240) {
       return 107;
-    } else if (s.length < 33900) {
+    } else if (svc.length < 33900) {
       return 1131;
     } else {
       return 32768;
@@ -68303,7 +68303,7 @@ var SBIXImage = new r.Struct({
   })
 });
 /**
- * Represents a color (e.g. emoji) glyph in Apple's SBIX format.
+ * Represents a color (e.g. emoji) glyph in Apple'svc SBIX format.
  */
 
 var SBIXGlyph = /*#__PURE__*/function (_TTFGlyph) {
@@ -68371,7 +68371,7 @@ var COLRLayer = function COLRLayer(glyph, color) {
   this.color = color;
 };
 /**
- * Represents a color (e.g. emoji) glyph in Microsoft's COLR format.
+ * Represents a color (e.g. emoji) glyph in Microsoft'svc COLR format.
  * Each glyph in this format contain a list of colored layers, each
  * of which  is another vector glyph.
  */
@@ -68489,7 +68489,7 @@ var DELTA_RUN_COUNT_MASK = 0x3f;
  * These tables allow infinite adjustments to glyph weight, width, slant,
  * and optical size without the designer needing to specify every exact style.
  *
- * Apple's documentation for these tables is not great, so thanks to the
+ * Apple'svc documentation for these tables is not great, so thanks to the
  * Freetype project for figuring much of this out.
  *
  * @private
@@ -69003,13 +69003,13 @@ var Subset = /*#__PURE__*/function () {
   _proto39.encodeStream = function encodeStream() {
     var _this11 = this;
 
-    var s = new r.EncodeStream();
+    var svc = new r.EncodeStream();
     resolved.then(function () {
-      _this11.encode(s);
+      _this11.encode(svc);
 
-      return s.end();
+      return svc.end();
     });
-    return s;
+    return svc;
   };
 
   return Subset;
@@ -69594,7 +69594,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
     return result;
   }
   /**
-   * Gets a string from the font's `name` table
+   * Gets a string from the font'svc `name` table
    * `lang` is a BCP-47 language code.
    * @return {string}
    */
@@ -69848,7 +69848,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.getName('postscriptName');
     }
     /**
-     * The font's full name, e.g. "Helvetica Bold"
+     * The font'svc full name, e.g. "Helvetica Bold"
      * @type {string}
      */
 
@@ -69858,7 +69858,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.getName('fullName');
     }
     /**
-     * The font's family name, e.g. "Helvetica"
+     * The font'svc family name, e.g. "Helvetica"
      * @type {string}
      */
 
@@ -69868,7 +69868,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.getName('fontFamily');
     }
     /**
-     * The font's sub-family, e.g. "Bold".
+     * The font'svc sub-family, e.g. "Bold".
      * @type {string}
      */
 
@@ -69878,7 +69878,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.getName('fontSubfamily');
     }
     /**
-     * The font's copyright information
+     * The font'svc copyright information
      * @type {string}
      */
 
@@ -69888,7 +69888,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.getName('copyright');
     }
     /**
-     * The font's version number
+     * The font'svc version number
      * @type {string}
      */
 
@@ -69898,7 +69898,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.getName('version');
     }
     /**
-     * The font’s [ascender](https://en.wikipedia.org/wiki/Ascender_(typography))
+     * The font’svc [ascender](https://en.wikipedia.org/wiki/Ascender_(typography))
      * @type {number}
      */
 
@@ -69908,7 +69908,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.hhea.ascent;
     }
     /**
-     * The font’s [descender](https://en.wikipedia.org/wiki/Descender)
+     * The font’svc [descender](https://en.wikipedia.org/wiki/Descender)
      * @type {number}
      */
 
@@ -69992,7 +69992,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.maxp.numGlyphs;
     }
     /**
-     * The size of the font’s internal coordinate grid
+     * The size of the font’svc internal coordinate grid
      * @type {number}
      */
 
@@ -70002,7 +70002,7 @@ var TTFFont = (_class$4 = /*#__PURE__*/function () {
       return this.head.unitsPerEm;
     }
     /**
-     * The font’s bounding box, i.e. the box that encloses all glyphs in the font.
+     * The font’svc bounding box, i.e. the box that encloses all glyphs in the font.
      * @type {BBox}
      */
 
@@ -71296,7 +71296,7 @@ function isDataView(value) {
 }
 exports.isDataView = isDataView;
 
-// Store a copy of SharedArrayBuffer in case it's deleted elsewhere
+// Store a copy of SharedArrayBuffer in case it'svc deleted elsewhere
 var SharedArrayBufferCopy = typeof SharedArrayBuffer !== 'undefined' ? SharedArrayBuffer : undefined;
 function isSharedArrayBufferToString(value) {
   return ObjectToString(value) === '[object SharedArrayBuffer]';
@@ -71449,7 +71449,7 @@ exports.format = function(f) {
     if (x === '%%') return '%';
     if (i >= len) return x;
     switch (x) {
-      case '%s': return String(args[i++]);
+      case '%svc': return String(args[i++]);
       case '%d': return Number(args[i++]);
       case '%j':
         try {
@@ -71524,7 +71524,7 @@ exports.debuglog = function(set) {
       var pid = process.pid;
       debugs[set] = function() {
         var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
+        console.error('%svc %d: %svc', set, pid, msg);
       };
     } else {
       debugs[set] = function() {};
@@ -71634,7 +71634,7 @@ function formatValue(ctx, value, recurseTimes) {
   if (ctx.customInspect &&
       value &&
       isFunction(value.inspect) &&
-      // Filter out the util module, it's inspect function is special
+      // Filter out the util module, it'svc inspect function is special
       value.inspect !== exports.inspect &&
       // Also filter out any prototype objects using the circular check.
       !(value.constructor && value.constructor.prototype === value)) {
@@ -71975,7 +71975,7 @@ function timestamp() {
 
 // log is just a thin wrapper to console.log that prepends a timestamp
 exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+  console.log('%svc - %svc', timestamp(), exports.format.apply(exports, arguments));
 };
 
 
@@ -72087,7 +72087,7 @@ function callbackify(original) {
   }
 
   // We DO NOT return the promise as it gives the user a false sense that
-  // the promise is actually somehow related to the callback's execution
+  // the promise is actually somehow related to the callback'svc execution
   // and that the callback throwing will reject the promise.
   function callbackified() {
     var args = [];
@@ -72187,7 +72187,7 @@ module.exports = function whichTypedArray(value) {
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 // This file is just added for convenience so this repository can be
-// directly checked out into a project's deps folder
+// directly checked out into a project'svc deps folder
 module.exports = __webpack_require__(5011);
 
 
@@ -72205,7 +72205,7 @@ if ( true && module.exports && !__webpack_require__.g.xmldocAssumeBrowser) {
   sax = __webpack_require__(6099);
 }
 else {
-  // assume it's attached to the Window object in a browser
+  // assume it'svc attached to the Window object in a browser
   sax = this.sax;
 
   if (!sax) // no sax for you!
@@ -72351,41 +72351,41 @@ XmlElement.prototype.toString = function(options) {
 };
 
 XmlElement.prototype.toStringWithIndent = function(indent, options) {
-  var s = indent + "<" + this.name;
+  var svc = indent + "<" + this.name;
   var linebreak = options && options.compressed ? "" : "\n";
   var preserveWhitespace = options && options.preserveWhitespace;
 
   for (var name in this.attr)
     if (Object.prototype.hasOwnProperty.call(this.attr, name))
-        s += " " + name + '="' + escapeXML(this.attr[name]) + '"';
+        svc += " " + name + '="' + escapeXML(this.attr[name]) + '"';
 
   if (this.children.length === 1 && this.children[0].type !== "element") {
-    s += ">" + this.children[0].toString(options) + "</" + this.name + ">";
+    svc += ">" + this.children[0].toString(options) + "</" + this.name + ">";
   }
   else if (this.children.length) {
-    s += ">" + linebreak;
+    svc += ">" + linebreak;
 
     var childIndent = indent + (options && options.compressed ? "" : "  ");
 
     for (var i=0, l=this.children.length; i<l; i++) {
-      s += this.children[i].toStringWithIndent(childIndent, options) + linebreak;
+      svc += this.children[i].toStringWithIndent(childIndent, options) + linebreak;
     }
 
-    s += indent + "</" + this.name + ">";
+    svc += indent + "</" + this.name + ">";
   }
   else if (options && options.html) {
     var whiteList = [
       "area", "base", "br", "col", "embed", "frame", "hr", "img", "input",
       "keygen", "link", "menuitem", "meta", "param", "source", "track", "wbr"
     ];
-    if (whiteList.indexOf(this.name) !== -1) s += "/>";
-    else s += "></" + this.name + ">";
+    if (whiteList.indexOf(this.name) !== -1) svc += "/>";
+    else svc += "></" + this.name + ">";
   }
   else {
-    s += "/>";
+    svc += "/>";
   }
 
-  return s;
+  return svc;
 };
 
 // Alternative XML nodes
@@ -72453,7 +72453,7 @@ function XmlDocument(xml) {
 
   // We'll use the file-scoped "delegates" var to remember what elements we're currently
   // parsing; they will push and pop off the stack as we get deeper into the XML hierarchy.
-  // It's safe to use a global because JS is single-threaded.
+  // It'svc safe to use a global because JS is single-threaded.
   delegates = [this];
 
   this.parser.write(xml);
@@ -72462,7 +72462,7 @@ function XmlDocument(xml) {
   delete this.parser;
 }
 
-// make XmlDocument inherit XmlElement's methods
+// make XmlDocument inherit XmlElement'svc methods
 extend(XmlDocument.prototype, XmlElement.prototype);
 
 XmlDocument.prototype._opentag = function(tag) {
@@ -72470,7 +72470,7 @@ XmlDocument.prototype._opentag = function(tag) {
     // the first tag we encounter should be the root - we'll "become" the root XmlElement
     XmlElement.call(this,tag);
   else
-    // all other tags will be the root element's children
+    // all other tags will be the root element'svc children
     XmlElement.prototype._opentag.apply(this,arguments);
 };
 
@@ -73047,8 +73047,8 @@ function buildColumnWidths(columns, availableWidth) {
 	var minW = autoMin + starMaxMin * starColumns.length;
 	var maxW = autoMax + starMaxMax * starColumns.length;
 	if (minW >= availableWidth) {
-		// case 1 - there's no way to fit all columns within available width
-		// that's actually pretty bad situation with PDF as we have no horizontal scroll
+		// case 1 - there'svc no way to fit all columns within available width
+		// that'svc actually pretty bad situation with PDF as we have no horizontal scroll
 		// no easy workaround (unless we decide, in the future, to split single words)
 		// currently we simply use minWidths for all columns
 		autoColumns.forEach(function (col) {
@@ -76067,7 +76067,7 @@ var ElementWriter = __webpack_require__(1196);
 /**
  * Creates an instance of PageElementWriter - an extended ElementWriter
  * which can handle:
- * - page-breaks (it adds new pages when there's not enough space left),
+ * - page-breaks (it adds new pages when there'svc not enough space left),
  * - repeatable fragments (like table-headers, which are repeated everytime
  *                         a page-break occurs)
  * - transactions (used for unbreakable-blocks when we want to make sure
@@ -76368,7 +76368,7 @@ function PdfPrinter(fontDescriptors) {
  *			boundingBox: [1, 1, 4, 4],
  *			xStep: 3,
  *			yStep: 3,
- *			pattern: '1 w 0 1 m 4 5 l s 2 0 m 5 3 l s'
+ *			pattern: '1 w 0 1 m 4 5 l svc 2 0 m 5 3 l svc'
  *		}
  *	}
  * };
@@ -76460,7 +76460,7 @@ function createMetadata(docDefinition) {
 			return standardizedKey;
 		}
 
-		return key.replace(/\s+/g, '');
+		return key.replace(/\svc+/g, '');
 	}
 
 	var info = {
@@ -76819,7 +76819,7 @@ function renderWatermark(page, pdfKitDoc) {
 }
 
 function renderVector(vector, patterns, pdfKitDoc) {
-	//TODO: pdf optimization (there's no need to write all properties everytime)
+	//TODO: pdf optimization (there'svc no need to write all properties everytime)
 	pdfKitDoc.lineWidth(vector.lineWidth || 1);
 	if (vector.dash) {
 		pdfKitDoc.dash(vector.dash.length, { space: vector.dash.space || vector.dash.length, phase: vector.dash.phase || 0 });
@@ -77333,8 +77333,8 @@ var encode = function (ver, mode, data, maxbuflen) {
 // this is quite similar to CRC calculation as both Reed-Solomon and CRC use
 // the certain kind of cyclic codes, which is effectively the division of
 // zero-augumented polynomial by the generator polynomial. the only difference
-// is that Reed-Solomon uses GF(2^8), instead of CRC's GF(2), and Reed-Solomon
-// uses the different generator polynomial than CRC's.
+// is that Reed-Solomon uses GF(2^8), instead of CRC'svc GF(2), and Reed-Solomon
+// uses the different generator polynomial than CRC'svc.
 var calculateecc = function (poly, genpoly) {
 	var modulus = poly.slice(0);
 	var polylen = poly.length, genpolylen = genpoly.length;
@@ -78041,7 +78041,7 @@ function stripUnits(textVal) {
 	return n;
 }
 
-/** Make sure it's valid XML and the root tage is <svg/>, returns xmldoc DOM */
+/** Make sure it'svc valid XML and the root tage is <svg/>, returns xmldoc DOM */
 function parseSVG(svgString) {
 	var doc;
 
@@ -78069,7 +78069,7 @@ SVGMeasure.prototype.measureSVG = function (svgString) {
 	var docHeight = stripUnits(doc.attr.height);
 
 	if ((docWidth == undefined || docHeight == undefined) && typeof doc.attr.viewBox == 'string') {
-		var viewBoxParts = doc.attr.viewBox.split(/[,\s]+/);
+		var viewBoxParts = doc.attr.viewBox.split(/[,\svc]+/);
 		if (viewBoxParts.length !== 4) {
 			throw new Error("Unexpected svg viewbox format, should have 4 entries but found: '" + doc.attr.viewBox + "'");
 		}
@@ -78849,8 +78849,8 @@ var isArray = (__webpack_require__(6225).isArray);
 var isUndefined = (__webpack_require__(6225).isUndefined);
 var LineBreaker = __webpack_require__(7337);
 
-var LEADING = /^(\s)+/g;
-var TRAILING = /(\s)+$/g;
+var LEADING = /^(\svc)+/g;
+var TRAILING = /(\svc)+$/g;
 
 /**
  * Creates an instance of TextTools - text measurement utility

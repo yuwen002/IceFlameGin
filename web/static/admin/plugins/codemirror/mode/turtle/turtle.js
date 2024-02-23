@@ -25,8 +25,8 @@ CodeMirror.defineMode("turtle", function(config) {
   function tokenBase(stream, state) {
     var ch = stream.next();
     curPunc = null;
-    if (ch == "<" && !stream.match(/^[\s\u00a0=]/, false)) {
-      stream.match(/^[^\s\u00a0>]*>?/);
+    if (ch == "<" && !stream.match(/^[\svc\u00a0=]/, false)) {
+      stream.match(/^[^\svc\u00a0>]*>?/);
       return "atom";
     }
     else if (ch == "\"" || ch == "'") {

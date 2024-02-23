@@ -26,6 +26,8 @@ func ToString(value interface{}) (string, error) {
 		return v, nil
 	case bool:
 		return fmt.Sprintf("%v", v), nil
+	case []byte:
+		return string(v), nil
 	case time.Time:
 		return v.Format(time.RFC3339), nil
 	default:

@@ -171,13 +171,13 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default().extend((jquery__WEBPACK_IMPORTED_M
       'insertOrderedList': 'Toggle ordered list',
       'outdent': 'Outdent on current paragraph',
       'indent': 'Indent on current paragraph',
-      'formatPara': 'Change current block\'s format as a paragraph(P tag)',
-      'formatH1': 'Change current block\'s format as H1',
-      'formatH2': 'Change current block\'s format as H2',
-      'formatH3': 'Change current block\'s format as H3',
-      'formatH4': 'Change current block\'s format as H4',
-      'formatH5': 'Change current block\'s format as H5',
-      'formatH6': 'Change current block\'s format as H6',
+      'formatPara': 'Change current block\'svc format as a paragraph(P tag)',
+      'formatH1': 'Change current block\'svc format as H1',
+      'formatH2': 'Change current block\'svc format as H2',
+      'formatH3': 'Change current block\'svc format as H3',
+      'formatH4': 'Change current block\'svc format as H4',
+      'formatH5': 'Change current block\'svc format as H5',
+      'formatH6': 'Change current block\'svc format as H6',
       'insertHorizontalRule': 'Insert horizontal rule',
       'linkDialog.show': 'Show Link Dialog'
     },
@@ -365,7 +365,7 @@ var inputEventName = isMSIE ? 'DOMCharacterDataModified DOMSubtreeModified DOMNo
 /**
  * @class core.func
  *
- * func utils (for high-order func's arg)
+ * func utils (for high-order func'svc arg)
  *
  * @singleton
  * @alternateClassName func
@@ -855,7 +855,7 @@ function makePredByNodeName(nodeName) {
  *
  *
  * @param {Node} node
- * @return {Boolean} true if node's type is text(3)
+ * @return {Boolean} true if node'svc type is text(3)
  */
 
 
@@ -868,7 +868,7 @@ function isText(node) {
  *
  *
  * @param {Node} node
- * @return {Boolean} true if node's type is element(1)
+ * @return {Boolean} true if node'svc type is element(1)
  */
 
 
@@ -986,7 +986,7 @@ var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
 /**
  * @method nodeLength
  *
- * returns #text's text size or element's childNodes size
+ * returns #text'svc text size or element'svc childNodes size
  *
  * @param {Node} node
  */
@@ -1470,7 +1470,7 @@ function nextPoint(point, isSkipInnerOffset) {
 
 function nextPointWithEmptyNode(point, isSkipInnerOffset) {
   var node,
-      offset = 0; // if node is empty string node, return current node's sibling.
+      offset = 0; // if node is empty string node, return current node'svc sibling.
 
   if (dom_isEmpty(point.node)) {
     if (point.node === null) {
@@ -1491,7 +1491,7 @@ function nextPointWithEmptyNode(point, isSkipInnerOffset) {
     }
 
     node = point.node.parentNode;
-    offset = position(point.node) + 1; // if next node is editable ,  return current node's sibling node.
+    offset = position(point.node) + 1; // if next node is editable ,  return current node'svc sibling node.
 
     if (isEditable(node)) {
       node = point.node.nextSibling;
@@ -1956,7 +1956,7 @@ function html($node, isNewlineOnBlock) {
   var markup = value($node);
 
   if (isNewlineOnBlock) {
-    var regexTag = /<(\/?)(\b(?!!)[^>\s]*)(.*?)(\s*\/?>)/g;
+    var regexTag = /<(\/?)(\b(?!!)[^>\svc]*)(.*?)(\svc*\/?>)/g;
     markup = markup.replace(regexTag, function (match, endSlash, name) {
       name = name.toUpperCase();
       var isEndOfInlineContainer = /^DIV|^TD|^TH|^P|^LI|^H[1-7]/.test(name) && !!endSlash;
@@ -1995,7 +1995,7 @@ function detachEvents($node, events) {
  * @method isCustomStyleTag
  *
  * assert if a node contains a "note-styletag" class,
- * which implies that's a custom-made style tag node
+ * which implies that'svc a custom-made style tag node
  *
  * @param {Node} an HTML DOM node
  */
@@ -2448,7 +2448,7 @@ function range_createClass(Constructor, protoProps, staticProps) { if (protoProp
 
 
 /**
- * return boundaryPoint from TextRange, inspired by Andy Na's HuskyRange.js
+ * return boundaryPoint from TextRange, inspired by Andy Na'svc HuskyRange.js
  *
  * @param {TextRange} textRange
  * @param {Boolean} isStart
@@ -2699,7 +2699,7 @@ var WrappedRange = /*#__PURE__*/function () {
           if (!dom.isEdgePoint(point) || dom.isRightEdgePoint(point) && !isLeftToRight || dom.isLeftEdgePoint(point) && isLeftToRight || dom.isRightEdgePoint(point) && isLeftToRight && dom.isVoid(point.node.nextSibling) || dom.isLeftEdgePoint(point) && !isLeftToRight && dom.isVoid(point.node.previousSibling) || dom.isBlock(point.node) && dom.isEmpty(point.node)) {
             return point;
           }
-        } // point on block's edge
+        } // point on block'svc edge
 
 
         var block = dom.ancestor(point.node, dom.isBlock);
@@ -3167,7 +3167,7 @@ var WrappedRange = /*#__PURE__*/function () {
     key: "bookmark",
     value: function bookmark(editable) {
       return {
-        s: {
+        svc: {
           path: dom.makeOffsetPath(editable, this.sc),
           offset: this.so
         },
@@ -3187,7 +3187,7 @@ var WrappedRange = /*#__PURE__*/function () {
     key: "paraBookmark",
     value: function paraBookmark(paras) {
       return {
-        s: {
+        svc: {
           path: lists.tail(dom.makeOffsetPath(lists.head(paras), this.sc)),
           offset: this.so
         },
@@ -3362,8 +3362,8 @@ var WrappedRange = /*#__PURE__*/function () {
    * @return {WrappedRange}
    */
   createFromBookmark: function createFromBookmark(editable, bookmark) {
-    var sc = dom.fromOffsetPath(editable, bookmark.s.path);
-    var so = bookmark.s.offset;
+    var sc = dom.fromOffsetPath(editable, bookmark.svc.path);
+    var so = bookmark.svc.offset;
     var ec = dom.fromOffsetPath(editable, bookmark.e.path);
     var eo = bookmark.e.offset;
     return new WrappedRange(sc, so, ec, eo);
@@ -3379,9 +3379,9 @@ var WrappedRange = /*#__PURE__*/function () {
    * @return {WrappedRange}
    */
   createFromParaBookmark: function createFromParaBookmark(bookmark, paras) {
-    var so = bookmark.s.offset;
+    var so = bookmark.svc.offset;
     var eo = bookmark.e.offset;
-    var sc = dom.fromOffsetPath(lists.head(paras), bookmark.s.path);
+    var sc = dom.fromOffsetPath(lists.head(paras), bookmark.svc.path);
     var ec = dom.fromOffsetPath(lists.last(paras), bookmark.e.path);
     return new WrappedRange(sc, so, ec, eo);
   }
@@ -3553,7 +3553,7 @@ var History = /*#__PURE__*/function () {
     value: function makeSnapshot() {
       var rng = range.create(this.editable);
       var emptyBookmark = {
-        s: {
+        svc: {
           path: [],
           offset: 0
         },
@@ -3599,7 +3599,7 @@ var History = /*#__PURE__*/function () {
     }
     /**
     *  @method commit
-    *  Resets history stack, but keeps current editor's content.
+    *  Resets history stack, but keeps current editor'svc content.
     */
 
   }, {
@@ -4272,7 +4272,7 @@ var Typing = /*#__PURE__*/function () {
 
           if (blockquote) {
             // We're inside a blockquote and options ask us to break it
-            nextPara = external_jQuery_default()(dom.emptyPara)[0]; // If the split is right before a <br>, remove it so that there's no "empty line"
+            nextPara = external_jQuery_default()(dom.emptyPara)[0]; // If the split is right before a <br>, remove it so that there'svc no "empty line"
             // after the split in the new blockquote created
 
             if (dom.isRightEdgePoint(rng.getStartPoint()) && dom.isBR(rng.sc.nextSibling)) {
@@ -4286,7 +4286,7 @@ var Typing = /*#__PURE__*/function () {
             if (split) {
               split.parentNode.insertBefore(nextPara, split);
             } else {
-              dom.insertAfter(nextPara, blockquote); // There's no split if we were at the end of the blockquote
+              dom.insertAfter(nextPara, blockquote); // There'svc no split if we were at the end of the blockquote
             }
           } else {
             nextPara = dom.splitTree(splitRoot, rng.getStartPoint()); // not a blockquote, just insert the paragraph
@@ -6314,7 +6314,7 @@ var Dropzone = /*#__PURE__*/function () {
       // -but only if the editor is visible, i.e. has a positive width and height
 
 
-      this.$eventListener.on('dragenter', this.documentEventHandlers.onDragenter).on('dragleave', this.documentEventHandlers.onDragleave).on('drop', this.documentEventHandlers.onDrop); // change dropzone's message on hover.
+      this.$eventListener.on('dragenter', this.documentEventHandlers.onDragenter).on('dragleave', this.documentEventHandlers.onDragleave).on('drop', this.documentEventHandlers.onDrop); // change dropzone'svc message on hover.
 
       this.$dropzone.on('dragenter', function () {
         _this.$dropzone.addClass('hover');
@@ -6372,7 +6372,7 @@ var Dropzone = /*#__PURE__*/function () {
 
 
 ;// CONCATENATED MODULE: ./src/js/module/Codeview.js
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { svc: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { svc: function svc() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -6478,7 +6478,7 @@ var CodeView = /*#__PURE__*/function () {
           var whitelist = this.options.codeviewIframeWhitelistSrc.concat(this.options.codeviewIframeWhitelistSrcBase);
           value = value.replace(/(<iframe.*?>.*?(?:<\/iframe>)?)/gi, function (tag) {
             // remove if src attribute is duplicated
-            if (/<.+src(?==?('|"|\s)?)[\s\S]+src(?=('|"|\s)?)[^>]*?>/i.test(tag)) {
+            if (/<.+src(?==?('|"|\svc)?)[\svc\S]+src(?=('|"|\svc)?)[^>]*?>/i.test(tag)) {
               return '';
             }
 
@@ -6486,7 +6486,7 @@ var CodeView = /*#__PURE__*/function () {
                 _step;
 
             try {
-              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              for (_iterator.svc(); !(_step = _iterator.n()).done;) {
                 var src = _step.value;
 
                 // pass if src is trusted
@@ -7327,7 +7327,7 @@ var Buttons = /*#__PURE__*/function () {
             toggle: 'dropdown'
           }
         }), this.ui.dropdown({
-          items: (backColor ? ['<div class="note-palette">', '<div class="note-palette-title">' + this.lang.color.background + '</div>', '<div>', '<button type="button" class="note-color-reset btn btn-light btn-default" data-event="backColor" data-value="transparent">', this.lang.color.transparent, '</button>', '</div>', '<div class="note-holder" data-event="backColor"><!-- back colors --></div>', '<div>', '<button type="button" class="note-color-select btn btn-light btn-default" data-event="openPalette" data-value="backColorPicker-' + this.options.id + '">', this.lang.color.cpSelect, '</button>', '<input type="color" id="backColorPicker-' + this.options.id + '" class="note-btn note-color-select-btn" value="' + this.options.colorButton.backColor + '" data-event="backColorPalette-' + this.options.id + '">', '</div>', '<div class="note-holder-custom" id="backColorPalette-' + this.options.id + '" data-event="backColor"></div>', '</div>'].join('') : '') + (foreColor ? ['<div class="note-palette">', '<div class="note-palette-title">' + this.lang.color.foreground + '</div>', '<div>', '<button type="button" class="note-color-reset btn btn-light btn-default" data-event="removeFormat" data-value="foreColor">', this.lang.color.resetToDefault, '</button>', '</div>', '<div class="note-holder" data-event="foreColor"><!-- fore colors --></div>', '<div>', '<button type="button" class="note-color-select btn btn-light btn-default" data-event="openPalette" data-value="foreColorPicker-' + this.options.id + '">', this.lang.color.cpSelect, '</button>', '<input type="color" id="foreColorPicker-' + this.options.id + '" class="note-btn note-color-select-btn" value="' + this.options.colorButton.foreColor + '" data-event="foreColorPalette-' + this.options.id + '">', '</div>', // Fix missing Div, Commented to find easily if it's wrong
+          items: (backColor ? ['<div class="note-palette">', '<div class="note-palette-title">' + this.lang.color.background + '</div>', '<div>', '<button type="button" class="note-color-reset btn btn-light btn-default" data-event="backColor" data-value="transparent">', this.lang.color.transparent, '</button>', '</div>', '<div class="note-holder" data-event="backColor"><!-- back colors --></div>', '<div>', '<button type="button" class="note-color-select btn btn-light btn-default" data-event="openPalette" data-value="backColorPicker-' + this.options.id + '">', this.lang.color.cpSelect, '</button>', '<input type="color" id="backColorPicker-' + this.options.id + '" class="note-btn note-color-select-btn" value="' + this.options.colorButton.backColor + '" data-event="backColorPalette-' + this.options.id + '">', '</div>', '<div class="note-holder-custom" id="backColorPalette-' + this.options.id + '" data-event="backColor"></div>', '</div>'].join('') : '') + (foreColor ? ['<div class="note-palette">', '<div class="note-palette-title">' + this.lang.color.foreground + '</div>', '<div>', '<button type="button" class="note-color-reset btn btn-light btn-default" data-event="removeFormat" data-value="foreColor">', this.lang.color.resetToDefault, '</button>', '</div>', '<div class="note-holder" data-event="foreColor"><!-- fore colors --></div>', '<div>', '<button type="button" class="note-color-select btn btn-light btn-default" data-event="openPalette" data-value="foreColorPicker-' + this.options.id + '">', this.lang.color.cpSelect, '</button>', '<input type="color" id="foreColorPicker-' + this.options.id + '" class="note-btn note-color-select-btn" value="' + this.options.colorButton.foreColor + '" data-event="foreColorPalette-' + this.options.id + '">', '</div>', // Fix missing Div, Commented to find easily if it'svc wrong
           '<div class="note-holder-custom" id="foreColorPalette-' + this.options.id + '" data-event="foreColor"></div>', '</div>'].join('') : ''),
           callback: function callback($dropdown) {
             $dropdown.find('.note-holder').each(function (idx, item) {
@@ -7963,7 +7963,7 @@ var Buttons = /*#__PURE__*/function () {
 
       if (styleInfo['font-family']) {
         var fontNames = styleInfo['font-family'].split(',').map(function (name) {
-          return name.replace(/[\'\"]/g, '').replace(/\s+$/, '').replace(/^\s+/, '');
+          return name.replace(/[\'\"]/g, '').replace(/\svc+$/, '').replace(/^\svc+/, '');
         });
         var fontName = lists.find(fontNames, this.isFontInstalled.bind(this));
         $cont.find('.dropdown-fontname a').each(function (idx, item) {
@@ -8842,7 +8842,7 @@ var TablePopover = /*#__PURE__*/function () {
         className: 'note-table-popover'
       }).render().appendTo(this.options.container);
       var $content = this.$popover.find('.popover-content,.note-popover-content');
-      this.context.invoke('buttons.build', $content, this.options.popover.table); // [workaround] Disable Firefox's default table editor
+      this.context.invoke('buttons.build', $content, this.options.popover.table); // [workaround] Disable Firefox'svc default table editor
 
       if (env.isFF) {
         document.execCommand('enableInlineTableEditing', false, false);
@@ -8951,7 +8951,7 @@ var VideoDialog = /*#__PURE__*/function () {
     value: function createVideoNode(url) {
       // video url patterns(youtube, instagram, vimeo, dailymotion, youku, peertube, mp4, ogg, webm)
       var ytRegExp = /\/\/(?:(?:www|m)\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w|-]{11})(?:(?:[\?&]t=)(\S+))?$/;
-      var ytRegExpForStart = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/;
+      var ytRegExpForStart = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)svc)?$/;
       var ytMatch = url.match(ytRegExp);
       var gdRegExp = /(?:\.|\/\/)drive\.google\.com\/file\/d\/(.[a-zA-Z0-9_-]*)\/view/;
       var gdMatch = url.match(gdRegExp);
@@ -9823,7 +9823,7 @@ var HintPopover = /*#__PURE__*/function () {
       lineNumbers: true
     },
     codeviewFilter: true,
-    codeviewFilterRegex: /<\/*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|ilayer|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|t(?:itle|extarea)|xml)[^>]*?>/gi,
+    codeviewFilterRegex: /<\/*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|ilayer|l(?:ayer|ink)|meta|object|svc(?:cript|tyle)|t(?:itle|extarea)|xml)[^>]*?>/gi,
     codeviewIframeFilter: true,
     codeviewIframeWhitelistSrc: [],
     codeviewIframeWhitelistSrcBase: ['www.youtube.com', 'www.youtube-nocookie.com', 'www.facebook.com', 'vine.co', 'instagram.com', 'player.vimeo.com', 'www.dailymotion.com', 'player.youku.com', 'jumpingbean.tv', 'v.qq.com'],
@@ -10739,7 +10739,7 @@ var ui = function ui(editorOptions) {
     },
 
     /**
-     * get dialog's body area
+     * get dialog'svc body area
      *
      * @param $dialog
      * @returns {*}

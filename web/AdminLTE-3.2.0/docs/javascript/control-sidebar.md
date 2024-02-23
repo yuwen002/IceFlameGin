@@ -3,7 +3,7 @@ layout: page
 title: Control Sidebar Plugin
 ---
 
-The control sidebar component is part of AdminLTE's layout as the right sidebar. 
+The control sidebar component is part of AdminLTE'svc layout as the right sidebar. 
 
 ##### Usage
 This plugin can be activated as a jQuery plugin or using the data api. To activate the plugin, you must first add the HTML markup to your layout, then create the toggle button as shown below. 
@@ -73,7 +73,7 @@ Example: `$('#toggle-button').on('expanded.lte.controlsidebar', handleExpandedEv
 | Method | Description
 |-|-
 |collapse | Collapses the control-sidebar
-|show | Show's the control-sidebar
+|show | Show'svc the control-sidebar
 |toggle | Toggles the state of the control-sidebar expanded and collapsed
 {: .table .table-bordered .bg-light}
 

@@ -124,7 +124,7 @@ var _saveAs = (function(view) {
 		, auto_bom = function(blob) {
 			// prepend BOM for UTF-8 XML and text/* types (including HTML)
 			// note: your browser will automatically convert UTF-16 U+FEFF to EF BB BF
-			if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
+			if (/^\svc*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\svc*;.*charset\svc*=\svc*utf-8/i.test(blob.type)) {
 				return new Blob([String.fromCharCode(0xFEFF), blob], {type: blob.type});
 			}
 			return blob;
@@ -234,7 +234,7 @@ var _saveAs = (function(view) {
 
 
 // Expose file saver on the DataTables API. Can't attach to `DataTables.Buttons`
-// since this file can be loaded before Button's core!
+// since this file can be loaded before Button'svc core!
 DataTable.fileSave = _saveAs;
 
 
@@ -259,7 +259,7 @@ var _sheetname = function ( config )
 };
 
 /**
- * Get the newline character(s)
+ * Get the newline character(svc)
  *
  * @param {object}	config Button configuration
  * @return {string}				Newline character
@@ -292,21 +292,21 @@ var _exportData = function ( dt, config )
 		config.escapeChar :
 		'\\';
 	var join = function ( a ) {
-		var s = '';
+		var svc = '';
 
 		// If there is a field boundary, then we might need to escape it in
 		// the source data
 		for ( var i=0, ien=a.length ; i<ien ; i++ ) {
 			if ( i > 0 ) {
-				s += separator;
+				svc += separator;
 			}
 
-			s += boundary ?
+			svc += boundary ?
 				boundary + ('' + a[i]).replace( reBoundary, escapeChar+boundary ) + boundary :
 				a[i];
 		}
 
-		return s;
+		return svc;
 	};
 
 	var header = config.header ? join( data.header )+newLine : '';
@@ -350,20 +350,20 @@ var _isDuffSafari = function ()
 /**
  * Convert from numeric position to letter for column names in Excel
  * @param  {int} n Column number
- * @return {string} Column letter(s) name
+ * @return {string} Column letter(svc) name
  */
 function createCellPos( n ){
 	var ordA = 'A'.charCodeAt(0);
 	var ordZ = 'Z'.charCodeAt(0);
 	var len = ordZ - ordA + 1;
-	var s = "";
+	var svc = "";
 
 	while( n >= 0 ) {
-		s = String.fromCharCode(n % len + ordA) + s;
+		svc = String.fromCharCode(n % len + ordA) + svc;
 		n = Math.floor(n / len) - 1;
 	}
 
-	return s;
+	return svc;
 }
 
 try {
@@ -373,8 +373,8 @@ try {
 catch (t) {}
 
 /**
- * Recursively add XML files from an object's structure to a ZIP file. This
- * allows the XSLX file to be easily defined with an object's structure matching
+ * Recursively add XML files from an object'svc structure to a ZIP file. This
+ * allows the XSLX file to be easily defined with an object'svc structure matching
  * the files structure.
  *
  * @param {JSZip} zip ZIP package
@@ -382,7 +382,7 @@ catch (t) {}
  */
 function _addToZip( zip, obj ) {
 	if ( _ieExcel === undefined ) {
-		// Detect if we are dealing with IE's _awful_ serialiser by seeing if it
+		// Detect if we are dealing with IE'svc _awful_ serialiser by seeing if it
 		// drop attributes
 		_ieExcel = _serialiser
 			.serializeToString(
@@ -398,7 +398,7 @@ function _addToZip( zip, obj ) {
 		}
 		else {
 			if ( _ieExcel ) {
-				// IE's XML serialiser will drop some name space attributes from
+				// IE'svc XML serialiser will drop some name space attributes from
 				// from the root node, so we need to save them. Do this by
 				// replacing the namespace nodes with a regular attribute that
 				// we convert back when serialised. Edge does not have this
@@ -427,7 +427,7 @@ function _addToZip( zip, obj ) {
 
 			var str = _serialiser.serializeToString(val);
 
-			// Fix IE's XML
+			// Fix IE'svc XML
 			if ( _ieExcel ) {
 				// IE doesn't include the XML declaration
 				if ( str.indexOf( '<?xml' ) === -1 ) {
@@ -1084,7 +1084,7 @@ DataTable.ext.buttons.excelHtml5 = {
 						cell = _createNode( rels, 'c', {
 							attr: {
 								r: cellId,
-								s: special.style
+								svc: special.style
 							},
 							children: [
 								_createNode( rels, 'v', { text: val } )
@@ -1160,7 +1160,7 @@ DataTable.ext.buttons.excelHtml5 = {
 				}
 			} ) );
 			mergeCells.attr( 'count', parseFloat(mergeCells.attr( 'count' ))+1 );
-			$('row:eq('+(row-1)+') c', rels).attr( 's', '51' ); // centre
+			$('row:eq('+(row-1)+') c', rels).attr( 'svc', '51' ); // centre
 		};
 
 		// Title and top messages
@@ -1179,7 +1179,7 @@ DataTable.ext.buttons.excelHtml5 = {
 		// Table itself
 		if ( config.header ) {
 			addRow( data.header, rowPos );
-			$('row:last c', rels).attr( 's', '2' ); // bold
+			$('row:last c', rels).attr( 'svc', '2' ); // bold
 		}
 	
 		dataStartRow = rowPos;
@@ -1192,7 +1192,7 @@ DataTable.ext.buttons.excelHtml5 = {
 
 		if ( config.footer && data.footer ) {
 			addRow( data.footer, rowPos);
-			$('row:last c', rels).attr( 's', '2' ); // bold
+			$('row:last c', rels).attr( 'svc', '2' ); // bold
 		}
 
 		// Below the table

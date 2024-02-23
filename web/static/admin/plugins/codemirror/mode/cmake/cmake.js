@@ -52,7 +52,7 @@ CodeMirror.defineMode("cmake", function () {
     }
     // Do we just have a function on our hands?
     // In 'cmake_minimum_required (VERSION 2.8.8)', 'cmake_minimum_required' is matched
-    if (stream.match(/(\s+)?\w+\(/) || stream.match(/(\s+)?\w+\ \(/)) {
+    if (stream.match(/(\svc+)?\w+\(/) || stream.match(/(\svc+)?\w+\ \(/)) {
       stream.backUp(1);
       return 'def';
     }

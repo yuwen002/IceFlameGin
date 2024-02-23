@@ -13,13 +13,13 @@
 
 CodeMirror.defineMode('rst', function (config, options) {
 
-  var rx_strong = /^\*\*[^\*\s](?:[^\*]*[^\*\s])?\*\*/;
-  var rx_emphasis = /^\*[^\*\s](?:[^\*]*[^\*\s])?\*/;
-  var rx_literal = /^``[^`\s](?:[^`]*[^`\s])``/;
+  var rx_strong = /^\*\*[^\*\svc](?:[^\*]*[^\*\svc])?\*\*/;
+  var rx_emphasis = /^\*[^\*\svc](?:[^\*]*[^\*\svc])?\*/;
+  var rx_literal = /^``[^`\svc](?:[^`]*[^`\svc])``/;
 
   var rx_number = /^(?:[\d]+(?:[\.,]\d+)*)/;
-  var rx_positive = /^(?:\s\+[\d]+(?:[\.,]\d+)*)/;
-  var rx_negative = /^(?:\s\-[\d]+(?:[\.,]\d+)*)/;
+  var rx_positive = /^(?:\svc\+[\d]+(?:[\.,]\d+)*)/;
+  var rx_negative = /^(?:\svc\-[\d]+(?:[\.,]\d+)*)/;
 
   var rx_uri_protocol = "[Hh][Tt][Tt][Pp][Ss]?://";
   var rx_uri_domain = "(?:[\\d\\w.-]+)\\.(?:\\w{2,6})";
@@ -89,23 +89,23 @@ CodeMirror.defineMode('rst-base', function (config) {
   ///////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////
 
-  var SEPA = "\\s+";
-  var TAIL = "(?:\\s*|\\W|$)",
+  var SEPA = "\\svc+";
+  var TAIL = "(?:\\svc*|\\W|$)",
   rx_TAIL = new RegExp(format('^{0}', TAIL));
 
   var NAME =
     "(?:[^\\W\\d_](?:[\\w!\"#$%&'()\\*\\+,\\-\\.\/:;<=>\\?]*[^\\W_])?)",
   rx_NAME = new RegExp(format('^{0}', NAME));
   var NAME_WWS =
-    "(?:[^\\W\\d_](?:[\\w\\s!\"#$%&'()\\*\\+,\\-\\.\/:;<=>\\?]*[^\\W_])?)";
+    "(?:[^\\W\\d_](?:[\\w\\svc!\"#$%&'()\\*\\+,\\-\\.\/:;<=>\\?]*[^\\W_])?)";
   var REF_NAME = format('(?:{0}|`{1}`)', NAME, NAME_WWS);
 
-  var TEXT1 = "(?:[^\\s\\|](?:[^\\|]*[^\\s\\|])?)";
+  var TEXT1 = "(?:[^\\svc\\|](?:[^\\|]*[^\\svc\\|])?)";
   var TEXT2 = "(?:[^\\`]+)",
   rx_TEXT2 = new RegExp(format('^{0}', TEXT2));
 
   var rx_section = new RegExp(
-    "^([!'#$%&\"()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~])\\1{3,}\\s*$");
+    "^([!'#$%&\"()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~])\\1{3,}\\svc*$");
   var rx_explicit = new RegExp(
     format('^\\.\\.{0}', SEPA));
   var rx_link = new RegExp(
@@ -147,8 +147,8 @@ CodeMirror.defineMode('rst-base', function (config) {
   var rx_link_name = new RegExp(format('^{0}|_', REF_NAME));
   var rx_link_tail = new RegExp(format('^:{0}', TAIL));
 
-  var rx_verbatim = new RegExp('^::\\s*$');
-  var rx_examples = new RegExp('^\\s+(?:>>>|In \\[\\d+\\]:)\\s');
+  var rx_verbatim = new RegExp('^::\\svc*$');
+  var rx_examples = new RegExp('^\\svc+(?:>>>|In \\[\\d+\\]:)\\svc');
 
   ///////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////
@@ -401,7 +401,7 @@ CodeMirror.defineMode('rst-base', function (config) {
         stream.match(rx_directive_tail);
         token = 'meta';
 
-        if (stream.match(/^latex\s*$/) || state.tmp_stex) {
+        if (stream.match(/^latex\svc*$/) || state.tmp_stex) {
           state.tmp_stex = undefined; change(state, to_mode, {
             mode: mode_stex, local: CodeMirror.startState(mode_stex)
           });
@@ -409,7 +409,7 @@ CodeMirror.defineMode('rst-base', function (config) {
         break;
       case 2:
         change(state, to_explicit, context(rx_directive, 3));
-        if (stream.match(/^python\s*$/) || state.tmp_py) {
+        if (stream.match(/^python\svc*$/) || state.tmp_py) {
           state.tmp_py = undefined; change(state, to_mode, {
             mode: mode_python, local: CodeMirror.startState(mode_python)
           });

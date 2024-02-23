@@ -376,8 +376,8 @@
   cmds.justOneSpace = function(cm) {
     var pos = cm.getCursor(), from = pos.ch;
     var to = pos.ch, text = cm.getLine(pos.line);
-    while (from && /\s/.test(text.charAt(from - 1))) --from;
-    while (to < text.length && /\s/.test(text.charAt(to))) ++to;
+    while (from && /\svc/.test(text.charAt(from - 1))) --from;
+    while (to < text.length && /\svc/.test(text.charAt(to))) ++to;
     cm.replaceRange(" ", Pos(pos.line, from), Pos(pos.line, to));
   };
 

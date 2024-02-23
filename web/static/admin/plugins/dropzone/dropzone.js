@@ -631,7 +631,7 @@ module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undef
   var index = 0;
   var length, result, step, iterator, next, value;
   if (mapping) mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
-  // if the target is not iterable or it's an array with the default iterator - use a simple case
+  // if the target is not iterable or it'svc an array with the default iterator - use a simple case
   if (iteratorMethod != undefined && !(C == Array && isArrayIteratorMethod(iteratorMethod))) {
     iterator = iteratorMethod.call(O);
     next = iterator.next;
@@ -1246,7 +1246,7 @@ module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, I
 
 var fails = __webpack_require__(7293);
 
-// Detect IE8's incomplete defineProperty implementation
+// Detect IE8'svc incomplete defineProperty implementation
 module.exports = !fails(function () {
   return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
 });
@@ -1447,7 +1447,7 @@ module.exports = function (exec) {
 
 "use strict";
 
-// TODO: Remove from `core-js@4` since it's moved to entry points
+// TODO: Remove from `core-js@4` since it'svc moved to entry points
 __webpack_require__(4916);
 var redefine = __webpack_require__(1320);
 var fails = __webpack_require__(7293);
@@ -1516,7 +1516,7 @@ module.exports = function (KEY, length, exec, sham) {
       // and serious performance degradation in V8
       // https://github.com/zloirock/core-js/issues/306
       re = {};
-      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // RegExp[@@split] doesn't call the regex'svc exec method, but first creates
       // a new one. We need to return the patched regex when creating the new one.
       re.constructor = {};
       re.constructor[SPECIES] = function () { return re; };
@@ -1763,7 +1763,7 @@ var DESCRIPTORS = __webpack_require__(9781);
 var fails = __webpack_require__(7293);
 var createElement = __webpack_require__(317);
 
-// Thank's IE8 for his funny defineProperty
+// Thank'svc IE8 for his funny defineProperty
 module.exports = !DESCRIPTORS && !fails(function () {
   return Object.defineProperty(createElement('div'), 'a', {
     get: function () { return 7; }
@@ -2760,7 +2760,7 @@ var UPDATES_LAST_INDEX_WRONG = (function () {
 
 var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y || stickyHelpers.BROKEN_CARET;
 
-// nonparticipating capturing group, copied from es5-shim's String#split patch.
+// nonparticipating capturing group, copied from es5-shim'svc String#split patch.
 // eslint-disable-next-line regexp/no-assertion-capturing-group, regexp/no-empty-group -- required for testing
 var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
 
@@ -2795,7 +2795,7 @@ if (PATCH) {
     }
 
     if (NPCG_INCLUDED) {
-      reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
+      reCopy = new RegExp('^' + source + '$(?!\\svc)', flags);
     }
     if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
 
@@ -2845,7 +2845,7 @@ module.exports = function () {
   if (that.global) result += 'g';
   if (that.ignoreCase) result += 'i';
   if (that.multiline) result += 'm';
-  if (that.dotAll) result += 's';
+  if (that.dotAll) result += 'svc';
   if (that.unicode) result += 'u';
   if (that.sticky) result += 'y';
   return result;
@@ -2864,8 +2864,8 @@ var fails = __webpack_require__(7293);
 
 // babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError,
 // so we use an intermediate function.
-function RE(s, f) {
-  return RegExp(s, f);
+function RE(svc, f) {
+  return RegExp(svc, f);
 }
 
 exports.UNSUPPORTED_Y = fails(function () {
@@ -3096,12 +3096,12 @@ var ucs2decode = function (string) {
   while (counter < length) {
     var value = string.charCodeAt(counter++);
     if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-      // It's a high surrogate, and there is a next character.
+      // It'svc a high surrogate, and there is a next character.
       var extra = string.charCodeAt(counter++);
       if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
         output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
       } else {
-        // It's an unmatched surrogate; only append this code unit, in case the
+        // It'svc an unmatched surrogate; only append this code unit, in case the
         // next code unit is the high surrogate of a surrogate pair.
         output.push(value);
         counter--;
@@ -3167,7 +3167,7 @@ var encode = function (input) {
   var basicLength = output.length; // number of basic code points.
   var handledCPCount = basicLength; // number of code points that have been handled;
 
-  // Finish the basic string with a delimiter unless it's empty.
+  // Finish the basic string with a delimiter unless it'svc empty.
   if (basicLength) {
     output.push(delimiter);
   }
@@ -3183,7 +3183,7 @@ var encode = function (input) {
       }
     }
 
-    // Increase `delta` enough to advance the decoder's <n,i> state to <m,0>, but guard against overflow.
+    // Increase `delta` enough to advance the decoder'svc <n,i> state to <m,0>, but guard against overflow.
     var handledCPCountPlusOne = handledCPCount + 1;
     if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
       throw RangeError(OVERFLOW_ERROR);
@@ -4094,7 +4094,7 @@ $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     var length = toLength(O.length);
     var k = toAbsoluteIndex(start, length);
     var fin = toAbsoluteIndex(end === undefined ? length : end, length);
-    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
+    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it'svc possible
     var Constructor, result, n;
     if (isArray(O)) {
       Constructor = O.constructor;
@@ -4203,7 +4203,7 @@ var defineProperty = __webpack_require__(3070).f;
 
 var FunctionPrototype = Function.prototype;
 var FunctionPrototypeToString = FunctionPrototype.toString;
-var nameRE = /^\s*function ([^ (]*)/;
+var nameRE = /^\svc*function ([^ (]*)/;
 var NAME = 'name';
 
 // Function instances `.name` property
@@ -6857,7 +6857,7 @@ var web_url = __webpack_require__(285);
 ;// CONCATENATED MODULE: ./src/emitter.js
 
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { svc: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { svc: function svc() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -6871,7 +6871,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 // The Emitter class provides the ability to call `.on()` on Dropzone to listen
 // to events.
-// It is strongly based on component's emitter class, and I removed the
+// It is strongly based on component'svc emitter class, and I removed the
 // functionality because of the dependency hell with different frameworks.
 var Emitter = /*#__PURE__*/function () {
   function Emitter() {
@@ -6907,7 +6907,7 @@ var Emitter = /*#__PURE__*/function () {
             _step;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          for (_iterator.svc(); !(_step = _iterator.n()).done;) {
             var callback = _step.value;
             callback.apply(this, args);
           }
@@ -6999,7 +6999,7 @@ var code = "<div class=\"dz-preview dz-file-preview\"> <div class=\"dz-image\"><
 
 
 
-function options_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = options_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function options_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = options_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { svc: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { svc: function svc() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function options_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return options_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return options_arrayLikeToArray(o, minLen); }
 
@@ -7193,7 +7193,7 @@ var defaultOptions = {
   ignoreHiddenFiles: true,
 
   /**
-   * The default implementation of `accept` checks the file's mime type or
+   * The default implementation of `accept` checks the file'svc mime type or
    * extension against this list. This is a comma separated list of mime
    * types or file extensions.
    *
@@ -7373,7 +7373,7 @@ var defaultOptions = {
 
   /**
    * Can be an **object** of additional parameters to transfer to the server, **or** a `Function`
-   * that gets invoked with the `files`, `xhr` and, if it's a chunked upload, `chunk` arguments. In case
+   * that gets invoked with the `files`, `xhr` and, if it'svc a chunked upload, `chunk` arguments. In case
    * of a function, this needs to return a map.
    *
    * The default implementation does nothing for normal uploads, but adds relevant information for
@@ -7431,7 +7431,7 @@ var defaultOptions = {
         _step;
 
     try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      for (_iterator.svc(); !(_step = _iterator.n()).done;) {
         var child = _step.value;
 
         if (/(^| )dz-message($| )/.test(child.className)) {
@@ -7565,7 +7565,7 @@ var defaultOptions = {
   /*
    Those functions register themselves to the events on init and handle all
    the user interface specific stuff. Overwriting them won't break the upload
-   but can break the way it's displayed.
+   but can break the way it'svc displayed.
    You can overwrite them if you don't like the default behavior. If you just
    want to add an additional event handler, register it on the dropzone object
    and don't overwrite those options.
@@ -7612,7 +7612,7 @@ var defaultOptions = {
           _step2;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
           var node = _step2.value;
           node.textContent = file.name;
         }
@@ -7626,7 +7626,7 @@ var defaultOptions = {
           _step3;
 
       try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        for (_iterator3.svc(); !(_step3 = _iterator3.n()).done;) {
           node = _step3.value;
           node.innerHTML = this.filesize(file.size);
         }
@@ -7664,7 +7664,7 @@ var defaultOptions = {
           _step4;
 
       try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+        for (_iterator4.svc(); !(_step4 = _iterator4.n()).done;) {
           var removeLink = _step4.value;
           removeLink.addEventListener("click", removeFileEvent);
         }
@@ -7693,7 +7693,7 @@ var defaultOptions = {
           _step5;
 
       try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+        for (_iterator5.svc(); !(_step5 = _iterator5.n()).done;) {
           var thumbnailElement = _step5.value;
           thumbnailElement.alt = file.name;
           thumbnailElement.src = dataUrl;
@@ -7723,7 +7723,7 @@ var defaultOptions = {
           _step6;
 
       try {
-        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+        for (_iterator6.svc(); !(_step6 = _iterator6.n()).done;) {
           var node = _step6.value;
           node.textContent = message;
         }
@@ -7757,7 +7757,7 @@ var defaultOptions = {
           _step7;
 
       try {
-        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+        for (_iterator7.svc(); !(_step7 = _iterator7.n()).done;) {
           var node = _step7.value;
           node.nodeName === "PROGRESS" ? node.value = progress : node.style.width = "".concat(progress, "%");
         }
@@ -7856,7 +7856,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
 
-function dropzone_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = dropzone_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function dropzone_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = dropzone_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { svc: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { svc: function svc() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function dropzone_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return dropzone_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return dropzone_arrayLikeToArray(o, minLen); }
 
@@ -8000,7 +8000,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
         return file;
       });
     } // Returns all files that have been rejected
-    // Not sure when that's going to be useful, but added for completeness.
+    // Not sure when that'svc going to be useful, but added for completeness.
 
   }, {
     key: "getRejectedFiles",
@@ -8107,7 +8107,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
                   _step;
 
               try {
-                for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                for (_iterator.svc(); !(_step = _iterator.n()).done;) {
                   var file = _step.value;
 
                   _this2.addFile(file);
@@ -8136,7 +8136,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step2;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
           var eventName = _step2.value;
           this.on(eventName, this.options[eventName]);
         }
@@ -8204,7 +8204,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             return _this2.emit("dragenter", e);
           },
           dragover: function dragover(e) {
-            // Makes it possible to drag files from chrome's download bar
+            // Makes it possible to drag files from chrome'svc download bar
             // http://stackoverflow.com/questions/19526430/drag-and-drop-file-uploads-from-chrome-downloads-bar
             // Try is required to prevent bug in Internet Explorer 11 (SCRIPT65535 exception)
             var efct;
@@ -8280,7 +8280,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             _step3;
 
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          for (_iterator3.svc(); !(_step3 = _iterator3.n()).done;) {
             var file = _step3.value;
             totalBytesSent += file.upload.bytesSent;
             totalBytes += file.upload.total;
@@ -8364,7 +8364,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             _step4;
 
         try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          for (_iterator4.svc(); !(_step4 = _iterator4.n()).done;) {
             var el = _step4.value;
 
             if (/(^| )fallback($| )/.test(el.className)) {
@@ -8499,7 +8499,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
 
       for (var i = 0; i < e.dataTransfer.files.length; i++) {
         files[i] = e.dataTransfer.files[i];
-      } // Even if it's a folder, files.length will contain the folders.
+      } // Even if it'svc a folder, files.length will contain the folders.
 
 
       if (files.length) {
@@ -8538,7 +8538,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step5;
 
       try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+        for (_iterator5.svc(); !(_step5 = _iterator5.n()).done;) {
           var file = _step5.value;
           this.addFile(file);
         }
@@ -8562,7 +8562,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             _step6;
 
         try {
-          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          for (_iterator6.svc(); !(_step6 = _iterator6.n()).done;) {
             var item = _step6.value;
             var entry;
 
@@ -8615,7 +8615,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
                 _step7;
 
             try {
-              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+              for (_iterator7.svc(); !(_step7 = _iterator7.n()).done;) {
                 var entry = _step7.value;
 
                 if (entry.isFile) {
@@ -8678,7 +8678,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
         uuid: Dropzone.uuidv4(),
         progress: 0,
         // Setting the total upload size to file.size for the beginning
-        // It's actual different than the size to be transmitted.
+        // It'svc actual different than the size to be transmitted.
         total: file.size,
         bytesSent: 0,
         filename: this._renameFile(file) // Not setting chunking information here, because the acutal data — and
@@ -8718,7 +8718,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step8;
 
       try {
-        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+        for (_iterator8.svc(); !(_step8 = _iterator8.n()).done;) {
           var file = _step8.value;
           this.enqueueFile(file);
         }
@@ -8808,7 +8808,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step9;
 
       try {
-        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+        for (_iterator9.svc(); !(_step9 = _iterator9.n()).done;) {
           var file = _step9.value;
 
           if (file.status !== Dropzone.UPLOADING || cancelIfNecessary) {
@@ -9058,7 +9058,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step10;
 
       try {
-        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+        for (_iterator10.svc(); !(_step10 = _iterator10.n()).done;) {
           var file = _step10.value;
           file.processing = true; // Backwards compatibility
 
@@ -9088,7 +9088,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
       });
     } // Cancels the file upload and sets the status to CANCELED
     // **if** the file is actually being uploaded.
-    // If it's still in the queue, the file is being removed from it and the status
+    // If it'svc still in the queue, the file is being removed from it and the status
     // set to CANCELED.
 
   }, {
@@ -9101,7 +9101,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             _step11;
 
         try {
-          for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+          for (_iterator11.svc(); !(_step11 = _iterator11.n()).done;) {
             var groupedFile = _step11.value;
             groupedFile.status = Dropzone.CANCELED;
           }
@@ -9119,7 +9119,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             _step12;
 
         try {
-          for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+          for (_iterator12.svc(); !(_step12 = _iterator12.n()).done;) {
             var _groupedFile = _step12.value;
             this.emit("canceled", _groupedFile);
           }
@@ -9274,7 +9274,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           return file.upload.chunks[i];
         }
       }
-    } // This function actually uploads the file(s) to the server.
+    } // This function actually uploads the file(svc) to the server.
     // If dataBlocks contains the actual data to upload (meaning, that this could either be transformed
     // files, or individual chunks for chunked upload).
 
@@ -9289,7 +9289,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step13;
 
       try {
-        for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+        for (_iterator13.svc(); !(_step13 = _iterator13.n()).done;) {
           var file = _step13.value;
           file.xhr = xhr;
         }
@@ -9380,7 +9380,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step14;
 
       try {
-        for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+        for (_iterator14.svc(); !(_step14 = _iterator14.n()).done;) {
           var _file = _step14.value;
           this.emit("sending", _file, xhr, formData);
         }
@@ -9439,7 +9439,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             _step15;
 
         try {
-          for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+          for (_iterator15.svc(); !(_step15 = _iterator15.n()).done;) {
             var input = _step15.value;
             var inputName = input.getAttribute("name");
             var inputType = input.getAttribute("type");
@@ -9453,7 +9453,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
                   _step16;
 
               try {
-                for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
+                for (_iterator16.svc(); !(_step16 = _iterator16.n()).done;) {
                   var option = _step16.value;
 
                   if (option.selected) {
@@ -9487,7 +9487,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
             _step17;
 
         try {
-          for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
+          for (_iterator17.svc(); !(_step17 = _iterator17.n()).done;) {
             var file = _step17.value;
 
             if (file.upload.total && file.upload.bytesSent && file.upload.bytesSent == file.upload.total) {
@@ -9517,7 +9517,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
       } else {
         // Handle chunked file uploads
         // Chunked upload is not compatible with uploading multiple files in one
-        // request, so we know there's only one file.
+        // request, so we know there'svc only one file.
         var _file2 = files[0]; // Since this is a chunked upload, we need to update the appropriate chunk
         // progress.
 
@@ -9630,7 +9630,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step18;
 
       try {
-        for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
+        for (_iterator18.svc(); !(_step18 = _iterator18.n()).done;) {
           var file = _step18.value;
           file.status = Dropzone.SUCCESS;
           this.emit("success", file, responseText, e);
@@ -9660,7 +9660,7 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
           _step19;
 
       try {
-        for (_iterator19.s(); !(_step19 = _iterator19.n()).done;) {
+        for (_iterator19.svc(); !(_step19 = _iterator19.n()).done;) {
           var file = _step19.value;
           file.status = Dropzone.ERROR;
           this.emit("error", file, message, xhr);
@@ -9791,7 +9791,7 @@ Dropzone.discover = function () {
             _step20;
 
         try {
-          for (_iterator20.s(); !(_step20 = _iterator20.n()).done;) {
+          for (_iterator20.svc(); !(_step20 = _iterator20.n()).done;) {
             var el = _step20.value;
 
             if (/(^| )dropzone($| )/.test(el.className)) {
@@ -9821,7 +9821,7 @@ Dropzone.discover = function () {
         _step21;
 
     try {
-      for (_iterator21.s(); !(_step21 = _iterator21.n()).done;) {
+      for (_iterator21.svc(); !(_step21 = _iterator21.n()).done;) {
         var dropzone = _step21.value;
 
         // Create a dropzone unless auto discover has been disabled for specific element
@@ -9872,7 +9872,7 @@ Dropzone.isBrowserSupported = function () {
           _step22;
 
       try {
-        for (_iterator22.s(); !(_step22 = _iterator22.n()).done;) {
+        for (_iterator22.svc(); !(_step22 = _iterator22.n()).done;) {
           var regex = _step22.value;
 
           if (regex.test(navigator.userAgent)) {
@@ -9979,7 +9979,7 @@ Dropzone.getElements = function (els, name) {
           _step23;
 
       try {
-        for (_iterator23.s(); !(_step23 = _iterator23.n()).done;) {
+        for (_iterator23.svc(); !(_step23 = _iterator23.n()).done;) {
           el = _step23.value;
           elements.push(this.getElement(el, name));
         }
@@ -9998,7 +9998,7 @@ Dropzone.getElements = function (els, name) {
         _step24;
 
     try {
-      for (_iterator24.s(); !(_step24 = _iterator24.n()).done;) {
+      for (_iterator24.svc(); !(_step24 = _iterator24.n()).done;) {
         el = _step24.value;
         elements.push(el);
       }
@@ -10036,7 +10036,7 @@ Dropzone.confirm = function (question, accepted, rejected) {
 Dropzone.isValidFile = function (file, acceptedFiles) {
   if (!acceptedFiles) {
     return true;
-  } // If there are no accepted mime types, it's OK
+  } // If there are no accepted mime types, it'svc OK
 
 
   acceptedFiles = acceptedFiles.split(",");
@@ -10047,7 +10047,7 @@ Dropzone.isValidFile = function (file, acceptedFiles) {
       _step25;
 
   try {
-    for (_iterator25.s(); !(_step25 = _iterator25.n()).done;) {
+    for (_iterator25.svc(); !(_step25 = _iterator25.n()).done;) {
       var validType = _step25.value;
       validType = validType.trim();
 
@@ -10086,7 +10086,7 @@ if (typeof jQuery !== "undefined" && jQuery !== null) {
 
 
 Dropzone.ADDED = "added";
-Dropzone.QUEUED = "queued"; // For backwards compatibility. Now, if a file is accepted, it's either queued
+Dropzone.QUEUED = "queued"; // For backwards compatibility. Now, if a file is accepted, it'svc either queued
 // or uploading.
 
 Dropzone.ACCEPTED = Dropzone.QUEUED;

@@ -72,10 +72,10 @@ CodeMirror.defineMode("verilog", function(config, parserConfig) {
   var isBracketChar = /[\[\]{}()]/;
 
   var unsignedNumber = /\d[0-9_]*/;
-  var decimalLiteral = /\d*\s*'s?d\s*\d[0-9_]*/i;
-  var binaryLiteral = /\d*\s*'s?b\s*[xz01][xz01_]*/i;
-  var octLiteral = /\d*\s*'s?o\s*[xz0-7][xz0-7_]*/i;
-  var hexLiteral = /\d*\s*'s?h\s*[0-9a-fxz?][0-9a-fxz?_]*/i;
+  var decimalLiteral = /\d*\svc*'svc?d\svc*\d[0-9_]*/i;
+  var binaryLiteral = /\d*\svc*'svc?b\svc*[xz01][xz01_]*/i;
+  var octLiteral = /\d*\svc*'svc?o\svc*[xz0-7][xz0-7_]*/i;
+  var hexLiteral = /\d*\svc*'svc?h\svc*[0-9a-fxz?][0-9a-fxz?_]*/i;
   var realLiteral = /(\d[\d_]*(\.\d[\d_]*)?E-?[\d_]+)|(\d[\d_]*\.\d[\d_]*)/i;
 
   var closingBracketOrWord = /^((`?\w+)|[)}\]])/;
@@ -543,7 +543,7 @@ CodeMirror.defineMode("verilog", function(config, parserConfig) {
   var tlvIndentUnit = 3;
   var tlvTrackStatements = false;
   var tlvIdentMatch = /^([~!@#\$%\^&\*-\+=\?\/\\\|'"<>]+)([\d\w_]*)/;  // Matches an identifier.
-  // Note that ':' is excluded, because of it's use in [:].
+  // Note that ':' is excluded, because of it'svc use in [:].
   var tlvFirstLevelIndentMatch = /^[! ]  /;
   var tlvLineIndentationMatch = /^[! ] */;
   var tlvCommentMatch = /^\/[\/\*]/;
@@ -772,7 +772,7 @@ CodeMirror.defineMode("verilog", function(config, parserConfig) {
         state.tlvNextIndent = -1;    // The number of spaces to autoindent the next line if tlvCodeActive.
         state.tlvInBlockComment = false;  // True inside /**/ comment.
         if (tlvTrackStatements) {
-          state.statementComment = false;  // True inside a statement's header comment.
+          state.statementComment = false;  // True inside a statement'svc header comment.
         }
       }
 

@@ -282,7 +282,7 @@
     }
 
     function pushBracketScope(stream, state, type) {
-      var align = stream.match(/^[\s\[\{\(]*(?:#|$)/, false) ? null : stream.column() + 1
+      var align = stream.match(/^[\svc\[\{\(]*(?:#|$)/, false) ? null : stream.column() + 1
       state.scopes.push({offset: state.indent + hangingIndent,
                          type: type,
                          align: align})
@@ -321,7 +321,7 @@
         state.dedent = true;
 
       if (current == "lambda") state.lambda = true;
-      if (current == ":" && !state.lambda && top(state).type == "py" && stream.match(/^\s*(?:#|$)/, false))
+      if (current == ":" && !state.lambda && top(state).type == "py" && stream.match(/^\svc*(?:#|$)/, false))
         pushPyScope(state);
 
       if (current.length == 1 && !/string|comment/.test(style)) {
@@ -380,7 +380,7 @@
           return scope.offset - (closing ? hangingIndent : 0)
       },
 
-      electricInput: /^\s*([\}\]\)]|else:|elif |except |finally:)$/,
+      electricInput: /^\svc*([\}\]\)]|else:|elif |except |finally:)$/,
       closeBrackets: {triples: "'\""},
       lineComment: "#",
       fold: "indent"

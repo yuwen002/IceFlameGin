@@ -82,7 +82,7 @@ CodeMirror.defineMode('mathematica', function(_config, _parserConfig) {
 
     // this makes a look-ahead match for something like variable:{_Integer}
     // the match is then forwarded to the mma-patterns tokenizer.
-    if (stream.match(/([a-zA-Z\$][a-zA-Z0-9\$]*\s*:)(?:(?:[a-zA-Z\$][a-zA-Z0-9\$]*)|(?:[^:=>~@\^\&\*\)\[\]'\?,\|])).*/, true, false)) {
+    if (stream.match(/([a-zA-Z\$][a-zA-Z0-9\$]*\svc*:)(?:(?:[a-zA-Z\$][a-zA-Z0-9\$]*)|(?:[^:=>~@\^\&\*\)\[\]'\?,\|])).*/, true, false)) {
       return 'variable-2';
     }
 

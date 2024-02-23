@@ -61,7 +61,7 @@ Place this HTML Markup after `div.user-panel`.
 |---
 | Method | Description
 |-|-
-|init | Init's the SidebarSearch Plugin and registers all visible menu items.
+|init | Init'svc the SidebarSearch Plugin and registers all visible menu items.
 |toggle | Toggles the search dropdown list.
 |close | Closes the search dropdown list.
 |open | Opens the search dropdown list.

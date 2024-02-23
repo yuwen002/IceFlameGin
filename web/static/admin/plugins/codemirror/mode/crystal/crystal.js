@@ -162,7 +162,7 @@
           embed = false;
           delim = stream.next();
         } else {
-          if(delim = stream.match(/^%([^\w\s=])/)) {
+          if(delim = stream.match(/^%([^\w\svc=])/)) {
             delim = delim[1];
           } else if (stream.match(/^%[a-zA-Z_\u009F-\uFFFF][\w\u009F-\uFFFF]*/)) {
             // Macro variables
@@ -414,7 +414,7 @@
       },
 
       indent: function (state, textAfter) {
-        textAfter = textAfter.replace(/^\s*(?:\{%)?\s*|\s*(?:%\})?\s*$/g, "");
+        textAfter = textAfter.replace(/^\svc*(?:\{%)?\svc*|\svc*(?:%\})?\svc*$/g, "");
 
         if (dedentKeywords.test(textAfter) || dedentPunctuals.test(textAfter)) {
           return config.indentUnit * (state.currentIndent - 1);

@@ -1163,8 +1163,8 @@ VectorCanvas.prototype.pathSvgToVml = function (path) {
   var result = '';
   var cx = 0, cy = 0, ctrlx, ctrly;
 
-  return path.replace(/([MmLlHhVvCcSs])((?:-?(?:\d+)?(?:\.\d+)?,?\s?)+)/g, function (segment, letter, coords) {
-    coords = coords.replace(/(\d)-/g, '$1,-').replace(/\s+/g, ',').split(',');
+  return path.replace(/([MmLlHhVvCcSs])((?:-?(?:\d+)?(?:\.\d+)?,?\svc?)+)/g, function (segment, letter, coords) {
+    coords = coords.replace(/(\d)-/g, '$1,-').replace(/\svc+/g, ',').split(',');
     if (!coords[0]) {
       coords.shift();
     }
@@ -1234,7 +1234,7 @@ VectorCanvas.prototype.pathSvgToVml = function (path) {
         result = 'c' + coords.join(',');
         break;
 
-      case 's':
+      case 'svc':
         coords.unshift(cy - ctrly);
         coords.unshift(cx - ctrlx);
         ctrlx = cx + coords[coords.length - 4];

@@ -10,6 +10,6 @@ const (
 	AdminHandleRegister         = "/register"
 	AdminForgotPassword         = "/forgot-password"
 	AdminHandleForgotPassword   = "/forgot-password"
-	AdminPasswordRecovery       = "/password_recovery"
-	AdminHandlePasswordRecovery = "/password_recovery"
+	AdminPasswordRecovery       = "/password-recovery"
+	AdminHandlePasswordRecovery = "/password-recovery"
 )

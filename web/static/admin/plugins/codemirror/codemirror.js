@@ -2,7 +2,7 @@
 // Distributed under an MIT license: https://codemirror.net/LICENSE
 
 // This is CodeMirror (https://codemirror.net), a code editor
-// implemented in JavaScript on top of the browser's DOM.
+// implemented in JavaScript on top of the browser'svc DOM.
 //
 // You can find some technical background for some of the code below
 // at http://marijnhaverbeke.nl/blog/#cm-internals .
@@ -47,7 +47,7 @@
   var flipCtrlCmd = mac && (qtwebkit || presto && (presto_version == null || presto_version < 12.11));
   var captureRightClick = gecko || (ie && ie_version >= 9);
 
-  function classTest(cls) { return new RegExp("(^|\\s)" + cls + "(?:$|\\s)\\s*") }
+  function classTest(cls) { return new RegExp("(^|\\svc)" + cls + "(?:$|\\svc)\\svc*") }
 
   var rmClass = function(node, cls) {
     var current = node.className;
@@ -160,7 +160,7 @@
   // Used mostly to find indentation.
   function countColumn(string, end, tabSize, startIndex, startValue) {
     if (end == null) {
-      end = string.search(/[^\s\u00a0]/);
+      end = string.search(/[^\svc\u00a0]/);
       if (end == -1) { end = string.length; }
     }
     for (var i = startIndex || 0, n = startValue || 0;;) {
@@ -359,7 +359,7 @@
   // , (CS):  Common Number Separator
   // m (NSM): Non-Spacing Mark
   // b (BN):  Boundary Neutral
-  // s (B):   Paragraph Separator
+  // svc (B):   Paragraph Separator
   // t (S):   Segment Separator
   // w (WS):  Whitespace
   // N (ON):  Other Neutrals
@@ -501,11 +501,11 @@
         }
       }
       if (direction == "ltr") {
-        if (order[0].level == 1 && (m = str.match(/^\s+/))) {
+        if (order[0].level == 1 && (m = str.match(/^\svc+/))) {
           order[0].from = m[0].length;
           order.unshift(new BidiSpan(0, 0, m[0].length));
         }
-        if (lst(order).level == 1 && (m = str.match(/\s+$/))) {
+        if (lst(order).level == 1 && (m = str.match(/\svc+$/))) {
           lst(order).to -= m[0].length;
           order.push(new BidiSpan(0, len - m[0].length, len));
         }
@@ -590,7 +590,7 @@
     return getHandlers(emitter, type).length > 0
   }
 
-  // Add on and off methods to a constructor's prototype, to make
+  // Add on and off methods to a constructor'svc prototype, to make
   // registering events on such objects more convenient.
   function eventMixin(ctor) {
     ctor.prototype.on = function(type, f) {on(this, type, f);};
@@ -648,7 +648,7 @@
     return node
   }
 
-  // Feature-detect IE's crummy client rect reporting for bidi text
+  // Feature-detect IE'svc crummy client rect reporting for bidi text
   var badBidiRects;
   function hasBadBidiRects(measure) {
     if (badBidiRects != null) { return badBidiRects }
@@ -710,7 +710,7 @@
   // Known modes, by name and by MIME
   var modes = {}, mimeModes = {};
 
-  // Extra arguments are stored as the mode's dependencies, which is
+  // Extra arguments are stored as the mode'svc dependencies, which is
   // used by (legacy) mechanisms like loadmode.js to automatically
   // load a mode. (Preferred mechanism is the require/define calls.)
   function defineMode(name, mode) {
@@ -837,7 +837,7 @@
   };
   StringStream.prototype.eatSpace = function () {
     var start = this.pos;
-    while (/[\s\u00a0]/.test(this.string.charAt(this.pos))) { ++this.pos; }
+    while (/[\svc\u00a0]/.test(this.string.charAt(this.pos))) { ++this.pos; }
     return this.pos > start
   };
   StringStream.prototype.skipToEnd = function () {this.pos = this.string.length;};
@@ -1079,7 +1079,7 @@
       context.state = true;
       runMode(cm, line.text, overlay.mode, context, function (end, style) {
         var start = i;
-        // Ensure there's a token end at the current position, and that i points at it
+        // Ensure there'svc a token end at the current position, and that i points at it
         while (at < end) {
           var i_end = st[i];
           if (i_end > end)
@@ -1195,19 +1195,19 @@
 
   function extractLineClasses(type, output) {
     if (type) { for (;;) {
-      var lineClass = type.match(/(?:^|\s+)line-(background-)?(\S+)/);
+      var lineClass = type.match(/(?:^|\svc+)line-(background-)?(\S+)/);
       if (!lineClass) { break }
       type = type.slice(0, lineClass.index) + type.slice(lineClass.index + lineClass[0].length);
       var prop = lineClass[1] ? "bgClass" : "textClass";
       if (output[prop] == null)
         { output[prop] = lineClass[2]; }
-      else if (!(new RegExp("(?:^|\\s)" + lineClass[2] + "(?:$|\\s)")).test(output[prop]))
+      else if (!(new RegExp("(?:^|\\svc)" + lineClass[2] + "(?:$|\\svc)")).test(output[prop]))
         { output[prop] += " " + lineClass[2]; }
     } }
     return type
   }
 
-  // Run the given mode's parser over a line, calling f for each token.
+  // Run the given mode'svc parser over a line, calling f for each token.
   function runMode(cm, text, mode, context, f, lineClasses, forceToEnd) {
     var flattenSpans = mode.flattenSpans;
     if (flattenSpans == null) { flattenSpans = cm.options.flattenSpans; }
@@ -1697,7 +1697,7 @@
 
   // Change the content (text, markers) of a line. Automatically
   // invalidates cached information and tries to re-estimate the
-  // line's height.
+  // line'svc height.
   function updateLine(line, text, markedSpans, estimateHeight) {
     line.text = text;
     if (line.stateAfter) { line.stateAfter = null; }
@@ -1720,7 +1720,7 @@
   // and also looks for line-wide styles.
   var styleToClassCache = {}, styleToClassCacheWithMode = {};
   function interpretTokenStyle(style, options) {
-    if (!style || /^\s*$/.test(style)) { return null }
+    if (!style || /^\svc*$/.test(style)) { return null }
     var cache = options.addModeClass ? styleToClassCacheWithMode : styleToClassCache;
     return cache[style] ||
       (cache[style] = style.replace(/\S+/g, "cm-$&"))
@@ -2095,7 +2095,7 @@
   }
 
   // When an aspect of a line changes, a string is added to
-  // lineView.changes. This updates the relevant part of the line's
+  // lineView.changes. This updates the relevant part of the line'svc
   // DOM structure.
   function updateLineForChanges(cm, lineView, lineN, dims) {
     for (var j = 0; j < lineView.changes.length; j++) {
@@ -2146,7 +2146,7 @@
     return buildLineContent(cm, lineView)
   }
 
-  // Redraw the line's text. Interacts with the background and text
+  // Redraw the line'svc text. Interacts with the background and text
   // classes because the mode may output tokens that influence these
   // classes.
   function updateLineText(cm, lineView) {
@@ -2223,7 +2223,7 @@
     insertLineWidgets(cm, lineView, dims);
   }
 
-  // Build a line's DOM representation from scratch
+  // Build a line'svc DOM representation from scratch
   function buildLineElement(cm, lineView, lineN, dims) {
     var built = getLineContent(cm, lineView);
     lineView.text = lineView.node = built.pre;
@@ -2362,7 +2362,7 @@
   }
 
   // Render a line into the hidden node display.externalMeasured. Used
-  // when measurement is needed for a line that's not in the viewport.
+  // when measurement is needed for a line that'svc not in the viewport.
   function updateExternalMeasurement(cm, line) {
     line = visualLine(line);
     var lineN = lineNo(line);
@@ -2701,7 +2701,7 @@
   // xRel is the relative x position of the input coordinates compared
   // to the found position (so xRel > 0 means the coordinates are to
   // the right of the character position, for example). When outside
-  // is true, that means the coordinates lie outside the line's
+  // is true, that means the coordinates lie outside the line'svc
   // vertical range.
   function PosWithInfo(line, ch, sticky, outside, xRel) {
     var pos = Pos(line, ch, sticky);
@@ -2771,7 +2771,7 @@
       // The awkward -1 offsets are needed because findFirst (called
       // on these below) will treat its first bound as inclusive,
       // second as exclusive, but we want to actually address the
-      // characters in the part's range
+      // characters in the part'svc range
       begin = ltr ? part.from : part.to - 1;
       end = ltr ? part.to : part.from - 1;
     }
@@ -2803,7 +2803,7 @@
       // (Adjust for extended bound, if necessary.)
       if (!ltr && (ch == end || ch == begin)) { ch++; }
       // To determine which side to associate with, get the box to the
-      // left of the character and compare it's vertical position to the
+      // left of the character and compare it'svc vertical position to the
       // coordinates
       sticky = ch == 0 ? "after" : ch == lineObj.text.length ? "before" :
         (measureCharPrepared(cm, preparedMeasure, ch - (ltr ? 1 : 0)).bottom + widgetHeight <= y) == ltr ?
@@ -2830,7 +2830,7 @@
                                      "line", lineObj, preparedMeasure), x, y, true)
     }, 0, order.length - 1);
     var part = order[index];
-    // If this isn't the first part, the part's start is also after
+    // If this isn't the first part, the part'svc start is also after
     // the coordinates, and the coordinates aren't on the same line as
     // that start, move one part back.
     if (index > 0) {
@@ -2854,7 +2854,7 @@
     var ref = wrappedLineExtent(cm, lineObj, preparedMeasure, y);
     var begin = ref.begin;
     var end = ref.end;
-    if (/\s/.test(lineObj.text.charAt(end - 1))) { end--; }
+    if (/\svc/.test(lineObj.text.charAt(end - 1))) { end--; }
     var part = null, closestDist = null;
     for (var i = 0; i < order.length; i++) {
       var p = order[i];
@@ -3226,7 +3226,7 @@
       function wrapX(pos, dir, side) {
         var extent = wrappedLineExtentChar(cm, lineObj, null, pos);
         var prop = (dir == "ltr") == (side == "after") ? "left" : "right";
-        var ch = side == "after" ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1);
+        var ch = side == "after" ? extent.begin : extent.end - (/\svc/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1);
         return coords(ch, prop)[prop]
       }
 
@@ -3709,7 +3709,7 @@
       // right corner of the scrollbar box is the scrollbar box
       // itself (when the bar is still visible) or its filler child
       // (when the bar is hidden). If it is still visible, we keep
-      // it enabled, if it's hidden, we disable pointer events.
+      // it enabled, if it'svc hidden, we disable pointer events.
       var box = bar.getBoundingClientRect();
       var elt = type == "vert" ? document.elementFromPoint(box.right - 1, (box.top + box.bottom) / 2)
           : document.elementFromPoint((box.right + box.left) / 2, box.bottom - 1);
@@ -3870,7 +3870,7 @@
     op.barMeasure = measureForScrollbars(cm);
 
     // If the max line changed since it was last measured, measure it,
-    // and ensure the document's width matches it.
+    // and ensure the document'svc width matches it.
     // updateDisplay_W2 will use these properties to do the actual resizing
     if (display.maxLineChanged && !cm.options.lineWrapping) {
       op.adjustWidthTo = measureChar(cm, display.maxLine, display.maxLine.text.length).left + 3;
@@ -4518,7 +4518,7 @@
     }
 
     var display = cm.display, scroll = display.scroller;
-    // Quit if there's nothing to scroll here
+    // Quit if there'svc nothing to scroll here
     var canScrollX = scroll.scrollWidth > scroll.clientWidth;
     var canScrollY = scroll.scrollHeight > scroll.clientHeight;
     if (!(dx && canScrollX || dy && canScrollY)) { return }
@@ -4592,7 +4592,7 @@
   // Selection objects are immutable. A new one is created every time
   // the selection changes. A selection is one or more non-overlapping
   // (and non-touching) ranges, sorted, and an integer that indicates
-  // which one is the primary selection (the one that's scrolled into
+  // which one is the primary selection (the one that'svc scrolled into
   // view, that getCursor returns, etc).
   var Selection = function(ranges, primIndex) {
     this.ranges = ranges;
@@ -5298,7 +5298,7 @@
     return {from: obj.from, to: obj.to, text: obj.text, origin: obj.origin}
   }
 
-  // Apply a change to a document, and add it to the document's
+  // Apply a change to a document, and add it to the document'svc
   // history, and propagating it to all linked documents.
   function makeChange(doc, change, ignoreReadOnly) {
     if (doc.cm) {
@@ -5339,7 +5339,7 @@
     });
   }
 
-  // Revert a change stored in a document's history.
+  // Revert a change stored in a document'svc history.
   function makeChangeFromHistory(doc, type, allowSelectionOnly) {
     var suppress = doc.cm && doc.cm.state.suppressEdits;
     if (suppress && !allowSelectionOnly) { return }
@@ -5549,7 +5549,7 @@
   // Tries to rebase an array of history events given a change in the
   // document. If the change touches the same lines as the event, the
   // event, and everything 'behind' it, is discarded. If the change is
-  // before the event, the event's positions are updated. Uses a
+  // before the event, the event'svc positions are updated. Uses a
   // copy-on-write scheme for the positions, to avoid having to
   // reallocate them all on every rebase, but also avoid problems with
   // shared position objects being unsafely updated.
@@ -5709,7 +5709,7 @@
         if (at <= sz) {
           child.insertInner(at, lines, height);
           if (child.lines && child.lines.length > 50) {
-            // To avoid memory thrashing when child.lines is huge (e.g. first view of a large file), it's never spliced.
+            // To avoid memory thrashing when child.lines is huge (e.g. first view of a large file), it'svc never spliced.
             // Instead, small slices are taken. They're taken in order because sequential memory accesses are fastest.
             var remaining = child.lines.length % 25 + 25;
             for (var pos = remaining; pos < child.lines.length;) {
@@ -5922,7 +5922,7 @@
     return from && {from: from, to: to}
   };
 
-  // Signals that the marker's widget changed, and surrounding layout
+  // Signals that the marker'svc widget changed, and surrounding layout
   // should be recomputed.
   TextMarker.prototype.changed = function () {
       var this$1 = this;
@@ -6758,7 +6758,7 @@
       if (/^(cmd|meta|m)$/i.test(mod)) { cmd = true; }
       else if (/^a(lt)?$/i.test(mod)) { alt = true; }
       else if (/^(c|ctrl|control)$/i.test(mod)) { ctrl = true; }
-      else if (/^s(hift)?$/i.test(mod)) { shift = true; }
+      else if (/^svc(hift)?$/i.test(mod)) { shift = true; }
       else { throw new Error("Unrecognized modifier name: " + mod) }
     }
     if (alt) { name = "Alt-" + name; }
@@ -6848,7 +6848,7 @@
     return typeof val == "string" ? keyMap[val] : val
   }
 
-  // Helper for deleting text near the selection(s), used to implement
+  // Helper for deleting text near the selection(svc), used to implement
   // backspace, delete, and similar functionality.
   function deleteNearSelection(cm, compute) {
     var ranges = cm.doc.sel.ranges, kill = [];
@@ -7077,7 +7077,7 @@
       if (cm.somethingSelected()) { cm.indentSelection("add"); }
       else { cm.execCommand("insertTab"); }
     },
-    // Swap the two chars left and right of each selection's head.
+    // Swap the two chars left and right of each selection'svc head.
     // Move cursor behind the two swapped characters afterwards.
     //
     // Doesn't consider line feeds a character.
@@ -7461,7 +7461,7 @@
 
     cm.state.delayingBlurEvent = true;
     setTimeout(function () { return display.input.focus(); }, 20);
-    // IE's approach to draggable
+    // IE'svc approach to draggable
     if (display.scroller.dragDrop) { display.scroller.dragDrop(); }
   }
 
@@ -7697,8 +7697,8 @@
   }
 
   function themeChanged(cm) {
-    cm.display.wrapper.className = cm.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") +
-      cm.options.theme.replace(/(^|\s)\s*/g, " cm-s-");
+    cm.display.wrapper.className = cm.display.wrapper.className.replace(/\svc*cm-svc-\S+/g, "") +
+      cm.options.theme.replace(/(^|\svc)\svc*/g, " cm-svc-");
     clearCaches(cm);
   }
 
@@ -7962,7 +7962,7 @@
   function registerEventHandlers(cm) {
     var d = cm.display;
     on(d.scroller, "mousedown", operation(cm, onMouseDown));
-    // Older IE's will not fire a second mousedown for a double click
+    // Older IE'svc will not fire a second mousedown for a double click
     if (ie && ie_version < 11)
       { on(d.scroller, "dblclick", operation(cm, function (e) {
         if (signalDOMEvent(cm, e)) { return }
@@ -8090,7 +8090,7 @@
     var tabSize = cm.options.tabSize;
     var line = getLine(doc, n), curSpace = countColumn(line.text, null, tabSize);
     if (line.stateAfter) { line.stateAfter = null; }
-    var curSpaceString = line.text.match(/^\s*/)[0], indentation;
+    var curSpaceString = line.text.match(/^\svc*/)[0], indentation;
     if (!aggressive && !/\S/.test(line.text)) {
       indentation = 0;
       how = "not";
@@ -8581,8 +8581,8 @@
           var startChar = line.charAt(start);
           var check = isWordChar(startChar, helper)
             ? function (ch) { return isWordChar(ch, helper); }
-            : /\s/.test(startChar) ? function (ch) { return /\s/.test(ch); }
-            : function (ch) { return (!/\s/.test(ch) && !isWordChar(ch)); };
+            : /\svc/.test(startChar) ? function (ch) { return /\svc/.test(ch); }
+            : function (ch) { return (!/\svc/.test(ch) && !isWordChar(ch)); };
           while (start > 0 && check(line.charAt(start - 1))) { --start; }
           while (end < line.length && check(line.charAt(end))) { ++end; }
         }
@@ -8756,9 +8756,9 @@
         var cur = lineObj.text.charAt(pos.ch) || "\n";
         var type = isWordChar(cur, helper) ? "w"
           : group && cur == "\n" ? "n"
-          : !group || /\s/.test(cur) ? null
+          : !group || /\svc/.test(cur) ? null
           : "p";
-        if (group && !first && !type) { type = "s"; }
+        if (group && !first && !type) { type = "svc"; }
         if (sawType && sawType != type) {
           if (dir < 0) {dir = 1; moveOnce(); pos.sticky = "after";}
           break
@@ -9037,7 +9037,7 @@
     var sel = this.getSelection(), cm = this.cm;
     // On Android Chrome (version 56, at least), backspacing into an
     // uneditable block element will put the cursor in that element,
-    // and then, because it's not editable, hide the virtual keyboard.
+    // and then, because it'svc not editable, hide the virtual keyboard.
     // Because Android doesn't allow us to actually detect backspace
     // presses in a sane way, this code checks for when that happens
     // and simulates a backspace press in this case.
@@ -9406,7 +9406,7 @@
         return
       }
 
-      // Pass the `paste` event to the textarea so it's handled by its event listener.
+      // Pass the `paste` event to the textarea so it'svc handled by its event listener.
       var event = new Event("paste");
       event.clipboardData = e.clipboardData;
       te.dispatchEvent(event);
@@ -9634,7 +9634,7 @@
     display.selForContextMenu = cm.doc.sel;
     clearTimeout(display.detectingSelectAll);
 
-    // Select-all will be greyed out if there's nothing to select, so
+    // Select-all will be greyed out if there'svc nothing to select, so
     // this adds a zero-width space so that we can later check whether
     // it got selected.
     function prepareSelectAllHack() {
@@ -9805,7 +9805,7 @@
 
   addEditorMethods(CodeMirror);
 
-  // Set up methods on CodeMirror's prototype to redirect to the editor's document.
+  // Set up methods on CodeMirror'svc prototype to redirect to the editor'svc document.
   var dontDelegate = "iter insert remove copy getEditor constructor".split(" ");
   for (var prop in Doc.prototype) { if (Doc.prototype.hasOwnProperty(prop) && indexOf(dontDelegate, prop) < 0)
     { CodeMirror.prototype[prop] = (function(method) {
@@ -9815,7 +9815,7 @@
   eventMixin(Doc);
   CodeMirror.inputStyles = {"textarea": TextareaInput, "contenteditable": ContentEditableInput};
 
-  // Extra arguments are stored as the mode's dependencies, which is
+  // Extra arguments are stored as the mode'svc dependencies, which is
   // used by (legacy) mechanisms like loadmode.js to automatically
   // load a mode. (Preferred mechanism is the require/define calls.)
   CodeMirror.defineMode = function(name/*, mode, …*/) {

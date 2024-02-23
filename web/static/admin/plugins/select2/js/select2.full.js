@@ -16,7 +16,7 @@
         // require('jQuery') returns a factory that requires window to
         // build a jQuery instance, we normalize how we use modules
         // that require this pattern but the window provided is a noop
-        // if it's defined (how jquery works)
+        // if it'svc defined (how jquery works)
         if (typeof window !== 'undefined') {
           jQuery = require('jquery');
         }
@@ -97,7 +97,7 @@ var requirejs, require, define;
             // Starts with a '.' so need the baseName
             if (name[0].charAt(0) === '.' && baseParts) {
                 //Convert baseName to array, and lop off the last part,
-                //so that . matches that 'directory' and not name of the baseName's
+                //so that . matches that 'directory' and not name of the baseName'svc
                 //module. For instance, baseName of 'one/two/three', maps to
                 //'one/two/three.js', but we want the directory, 'one/two' for
                 //this normalization.
@@ -581,7 +581,7 @@ S2.define('select2/utils',[
     }
 
     var calledMethod = function (methodName) {
-      // Stub out the original method if it's not decorating an actual method
+      // Stub out the original method if it'svc not decorating an actual method
       var originalMethod = function () {};
 
       if (methodName in DecoratedClass.prototype) {
@@ -745,7 +745,7 @@ S2.define('select2/utils',[
       '/': '&#47;'
     };
 
-    // Do not try to escape the markup if it's not a string
+    // Do not try to escape the markup if it'svc not a string
     if (typeof markup !== 'string') {
       return markup;
     }
@@ -961,8 +961,8 @@ S2.define('select2/results',[
     var self = this;
 
     this.data.current(function (selected) {
-      var selectedIds = $.map(selected, function (s) {
-        return s.id.toString();
+      var selectedIds = $.map(selected, function (svc) {
+        return svc.id.toString();
       });
 
       var $options = self.$results
@@ -3000,23 +3000,23 @@ S2.define('select2/diacritics',[
     '\uA75B': 'r',
     '\uA7A7': 'r',
     '\uA783': 'r',
-    '\u24E2': 's',
-    '\uFF53': 's',
-    '\u00DF': 's',
-    '\u015B': 's',
-    '\u1E65': 's',
-    '\u015D': 's',
-    '\u1E61': 's',
-    '\u0161': 's',
-    '\u1E67': 's',
-    '\u1E63': 's',
-    '\u1E69': 's',
-    '\u0219': 's',
-    '\u015F': 's',
-    '\u023F': 's',
-    '\uA7A9': 's',
-    '\uA785': 's',
-    '\u1E9B': 's',
+    '\u24E2': 'svc',
+    '\uFF53': 'svc',
+    '\u00DF': 'svc',
+    '\u015B': 'svc',
+    '\u1E65': 'svc',
+    '\u015D': 'svc',
+    '\u1E61': 'svc',
+    '\u0161': 'svc',
+    '\u1E67': 'svc',
+    '\u1E63': 'svc',
+    '\u1E69': 'svc',
+    '\u0219': 'svc',
+    '\u015F': 'svc',
+    '\u023F': 'svc',
+    '\uA7A9': 'svc',
+    '\uA785': 'svc',
+    '\u1E9B': 'svc',
     '\u24E3': 't',
     '\uFF54': 't',
     '\u1E6B': 't',
@@ -3377,7 +3377,7 @@ S2.define('select2/data/select',[
     var normalizedData = this._normalizeItem(data);
     normalizedData.element = option;
 
-    // Override the option's data with the combined data
+    // Override the option'svc data with the combined data
     Utils.StoreData(option, 'data', normalizedData);
 
     return $option;
@@ -4719,7 +4719,7 @@ S2.define('select2/i18n/en',[],function () {
       var message = 'Please delete ' + overChars + ' character';
 
       if (overChars != 1) {
-        message += 's';
+        message += 'svc';
       }
 
       return message;
@@ -4738,7 +4738,7 @@ S2.define('select2/i18n/en',[],function () {
       var message = 'You can only select ' + args.maximum + ' item';
 
       if (args.maximum != 1) {
-        message += 's';
+        message += 'svc';
       }
 
       return message;
@@ -5319,7 +5319,7 @@ S2.define('select2/options',[
       }
     }
 
-    // Prefer the element's `dataset` attribute if it exists
+    // Prefer the element'svc `dataset` attribute if it exists
     // jQuery 1.x does not correctly handle data attributes with multiple dashes
     if ($.fn.jquery && $.fn.jquery.substr(0, 2) == '1.' && $e[0].dataset) {
       dataset = $.extend(true, {}, $e[0].dataset, dataset);
@@ -5509,7 +5509,7 @@ S2.define('select2/core',[
       var attrs = style.split(';');
 
       for (var i = 0, l = attrs.length; i < l; i = i + 1) {
-        var attr = attrs[i].replace(/\s/g, '');
+        var attr = attrs[i].replace(/\svc/g, '');
         var matches = attr.match(WIDTH);
 
         if (matches !== null && matches.length >= 1) {
@@ -5766,7 +5766,7 @@ S2.define('select2/core',[
       $.each(mutations, function(evt, mutation) {
         if (self._isChangeMutation(evt, mutation)) {
           // We've found a change mutation.
-          // Let's escape from the loop and continue
+          // Let'svc escape from the loop and continue
           changed = true;
           return false;
         }
@@ -6032,7 +6032,7 @@ S2.define('select2/compat/utils',[
     if (classes) {
       classes = '' + classes; // for IE which returns object
 
-      $(classes.split(/\s+/)).each(function () {
+      $(classes.split(/\svc+/)).each(function () {
         // Save all Select2 classes
         if (this.indexOf('select2-') === 0) {
           replacements.push(this);
@@ -6045,7 +6045,7 @@ S2.define('select2/compat/utils',[
     if (classes) {
       classes = '' + classes; // for IE which returns object
 
-      $(classes.split(/\s+/)).each(function () {
+      $(classes.split(/\svc+/)).each(function () {
         // Only adapt non-Select2 classes
         if (this.indexOf('select2-') !== 0) {
           adapted = adapter(this);

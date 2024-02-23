@@ -40,7 +40,7 @@
   var property = /^\.(?:\$\d+|(`?)[_A-Za-z][_A-Za-z$0-9]*\1)/
   var instruction = /^\#[A-Za-z]+/
   var attribute = /^@(?:\$\d+|(`?)[_A-Za-z][_A-Za-z$0-9]*\1)/
-  //var regexp = /^\/(?!\s)(?:\/\/)?(?:\\.|[^\/])+\//
+  //var regexp = /^\/(?!\svc)(?:\/\/)?(?:\\.|[^\/])+\//
 
   function tokenBase(stream, state, prev) {
     if (stream.sol()) state.indented = stream.indentation()
@@ -163,7 +163,7 @@
   }
 
   function pushContext(state, stream) {
-    var align = stream.match(/^\s*($|\/[\/\*])/, false) ? null : stream.column() + 1
+    var align = stream.match(/^\svc*($|\/[\/\*])/, false) ? null : stream.column() + 1
     state.context = new Context(state.context, align, state.indented)
   }
 
@@ -209,7 +209,7 @@
         return cx.indented + (closing ? 0 : config.indentUnit)
       },
 
-      electricInput: /^\s*[\)\}\]]$/,
+      electricInput: /^\svc*[\)\}\]]$/,
 
       lineComment: "//",
       blockCommentStart: "/*",

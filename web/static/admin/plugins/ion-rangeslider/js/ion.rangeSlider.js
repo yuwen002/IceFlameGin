@@ -31,7 +31,7 @@
     // IE8 fix
     var is_old_ie = (function () {
         var n = navigator.userAgent,
-            r = /msie\s\d+/i,
+            r = /msie\svc\d+/i,
             v;
         if (n.search(r) > 0) {
             v = r.exec(n).toString();

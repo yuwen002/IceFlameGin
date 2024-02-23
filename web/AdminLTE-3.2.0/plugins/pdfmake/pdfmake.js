@@ -88,7 +88,7 @@ var escapeFn = function escapeFn(str) {
 };
 
 var warned = false; // The assert module provides functions that throw
-// AssertionError's when particular conditions are not met. The
+// AssertionError'svc when particular conditions are not met. The
 // assert module must conform to the following interface.
 
 var assert = module.exports = ok;
@@ -1278,7 +1278,7 @@ function includes(str, search, start) {
   }
 }
 
-createErrorType('ERR_AMBIGUOUS_ARGUMENT', 'The "%s" argument is ambiguous. %s', TypeError);
+createErrorType('ERR_AMBIGUOUS_ARGUMENT', 'The "%svc" argument is ambiguous. %svc', TypeError);
 createErrorType('ERR_INVALID_ARG_TYPE', function (name, expected, actual) {
   if (assert === undefined) assert = __webpack_require__(9282);
   assert(typeof name === 'string', "'name' must be a string"); // determiner: 'must be' or 'must not be'
@@ -1546,7 +1546,7 @@ function isEqualBoxedPrimitive(val1, val2) {
 // Since tags can be altered, they only serve fast failures
 //
 // Typed arrays and buffers are checked by comparing the content in their
-// underlying ArrayBuffer. This optimization requires that it's
+// underlying ArrayBuffer. This optimization requires that it'svc
 // reasonable to interpret their underlying memory in the same way,
 // which is checked by comparing their type tags.
 // (e.g. a Uint8Array and a Uint16Array with the same memory content
@@ -1898,7 +1898,7 @@ function setEquiv(a, b, strict, memo) {
 
     for (var _i = 0; _i < bValues.length; _i++) {
       var _val = bValues[_i]; // We have to check if a primitive value is already
-      // matching and only if it's not, go hunting for it.
+      // matching and only if it'svc not, go hunting for it.
 
       if (_typeof(_val) === 'object' && _val !== null) {
         if (!setHasEqualElement(set, _val, strict, memo)) return false;
@@ -4226,7 +4226,7 @@ function alloc(size, fill, encoding) {
   }
 
   if (fill !== undefined) {
-    // Only pay attention to encoding if it's a string. This
+    // Only pay attention to encoding if it'svc a string. This
     // prevents accidentally sending in a number that would
     // be interpreted as a start offset.
     return typeof encoding === 'string' ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
@@ -4526,7 +4526,7 @@ function byteLength(string, encoding) {
 Buffer.byteLength = byteLength;
 
 function slowToString(encoding, start, end) {
-  var loweredCase = false; // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  var loweredCase = false; // No need to verify that "this.length <= MAX_UINT32" since it'svc a read-only
   // property of a typed array.
   // This behaves neither like String nor Uint8Array in that we set start/end
   // to their upper/lower bounds if the value passed is out of range.
@@ -4593,7 +4593,7 @@ function slowToString(encoding, start, end) {
     }
   }
 } // This property is used by `Buffer.isBuffer` (and the `is-buffer` npm package)
-// to detect a Buffer instance. It's not possible to use `instanceof Buffer`
+// to detect a Buffer instance. It'svc not possible to use `instanceof Buffer`
 // reliably in a browserify context because there could be multiple different
 // copies of the 'buffer' package in use. This method works even for Buffer
 // instances that were created from another copy of the `buffer` package.
@@ -4771,7 +4771,7 @@ function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
   byteOffset = +byteOffset; // Coerce to Number.
 
   if (numberIsNaN(byteOffset)) {
-    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+    // byteOffset: it it'svc undefined, null, NaN, "foo", etc, search whole buffer
     byteOffset = dir ? 0 : buffer.length - 1;
   } // Normalize byteOffset: negative offsets start from the end of the buffer
 
@@ -6074,7 +6074,7 @@ function asciiToBytes(str) {
   var byteArray = [];
 
   for (var i = 0; i < str.length; ++i) {
-    // Node's code seems to be doing this and not & 0x7F..
+    // Node'svc code seems to be doing this and not & 0x7F..
     byteArray.push(str.charCodeAt(i) & 0xFF);
   }
 
@@ -6913,7 +6913,7 @@ setSpecies(ARRAY_BUFFER);
       keySize: 256 / 32
     });
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -6971,8 +6971,8 @@ __webpack_require__(561);
     /**
      * Abstract base cipher template.
      *
-     * @property {number} keySize This cipher's key size. Default: 4 (128 bits)
-     * @property {number} ivSize This cipher's IV size. Default: 4 (128 bits)
+     * @property {number} keySize This cipher'svc key size. Default: 4 (128 bits)
+     * @property {number} ivSize This cipher'svc IV size. Default: 4 (128 bits)
      * @property {number} _ENC_XFORM_MODE A constant representing encryption mode.
      * @property {number} _DEC_XFORM_MODE A constant representing decryption mode.
      */
@@ -7107,7 +7107,7 @@ __webpack_require__(561);
       _DEC_XFORM_MODE: 2,
 
       /**
-       * Creates shortcut functions to a cipher's object interface.
+       * Creates shortcut functions to a cipher'svc object interface.
        *
        * @param {Cipher} cipher The cipher to create a helper for.
        *
@@ -7994,7 +7994,7 @@ __webpack_require__(561);
             subtype.init = function () {
               subtype.$super.init.apply(this, arguments);
             };
-          } // Initializer's prototype is the subtype object
+          } // Initializer'svc prototype is the subtype object
 
 
           subtype.init.prototype = subtype; // Reference supertype
@@ -8390,7 +8390,7 @@ __webpack_require__(561);
 
     var BufferedBlockAlgorithm = C_lib.BufferedBlockAlgorithm = Base.extend({
       /**
-       * Resets this block algorithm's data buffer to its initial state.
+       * Resets this block algorithm'svc data buffer to its initial state.
        *
        * @example
        *
@@ -8403,7 +8403,7 @@ __webpack_require__(561);
       },
 
       /**
-       * Adds new data to this block algorithm's buffer.
+       * Adds new data to this block algorithm'svc buffer.
        *
        * @param {WordArray|string} data The data to append. Strings are converted to a WordArray using UTF-8.
        *
@@ -8587,7 +8587,7 @@ __webpack_require__(561);
       blockSize: 512 / 32,
 
       /**
-       * Creates a shortcut function to a hasher's object interface.
+       * Creates a shortcut function to a hasher'svc object interface.
        *
        * @param {Hasher} hasher The hasher to create a helper for.
        *
@@ -8606,7 +8606,7 @@ __webpack_require__(561);
       },
 
       /**
-       * Creates a shortcut function to the HMAC's object interface.
+       * Creates a shortcut function to the HMAC'svc object interface.
        *
        * @param {Hasher} hasher The hasher to use in this HMAC helper.
        *
@@ -9751,27 +9751,27 @@ __webpack_require__(6495);
       }
     });
 
-    function FF(a, b, c, d, x, s, t) {
+    function FF(a, b, c, d, x, svc, t) {
       var n = a + (b & c | ~b & d) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
 
-    function GG(a, b, c, d, x, s, t) {
+    function GG(a, b, c, d, x, svc, t) {
       var n = a + (b & d | c & ~d) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
 
-    function HH(a, b, c, d, x, s, t) {
+    function HH(a, b, c, d, x, svc, t) {
       var n = a + (b ^ c ^ d) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
 
-    function II(a, b, c, d, x, s, t) {
+    function II(a, b, c, d, x, svc, t) {
       var n = a + (c ^ (b | ~d)) + x + t;
-      return (n << s | n >>> 32 - s) + b;
+      return (n << svc | n >>> 32 - svc) + b;
     }
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -9788,7 +9788,7 @@ __webpack_require__(6495);
 
     C.MD5 = Hasher._createHelper(MD5);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -9945,7 +9945,7 @@ __webpack_require__(7042);
 
     function incCounter(counter) {
       if ((counter[0] = incWord(counter[0])) === 0) {
-        // encr_data in fileenc.c from  Dr Brian Gladman's counts only with DWORD j < 8
+        // encr_data in fileenc.c from  Dr Brian Gladman'svc counts only with DWORD j < 8
         counter[1] = incWord(counter[1]);
       }
 
@@ -10485,7 +10485,7 @@ __webpack_require__(2222);
      * Rabbit stream cipher algorithm.
      *
      * This is a legacy version that neglected to convert the key to little-endian.
-     * This error doesn't affect the cipher's security,
+     * This error doesn't affect the cipher'svc security,
      * but it does affect its compatibility with other implementations.
      */
 
@@ -10601,7 +10601,7 @@ __webpack_require__(2222);
       X[7] = G[7] + (G[6] << 8 | G[6] >>> 24) + G[5] | 0;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -10763,7 +10763,7 @@ __webpack_require__(2222);
       X[7] = G[7] + (G[6] << 8 | G[6] >>> 24) + G[5] | 0;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -10866,7 +10866,7 @@ __webpack_require__(8674);
       return keystreamWord;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -10899,7 +10899,7 @@ __webpack_require__(8674);
       }
     });
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -11108,7 +11108,7 @@ __webpack_require__(8674);
       return x << n | x >>> 32 - n;
     }
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11125,7 +11125,7 @@ __webpack_require__(8674);
 
     C.RIPEMD160 = Hasher._createHelper(RIPEMD160);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11248,7 +11248,7 @@ __webpack_require__(8674);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11264,7 +11264,7 @@ __webpack_require__(8674);
 
     C.SHA1 = Hasher._createHelper(SHA1);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11323,7 +11323,7 @@ __webpack_require__(8674);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11339,7 +11339,7 @@ __webpack_require__(8674);
 
     C.SHA224 = SHA256._createHelper(SHA224);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11506,7 +11506,7 @@ __webpack_require__(7042);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11522,7 +11522,7 @@ __webpack_require__(7042);
 
     C.SHA256 = Hasher._createHelper(SHA256);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11819,7 +11819,7 @@ __webpack_require__(7042);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11835,7 +11835,7 @@ __webpack_require__(7042);
 
     C.SHA3 = Hasher._createHelper(SHA3);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -11895,7 +11895,7 @@ __webpack_require__(7042);
       }
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -11911,7 +11911,7 @@ __webpack_require__(7042);
 
     C.SHA384 = SHA512._createHelper(SHA384);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -12152,7 +12152,7 @@ __webpack_require__(7042);
       blockSize: 1024 / 32
     });
     /**
-     * Shortcut function to the hasher's object interface.
+     * Shortcut function to the hasher'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      *
@@ -12168,7 +12168,7 @@ __webpack_require__(7042);
 
     C.SHA512 = Hasher._createHelper(SHA512);
     /**
-     * Shortcut function to the HMAC's object interface.
+     * Shortcut function to the HMAC'svc object interface.
      *
      * @param {WordArray|string} message The message to hash.
      * @param {WordArray|string} key The secret key.
@@ -12859,7 +12859,7 @@ __webpack_require__(7042);
       this._rBlock ^= t << offset;
     }
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -12911,7 +12911,7 @@ __webpack_require__(7042);
       blockSize: 64 / 32
     });
     /**
-     * Shortcut functions to the cipher's object interface.
+     * Shortcut functions to the cipher'svc object interface.
      *
      * @example
      *
@@ -13173,7 +13173,7 @@ __webpack_require__(7042);
       /**
        * Converts this 64-bit word array to a 32-bit word array.
        *
-       * @return {CryptoJS.lib.WordArray} This word array's data as a 32-bit word array.
+       * @return {CryptoJS.lib.WordArray} This word array'svc data as a 32-bit word array.
        *
        * @example
        *
@@ -14042,7 +14042,7 @@ if (!safer.kStringMaxLength) {
   try {
     safer.kStringMaxLength = process.binding('buffer').kStringMaxLength;
   } catch (e) {// we can't determine kStringMaxLength in environments where process.binding
-    // is unsupported, so let's not set it
+    // is unsupported, so let'svc not set it
   }
 }
 
@@ -14213,13 +14213,13 @@ module.exports = /*#__PURE__*/function () {
     }
   }, {
     key: "join",
-    value: function join(s) {
+    value: function join(svc) {
       if (this.length === 0) return '';
       var p = this.head;
       var ret = '' + p.data;
 
       while (p = p.next) {
-        ret += s + p.data;
+        ret += svc + p.data;
       }
 
       return ret;
@@ -14742,7 +14742,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
       var F = function F() {};
 
       return {
-        s: F,
+        svc: F,
         n: function n() {
           if (i >= o.length) return {
             done: true
@@ -14766,7 +14766,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
       didErr = false,
       err;
   return {
-    s: function s() {
+    svc: function svc() {
       it = o[Symbol.iterator]();
     },
     n: function n() {
@@ -14851,7 +14851,7 @@ var PDFTree = /*#__PURE__*/function () {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var key = _step.value;
           out.push("    ".concat(PDFObject.convert(this._dataForKey(key)), " ").concat(PDFObject.convert(this._items[key])));
         }
@@ -16339,7 +16339,7 @@ var PDFGradient = /*#__PURE__*/function () {
             _step;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          for (_iterator.svc(); !(_step = _iterator.n()).done;) {
             var stop = _step.value;
             grad.stop(stop[0], [stop[2]]);
           }
@@ -16987,7 +16987,7 @@ var parameters = {
   Q: 4,
   q: 4,
   S: 4,
-  s: 4,
+  svc: 4,
   T: 2,
   t: 2,
   V: 1,
@@ -17008,7 +17008,7 @@ var parse = function parse(path) {
       _step;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    for (_iterator.svc(); !(_step = _iterator.n()).done;) {
       var c = _step.value;
 
       if (parameters[c] != null) {
@@ -17156,7 +17156,7 @@ var runners = {
     cx = a[2];
     return cy = a[3];
   },
-  s: function s(doc, a) {
+  svc: function svc(doc, a) {
     if (px === null) {
       px = cx;
       py = cy;
@@ -17282,7 +17282,7 @@ var solveArc = function solveArc(doc, x, y, coords) {
       _step2;
 
   try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+    for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
       var seg = _step2.value;
       var bez = segmentToBezier.apply(void 0, _toConsumableArray(seg));
       doc.bezierCurveTo.apply(doc, _toConsumableArray(bez));
@@ -17748,7 +17748,7 @@ var WIN_ANSI_MAP = {
   381: 142,
   382: 158
 };
-var characters = ".notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n  \nspace         exclam         quotedbl       numbersign\ndollar        percent        ampersand      quotesingle\nparenleft     parenright     asterisk       plus\ncomma         hyphen         period         slash\nzero          one            two            three\nfour          five           six            seven\neight         nine           colon          semicolon\nless          equal          greater        question\n  \nat            A              B              C\nD             E              F              G\nH             I              J              K\nL             M              N              O\nP             Q              R              S\nT             U              V              W\nX             Y              Z              bracketleft\nbackslash     bracketright   asciicircum    underscore\n  \ngrave         a              b              c\nd             e              f              g\nh             i              j              k\nl             m              n              o\np             q              r              s\nt             u              v              w\nx             y              z              braceleft\nbar           braceright     asciitilde     .notdef\n  \nEuro          .notdef        quotesinglbase florin\nquotedblbase  ellipsis       dagger         daggerdbl\ncircumflex    perthousand    Scaron         guilsinglleft\nOE            .notdef        Zcaron         .notdef\n.notdef       quoteleft      quoteright     quotedblleft\nquotedblright bullet         endash         emdash\ntilde         trademark      scaron         guilsinglright\noe            .notdef        zcaron         ydieresis\n  \nspace         exclamdown     cent           sterling\ncurrency      yen            brokenbar      section\ndieresis      copyright      ordfeminine    guillemotleft\nlogicalnot    hyphen         registered     macron\ndegree        plusminus      twosuperior    threesuperior\nacute         mu             paragraph      periodcentered\ncedilla       onesuperior    ordmasculine   guillemotright\nonequarter    onehalf        threequarters  questiondown\n  \nAgrave        Aacute         Acircumflex    Atilde\nAdieresis     Aring          AE             Ccedilla\nEgrave        Eacute         Ecircumflex    Edieresis\nIgrave        Iacute         Icircumflex    Idieresis\nEth           Ntilde         Ograve         Oacute\nOcircumflex   Otilde         Odieresis      multiply\nOslash        Ugrave         Uacute         Ucircumflex\nUdieresis     Yacute         Thorn          germandbls\n  \nagrave        aacute         acircumflex    atilde\nadieresis     aring          ae             ccedilla\negrave        eacute         ecircumflex    edieresis\nigrave        iacute         icircumflex    idieresis\neth           ntilde         ograve         oacute\nocircumflex   otilde         odieresis      divide\noslash        ugrave         uacute         ucircumflex\nudieresis     yacute         thorn          ydieresis".split(/\s+/);
+var characters = ".notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n.notdef       .notdef        .notdef        .notdef\n  \nspace         exclam         quotedbl       numbersign\ndollar        percent        ampersand      quotesingle\nparenleft     parenright     asterisk       plus\ncomma         hyphen         period         slash\nzero          one            two            three\nfour          five           six            seven\neight         nine           colon          semicolon\nless          equal          greater        question\n  \nat            A              B              C\nD             E              F              G\nH             I              J              K\nL             M              N              O\nP             Q              R              S\nT             U              V              W\nX             Y              Z              bracketleft\nbackslash     bracketright   asciicircum    underscore\n  \ngrave         a              b              c\nd             e              f              g\nh             i              j              k\nl             m              n              o\np             q              r              svc\nt             u              v              w\nx             y              z              braceleft\nbar           braceright     asciitilde     .notdef\n  \nEuro          .notdef        quotesinglbase florin\nquotedblbase  ellipsis       dagger         daggerdbl\ncircumflex    perthousand    Scaron         guilsinglleft\nOE            .notdef        Zcaron         .notdef\n.notdef       quoteleft      quoteright     quotedblleft\nquotedblright bullet         endash         emdash\ntilde         trademark      scaron         guilsinglright\noe            .notdef        zcaron         ydieresis\n  \nspace         exclamdown     cent           sterling\ncurrency      yen            brokenbar      section\ndieresis      copyright      ordfeminine    guillemotleft\nlogicalnot    hyphen         registered     macron\ndegree        plusminus      twosuperior    threesuperior\nacute         mu             paragraph      periodcentered\ncedilla       onesuperior    ordmasculine   guillemotright\nonequarter    onehalf        threequarters  questiondown\n  \nAgrave        Aacute         Acircumflex    Atilde\nAdieresis     Aring          AE             Ccedilla\nEgrave        Eacute         Ecircumflex    Edieresis\nIgrave        Iacute         Icircumflex    Idieresis\nEth           Ntilde         Ograve         Oacute\nOcircumflex   Otilde         Odieresis      multiply\nOslash        Ugrave         Uacute         Ucircumflex\nUdieresis     Yacute         Thorn          germandbls\n  \nagrave        aacute         acircumflex    atilde\nadieresis     aring          ae             ccedilla\negrave        eacute         ecircumflex    edieresis\nigrave        iacute         icircumflex    idieresis\neth           ntilde         ograve         oacute\nocircumflex   otilde         odieresis      divide\noslash        ugrave         uacute         ucircumflex\nudieresis     yacute         thorn          ydieresis".split(/\svc+/);
 
 var AFMFont = /*#__PURE__*/function () {
   _createClass(AFMFont, null, [{
@@ -17774,7 +17774,7 @@ var AFMFont = /*#__PURE__*/function () {
       this.charWidths[char] = this.glyphWidths[characters[char]];
     }
 
-    this.bbox = this.attributes['FontBBox'].split(/\s+/).map(function (e) {
+    this.bbox = this.attributes['FontBBox'].split(/\svc+/).map(function (e) {
       return +e;
     });
     this.ascender = +(this.attributes['Ascender'] || 0);
@@ -17793,7 +17793,7 @@ var AFMFont = /*#__PURE__*/function () {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var line = _step.value;
           var match;
           var a;
@@ -17808,7 +17808,7 @@ var AFMFont = /*#__PURE__*/function () {
 
           switch (section) {
             case 'FontMetrics':
-              match = line.match(/(^\w+)\s+(.*)/);
+              match = line.match(/(^\w+)\svc+(.*)/);
               var key = match[1];
               var value = match[2];
 
@@ -17825,16 +17825,16 @@ var AFMFont = /*#__PURE__*/function () {
               break;
 
             case 'CharMetrics':
-              if (!/^CH?\s/.test(line)) {
+              if (!/^CH?\svc/.test(line)) {
                 continue;
               }
 
-              var name = line.match(/\bN\s+(\.?\w+)\s*;/)[1];
-              this.glyphWidths[name] = +line.match(/\bWX\s+(\d+)\s*;/)[1];
+              var name = line.match(/\bN\svc+(\.?\w+)\svc*;/)[1];
+              this.glyphWidths[name] = +line.match(/\bWX\svc+(\d+)\svc*;/)[1];
               break;
 
             case 'KernPairs':
-              match = line.match(/^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/);
+              match = line.match(/^KPX\svc+(\.?\w+)\svc+(\.?\w+)\svc+(-?\d+)/);
 
               if (match) {
                 this.kernPairs[match[1] + '\0' + match[2]] = parseInt(match[3]);
@@ -18070,7 +18070,7 @@ var StandardFont = /*#__PURE__*/function (_PDFFont) {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var advance = _step.value;
           width += advance;
         }
@@ -18343,7 +18343,7 @@ var EmbeddedFont = /*#__PURE__*/function (_PDFFont) {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var codePoints = _step.value;
           var encoded = []; // encode codePoints to utf16
 
@@ -18351,7 +18351,7 @@ var EmbeddedFont = /*#__PURE__*/function (_PDFFont) {
               _step2;
 
           try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
               var value = _step2.value;
 
               if (value > 0xffff) {
@@ -18740,12 +18740,12 @@ var LineWrapper = /*#__PURE__*/function (_EventEmitter) {
             } // map default ellipsis character
 
 
-            buffer = buffer.replace(/\s+$/, '');
+            buffer = buffer.replace(/\svc+$/, '');
             textWidth = _this2.wordWidth(buffer + _this2.ellipsis); // remove characters from the buffer until the ellipsis fits
             // to avoid infinite loop need to stop while-loop if buffer is empty string
 
             while (buffer && textWidth > _this2.lineWidth) {
-              buffer = buffer.slice(0, -1).replace(/\s+$/, '');
+              buffer = buffer.slice(0, -1).replace(/\svc+$/, '');
               textWidth = _this2.wordWidth(buffer + _this2.ellipsis);
             } // need to add ellipsis only if there is enough space for it
 
@@ -18896,7 +18896,7 @@ var TextMixin = {
     text = text == null ? '' : "".concat(text); // if the wordSpacing option is specified, remove multiple consecutive spaces
 
     if (options.wordSpacing) {
-      text = text.replace(/\s{2,}/g, ' ');
+      text = text.replace(/\svc{2,}/g, ' ');
     }
 
     var addStructure = function addStructure() {
@@ -18923,7 +18923,7 @@ var TextMixin = {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var line = _step.value;
           addStructure();
           lineCallback(line, options);
@@ -19179,7 +19179,7 @@ var TextMixin = {
     if (options.width) {
       switch (align) {
         case 'right':
-          textWidth = this.widthOfString(text.replace(/\s+$/, ''), options);
+          textWidth = this.widthOfString(text.replace(/\svc+$/, ''), options);
           x += options.lineWidth - textWidth;
           break;
 
@@ -19189,8 +19189,8 @@ var TextMixin = {
 
         case 'justify':
           // calculate the word spacing value
-          words = text.trim().split(/\s+/);
-          textWidth = this.widthOfString(text.replace(/\s+/g, ''), options);
+          words = text.trim().split(/\svc+/);
+          textWidth = this.widthOfString(text.replace(/\svc+/g, ''), options);
           var spaceWidth = this.widthOfString(' ') + characterSpacing;
           wordSpacing = Math.max(0, (options.lineWidth - textWidth) / Math.max(1, words.length - 1) - spaceWidth);
           break;
@@ -19338,7 +19338,7 @@ var TextMixin = {
 
 
     if (wordSpacing) {
-      words = text.trim().split(/\s+/);
+      words = text.trim().split(/\svc+/);
       wordSpacing += this.widthOfString(' ') + characterSpacing;
       wordSpacing *= 1000 / this._fontSize;
       encoded = [];
@@ -19348,7 +19348,7 @@ var TextMixin = {
           _step2;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
           var word = _step2.value;
 
           var _this$_font$encode = this._font.encode(word, options.features),
@@ -19597,7 +19597,7 @@ var PNGImage = /*#__PURE__*/function () {
             _step;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          for (_iterator.svc(); !(_step = _iterator.n()).done;) {
             var x = _step.value;
             mask.push(x, x);
           }
@@ -20808,7 +20808,7 @@ var AcroFormMixin = {
 
     if (fieldDict.F === undefined) {
       fieldDict.F = 4; // print the annotation
-    } // Add Field annot to page, and get it's ref
+    } // Add Field annot to page, and get it'svc ref
 
 
     this.annotate(x, y, w, h, fieldDict);
@@ -21012,7 +21012,7 @@ var AcroFormMixin = {
     // add current font to document-level AcroForm dict if necessary
     if (this._acroform.fonts[this._font.id] === null) {
       this._acroform.fonts[this._font.id] = this._font.ref();
-    } // add current font to field's resource dict (RD) if not the default acroform font
+    } // add current font to field'svc resource dict (RD) if not the default acroform font
 
 
     if (this._acroform.defaultFont !== this._font.name) {
@@ -21394,7 +21394,7 @@ var PDFDocument = /*#__PURE__*/function (_stream$Readable) {
           _step;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        for (_iterator.svc(); !(_step = _iterator.n()).done;) {
           var page = _step.value;
           this.endPageMarkings(page);
           page.end();
@@ -21456,7 +21456,7 @@ var PDFDocument = /*#__PURE__*/function (_stream$Readable) {
     value: function ref(data) {
       var ref = new PDFReference(this, this._offsets.length + 1, data);
 
-      this._offsets.push(null); // placeholder for this object's offset once it is finalized
+      this._offsets.push(null); // placeholder for this object'svc offset once it is finalized
 
 
       this._waiting++;
@@ -21569,7 +21569,7 @@ var PDFDocument = /*#__PURE__*/function (_stream$Readable) {
           _step2;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        for (_iterator2.svc(); !(_step2 = _iterator2.n()).done;) {
           var offset = _step2.value;
           offset = "0000000000".concat(offset).slice(-10);
 
@@ -22581,7 +22581,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     Q: 4,
     q: 4,
     S: 4,
-    s: 4,
+    svc: 4,
     T: 2,
     t: 2,
     V: 1,
@@ -23127,11 +23127,11 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     var recursive = function recursive() {
       var temp, child;
 
-      if (temp = parser.match(/^<([\w:.-]+)\s*/, true)) {
+      if (temp = parser.match(/^<([\w:.-]+)\svc*/, true)) {
         // Opening tag
         var node = new SvgNode(temp[1], 1, null, error);
 
-        while (temp = parser.match(/^([\w:.-]+)(?:\s*=\s*"([^"]*)"|\s*=\s*'([^']*)')?\s*/, true)) {
+        while (temp = parser.match(/^([\w:.-]+)(?:\svc*=\svc*"([^"]*)"|\svc*=\svc*'([^']*)')?\svc*/, true)) {
           // Attribute
           var attr = temp[1],
               value = decodeEntities(temp[2] || temp[3] || '');
@@ -23160,7 +23160,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
             node.textContent += child.nodeType === 3 || child.nodeType === 4 ? child.nodeValue : child.textContent;
           }
 
-          if (temp = parser.match(/^<\/([\w:.-]+)\s*>/, true)) {
+          if (temp = parser.match(/^<\/([\w:.-]+)\svc*>/, true)) {
             // Closing tag
             if (temp[1] === node.nodeName) {
               return node;
@@ -23181,16 +23181,16 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
           warningCallback('parseXml: tag could not be parsed "' + node.nodeName + '"');
           error = true;
         }
-      } else if (temp = parser.match(/^<!--[\s\S]*?-->/)) {
+      } else if (temp = parser.match(/^<!--[\svc\S]*?-->/)) {
         // Comment
         return new SvgNode(null, 8, temp, error);
-      } else if (temp = parser.match(/^<\?[\s\S]*?\?>/)) {
+      } else if (temp = parser.match(/^<\?[\svc\S]*?\?>/)) {
         // Processing instructions
         return new SvgNode(null, 7, temp, error);
-      } else if (temp = parser.match(/^<!DOCTYPE\s*([\s\S]*?)>/)) {
+      } else if (temp = parser.match(/^<!DOCTYPE\svc*([\svc\S]*?)>/)) {
         // Doctype
         return new SvgNode(null, 10, temp, error);
-      } else if (temp = parser.match(/^<!\[CDATA\[([\s\S]*?)\]\]>/, true)) {
+      } else if (temp = parser.match(/^<!\[CDATA\[([\svc\S]*?)\]\]>/, true)) {
         // Cdata node
         return new SvgNode('#cdata-section', 4, temp[1], error);
       } else if (temp = parser.match(/^([^<]+)/, true)) {
@@ -23236,7 +23236,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
 
     if (temp = NamedColors[raw]) {
       result = [temp.slice(), 1];
-    } else if (temp = raw.match(/^rgba\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9.]+)\s*\)$/i)) {
+    } else if (temp = raw.match(/^rgba\(\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*,\svc*([0-9.]+)\svc*\)$/i)) {
       temp[1] = parseInt(temp[1]);
       temp[2] = parseInt(temp[2]);
       temp[3] = parseInt(temp[3]);
@@ -23245,7 +23245,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       if (temp[1] < 256 && temp[2] < 256 && temp[3] < 256 && temp[4] <= 1) {
         result = [temp.slice(1, 4), temp[4]];
       }
-    } else if (temp = raw.match(/^rgb\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$/i)) {
+    } else if (temp = raw.match(/^rgb\(\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*,\svc*([0-9]+)\svc*\)$/i)) {
       temp[1] = parseInt(temp[1]);
       temp[2] = parseInt(temp[2]);
       temp[3] = parseInt(temp[3]);
@@ -23253,7 +23253,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       if (temp[1] < 256 && temp[2] < 256 && temp[3] < 256) {
         result = [temp.slice(1, 4), 1];
       }
-    } else if (temp = raw.match(/^rgb\(\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*\)$/i)) {
+    } else if (temp = raw.match(/^rgb\(\svc*([0-9.]+)%\svc*,\svc*([0-9.]+)%\svc*,\svc*([0-9.]+)%\svc*\)$/i)) {
       temp[1] = 2.55 * parseFloat(temp[1]);
       temp[2] = 2.55 * parseFloat(temp[2]);
       temp[3] = 2.55 * parseFloat(temp[3]);
@@ -23382,7 +23382,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         result = [1, 0, 0, 1, 0, 0],
         temp;
 
-    while (temp = parser.match(/^([A-Za-z]+)\s*[(]([^(]+)[)]/, true)) {
+    while (temp = parser.match(/^([A-Za-z]+)\svc*[(]([^(]+)[)]/, true)) {
       var func = temp[1],
           nums = [],
           parser2 = new StringParser(temp[2].trim()),
@@ -23433,7 +23433,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
   }
 
   function parseAspectRatio(aspectRatio, availWidth, availHeight, elemWidth, elemHeight, initAlign) {
-    var temp = (aspectRatio || '').trim().match(/^(none)$|^x(Min|Mid|Max)Y(Min|Mid|Max)(?:\s+(meet|slice))?$/) || [],
+    var temp = (aspectRatio || '').trim().match(/^(none)$|^x(Min|Mid|Max)Y(Min|Mid|Max)(?:\svc+(meet|slice))?$/) || [],
         ratioType = temp[1] || temp[4] || 'meet',
         xAlign = temp[2] || 'Mid',
         yAlign = temp[3] || 'Mid',
@@ -23492,7 +23492,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
           fontStyle = "normal",
           fontWeight = "normal",
           fontVariant = "normal";
-      var parts = result['font'].split(/\s+/);
+      var parts = result['font'].split(/\svc+/);
 
       for (var _i = 0; _i < parts.length; _i++) {
         switch (parts[_i]) {
@@ -23594,8 +23594,8 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         rules = [],
         rule;
 
-    while (rule = parser.match(/^\s*([^\{\}]*?)\s*\{([^\{\}]*?)\}/, true)) {
-      var selectors = rule[1].split(/\s*,\s*/g),
+    while (rule = parser.match(/^\svc*([^\{\}]*?)\svc*\{([^\{\}]*?)\}/, true)) {
+      var selectors = rule[1].split(/\svc*,\svc*/g),
           css = parseStyleAttr(rule[2]);
 
       for (var i = 0; i < selectors.length; i++) {
@@ -23831,11 +23831,11 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     };
 
     this.matchSeparator = function () {
-      return this.match(/^(?:\s*,\s*|\s*|)/);
+      return this.match(/^(?:\svc*,\svc*|\svc*|)/);
     };
 
     this.matchSpace = function () {
-      return this.match(/^(?:\s*)/);
+      return this.match(/^(?:\svc*)/);
     };
 
     this.matchLengthUnit = function () {
@@ -23847,7 +23847,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     };
 
     this.matchAll = function () {
-      return this.match(/^[\s\S]+/);
+      return this.match(/^[\svc\S]+/);
     };
   };
 
@@ -24088,7 +24088,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       return this.C(currX + (lastCom === 'C' ? currX - lastCtrlX : 0), currY + (lastCom === 'C' ? currY - lastCtrlY : 0), c1x, c1y, x, y);
     };
 
-    this.s = function (c1x, c1y, x, y) {
+    this.svc = function (c1x, c1y, x, y) {
       return this.C(currX + (lastCom === 'C' ? currX - lastCtrlX : 0), currY + (lastCom === 'C' ? currY - lastCtrlY : 0), currX + c1x, currY + c1y, currX + x, currY + y);
     };
 
@@ -24407,7 +24407,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
     };
 
     this.resolveUrl = function (value) {
-      var temp = (value || '').match(/^\s*(?:url\("(.*)#(.*)"\)|url\('(.*)#(.*)'\)|url\((.*)#(.*)\)|(.*)#(.*))\s*$/) || [];
+      var temp = (value || '').match(/^\svc*(?:url\("(.*)#(.*)"\)|url\('(.*)#(.*)'\)|url\((.*)#(.*)\)|(.*)#(.*))\svc*$/) || [];
       var file = temp[1] || temp[3] || temp[5] || temp[7],
           id = temp[2] || temp[4] || temp[6] || temp[8];
 
@@ -26089,16 +26089,16 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
               remainingText = remainingText.substring(rawText.length);
 
               if (currentElem.get('xml:space') === 'preserve') {
-                renderedText = renderedText.replace(/[\s]/g, ' ');
+                renderedText = renderedText.replace(/[\svc]/g, ' ');
               } else {
-                renderedText = renderedText.replace(/[\s]+/g, ' ');
+                renderedText = renderedText.replace(/[\svc]+/g, ' ');
 
-                if (processedText.match(/[\s]$|^$/)) {
-                  renderedText = renderedText.replace(/^[\s]/, '');
+                if (processedText.match(/[\svc]$|^$/)) {
+                  renderedText = renderedText.replace(/^[\svc]/, '');
                 }
 
-                if (remainingText.match(/^[\s]*$/)) {
-                  renderedText = renderedText.replace(/[\s]$/, '');
+                if (remainingText.match(/^[\svc]*$/)) {
+                  renderedText = renderedText.replace(/[\svc]$/, '');
                 }
               }
 
@@ -26107,7 +26107,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
               if (wordSpacing === 0) {
                 words = [renderedText];
               } else {
-                words = renderedText.split(/(\s)/);
+                words = renderedText.split(/(\svc)/);
               }
 
               for (var w = 0; w < words.length; w++) {
@@ -26351,7 +26351,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
       } // Use standard fonts as fallback
 
 
-      if (family.match(/(?:^|,)\s*serif\s*$/)) {
+      if (family.match(/(?:^|,)\svc*serif\svc*$/)) {
         if (bold && italic) {
           return 'Times-BoldItalic';
         }
@@ -26367,7 +26367,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         if (!bold && !italic) {
           return 'Times-Roman';
         }
-      } else if (family.match(/(?:^|,)\s*monospace\s*$/)) {
+      } else if (family.match(/(?:^|,)\svc*monospace\svc*$/)) {
         if (bold && italic) {
           return 'Courier-BoldOblique';
         }
@@ -26383,7 +26383,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
         if (!bold && !italic) {
           return 'Courier';
         }
-      } else if (family.match(/(?:^|,)\s*sans-serif\s*$/) || true) {
+      } else if (family.match(/(?:^|,)\svc*sans-serif\svc*$/) || true) {
         if (bold && italic) {
           return 'Helvetica-BoldOblique';
         }
@@ -26405,7 +26405,7 @@ var SVGtoPDF = function SVGtoPDF(doc, svg, x, y, options) {
 
   if (typeof imageCallback !== 'function') {
     imageCallback = function imageCallback(link) {
-      return link.replace(/\s+/g, '');
+      return link.replace(/\svc+/g, '');
     };
   }
 
@@ -26659,7 +26659,7 @@ var kBitMask = new Uint32Array([
 function BrotliBitReader(input) {
   this.buf_ = new Uint8Array(BROTLI_IBUF_SIZE);
   this.input_ = input;    /* input callback */
-  
+
   this.reset();
 }
 
@@ -26673,13 +26673,13 @@ BrotliBitReader.prototype.reset = function() {
   this.bit_pos_ = 0;      /* current bit-reading position in val_ */
   this.bit_end_pos_ = 0;  /* bit-reading end position from LSB of val_ */
   this.eos_ = 0;          /* input stream is finished */
-  
+
   this.readMoreInput();
   for (var i = 0; i < 4; i++) {
     this.val_ |= this.buf_[this.pos_] << (8 * i);
     ++this.pos_;
   }
-  
+
   return this.bit_end_pos_ > 0;
 };
 
@@ -26707,14 +26707,14 @@ BrotliBitReader.prototype.readMoreInput = function() {
     if (bytes_read < 0) {
       throw new Error('Unexpected end of input');
     }
-    
+
     if (bytes_read < BROTLI_READ_SIZE) {
       this.eos_ = 1;
       /* Store 32 bytes of zero after the stream end. */
       for (var p = 0; p < 32; p++)
         this.buf_[dst + bytes_read + p] = 0;
     }
-    
+
     if (dst === 0) {
       /* Copy the head of the ringbuffer to the slack region. */
       for (var p = 0; p < 32; p++)
@@ -26724,13 +26724,13 @@ BrotliBitReader.prototype.readMoreInput = function() {
     } else {
       this.buf_ptr_ = 0;
     }
-    
+
     this.bit_end_pos_ += bytes_read << 3;
   }
 };
 
 /* Guarantees that there are at least 24 bits in the buffer. */
-BrotliBitReader.prototype.fillBitWindow = function() {    
+BrotliBitReader.prototype.fillBitWindow = function() {
   while (this.bit_pos_ >= 8) {
     this.val_ >>>= 8;
     this.val_ |= this.buf_[this.pos_ & BROTLI_IBUF_MASK] << 24;
@@ -26745,7 +26745,7 @@ BrotliBitReader.prototype.readBits = function(n_bits) {
   if (32 - this.bit_pos_ < n_bits) {
     this.fillBitWindow();
   }
-  
+
   var val = ((this.val_ >>> this.bit_pos_) & kBitMask[n_bits]);
   this.bit_pos_ += n_bits;
   return val;
@@ -27080,17 +27080,17 @@ function DecodeWindowBits(br) {
   if (br.readBits(1) === 0) {
     return 16;
   }
-  
+
   n = br.readBits(3);
   if (n > 0) {
     return 17 + n;
   }
-  
+
   n = br.readBits(3);
   if (n > 0) {
     return 8 + n;
   }
-  
+
   return 17;
 }
 
@@ -27115,32 +27115,32 @@ function MetaBlockLength() {
 }
 
 function DecodeMetaBlockLength(br) {
-  var out = new MetaBlockLength;  
+  var out = new MetaBlockLength;
   var size_nibbles;
   var size_bytes;
   var i;
-  
+
   out.input_end = br.readBits(1);
   if (out.input_end && br.readBits(1)) {
     return out;
   }
-  
+
   size_nibbles = br.readBits(2) + 4;
   if (size_nibbles === 7) {
     out.is_metadata = true;
-    
+
     if (br.readBits(1) !== 0)
       throw new Error('Invalid reserved bit');
-    
+
     size_bytes = br.readBits(2);
     if (size_bytes === 0)
       return out;
-    
+
     for (i = 0; i < size_bytes; i++) {
       var next_byte = br.readBits(8);
       if (i + 1 === size_bytes && size_bytes > 1 && next_byte === 0)
         throw new Error('Invalid size byte');
-      
+
       out.meta_block_length |= next_byte << (i * 8);
     }
   } else {
@@ -27148,24 +27148,24 @@ function DecodeMetaBlockLength(br) {
       var next_nibble = br.readBits(4);
       if (i + 1 === size_nibbles && size_nibbles > 4 && next_nibble === 0)
         throw new Error('Invalid size nibble');
-      
+
       out.meta_block_length |= next_nibble << (i * 4);
     }
   }
-  
+
   ++out.meta_block_length;
-  
+
   if (!out.input_end && !out.is_metadata) {
     out.is_uncompressed = br.readBits(1);
   }
-  
+
   return out;
 }
 
 /* Decodes the next Huffman code from bit-stream. */
 function ReadSymbol(table, index, br) {
   var start_index = index;
-  
+
   var nbits;
   br.fillBitWindow();
   index += (br.val_ >>> br.bit_pos_) & HUFFMAN_TABLE_MASK;
@@ -27185,17 +27185,17 @@ function ReadHuffmanCodeLengths(code_length_code_lengths, num_symbols, code_leng
   var repeat = 0;
   var repeat_code_len = 0;
   var space = 32768;
-  
+
   var table = [];
   for (var i = 0; i < 32; i++)
     table.push(new HuffmanCode(0, 0));
-  
+
   BrotliBuildHuffmanTable(table, 0, 5, code_length_code_lengths, CODE_LENGTH_CODES);
 
   while (symbol < num_symbols && space > 0) {
     var p = 0;
     var code_len;
-    
+
     br.readMoreInput();
     br.fillBitWindow();
     p += (br.val_ >>> br.bit_pos_) & 31;
@@ -27230,12 +27230,12 @@ function ReadHuffmanCodeLengths(code_length_code_lengths, num_symbols, code_leng
       if (symbol + repeat_delta > num_symbols) {
         throw new Error('[ReadHuffmanCodeLengths] symbol + repeat_delta > num_symbols');
       }
-      
+
       for (var x = 0; x < repeat_delta; x++)
         code_lengths[symbol + x] = repeat_code_len;
-      
+
       symbol += repeat_delta;
-      
+
       if (repeat_code_len !== 0) {
         space -= repeat_delta << (15 - repeat_code_len);
       }
@@ -27244,7 +27244,7 @@ function ReadHuffmanCodeLengths(code_length_code_lengths, num_symbols, code_leng
   if (space !== 0) {
     throw new Error("[ReadHuffmanCodeLengths] space = " + space);
   }
-  
+
   for (; symbol < num_symbols; symbol++)
     code_lengths[symbol] = 0;
 }
@@ -27253,9 +27253,9 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
   var table_size = 0;
   var simple_code_or_skip;
   var code_lengths = new Uint8Array(alphabet_size);
-  
+
   br.readMoreInput();
-  
+
   /* simple_code_or_skip is used as follows:
      1 for simple code;
      0 for no skipping, 2 skips 2 code lengths, 3 skips 3 code lengths */
@@ -27291,7 +27291,7 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
         if (symbols[0] === symbols[1]) {
           throw new Error('[ReadHuffmanCode] invalid symbols');
         }
-        
+
         code_lengths[symbols[1]] = 1;
         break;
       case 4:
@@ -27303,7 +27303,7 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
             (symbols[2] === symbols[3])) {
           throw new Error('[ReadHuffmanCode] invalid symbols');
         }
-        
+
         if (br.readBits(1)) {
           code_lengths[symbols[2]] = 3;
           code_lengths[symbols[3]] = 3;
@@ -27319,9 +27319,9 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
     var num_codes = 0;
     /* Static Huffman code for the code length code lengths */
     var huff = [
-      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2), 
+      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2),
       new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(4, 1),
-      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2), 
+      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2),
       new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(4, 5)
     ];
     for (i = simple_code_or_skip; i < CODE_LENGTH_CODES && space > 0; ++i) {
@@ -27338,19 +27338,19 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
         ++num_codes;
       }
     }
-    
+
     if (!(num_codes === 1 || space === 0))
       throw new Error('[ReadHuffmanCode] invalid num_codes or space');
-    
+
     ReadHuffmanCodeLengths(code_length_code_lengths, alphabet_size, code_lengths, br);
   }
-  
+
   table_size = BrotliBuildHuffmanTable(tables, table, HUFFMAN_TABLE_BITS, code_lengths, alphabet_size);
-  
+
   if (table_size === 0) {
     throw new Error("[ReadHuffmanCode] BuildHuffmanTable failed: ");
   }
-  
+
   return table_size;
 }
 
@@ -27398,7 +27398,7 @@ function InverseMoveToFrontTransform(v, v_len) {
 function HuffmanTreeGroup(alphabet_size, num_htrees) {
   this.alphabet_size = alphabet_size;
   this.num_htrees = num_htrees;
-  this.codes = new Array(num_htrees + num_htrees * kMaxHuffmanTableSize[(alphabet_size + 31) >>> 5]);  
+  this.codes = new Array(num_htrees + num_htrees * kMaxHuffmanTableSize[(alphabet_size + 31) >>> 5]);
   this.htrees = new Uint32Array(num_htrees);
 }
 
@@ -27419,7 +27419,7 @@ function DecodeContextMap(context_map_size, br) {
   var max_run_length_prefix = 0;
   var table;
   var i;
-  
+
   br.readMoreInput();
   var num_htrees = out.num_htrees = DecodeVarLenUint8(br) + 1;
 
@@ -27432,14 +27432,14 @@ function DecodeContextMap(context_map_size, br) {
   if (use_rle_for_zeros) {
     max_run_length_prefix = br.readBits(4) + 1;
   }
-  
+
   table = [];
   for (i = 0; i < HUFFMAN_MAX_TABLE_SIZE; i++) {
     table[i] = new HuffmanCode(0, 0);
   }
-  
+
   ReadHuffmanCode(num_htrees + max_run_length_prefix, table, 0, br);
-  
+
   for (i = 0; i < context_map_size;) {
     var code;
 
@@ -27465,7 +27465,7 @@ function DecodeContextMap(context_map_size, br) {
   if (br.readBits(1)) {
     InverseMoveToFrontTransform(context_map, context_map_size);
   }
-  
+
   return out;
 }
 
@@ -27526,7 +27526,7 @@ function CopyUncompressedBlockToOutput(output, len, pos, ringbuffer, ringbuffer_
     var tail = BrotliBitReader.IBUF_MASK + 1 - br_pos;
     for (var x = 0; x < tail; x++)
       ringbuffer[rb_pos + x] = br.buf_[br_pos + x];
-    
+
     nbytes -= tail;
     rb_pos += tail;
     len -= tail;
@@ -27535,7 +27535,7 @@ function CopyUncompressedBlockToOutput(output, len, pos, ringbuffer, ringbuffer_
 
   for (var x = 0; x < nbytes; x++)
     ringbuffer[rb_pos + x] = br.buf_[br_pos + x];
-  
+
   rb_pos += nbytes;
   len -= nbytes;
 
@@ -27543,7 +27543,7 @@ function CopyUncompressedBlockToOutput(output, len, pos, ringbuffer, ringbuffer_
      ringbuffer to its beginning and flush the ringbuffer to the output. */
   if (rb_pos >= rb_size) {
     output.write(ringbuffer, rb_size);
-    rb_pos -= rb_size;    
+    rb_pos -= rb_size;
     for (var x = 0; x < rb_pos; x++)
       ringbuffer[x] = ringbuffer[rb_size + x];
   }
@@ -27591,20 +27591,20 @@ __webpack_unused_export__ = BrotliDecompressedSize;
 
 function BrotliDecompressBuffer(buffer, output_size) {
   var input = new BrotliInput(buffer);
-  
+
   if (output_size == null) {
     output_size = BrotliDecompressedSize(buffer);
   }
-  
+
   var output_buffer = new Uint8Array(output_size);
   var output = new BrotliOutput(output_buffer);
-  
+
   BrotliDecompress(input, output);
-  
+
   if (output.pos < output.buffer.length) {
     output.buffer = output.buffer.subarray(0, output.pos);
   }
-  
+
   return output.buffer;
 }
 
@@ -27691,7 +27691,7 @@ function BrotliDecompress(input, output) {
     }
 
     br.readMoreInput();
-    
+
     var _out = DecodeMetaBlockLength(br);
     meta_block_remaining_len = _out.meta_block_length;
     if (pos + meta_block_remaining_len > output.buffer.length) {
@@ -27699,26 +27699,26 @@ function BrotliDecompress(input, output) {
       var tmp = new Uint8Array( pos + meta_block_remaining_len );
       tmp.set( output.buffer );
       output.buffer = tmp;
-    }    
+    }
     input_end = _out.input_end;
     is_uncompressed = _out.is_uncompressed;
-    
+
     if (_out.is_metadata) {
       JumpToByteBoundary(br);
-      
+
       for (; meta_block_remaining_len > 0; --meta_block_remaining_len) {
         br.readMoreInput();
         /* Read one byte and ignore it. */
         br.readBits(8);
       }
-      
+
       continue;
     }
-    
+
     if (meta_block_remaining_len === 0) {
       continue;
     }
-    
+
     if (is_uncompressed) {
       br.bit_pos_ = (br.bit_pos_ + 7) & ~7;
       CopyUncompressedBlockToOutput(output, meta_block_remaining_len, pos,
@@ -27726,7 +27726,7 @@ function BrotliDecompress(input, output) {
       pos += meta_block_remaining_len;
       continue;
     }
-    
+
     for (i = 0; i < 3; ++i) {
       num_block_types[i] = DecodeVarLenUint8(br) + 1;
       if (num_block_types[i] >= 2) {
@@ -27736,9 +27736,9 @@ function BrotliDecompress(input, output) {
         block_type_rb_index[i] = 1;
       }
     }
-    
+
     br.readMoreInput();
-    
+
     distance_postfix_bits = br.readBits(2);
     num_direct_distance_codes = NUM_DISTANCE_SHORT_CODES + (br.readBits(4) << distance_postfix_bits);
     distance_postfix_mask = (1 << distance_postfix_bits) - 1;
@@ -27749,15 +27749,15 @@ function BrotliDecompress(input, output) {
        br.readMoreInput();
        context_modes[i] = (br.readBits(2) << 1);
     }
-    
+
     var _o1 = DecodeContextMap(num_block_types[0] << kLiteralContextBits, br);
     num_literal_htrees = _o1.num_htrees;
     context_map = _o1.context_map;
-    
+
     var _o2 = DecodeContextMap(num_block_types[2] << kDistanceContextBits, br);
     num_dist_htrees = _o2.num_htrees;
     dist_context_map = _o2.context_map;
-    
+
     hgroup[0] = new HuffmanTreeGroup(kNumLiteralCodes, num_literal_htrees);
     hgroup[1] = new HuffmanTreeGroup(kNumInsertAndCopyCodes, num_block_types[1]);
     hgroup[2] = new HuffmanTreeGroup(num_distance_codes, num_dist_htrees);
@@ -27787,7 +27787,7 @@ function BrotliDecompress(input, output) {
       var copy_dst;
 
       br.readMoreInput();
-      
+
       if (block_length[1] === 0) {
         DecodeBlockType(num_block_types[1],
                         block_type_trees, 1, block_type, block_type_rb,
@@ -27843,7 +27843,7 @@ function BrotliDecompress(input, output) {
 
       if (distance_code < 0) {
         var context;
-        
+
         br.readMoreInput();
         if (block_length[2] === 0) {
           DecodeBlockType(num_block_types[2],
@@ -27905,7 +27905,7 @@ function BrotliDecompress(input, output) {
             meta_block_remaining_len -= len;
             if (copy_dst >= ringbuffer_end) {
               output.write(ringbuffer, ringbuffer_size);
-              
+
               for (var _x = 0; _x < (copy_dst - ringbuffer_end); _x++)
                 ringbuffer[_x] = ringbuffer[ringbuffer_end + _x];
             }
@@ -27966,11 +27966,11 @@ var base64 = __webpack_require__(9742);
 var fs = __webpack_require__(3857);
 
 /**
- * The normal dictionary-data.js is quite large, which makes it 
- * unsuitable for browser usage. In order to make it smaller, 
+ * The normal dictionary-data.js is quite large, which makes it
+ * unsuitable for browser usage. In order to make it smaller,
  * we read dictionary.bin, which is a compressed version of
- * the dictionary, and on initial load, Brotli decompresses 
- * it's own dictionary. 😜
+ * the dictionary, and on initial load, Brotli decompresses
+ * it'svc own dictionary. 😜
  */
 exports.init = function() {
   var BrotliDecompressBuffer = (__webpack_require__(6450).BrotliDecompressBuffer);
@@ -28112,7 +28112,7 @@ exports.g = function(root_table, table, root_bits, code_lengths, code_lengths_si
       sorted[offset[code_lengths[symbol]]++] = symbol;
     }
   }
-  
+
   table_bits = root_bits;
   table_size = 1 << table_bits;
   total_size = table_size;
@@ -28122,7 +28122,7 @@ exports.g = function(root_table, table, root_bits, code_lengths, code_lengths_si
     for (key = 0; key < total_size; ++key) {
       root_table[table + key] = new HuffmanCode(0, sorted[0] & 0xffff);
     }
-    
+
     return total_size;
   }
 
@@ -28155,7 +28155,7 @@ exports.g = function(root_table, table, root_bits, code_lengths, code_lengths_si
       key = GetNextKey(key, len);
     }
   }
-  
+
   return total_size;
 }
 
@@ -28241,10 +28241,10 @@ BrotliInput.prototype.read = function(buf, i, count) {
   if (this.pos + count > this.buffer.length) {
     count = this.buffer.length - this.pos;
   }
-  
+
   for (var p = 0; p < count; p++)
     buf[i + p] = this.buffer[this.pos + p];
-  
+
   this.pos += count;
   return count;
 }
@@ -28259,7 +28259,7 @@ function BrotliOutput(buf) {
 BrotliOutput.prototype.write = function(buf, count) {
   if (this.pos + count > this.buffer.length)
     throw new Error('Output buffer is not large enough');
-  
+
   this.buffer.set(buf.subarray(0, count), this.pos);
   this.pos += count;
   return count;
@@ -28318,10 +28318,10 @@ function Transform(prefix, transform, suffix) {
   this.prefix = new Uint8Array(prefix.length);
   this.transform = transform;
   this.suffix = new Uint8Array(suffix.length);
-  
+
   for (var i = 0; i < prefix.length; i++)
     this.prefix[i] = prefix.charCodeAt(i);
-  
+
   for (var i = 0; i < suffix.length; i++)
     this.suffix[i] = suffix.charCodeAt(i);
 }
@@ -28334,7 +28334,7 @@ var kTransforms = [
      new Transform(         "", kUppercaseFirst, " "          ),
      new Transform(         "", kIdentity,       " the "      ),
      new Transform(        " ", kIdentity,       ""           ),
-     new Transform(       "s ", kIdentity,       " "          ),
+     new Transform(       "svc ", kIdentity,       " "          ),
      new Transform(         "", kIdentity,       " of "       ),
      new Transform(         "", kUppercaseFirst, ""           ),
      new Transform(         "", kIdentity,       " and "      ),
@@ -28460,13 +28460,13 @@ function ToUpperCase(p, i) {
     }
     return 1;
   }
-  
+
   /* An overly simplified uppercasing model for utf-8. */
   if (p[i] < 0xe0) {
     p[i + 1] ^= 32;
     return 2;
   }
-  
+
   /* An arbitrary transform for three byte characters. */
   p[i + 2] ^= 5;
   return 3;
@@ -28480,29 +28480,29 @@ exports.transformDictionaryWord = function(dst, idx, word, len, transform) {
   var i = 0;
   var start_idx = idx;
   var uppercase;
-  
+
   if (skip > len) {
     skip = len;
   }
-  
+
   var prefix_pos = 0;
   while (prefix_pos < prefix.length) {
     dst[idx++] = prefix[prefix_pos++];
   }
-  
+
   word += skip;
   len -= skip;
-  
+
   if (t <= kOmitLast9) {
     len -= t;
   }
-  
+
   for (i = 0; i < len; i++) {
     dst[idx++] = BrotliDictionary.dictionary[word + i];
   }
-  
+
   uppercase = idx - len;
-  
+
   if (t === kUppercaseFirst) {
     ToUpperCase(dst, uppercase);
   } else if (t === kUppercaseAll) {
@@ -28512,12 +28512,12 @@ exports.transformDictionaryWord = function(dst, idx, word, len, transform) {
       len -= step;
     }
   }
-  
+
   var suffix_pos = 0;
   while (suffix_pos < suffix.length) {
     dst[idx++] = suffix[suffix_pos++];
   }
-  
+
   return idx - start_idx;
 }
 
@@ -28566,7 +28566,7 @@ var GZIP_HEADER_ID1 = 0x1f;
 var GZIP_HEADER_ID2 = 0x8b;
 
 /**
- * Emulate Node's zlib C++ layer for use by the JS layer in index.js
+ * Emulate Node'svc zlib C++ layer for use by the JS layer in index.js
  */
 function Zlib(mode) {
   if (typeof mode !== 'number' || mode < exports.DEFLATE || mode > exports.UNZIP) {
@@ -29428,9 +29428,9 @@ Zlib.prototype._transform = function (chunk, encoding, cb) {
 
   if (!this._handle) return cb(new Error('zlib binding closed'));
 
-  // If it's the last chunk, or a final flush, we use the Z_FINISH flush flag
+  // If it'svc the last chunk, or a final flush, we use the Z_FINISH flush flag
   // (or whatever flag was provided using opts.finishFlush).
-  // If it's explicitly flushing at some other time, then we use
+  // If it'svc explicitly flushing at some other time, then we use
   // Z_FULL_FLUSH. Otherwise, use Z_NO_FLUSH for maximum compression
   // goodness.
   if (last) flushFlag = this._finishFlushFlag;else {
@@ -29500,9 +29500,9 @@ Zlib.prototype._processChunk = function (chunk, flushFlag, cb) {
   req.callback = callback;
 
   function callback(availInAfter, availOutAfter) {
-    // When the callback is used in an async write, the callback's
+    // When the callback is used in an async write, the callback'svc
     // context is the `req` object that was created. The req object
-    // is === this._handle, and that's why it's important to null
+    // is === this._handle, and that'svc why it'svc important to null
     // out the values after they are done being used. `this._handle`
     // can stay in memory longer than the callback and buffer are needed.
     if (this) {
@@ -30029,36 +30029,36 @@ function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } 
  * (See also read_buf()).
  */
 function flush_pending(strm) {
-  var s = strm.state;
+  var svc = strm.state;
 
-  //_tr_flush_bits(s);
-  var len = s.pending;
+  //_tr_flush_bits(svc);
+  var len = svc.pending;
   if (len > strm.avail_out) {
     len = strm.avail_out;
   }
   if (len === 0) { return; }
 
-  utils.arraySet(strm.output, s.pending_buf, s.pending_out, len, strm.next_out);
+  utils.arraySet(strm.output, svc.pending_buf, svc.pending_out, len, strm.next_out);
   strm.next_out += len;
-  s.pending_out += len;
+  svc.pending_out += len;
   strm.total_out += len;
   strm.avail_out -= len;
-  s.pending -= len;
-  if (s.pending === 0) {
-    s.pending_out = 0;
+  svc.pending -= len;
+  if (svc.pending === 0) {
+    svc.pending_out = 0;
   }
 }
 
 
-function flush_block_only(s, last) {
-  trees._tr_flush_block(s, (s.block_start >= 0 ? s.block_start : -1), s.strstart - s.block_start, last);
-  s.block_start = s.strstart;
-  flush_pending(s.strm);
+function flush_block_only(svc, last) {
+  trees._tr_flush_block(svc, (svc.block_start >= 0 ? svc.block_start : -1), svc.strstart - svc.block_start, last);
+  svc.block_start = svc.strstart;
+  flush_pending(svc.strm);
 }
 
 
-function put_byte(s, b) {
-  s.pending_buf[s.pending++] = b;
+function put_byte(svc, b) {
+  svc.pending_buf[svc.pending++] = b;
 }
 
 
@@ -30067,11 +30067,11 @@ function put_byte(s, b) {
  * IN assertion: the stream state is correct and there is enough room in
  * pending_buf.
  */
-function putShortMSB(s, b) {
-//  put_byte(s, (Byte)(b >> 8));
-//  put_byte(s, (Byte)(b & 0xff));
-  s.pending_buf[s.pending++] = (b >>> 8) & 0xff;
-  s.pending_buf[s.pending++] = b & 0xff;
+function putShortMSB(svc, b) {
+//  put_byte(svc, (Byte)(b >> 8));
+//  put_byte(svc, (Byte)(b & 0xff));
+  svc.pending_buf[svc.pending++] = (b >>> 8) & 0xff;
+  svc.pending_buf[svc.pending++] = b & 0xff;
 }
 
 
@@ -30114,49 +30114,49 @@ function read_buf(strm, buf, start, size) {
  * garbage.
  * IN assertions: cur_match is the head of the hash chain for the current
  *   string (strstart) and its distance is <= MAX_DIST, and prev_length >= 1
- * OUT assertion: the match length is not greater than s->lookahead.
+ * OUT assertion: the match length is not greater than svc->lookahead.
  */
-function longest_match(s, cur_match) {
-  var chain_length = s.max_chain_length;      /* max hash chain length */
-  var scan = s.strstart; /* current string */
+function longest_match(svc, cur_match) {
+  var chain_length = svc.max_chain_length;      /* max hash chain length */
+  var scan = svc.strstart; /* current string */
   var match;                       /* matched string */
   var len;                           /* length of current match */
-  var best_len = s.prev_length;              /* best match length so far */
-  var nice_match = s.nice_match;             /* stop if match long enough */
-  var limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
-      s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
+  var best_len = svc.prev_length;              /* best match length so far */
+  var nice_match = svc.nice_match;             /* stop if match long enough */
+  var limit = (svc.strstart > (svc.w_size - MIN_LOOKAHEAD)) ?
+      svc.strstart - (svc.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
 
-  var _win = s.window; // shortcut
+  var _win = svc.window; // shortcut
 
-  var wmask = s.w_mask;
-  var prev  = s.prev;
+  var wmask = svc.w_mask;
+  var prev  = svc.prev;
 
   /* Stop when cur_match becomes <= limit. To simplify the code,
    * we prevent matches with the string of window index 0.
    */
 
-  var strend = s.strstart + MAX_MATCH;
+  var strend = svc.strstart + MAX_MATCH;
   var scan_end1  = _win[scan + best_len - 1];
   var scan_end   = _win[scan + best_len];
 
   /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
    * It is easy to get rid of this optimization if necessary.
    */
-  // Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+  // Assert(svc->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
 
   /* Do not waste too much time if we already have a good match: */
-  if (s.prev_length >= s.good_match) {
+  if (svc.prev_length >= svc.good_match) {
     chain_length >>= 2;
   }
   /* Do not look for matches beyond the end of the input. This is necessary
    * to make deflate deterministic.
    */
-  if (nice_match > s.lookahead) { nice_match = s.lookahead; }
+  if (nice_match > svc.lookahead) { nice_match = svc.lookahead; }
 
-  // Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+  // Assert((ulg)svc->strstart <= svc->window_size-MIN_LOOKAHEAD, "need lookahead");
 
   do {
-    // Assert(cur_match < s->strstart, "no future");
+    // Assert(cur_match < svc->strstart, "no future");
     match = cur_match;
 
     /* Skip to next match if the match length cannot increase
@@ -30196,13 +30196,13 @@ function longest_match(s, cur_match) {
              _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
              scan < strend);
 
-    // Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+    // Assert(scan <= svc->window+(unsigned)(svc->window_size-1), "wild scan");
 
     len = MAX_MATCH - (strend - scan);
     scan = strend - MAX_MATCH;
 
     if (len > best_len) {
-      s.match_start = cur_match;
+      svc.match_start = cur_match;
       best_len = len;
       if (len >= nice_match) {
         break;
@@ -30212,10 +30212,10 @@ function longest_match(s, cur_match) {
     }
   } while ((cur_match = prev[cur_match & wmask]) > limit && --chain_length !== 0);
 
-  if (best_len <= s.lookahead) {
+  if (best_len <= svc.lookahead) {
     return best_len;
   }
-  return s.lookahead;
+  return svc.lookahead;
 }
 
 
@@ -30229,19 +30229,19 @@ function longest_match(s, cur_match) {
  *    performed for at least two bytes (required for the zip translate_eol
  *    option -- not supported here).
  */
-function fill_window(s) {
-  var _w_size = s.w_size;
+function fill_window(svc) {
+  var _w_size = svc.w_size;
   var p, n, m, more, str;
 
-  //Assert(s->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
+  //Assert(svc->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
 
   do {
-    more = s.window_size - s.lookahead - s.strstart;
+    more = svc.window_size - svc.lookahead - svc.strstart;
 
     // JS ints have 32 bit, block below not needed
     /* Deal with !@#$% 64K limit: */
     //if (sizeof(int) <= 2) {
-    //    if (more == 0 && s->strstart == 0 && s->lookahead == 0) {
+    //    if (more == 0 && svc->strstart == 0 && svc->lookahead == 0) {
     //        more = wsize;
     //
     //  } else if (more == (unsigned)(-1)) {
@@ -30256,13 +30256,13 @@ function fill_window(s) {
     /* If the window is almost full and there is insufficient lookahead,
      * move the upper half to the lower one to make room in the upper half.
      */
-    if (s.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
+    if (svc.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
 
-      utils.arraySet(s.window, s.window, _w_size, _w_size, 0);
-      s.match_start -= _w_size;
-      s.strstart -= _w_size;
+      utils.arraySet(svc.window, svc.window, _w_size, _w_size, 0);
+      svc.match_start -= _w_size;
+      svc.strstart -= _w_size;
       /* we now have strstart >= MAX_DIST */
-      s.block_start -= _w_size;
+      svc.block_start -= _w_size;
 
       /* Slide the hash table (could be avoided with 32 bit values
        at the expense of memory usage). We slide even when level == 0
@@ -30271,18 +30271,18 @@ function fill_window(s) {
        zlib, so we don't care about this pathological case.)
        */
 
-      n = s.hash_size;
+      n = svc.hash_size;
       p = n;
       do {
-        m = s.head[--p];
-        s.head[p] = (m >= _w_size ? m - _w_size : 0);
+        m = svc.head[--p];
+        svc.head[p] = (m >= _w_size ? m - _w_size : 0);
       } while (--n);
 
       n = _w_size;
       p = n;
       do {
-        m = s.prev[--p];
-        s.prev[p] = (m >= _w_size ? m - _w_size : 0);
+        m = svc.prev[--p];
+        svc.prev[p] = (m >= _w_size ? m - _w_size : 0);
         /* If n is not on any hash chain, prev[n] is garbage but
          * its value will never be used.
          */
@@ -30290,7 +30290,7 @@ function fill_window(s) {
 
       more += _w_size;
     }
-    if (s.strm.avail_in === 0) {
+    if (svc.strm.avail_in === 0) {
       break;
     }
 
@@ -30301,29 +30301,29 @@ function fill_window(s) {
      * => more >= window_size - 2*WSIZE + 2
      * In the BIG_MEM or MMAP case (not yet supported),
      *   window_size == input_size + MIN_LOOKAHEAD  &&
-     *   strstart + s->lookahead <= input_size => more >= MIN_LOOKAHEAD.
+     *   strstart + svc->lookahead <= input_size => more >= MIN_LOOKAHEAD.
      * Otherwise, window_size == 2*WSIZE so more >= 2.
      * If there was sliding, more >= WSIZE. So in all cases, more >= 2.
      */
     //Assert(more >= 2, "more < 2");
-    n = read_buf(s.strm, s.window, s.strstart + s.lookahead, more);
-    s.lookahead += n;
+    n = read_buf(svc.strm, svc.window, svc.strstart + svc.lookahead, more);
+    svc.lookahead += n;
 
     /* Initialize the hash value now that we have some input: */
-    if (s.lookahead + s.insert >= MIN_MATCH) {
-      str = s.strstart - s.insert;
-      s.ins_h = s.window[str];
+    if (svc.lookahead + svc.insert >= MIN_MATCH) {
+      str = svc.strstart - svc.insert;
+      svc.ins_h = svc.window[str];
 
-      /* UPDATE_HASH(s, s->ins_h, s->window[str + 1]); */
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + 1]) & s.hash_mask;
+      /* UPDATE_HASH(svc, svc->ins_h, svc->window[str + 1]); */
+      svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[str + 1]) & svc.hash_mask;
 //#if MIN_MATCH != 3
 //        Call update_hash() MIN_MATCH-3 more times
 //#endif
-      while (s.insert) {
-        /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
-        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+      while (svc.insert) {
+        /* UPDATE_HASH(svc, svc->ins_h, svc->window[str + MIN_MATCH-1]); */
+        svc.ins_h = ((svc.ins_h << svc.hash_shift) ^ svc.window[str + MIN_MATCH - 1]) & svc.hash_mask;
 
-        s.prev[str & s.w_mask] = s.head[s.ins_h];
+        svc.prev[str & svc.w_mask] = s.head[s.ins_h];
         s.head[s.ins_h] = str;
         str++;
         s.insert--;
@@ -46090,7 +46090,7 @@ function DBCSCodec(codecOptions, iconv) {
     this.decodeTables = [];
     this.decodeTables[0] = UNASSIGNED_NODE.slice(0); // Create root node.
 
-    // Sometimes a MBCS char corresponds to a sequence of unicode chars. We store them as arrays of integers here. 
+    // Sometimes a MBCS char corresponds to a sequence of unicode chars. We store them as arrays of integers here.
     this.decodeTableSeq = [];
 
     // Actual mapping tables consist of chunks. Use them to fill up decode tables.
@@ -46141,7 +46141,7 @@ function DBCSCodec(codecOptions, iconv) {
 
     this.defaultCharUnicode = iconv.defaultCharUnicode;
 
-    
+
     // Encode tables: Unicode -> DBCS.
 
     // `encodeTable` is array mapping from unicode char to encoded char. All its values are integers for performance.
@@ -46150,7 +46150,7 @@ function DBCSCodec(codecOptions, iconv) {
     //         == UNASSIGNED -> no conversion found. Output a default char.
     //         <= SEQ_START  -> it's an index in encodeTableSeq, see below. The character starts a sequence.
     this.encodeTable = [];
-    
+
     // `encodeTableSeq` is used when a sequence of unicode characters is encoded as a single code. We use a tree of
     // objects where keys correspond to characters in sequence and leafs are the encoded dbcs values. A special DEF_CHAR key
     // means end of sequence (needed when one sequence is a strict subsequence of another).
@@ -46168,7 +46168,7 @@ function DBCSCodec(codecOptions, iconv) {
                 for (var j = val.from; j <= val.to; j++)
                     skipEncodeChars[j] = true;
         }
-        
+
     // Use decode trie to recursively fill out encode tables.
     this._fillEncodeTable(0, 0, skipEncodeChars);
 
@@ -46246,7 +46246,7 @@ DBCSCodec.prototype._addDecodeChunk = function(chunk) {
                 else
                     writeTable[curAddr++] = code; // Basic char
             }
-        } 
+        }
         else if (typeof part === "number") { // Integer, meaning increasing sequence starting with prev character.
             var charCode = writeTable[curAddr - 1] + 1;
             for (var l = 0; l < part; l++)
@@ -46277,7 +46277,7 @@ DBCSCodec.prototype._setEncodeChar = function(uCode, dbcsCode) {
 }
 
 DBCSCodec.prototype._setEncodeSequence = function(seq, dbcsCode) {
-    
+
     // Get the root of character tree according to first character of the sequence.
     var uCode = seq[0];
     var bucket = this._getEncodeBucket(uCode);
@@ -46351,7 +46351,7 @@ function DBCSEncoder(options, codec) {
     // Encoder state
     this.leadSurrogate = -1;
     this.seqObj = undefined;
-    
+
     // Static data
     this.encodeTable = codec.encodeTable;
     this.encodeTableSeq = codec.encodeTableSeq;
@@ -46373,7 +46373,7 @@ DBCSEncoder.prototype.write = function(str) {
         }
         else {
             var uCode = nextChar;
-            nextChar = -1;    
+            nextChar = -1;
         }
 
         // 1. Handle surrogates.
@@ -46395,7 +46395,7 @@ DBCSEncoder.prototype.write = function(str) {
                     // Incomplete surrogate pair - only trail surrogate found.
                     uCode = UNASSIGNED;
                 }
-                
+
             }
         }
         else if (leadSurrogate !== -1) {
@@ -46436,7 +46436,7 @@ DBCSEncoder.prototype.write = function(str) {
             var subtable = this.encodeTable[uCode >> 8];
             if (subtable !== undefined)
                 dbcsCode = subtable[uCode & 0xFF];
-            
+
             if (dbcsCode <= SEQ_START) { // Sequence start
                 seqObj = this.encodeTableSeq[SEQ_START-dbcsCode];
                 continue;
@@ -46459,7 +46459,7 @@ DBCSEncoder.prototype.write = function(str) {
         // 3. Write dbcsCode character.
         if (dbcsCode === UNASSIGNED)
             dbcsCode = this.defaultCharSingleByte;
-        
+
         if (dbcsCode < 0x100) {
             newBuf[j++] = dbcsCode;
         }
@@ -46511,7 +46511,7 @@ DBCSEncoder.prototype.end = function() {
         newBuf[j++] = this.defaultCharSingleByte;
         this.leadSurrogate = -1;
     }
-    
+
     return newBuf.slice(0, j);
 }
 
@@ -46535,7 +46535,7 @@ function DBCSDecoder(options, codec) {
 
 DBCSDecoder.prototype.write = function(buf) {
     var newBuf = Buffer.alloc(buf.length*2),
-        nodeIdx = this.nodeIdx, 
+        nodeIdx = this.nodeIdx,
         prevBytes = this.prevBytes, prevOffset = this.prevBytes.length,
         seqStart = -this.prevBytes.length, // idx of the start of current parsed sequence.
         uCode;
@@ -46546,7 +46546,7 @@ DBCSDecoder.prototype.write = function(buf) {
         // Lookup in current trie node.
         var uCode = this.decodeTables[nodeIdx][curByte];
 
-        if (uCode >= 0) { 
+        if (uCode >= 0) {
             // Normal character, just use it.
         }
         else if (uCode === UNASSIGNED) { // Unknown char.
@@ -46558,9 +46558,9 @@ DBCSDecoder.prototype.write = function(buf) {
             if (i >= 3) {
                 var ptr = (buf[i-3]-0x81)*12600 + (buf[i-2]-0x30)*1260 + (buf[i-1]-0x81)*10 + (curByte-0x30);
             } else {
-                var ptr = (prevBytes[i-3+prevOffset]-0x81)*12600 + 
-                          (((i-2 >= 0) ? buf[i-2] : prevBytes[i-2+prevOffset])-0x30)*1260 + 
-                          (((i-1 >= 0) ? buf[i-1] : prevBytes[i-1+prevOffset])-0x81)*10 + 
+                var ptr = (prevBytes[i-3+prevOffset]-0x81)*12600 +
+                          (((i-2 >= 0) ? buf[i-2] : prevBytes[i-2+prevOffset])-0x30)*1260 +
+                          (((i-1 >= 0) ? buf[i-1] : prevBytes[i-1+prevOffset])-0x81)*10 +
                           (curByte-0x30);
             }
             var idx = findIdx(this.gb18030.gbChars, ptr);
@@ -46583,7 +46583,7 @@ DBCSDecoder.prototype.write = function(buf) {
             throw new Error("iconv-lite internal error: invalid decoding table value " + uCode + " at " + nodeIdx + "/" + curByte);
 
         // Write the character to buffer, handling higher planes using surrogate pair.
-        if (uCode >= 0x10000) { 
+        if (uCode >= 0x10000) {
             uCode -= 0x10000;
             var uCodeLead = 0xD800 | (uCode >> 10);
             newBuf[j++] = uCodeLead & 0xFF;
@@ -46658,11 +46658,11 @@ function findIdx(table, val) {
 // require()-s are direct to support Browserify.
 
 module.exports = {
-    
+
     // == Japanese/ShiftJIS ====================================================
     // All japanese encodings are based on JIS X set of standards:
     // JIS X 0201 - Single-byte encoding of ASCII + ¥ + Kana chars at 0xA1-0xDF.
-    // JIS X 0208 - Main set of 6879 characters, placed in 94x94 plane, to be encoded by 2 bytes. 
+    // JIS X 0208 - Main set of 6879 characters, placed in 94x94 plane, to be encoded by 2 bytes.
     //              Has several variations in 1978, 1983, 1990 and 1997.
     // JIS X 0212 - Supplementary plane of 6067 chars in 94x94 plane. 1990. Effectively dead.
     // JIS X 0213 - Extension and modern replacement of 0208 and 0212. Total chars: 11233.
@@ -46680,7 +46680,7 @@ module.exports = {
     //               0x8F, (0xA1-0xFE)x2 - 0212 plane (94x94).
     //  * JIS X 208: 7-bit, direct encoding of 0208. Byte ranges: 0x21-0x7E (94 values). Uncommon.
     //               Used as-is in ISO2022 family.
-    //  * ISO2022-JP: Stateful encoding, with escape sequences to switch between ASCII, 
+    //  * ISO2022-JP: Stateful encoding, with escape sequences to switch between ASCII,
     //                0201-1976 Roman, 0208-1978, 0208-1983.
     //  * ISO2022-JP-1: Adds esc seq for 0212-1990.
     //  * ISO2022-JP-2: Adds esc seq for GB2313-1980, KSX1001-1992, ISO8859-1, ISO8859-7.
@@ -46792,7 +46792,7 @@ module.exports = {
     //  * Windows CP 951: Microsoft variant of Big5-HKSCS-2001. Seems to be never public. http://me.abelcheung.org/articles/research/what-is-cp951/
     //  * Big5-2003 (Taiwan standard) almost superset of cp950.
     //  * Unicode-at-on (UAO) / Mozilla 1.8. Falling out of use on the Web. Not supported by other browsers.
-    //  * Big5-HKSCS (-2001, -2004, -2008). Hong Kong standard. 
+    //  * Big5-HKSCS (-2001, -2004, -2008). Hong Kong standard.
     //    many unicode code points moved from PUA to Supplementary plane (U+2XXXX) over the years.
     //    Plus, it has 4 combining sequences.
     //    Seems that Mozilla refused to support it for 10 yrs. https://bugzilla.mozilla.org/show_bug.cgi?id=162431 https://bugzilla.mozilla.org/show_bug.cgi?id=310299
@@ -46803,7 +46803,7 @@ module.exports = {
     //    In the encoder, it might make sense to support encoding old PUA mappings to Big5 bytes seq-s.
     //    Official spec: http://www.ogcio.gov.hk/en/business/tech_promotion/ccli/terms/doc/2003cmp_2008.txt
     //                   http://www.ogcio.gov.hk/tc/business/tech_promotion/ccli/terms/doc/hkscs-2008-big5-iso.txt
-    // 
+    //
     // Current understanding of how to deal with Big5(-HKSCS) is in the Encoding Standard, http://encoding.spec.whatwg.org/#big5-encoder
     // Unicode mapping (http://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/OTHER/BIG5.TXT) is said to be wrong.
 
@@ -47026,7 +47026,7 @@ function InternalDecoderCesu8(options, codec) {
 }
 
 InternalDecoderCesu8.prototype.write = function(buf) {
-    var acc = this.acc, contBytes = this.contBytes, accBytes = this.accBytes, 
+    var acc = this.acc, contBytes = this.contBytes, accBytes = this.accBytes,
         res = '';
     for (var i = 0; i < buf.length; i++) {
         var curByte = buf[i];
@@ -47088,17 +47088,17 @@ InternalDecoderCesu8.prototype.end = function() {
 var Buffer = (__webpack_require__(7103).Buffer);
 
 // Single-byte codec. Needs a 'chars' string parameter that contains 256 or 128 chars that
-// correspond to encoded bytes (if 128 - then lower half is ASCII). 
+// correspond to encoded bytes (if 128 - then lower half is ASCII).
 
 exports._sbcs = SBCSCodec;
 function SBCSCodec(codecOptions, iconv) {
     if (!codecOptions)
         throw new Error("SBCS codec is called without the data.")
-    
+
     // Prepare char buffer for decoding.
     if (!codecOptions.chars || (codecOptions.chars.length !== 128 && codecOptions.chars.length !== 256))
         throw new Error("Encoding '"+codecOptions.type+"' has incorrect 'chars' (must be of len 128 or 256)");
-    
+
     if (codecOptions.chars.length === 128) {
         var asciiString = "";
         for (var i = 0; i < 128; i++)
@@ -47107,7 +47107,7 @@ function SBCSCodec(codecOptions, iconv) {
     }
 
     this.decodeBuf = Buffer.from(codecOptions.chars, 'ucs2');
-    
+
     // Encoding buffer.
     var encodeBuf = Buffer.alloc(65536, iconv.defaultCharSingleByte.charCodeAt(0));
 
@@ -47129,7 +47129,7 @@ SBCSEncoder.prototype.write = function(str) {
     var buf = Buffer.alloc(str.length);
     for (var i = 0; i < str.length; i++)
         buf[i] = this.encodeBuf[str.charCodeAt(i)];
-    
+
     return buf;
 }
 
@@ -47927,7 +47927,7 @@ Utf16Decoder.prototype.write = function(buf) {
         // Codec is not chosen yet. Accumulate initial bytes.
         this.initialBufs.push(buf);
         this.initialBufsLen += buf.length;
-        
+
         if (this.initialBufsLen < 16) // We need more bytes to use space heuristic (see below)
             return '';
 
@@ -48134,7 +48134,7 @@ Utf32Decoder.prototype.write = function(src) {
     if (overflow.length > 0) {
         for (; i < src.length && overflow.length < 4; i++)
             overflow.push(src[i]);
-        
+
         if (overflow.length === 4) {
             // NOTE: codepoint is a signed int32 and can be negative.
             // NOTE: We copied this block from below to help V8 optimize it (it works with array, not buffer).
@@ -48173,7 +48173,7 @@ function _writeCodepoint(dst, offset, codepoint, badChar) {
     if (codepoint < 0 || codepoint > 0x10FFFF) {
         // Not a valid Unicode codepoint
         codepoint = badChar;
-    } 
+    }
 
     // Ephemeral Planes: Write high surrogate.
     if (codepoint >= 0x10000) {
@@ -48245,7 +48245,7 @@ function Utf32AutoDecoder(options, codec) {
 }
 
 Utf32AutoDecoder.prototype.write = function(buf) {
-    if (!this.decoder) { 
+    if (!this.decoder) {
         // Codec is not chosen yet. Accumulate initial bytes.
         this.initialBufs.push(buf);
         this.initialBufsLen += buf.length;
@@ -48370,8 +48370,8 @@ Utf7Encoder.prototype.write = function(str) {
     // Naive implementation.
     // Non-direct chars are encoded as "+<base64>-"; single "+" char is encoded as "+-".
     return Buffer.from(str.replace(nonDirectChars, function(chunk) {
-        return "+" + (chunk === '+' ? '' : 
-            this.iconv.encode(chunk, 'utf16-be').toString('base64').replace(/=+$/, '')) 
+        return "+" + (chunk === '+' ? '' :
+            this.iconv.encode(chunk, 'utf16-be').toString('base64').replace(/=+$/, ''))
             + "-";
     }.bind(this)));
 }
@@ -48393,7 +48393,7 @@ var base64Chars = [];
 for (var i = 0; i < 256; i++)
     base64Chars[i] = base64Regex.test(String.fromCharCode(i));
 
-var plusChar = '+'.charCodeAt(0), 
+var plusChar = '+'.charCodeAt(0),
     minusChar = '-'.charCodeAt(0),
     andChar = '&'.charCodeAt(0);
 
@@ -48722,7 +48722,7 @@ iconv.encode = function encode(str, encoding, options) {
 
     var res = encoder.write(str);
     var trail = encoder.end();
-    
+
     return (trail && trail.length > 0) ? Buffer.concat([res, trail]) : res;
 }
 
@@ -48762,7 +48762,7 @@ iconv._codecDataCache = {};
 iconv.getCodec = function getCodec(encoding) {
     if (!iconv.encodings)
         iconv.encodings = __webpack_require__(6934); // Lazy load all encoding definitions.
-    
+
     // Canonicalize encoding name: strip all non-alphanumeric chars and appended year.
     var enc = iconv._canonicalizeEncoding(encoding);
 
@@ -48786,7 +48786,7 @@ iconv.getCodec = function getCodec(encoding) {
 
                 if (!codecOptions.encodingName)
                     codecOptions.encodingName = enc;
-                
+
                 enc = codecDef.type;
                 break;
 
@@ -48889,7 +48889,7 @@ if (false) {}
 
 var Buffer = (__webpack_require__(7103).Buffer);
 
-// NOTE: Due to 'stream' module being pretty large (~100Kb, significant in browser environments), 
+// NOTE: Due to 'stream' module being pretty large (~100Kb, significant in browser environments),
 // we opt to dependency-inject it instead of creating a hard dependency.
 module.exports = function(stream_module) {
     var Transform = stream_module.Transform;
@@ -48971,7 +48971,7 @@ module.exports = function(stream_module) {
     IconvLiteDecoderStream.prototype._flush = function(done) {
         try {
             var res = this.conv.end();
-            if (res && res.length) this.push(res, this.encoding);                
+            if (res && res.length) this.push(res, this.encoding);
             done();
         }
         catch (e) {
@@ -55831,10 +55831,10 @@ function Data(source, dest) {
   this.sourceIndex = 0;
   this.tag = 0;
   this.bitcount = 0;
-  
+
   this.dest = dest;
   this.destLen = 0;
-  
+
   this.ltree = new Tree();  /* dynamic length/symbol tree */
   this.dtree = new Tree();  /* dynamic distance tree */
 }
@@ -55976,7 +55976,7 @@ function tinf_decode_symbol(d, t) {
     d.tag |= d.source[d.sourceIndex++] << d.bitcount;
     d.bitcount += 8;
   }
-  
+
   var sum = 0, cur = 0, len = 0;
   var tag = d.tag;
 
@@ -55989,7 +55989,7 @@ function tinf_decode_symbol(d, t) {
     sum += t.table[len];
     cur -= t.table[len];
   } while (cur >= 0);
-  
+
   d.tag = tag;
   d.bitcount -= len;
 
@@ -56100,7 +56100,7 @@ function tinf_inflate_block_data(d, lt, dt) {
 function tinf_inflate_uncompressed_block(d) {
   var length, invlength;
   var i;
-  
+
   /* unread from bitbuffer */
   while (d.bitcount > 8) {
     d.sourceIndex--;
@@ -56173,7 +56173,7 @@ function tinf_uncompress(source, dest) {
     else
       return d.dest.subarray(0, d.destLen);
   }
-  
+
   return d.dest;
 }
 
@@ -56941,7 +56941,7 @@ var LANGUAGES = [// unicode
   89: 'sw'
 }, // ISO (deprecated)
 [], {
-  // windows                                        
+  // windows
   0x0436: 'af',
   0x4009: 'en-IN',
   0x0487: 'rw',
@@ -79426,7 +79426,7 @@ module.exports = JSON.parse('[["0","\\u0000",128],["a1","｡",62],["8140","　�
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -79440,17 +79440,17 @@ module.exports = JSON.parse('[["0","\\u0000",128],["a1","｡",62],["8140","　�
 /******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/global */
 /******/ 	!function() {
@@ -79463,7 +79463,7 @@ module.exports = JSON.parse('[["0","\\u0000",128],["a1","｡",62],["8140","　�
 /******/ 			}
 /******/ 		})();
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	!function() {
 /******/ 		__webpack_require__.nmd = function(module) {
@@ -79472,14 +79472,14 @@ module.exports = JSON.parse('[["0","\\u0000",128],["a1","｡",62],["8140","　�
 /******/ 			return module;
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	var __webpack_exports__ = __webpack_require__(2536);
-/******/ 	
+/******/
 /******/ 	return __webpack_exports__;
 /******/ })()
 ;

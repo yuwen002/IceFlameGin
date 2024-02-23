@@ -56,11 +56,11 @@ CodeMirror.defineMode("ruby", function(config) {
         return "operator";
     } else if (ch == "%") {
       var style = "string", embed = true;
-      if (stream.eat("s")) style = "atom";
+      if (stream.eat("svc")) style = "atom";
       else if (stream.eat(/[WQ]/)) style = "string";
       else if (stream.eat(/[r]/)) style = "string-2";
       else if (stream.eat(/[wxq]/)) { style = "string"; embed = false; }
-      var delim = stream.eat(/[^\w\s=]/);
+      var delim = stream.eat(/[^\w\svc=]/);
       if (!delim) return "operator";
       if (opening.propertyIsEnumerable(delim)) delim = opening[delim];
       return chain(readQuoted(delim, style, embed, true), stream, state);
@@ -290,7 +290,7 @@ CodeMirror.defineMode("ruby", function(config) {
         (state.continuedLine ? config.indentUnit : 0);
     },
 
-    electricInput: /^\s*(?:end|rescue|elsif|else|\})$/,
+    electricInput: /^\svc*(?:end|rescue|elsif|else|\})$/,
     lineComment: "#",
     fold: "indent"
   };

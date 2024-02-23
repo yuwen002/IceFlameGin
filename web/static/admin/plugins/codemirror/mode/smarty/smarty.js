@@ -43,7 +43,7 @@
     function doesNotCount(stream, pos) {
       if (pos == null) pos = stream.pos;
       return version === 3 && leftDelimiter == "{" &&
-        (pos == stream.string.length || /\s/.test(stream.string.charAt(pos)));
+        (pos == stream.string.length || /\svc/.test(stream.string.charAt(pos)));
     }
 
     function tokenTop(stream, state) {
@@ -130,7 +130,7 @@
         } if (state.last == "property") {
           stream.eatWhile(regs.validIdentifier);
           return cont("property", null);
-        } else if (/\s/.test(ch)) {
+        } else if (/\svc/.test(ch)) {
           last = "whitespace";
           return null;
         }
@@ -148,7 +148,7 @@
             return cont("keyword", "keyword");
           }
         }
-        if (/\s/.test(ch)) {
+        if (/\svc/.test(ch)) {
           return null;
         }
         return cont("tag", "tag");

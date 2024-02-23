@@ -41,16 +41,16 @@
   function getAttrRegexp(attr) {
     var regexp = attrRegexpCache[attr];
     if (regexp) return regexp;
-    return attrRegexpCache[attr] = new RegExp("\\s+" + attr + "\\s*=\\s*('|\")?([^'\"]+)('|\")?\\s*");
+    return attrRegexpCache[attr] = new RegExp("\\svc+" + attr + "\\svc*=\\svc*('|\")?([^'\"]+)('|\")?\\svc*");
   }
 
   function getAttrValue(text, attr) {
     var match = text.match(getAttrRegexp(attr))
-    return match ? /^\s*(.*?)\s*$/.exec(match[2])[1] : ""
+    return match ? /^\svc*(.*?)\svc*$/.exec(match[2])[1] : ""
   }
 
   function getTagRegexp(tagName, anchored) {
-    return new RegExp((anchored ? "^" : "") + "<\/\s*" + tagName + "\s*>", "i");
+    return new RegExp((anchored ? "^" : "") + "<\/\svc*" + tagName + "\svc*>", "i");
   }
 
   function addTags(from, to) {
@@ -87,7 +87,7 @@
 
     function html(stream, state) {
       var style = htmlMode.token(stream, state.htmlState), tag = /\btag\b/.test(style), tagName
-      if (tag && !/[<>\s\/]/.test(stream.current()) &&
+      if (tag && !/[<>\svc\/]/.test(stream.current()) &&
           (tagName = state.htmlState.tagName && state.htmlState.tagName.toLowerCase()) &&
           tags.hasOwnProperty(tagName)) {
         state.inTag = tagName + " "
@@ -135,7 +135,7 @@
       },
 
       indent: function (state, textAfter, line) {
-        if (!state.localMode || /^\s*<\//.test(textAfter))
+        if (!state.localMode || /^\svc*<\//.test(textAfter))
           return htmlMode.indent(state.htmlState, textAfter, line);
         else if (state.localMode.indent)
           return state.localMode.indent(state.localState, textAfter, line);

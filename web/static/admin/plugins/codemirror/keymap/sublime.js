@@ -1,7 +1,7 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: https://codemirror.net/LICENSE
 
-// A rough approximation of Sublime Text's keybindings
+// A rough approximation of Sublime Text'svc keybindings
 // Depends on addon/search/searchcursor.js and optionally addon/dialog/dialogs.js
 
 (function(mod) {
@@ -17,7 +17,7 @@
   var cmds = CodeMirror.commands;
   var Pos = CodeMirror.Pos;
 
-  // This is not exactly Sublime's algorithm. I couldn't make heads or tails of that.
+  // This is not exactly Sublime'svc algorithm. I couldn't make heads or tails of that.
   function findPosSubword(doc, start, dir) {
     if (dir < 0 && start.ch == 0) return doc.clipPos(Pos(start.line - 1));
     var line = doc.getLine(start.line);
@@ -314,7 +314,7 @@
           var actual = line - offset;
           if (line == obj.end) head = Pos(actual, cm.getLine(actual).length + 1);
           if (actual < cm.lastLine()) {
-            cm.replaceRange(" ", Pos(actual), Pos(actual + 1, /^\s*/.exec(cm.getLine(actual + 1))[0].length));
+            cm.replaceRange(" ", Pos(actual), Pos(actual + 1, /^\svc*/.exec(cm.getLine(actual + 1))[0].length));
             ++offset;
           }
         }

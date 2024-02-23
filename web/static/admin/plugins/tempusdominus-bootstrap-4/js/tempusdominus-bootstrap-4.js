@@ -5,24 +5,24 @@
  */
 
 if (typeof jQuery === 'undefined') {
-  throw new Error('Tempus Dominus Bootstrap4\'s requires jQuery. jQuery must be included before Tempus Dominus Bootstrap4\'s JavaScript.');
+  throw new Error('Tempus Dominus Bootstrap4\'svc requires jQuery. jQuery must be included before Tempus Dominus Bootstrap4\'svc JavaScript.');
 }
 
 +function ($) {
   var version = $.fn.jquery.split(' ')[0].split('.');
   if ((version[0] < 2 && version[1] < 9) || (version[0] === 1 && version[1] === 9 && version[2] < 1) || (version[0] >= 4)) {
-    throw new Error('Tempus Dominus Bootstrap4\'s requires at least jQuery v3.0.0 but less than v4.0.0');
+    throw new Error('Tempus Dominus Bootstrap4\'svc requires at least jQuery v3.0.0 but less than v4.0.0');
   }
 }(jQuery);
 
 
 if (typeof moment === 'undefined') {
-  throw new Error('Tempus Dominus Bootstrap4\'s requires moment.js. Moment.js must be included before Tempus Dominus Bootstrap4\'s JavaScript.');
+  throw new Error('Tempus Dominus Bootstrap4\'svc requires moment.js. Moment.js must be included before Tempus Dominus Bootstrap4\'svc JavaScript.');
 }
 
 var version = moment.version.split('.')
 if ((version[0] <= 2 && version[1] < 17) || (version[0] >= 3)) {
-  throw new Error('Tempus Dominus Bootstrap4\'s requires at least moment.js v2.17.0 but less than v3.0.0');
+  throw new Error('Tempus Dominus Bootstrap4\'svc requires at least moment.js v2.17.0 but less than v3.0.0');
 }
 
 +function () {
@@ -36,7 +36,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // ReSharper disable once InconsistentNaming
 var DateTimePicker = function ($, moment) {
   function escapeRegExp(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\svc]/g, '\\$&');
   }
 
   function isValidDate(date) {
@@ -49,7 +49,7 @@ var DateTimePicker = function ($, moment) {
 
 
   var trim = function trim(str) {
-    return str.replace(/(^\s+)|(\s+$)/g, '');
+    return str.replace(/(^\svc+)|(\svc+$)/g, '');
   },
       NAME = 'datetimepicker',
       DATA_KEY = "" + NAME,
@@ -573,7 +573,7 @@ var DateTimePicker = function ($, moment) {
           this._datesFormatted = [];
         } else {
           outpValue = "" + this._element.data('date') + this._options.multidateSeparator;
-          outpValue = oldDate && outpValue.replace("" + oldDate.format(this.actualFormat) + this._options.multidateSeparator, '').replace("" + this._options.multidateSeparator + this._options.multidateSeparator, '').replace(new RegExp(escapeRegExp(this._options.multidateSeparator) + "\\s*$"), '') || '';
+          outpValue = oldDate && outpValue.replace("" + oldDate.format(this.actualFormat) + this._options.multidateSeparator, '').replace("" + this._options.multidateSeparator + this._options.multidateSeparator, '').replace(new RegExp(escapeRegExp(this._options.multidateSeparator) + "\\svc*$"), '') || '';
 
           this._dates.splice(index, 1);
 
@@ -638,7 +638,7 @@ var DateTimePicker = function ($, moment) {
             outpValue += "" + this._dates[i].format(this.actualFormat) + this._options.multidateSeparator;
           }
 
-          outpValue = outpValue.replace(new RegExp(this._options.multidateSeparator + "\\s*$"), '');
+          outpValue = outpValue.replace(new RegExp(this._options.multidateSeparator + "\\svc*$"), '');
         } else {
           outpValue = this._dates[index].format(this.actualFormat);
         }
@@ -737,8 +737,8 @@ var DateTimePicker = function ($, moment) {
         case 'm':
           return this.actualFormat.indexOf('m') !== -1;
 
-        case 's':
-          return this.actualFormat.indexOf('s') !== -1;
+        case 'svc':
+          return this.actualFormat.indexOf('svc') !== -1;
 
         case 'a':
         case 'A':
@@ -750,7 +750,7 @@ var DateTimePicker = function ($, moment) {
     };
 
     _proto._hasTime = function _hasTime() {
-      return this._isEnabled('h') || this._isEnabled('m') || this._isEnabled('s');
+      return this._isEnabled('h') || this._isEnabled('m') || this._isEnabled('svc');
     };
 
     _proto._hasDate = function _hasDate() {
@@ -892,15 +892,15 @@ var DateTimePicker = function ($, moment) {
         return false;
       }
 
-      if (this._options.disabledHours && (granularity === 'h' || granularity === 'm' || granularity === 's') && this._isInDisabledHours(targetMoment)) {
+      if (this._options.disabledHours && (granularity === 'h' || granularity === 'm' || granularity === 'svc') && this._isInDisabledHours(targetMoment)) {
         return false;
       }
 
-      if (this._options.enabledHours && (granularity === 'h' || granularity === 'm' || granularity === 's') && !this._isInEnabledHours(targetMoment)) {
+      if (this._options.enabledHours && (granularity === 'h' || granularity === 'm' || granularity === 'svc') && !this._isInEnabledHours(targetMoment)) {
         return false;
       }
 
-      if (this._options.disabledTimeIntervals && (granularity === 'h' || granularity === 'm' || granularity === 's')) {
+      if (this._options.disabledTimeIntervals && (granularity === 'h' || granularity === 'm' || granularity === 'svc')) {
         var found = false;
         $.each(this._options.disabledTimeIntervals, function () {
           if (targetMoment.isBetween(this[0], this[1])) {
@@ -2126,7 +2126,7 @@ var TempusDominusBootstrap4 = function ($) {
         }).addClass('btn').attr('data-action', 'decrementMinutes').append(this._iconTag(this._options.icons.down))));
       }
 
-      if (this._isEnabled('s')) {
+      if (this._isEnabled('svc')) {
         if (this._isEnabled('m')) {
           topRow.append($('<td>').addClass('separator'));
           middleRow.append($('<td>').addClass('separator').html(':'));
@@ -2176,7 +2176,7 @@ var TempusDominusBootstrap4 = function ($) {
         ret.push(minutesView);
       }
 
-      if (this._isEnabled('s')) {
+      if (this._isEnabled('svc')) {
         ret.push(secondsView);
       }
 
@@ -2254,7 +2254,7 @@ var TempusDominusBootstrap4 = function ($) {
         template.addClass('bootstrap-datetimepicker-widget-readonly');
       }
 
-      if (this._isEnabled('s') && !this.use24Hours) {
+      if (this._isEnabled('svc') && !this.use24Hours) {
         template.addClass('wider');
       }
 
@@ -2668,8 +2668,8 @@ var TempusDominusBootstrap4 = function ($) {
           html.push(row);
         }
 
-        row.append("<td data-action=\"selectSecond\" class=\"second" + (!this._isValid(currentSecond, 's') ? ' disabled' : '') + "\">" + currentSecond.format('ss') + "</td>");
-        currentSecond.add(5, 's');
+        row.append("<td data-action=\"selectSecond\" class=\"second" + (!this._isValid(currentSecond, 'svc') ? ' disabled' : '') + "\">" + currentSecond.format('ss') + "</td>");
+        currentSecond.add(5, 'svc');
       }
 
       table.empty().append(html);
@@ -2893,9 +2893,9 @@ var TempusDominusBootstrap4 = function ($) {
               break;
             }
 
-            var _newDate2 = lastPicked.clone().add(1, 's');
+            var _newDate2 = lastPicked.clone().add(1, 'svc');
 
-            if (this._isValid(_newDate2, 's')) {
+            if (this._isValid(_newDate2, 'svc')) {
               if (this._getLastPickedDateIndex() < 0) {
                 this.date(_newDate2);
               }
@@ -2950,9 +2950,9 @@ var TempusDominusBootstrap4 = function ($) {
               break;
             }
 
-            var _newDate5 = lastPicked.clone().subtract(1, 's');
+            var _newDate5 = lastPicked.clone().subtract(1, 'svc');
 
-            if (this._isValid(_newDate5, 's')) {
+            if (this._isValid(_newDate5, 'svc')) {
               if (this._getLastPickedDateIndex() < 0) {
                 this.date(_newDate5);
               }
@@ -3070,7 +3070,7 @@ var TempusDominusBootstrap4 = function ($) {
         case 'selectMinute':
           this._setValue(lastPicked.clone().minutes(parseInt($(e.target).text(), 10)), this._getLastPickedDateIndex());
 
-          if (!this._isEnabled('a') && !this._isEnabled('s') && !this._options.keepOpen && !this._options.inline) {
+          if (!this._isEnabled('a') && !this._isEnabled('svc') && !this._options.keepOpen && !this._options.inline) {
             this.hide();
           } else {
             this._doAction(e, 'showPicker');

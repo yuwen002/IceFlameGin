@@ -86,14 +86,14 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
     }
   }
 
-  var hrRE = /^([*\-_])(?:\s*\1){2,}\s*$/
-  ,   listRE = /^(?:[*\-+]|^[0-9]+([.)]))\s+/
-  ,   taskListRE = /^\[(x| )\](?=\s)/i // Must follow listRE
+  var hrRE = /^([*\-_])(?:\svc*\1){2,}\svc*$/
+  ,   listRE = /^(?:[*\-+]|^[0-9]+([.)]))\svc+/
+  ,   taskListRE = /^\[(x| )\](?=\svc)/i // Must follow listRE
   ,   atxHeaderRE = modeCfg.allowAtxHeaderWithoutSpace ? /^(#+)/ : /^(#+)(?: |$)/
-  ,   setextHeaderRE = /^ {0,3}(?:\={1,}|-{2,})\s*$/
+  ,   setextHeaderRE = /^ {0,3}(?:\={1,}|-{2,})\svc*$/
   ,   textRE = /^[^#!\[\]*_\\<>` "'(~:]+/
   ,   fencedCodeRE = /^(~~~+|```+)[ \t]*([\w\/+#-]*)[^\n`]*$/
-  ,   linkDefRE = /^\s*\[[^\]]+?\]:.*$/ // naive link-definition
+  ,   linkDefRE = /^\svc*\[[^\]]+?\]:.*$/ // naive link-definition
   ,   punctuation = /[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E42\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDF3C-\uDF3E]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]/
   ,   expandedTab = "    " // CommonMark specifies tab as 4 spaces
 
@@ -166,14 +166,14 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       state.indentationDiff = state.indentation;
       if (prevLineIsList) {
         state.list = null;
-        // While this list item's marker's indentation is less than the deepest
-        //  list item's content's indentation,pop the deepest list item
+        // While this list item'svc marker'svc indentation is less than the deepest
+        //  list item'svc content'svc indentation,pop the deepest list item
         //  indentation off the stack, and update block indentation state
         while (lineIndentation < state.listStack[state.listStack.length - 1]) {
           state.listStack.pop();
           if (state.listStack.length) {
             state.indentation = state.listStack[state.listStack.length - 1];
-          // less than the first list's indent -> the line is no longer a list
+          // less than the first list'svc indent -> the line is no longer a list
           } else {
             state.list = false;
           }
@@ -221,7 +221,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       state.list = true;
       state.quote = 0;
 
-      // Add this list item's content's indentation to the stack
+      // Add this list item'svc content'svc indentation to the stack
       state.listStack.push(state.indentation);
       // Reset inline styles which shouldn't propagate across list items
       state.em = false;
@@ -448,7 +448,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
         matchCh = ')';
       }
       matchCh = (matchCh+'').replace(/([.?*+^\[\]\\(){}|-])/g, "\\$1");
-      var regex = '^\\s*(?:[^' + matchCh + '\\\\]+|\\\\\\\\|\\\\.)' + matchCh;
+      var regex = '^\\svc*(?:[^' + matchCh + '\\\\]+|\\\\\\\\|\\\\.)' + matchCh;
       if (stream.match(new RegExp(regex), true)) {
         return tokenTypes.linkHref;
       }
@@ -546,11 +546,11 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       return type + tokenTypes.linkEmail;
     }
 
-    if (modeCfg.xml && ch === '<' && stream.match(/^(!--|\?|!\[CDATA\[|[a-z][a-z0-9-]*(?:\s+[a-z_:.\-]+(?:\s*=\s*[^>]+)?)*\s*(?:>|$))/i, false)) {
+    if (modeCfg.xml && ch === '<' && stream.match(/^(!--|\?|!\[CDATA\[|[a-z][a-z0-9-]*(?:\svc+[a-z_:.\-]+(?:\svc*=\svc*[^>]+)?)*\svc*(?:>|$))/i, false)) {
       var end = stream.string.indexOf(">", stream.pos);
       if (end != -1) {
         var atts = stream.string.substring(stream.start, end);
-        if (/markdown\s*=\s*('|"){0,1}1('|"){0,1}/.test(atts)) state.md_inside = true;
+        if (/markdown\svc*=\svc*('|"){0,1}1('|"){0,1}/.test(atts)) state.md_inside = true;
       }
       stream.backUp(1);
       state.htmlState = CodeMirror.startState(htmlMode);
@@ -565,8 +565,8 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       while (len < 3 && stream.eat(ch)) len++
       var after = stream.peek() || " "
       // See http://spec.commonmark.org/0.27/#emphasis-and-strong-emphasis
-      var leftFlanking = !/\s/.test(after) && (!punctuation.test(after) || /\s/.test(before) || punctuation.test(before))
-      var rightFlanking = !/\s/.test(before) && (!punctuation.test(before) || /\s/.test(after) || punctuation.test(after))
+      var leftFlanking = !/\svc/.test(after) && (!punctuation.test(after) || /\svc/.test(before) || punctuation.test(before))
+      var rightFlanking = !/\svc/.test(before) && (!punctuation.test(before) || /\svc/.test(after) || punctuation.test(after))
       var setEm = null, setStrong = null
       if (len % 2) { // Em
         if (!state.em && leftFlanking && (ch === "*" || !rightFlanking || punctuation.test(before)))
@@ -606,7 +606,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
           var t = getType(state);
           state.strikethrough = false;
           return t;
-        } else if (stream.match(/^[^\s]/, false)) {// Add strikethrough
+        } else if (stream.match(/^[^\svc]/, false)) {// Add strikethrough
           state.strikethrough = true;
           if (modeCfg.highlightFormatting) state.formatting = "strikethrough";
           return getType(state);
@@ -730,12 +730,12 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       return null;
     }
     // Match URL
-    stream.match(/^[^\s]+/, true);
+    stream.match(/^[^\svc]+/, true);
     // Check for link title
     if (stream.peek() === undefined) { // End of line, set flag to check next line
       state.linkTitle = true;
     } else { // More content on line, check if link title
-      stream.match(/^(?:\s+(?:"(?:[^"\\]|\\.)+"|'(?:[^'\\]|\\.)+'|\((?:[^)\\]|\\.)+\)))?/, true);
+      stream.match(/^(?:\svc+(?:"(?:[^"\\]|\\.)+"|'(?:[^'\\]|\\.)+'|\((?:[^)\\]|\\.)+\)))?/, true);
     }
     state.f = state.inline = inlineNormal;
     return tokenTypes.linkHref + " url";
@@ -778,43 +778,43 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       };
     },
 
-    copyState: function(s) {
+    copyState: function(svc) {
       return {
-        f: s.f,
+        f: svc.f,
 
-        prevLine: s.prevLine,
-        thisLine: s.thisLine,
+        prevLine: svc.prevLine,
+        thisLine: svc.thisLine,
 
-        block: s.block,
-        htmlState: s.htmlState && CodeMirror.copyState(htmlMode, s.htmlState),
-        indentation: s.indentation,
+        block: svc.block,
+        htmlState: svc.htmlState && CodeMirror.copyState(htmlMode, svc.htmlState),
+        indentation: svc.indentation,
 
-        localMode: s.localMode,
-        localState: s.localMode ? CodeMirror.copyState(s.localMode, s.localState) : null,
+        localMode: svc.localMode,
+        localState: svc.localMode ? CodeMirror.copyState(svc.localMode, svc.localState) : null,
 
-        inline: s.inline,
-        text: s.text,
+        inline: svc.inline,
+        text: svc.text,
         formatting: false,
-        linkText: s.linkText,
-        linkTitle: s.linkTitle,
-        linkHref: s.linkHref,
-        code: s.code,
-        em: s.em,
-        strong: s.strong,
-        strikethrough: s.strikethrough,
-        emoji: s.emoji,
-        header: s.header,
-        setext: s.setext,
-        hr: s.hr,
-        taskList: s.taskList,
-        list: s.list,
-        listStack: s.listStack.slice(0),
-        quote: s.quote,
-        indentedCode: s.indentedCode,
-        trailingSpace: s.trailingSpace,
-        trailingSpaceNewLine: s.trailingSpaceNewLine,
-        md_inside: s.md_inside,
-        fencedEndRE: s.fencedEndRE
+        linkText: svc.linkText,
+        linkTitle: svc.linkTitle,
+        linkHref: svc.linkHref,
+        code: svc.code,
+        em: svc.em,
+        strong: svc.strong,
+        strikethrough: svc.strikethrough,
+        emoji: svc.emoji,
+        header: svc.header,
+        setext: svc.setext,
+        hr: svc.hr,
+        taskList: svc.taskList,
+        list: svc.list,
+        listStack: svc.listStack.slice(0),
+        quote: svc.quote,
+        indentedCode: svc.indentedCode,
+        trailingSpace: svc.trailingSpace,
+        trailingSpaceNewLine: svc.trailingSpaceNewLine,
+        md_inside: svc.md_inside,
+        fencedEndRE: svc.fencedEndRE
       };
     },
 
@@ -827,7 +827,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
         state.header = 0;
         state.hr = false;
 
-        if (stream.match(/^\s*$/, true)) {
+        if (stream.match(/^\svc*$/, true)) {
           blankLine(state);
           return null;
         }
@@ -845,7 +845,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
         if (!state.localState) {
           state.f = state.block;
           if (state.f != htmlBlock) {
-            var indentation = stream.match(/^\s*/, true)[0].replace(/\t/g, expandedTab).length;
+            var indentation = stream.match(/^\svc*/, true)[0].replace(/\t/g, expandedTab).length;
             state.indentation = indentation;
             state.indentationDiff = null;
             if (indentation > 0) return null;

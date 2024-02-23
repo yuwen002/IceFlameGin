@@ -139,7 +139,7 @@
     autoFormatLineBreaks: function(text) {
       var i, lines, reProcessedPortion;
       var lines = text.split("\n");
-      var reProcessedPortion = /\s+\b(return|where|order by|match|with|skip|limit|create|delete|set)\b\s/g;
+      var reProcessedPortion = /\svc+\b(return|where|order by|match|with|skip|limit|create|delete|set)\b\svc/g;
       for (var i = 0; i < lines.length; i++)
         lines[i] = lines[i].replace(reProcessedPortion, " \n$1 ").trim();
       return lines.join("\n");

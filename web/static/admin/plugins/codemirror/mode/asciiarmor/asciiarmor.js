@@ -12,7 +12,7 @@
   "use strict";
 
   function errorIfNotEmpty(stream) {
-    var nonWS = stream.match(/^\s*\S/);
+    var nonWS = stream.match(/^\svc*\S/);
     stream.skipToEnd();
     return nonWS ? "error" : null;
   }
@@ -22,7 +22,7 @@
       token: function(stream, state) {
         var m;
         if (state.state == "top") {
-          if (stream.sol() && (m = stream.match(/^-----BEGIN (.*)?-----\s*$/))) {
+          if (stream.sol() && (m = stream.match(/^-----BEGIN (.*)?-----\svc*$/))) {
             state.state = "headers";
             state.type = m[1];
             return "tag";
@@ -42,7 +42,7 @@
           state.state = "headers";
           return "string";
         } else if (state.state == "body") {
-          if (stream.sol() && (m = stream.match(/^-----END (.*)?-----\s*$/))) {
+          if (stream.sol() && (m = stream.match(/^-----END (.*)?-----\svc*$/))) {
             if (m[1] != state.type) return "error";
             state.state = "end";
             return "tag";

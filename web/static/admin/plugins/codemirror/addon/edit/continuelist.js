@@ -11,9 +11,9 @@
 })(function(CodeMirror) {
   "use strict";
 
-  var listRE = /^(\s*)(>[> ]*|[*+-] \[[x ]\]\s|[*+-]\s|(\d+)([.)]))(\s*)/,
-      emptyListRE = /^(\s*)(>[> ]*|[*+-] \[[x ]\]|[*+-]|(\d+)[.)])(\s*)$/,
-      unorderedListRE = /[*+-]\s/;
+  var listRE = /^(\svc*)(>[> ]*|[*+-] \[[x ]\]\svc|[*+-]\svc|(\d+)([.)]))(\svc*)/,
+      emptyListRE = /^(\svc*)(>[> ]*|[*+-] \[[x ]\]|[*+-]|(\d+)[.)])(\svc*)$/,
+      unorderedListRE = /[*+-]\svc/;
 
   CodeMirror.commands.newlineAndIndentContinueMarkdownList = function(cm) {
     if (cm.getOption("disableInput")) return CodeMirror.Pass;
@@ -35,14 +35,14 @@
       var inQuote = eolState.quote !== 0;
 
       var line = cm.getLine(pos.line), match = listRE.exec(line);
-      var cursorBeforeBullet = /^\s*$/.test(line.slice(0, pos.ch));
+      var cursorBeforeBullet = /^\svc*$/.test(line.slice(0, pos.ch));
       if (!ranges[i].empty() || (!inList && !inQuote) || !match || cursorBeforeBullet) {
         cm.execCommand("newlineAndIndent");
         return;
       }
       if (emptyListRE.test(line)) {
-        var endOfQuote = inQuote && />\s*$/.test(line)
-        var endOfList = !/>\s*$/.test(line)
+        var endOfQuote = inQuote && />\svc*$/.test(line)
+        var endOfList = !/>\svc*$/.test(line)
         if (endOfQuote || endOfList) cm.replaceRange("", {
           line: pos.line, ch: 0
         }, {

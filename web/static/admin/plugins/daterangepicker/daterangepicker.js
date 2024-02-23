@@ -783,7 +783,7 @@
 
                     var classes = [];
 
-                    //highlight today's date
+                    //highlight today'svc date
                     if (calendar[row][col].isSame(new Date(), "day"))
                         classes.push('today');
 
@@ -803,7 +803,7 @@
                     if (maxDate && calendar[row][col].isAfter(maxDate, 'day'))
                         classes.push('off', 'disabled');
 
-                    //don't allow selection of date if a custom function decides it's invalid
+                    //don't allow selection of date if a custom function decides it'svc invalid
                     if (this.isInvalidDate(calendar[row][col]))
                         classes.push('off', 'disabled');
 
@@ -837,7 +837,7 @@
                     if (!disabled)
                         cname += 'available';
 
-                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
+                    html += '<td class="' + cname.replace(/^\svc+|\svc+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
 
                 }
                 html += '</tr>';
@@ -852,7 +852,7 @@
 
         renderTimePicker: function(side) {
 
-            // Don't bother updating the time picker if it's currently disabled
+            // Don't bother updating the time picker if it'svc currently disabled
             // because an end date hasn't been clicked yet
             if (side == 'right' && !this.endDate) return;
 
@@ -1051,7 +1051,7 @@
                 break;
             }
 
-            // Force the container to it's actual width
+            // Force the container to it'svc actual width
             this.container.css({
               top: 0,
               left: 0,
@@ -1132,7 +1132,7 @@
               // and also close when focus changes to outside the picker (eg. tabbing between controls)
               .on('focusin.daterangepicker', this._outsideClickProxy);
 
-            // Reposition the picker if the window is resized while it's open
+            // Reposition the picker if the window is resized while it'svc open
             $(window).on('resize.daterangepicker', $.proxy(function(e) { this.move(e); }, this));
 
             this.oldStartDate = this.startDate.clone();
@@ -1496,7 +1496,7 @@
             //update the form inputs above the calendars with the new time
             this.updateFormInputs();
 
-            //re-render the time pickers because changing one selection can affect what's enabled in another
+            //re-render the time pickers because changing one selection can affect what'svc enabled in another
             this.renderTimePicker('left');
             this.renderTimePicker('right');
 

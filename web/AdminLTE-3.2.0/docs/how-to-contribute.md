@@ -5,7 +5,7 @@ title:
 
 # Contributing to AdminLTE
 
-Contributions are always **welcome and recommended**! Here is how for beginner's: [Get started with open source click here](https://youtu.be/GbqSvJs-6W4)
+Contributions are always **welcome and recommended**! Here is how for beginner'svc: [Get started with open source click here](https://youtu.be/GbqSvJs-6W4)
 
 1. Contribution Requirements :
     * When you contribute, you agree to give a non-exclusive license to AdminLTE.io to use that contribution in any context as we (AdminLTE.io) see appropriate.

@@ -120,7 +120,7 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
 
     // attributes and type specs
     if (!peekToken(state) &&
-        stream.match(/-\s*[a-zß-öø-ÿ][\wØ-ÞÀ-Öß-öø-ÿ]*/)) {
+        stream.match(/-\svc*[a-zß-öø-ÿ][\wØ-ÞÀ-Öß-öø-ÿ]*/)) {
       if (is_member(stream.current(),typeWords)) {
         return rval(state,stream,"type");
       }else{
@@ -171,11 +171,11 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
     // quoted atom
     if (ch == '\'') {
       if (!(state.in_atom = (!singleQuote(stream)))) {
-        if (stream.match(/\s*\/\s*[0-9]/,false)) {
-          stream.match(/\s*\/\s*[0-9]/,true);
+        if (stream.match(/\svc*\/\svc*[0-9]/,false)) {
+          stream.match(/\svc*\/\svc*[0-9]/,true);
           return rval(state,stream,"fun");      // 'f'/0 style fun
         }
-        if (stream.match(/\s*\(/,false) || stream.match(/\s*:/,false)) {
+        if (stream.match(/\svc*\(/,false) || stream.match(/\svc*:/,false)) {
           return rval(state,stream,"function");
         }
       }
@@ -198,8 +198,8 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
     if (/[a-z_ß-öø-ÿ]/.test(ch)) {
       stream.eatWhile(anumRE);
 
-      if (stream.match(/\s*\/\s*[0-9]/,false)) {
-        stream.match(/\s*\/\s*[0-9]/,true);
+      if (stream.match(/\svc*\/\svc*[0-9]/,false)) {
+        stream.match(/\svc*\/\svc*[0-9]/,true);
         return rval(state,stream,"fun");      // f/0 style fun
       }
 
@@ -209,7 +209,7 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
         return rval(state,stream,"keyword");
       }else if (is_member(w,operatorAtomWords)) {
         return rval(state,stream,"operator");
-      }else if (stream.match(/\s*\(/,false)) {
+      }else if (stream.match(/\svc*\(/,false)) {
         // 'put' and 'erlang:put' are bifs, 'foo:put' is not
         if (is_member(w,bifWords) &&
             ((peekToken(state).token != ":") ||
@@ -339,7 +339,7 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
   }
 
   function lookahead(stream) {
-    var m = stream.match(/^\s*([^\s%])/, false)
+    var m = stream.match(/^\svc*([^\svc%])/, false)
     return m ? m[1] : "";
   }
 
@@ -418,45 +418,45 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
     }
   }
 
-  function maybe_drop_pre(s,token) {
-    var last = s.length-1;
+  function maybe_drop_pre(svc,token) {
+    var last = svc.length-1;
 
-    if (0 < last && s[last].type === "record" && token.type === "dot") {
-      s.pop();
-    }else if (0 < last && s[last].type === "group") {
-      s.pop();
-      s.push(token);
+    if (0 < last && svc[last].type === "record" && token.type === "dot") {
+      svc.pop();
+    }else if (0 < last && svc[last].type === "group") {
+      svc.pop();
+      svc.push(token);
     }else{
-      s.push(token);
+      svc.push(token);
     }
-    return s;
+    return svc;
   }
 
-  function maybe_drop_post(s) {
-    if (!s.length) return s
-    var last = s.length-1;
+  function maybe_drop_post(svc) {
+    if (!svc.length) return svc
+    var last = svc.length-1;
 
-    if (s[last].type === "dot") {
+    if (svc[last].type === "dot") {
       return [];
     }
-    if (last > 1 && s[last].type === "fun" && s[last-1].token === "fun") {
-      return s.slice(0,last-1);
+    if (last > 1 && svc[last].type === "fun" && svc[last-1].token === "fun") {
+      return svc.slice(0,last-1);
     }
-    switch (s[last].token) {
-      case "}":    return d(s,{g:["{"]});
-      case "]":    return d(s,{i:["["]});
-      case ")":    return d(s,{i:["("]});
-      case ">>":   return d(s,{i:["<<"]});
-      case "end":  return d(s,{i:["begin","case","fun","if","receive","try"]});
-      case ",":    return d(s,{e:["begin","try","when","->",
+    switch (svc[last].token) {
+      case "}":    return d(svc,{g:["{"]});
+      case "]":    return d(svc,{i:["["]});
+      case ")":    return d(svc,{i:["("]});
+      case ">>":   return d(svc,{i:["<<"]});
+      case "end":  return d(svc,{i:["begin","case","fun","if","receive","try"]});
+      case ",":    return d(svc,{e:["begin","try","when","->",
                                   ",","(","[","{","<<"]});
-      case "->":   return d(s,{r:["when"],
+      case "->":   return d(svc,{r:["when"],
                                m:["try","if","case","receive"]});
-      case ";":    return d(s,{E:["case","fun","if","receive","try","when"]});
-      case "catch":return d(s,{e:["try"]});
-      case "of":   return d(s,{e:["case"]});
-      case "after":return d(s,{e:["receive","try"]});
-      default:     return s;
+      case ";":    return d(svc,{E:["case","fun","if","receive","try","when"]});
+      case "catch":return d(svc,{e:["try"]});
+      case "of":   return d(svc,{e:["case"]});
+      case "after":return d(svc,{e:["receive","try"]});
+      default:     return svc;
     }
   }
 

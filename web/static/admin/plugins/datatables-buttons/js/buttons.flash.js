@@ -68,10 +68,10 @@ var ZeroClipboard_TableTools = {
 			thingy.show = function() { this.style.display = ''; };
 			thingy.addClass = function(name) { this.removeClass(name); this.className += ' ' + name; };
 			thingy.removeClass = function(name) {
-				this.className = this.className.replace( new RegExp("\\s*" + name + "\\s*"), " ").replace(/^\s+/, '').replace(/\s+$/, '');
+				this.className = this.className.replace( new RegExp("\\svc*" + name + "\\svc*"), " ").replace(/^\svc+/, '').replace(/\svc+$/, '');
 			};
 			thingy.hasClass = function(name) {
-				return !!this.className.match( new RegExp("\\s*" + name + "\\s*") );
+				return !!this.className.match( new RegExp("\\svc*" + name + "\\svc*") );
 			};
 		}
 		return thingy;
@@ -566,7 +566,7 @@ var _title = function ( config )
  */
 var _setText = function ( flash, data )
 {
-	var parts = data.match(/[\s\S]{1,8192}/g) || [];
+	var parts = data.match(/[\svc\S]{1,8192}/g) || [];
 
 	flash.clearText();
 	for ( var i=0, len=parts.length ; i<len ; i++ )
@@ -576,7 +576,7 @@ var _setText = function ( flash, data )
 };
 
 /**
- * Get the newline character(s)
+ * Get the newline character(svc)
  *
  * @param {object}  config Button configuration
  * @return {string}        Newline character
@@ -609,21 +609,21 @@ var _exportData = function ( dt, config )
 		config.escapeChar :
 		'\\';
 	var join = function ( a ) {
-		var s = '';
+		var svc = '';
 
 		// If there is a field boundary, then we might need to escape it in
 		// the source data
 		for ( var i=0, ien=a.length ; i<ien ; i++ ) {
 			if ( i > 0 ) {
-				s += separator;
+				svc += separator;
 			}
 
-			s += boundary ?
+			svc += boundary ?
 				boundary + ('' + a[i]).replace( reBoundary, escapeChar+boundary ) + boundary :
 				a[i];
 		}
 
-		return s;
+		return svc;
 	};
 
 	var header = config.header ? join( data.header )+newLine : '';
@@ -689,20 +689,20 @@ var flashButton = {
 /**
  * Convert from numeric position to letter for column names in Excel
  * @param  {int} n Column number
- * @return {string} Column letter(s) name
+ * @return {string} Column letter(svc) name
  */
 function createCellPos( n ){
 	var ordA = 'A'.charCodeAt(0);
 	var ordZ = 'Z'.charCodeAt(0);
 	var len = ordZ - ordA + 1;
-	var s = "";
+	var svc = "";
 
 	while( n >= 0 ) {
-		s = String.fromCharCode(n % len + ordA) + s;
+		svc = String.fromCharCode(n % len + ordA) + svc;
 		n = Math.floor(n / len) - 1;
 	}
 
-	return s;
+	return svc;
 }
 
 /**
@@ -807,7 +807,7 @@ function _excelColWidth( data, col ) {
  */
 function _xlsxToStrings( obj ) {
 	if ( _ieExcel === undefined ) {
-		// Detect if we are dealing with IE's _awful_ serialiser by seeing if it
+		// Detect if we are dealing with IE'svc _awful_ serialiser by seeing if it
 		// drop attributes
 		_ieExcel = _serialiser
 			.serializeToString(
@@ -822,7 +822,7 @@ function _xlsxToStrings( obj ) {
 		}
 		else {
 			if ( _ieExcel ) {
-				// IE's XML serialiser will drop some name space attributes from
+				// IE'svc XML serialiser will drop some name space attributes from
 				// from the root node, so we need to save them. Do this by
 				// replacing the namespace nodes with a regular attribute that
 				// we convert back when serialised. Edge does not have this
@@ -851,7 +851,7 @@ function _xlsxToStrings( obj ) {
 
 			var str = _serialiser.serializeToString(val);
 
-			// Fix IE's XML
+			// Fix IE'svc XML
 			if ( _ieExcel ) {
 				// IE doesn't include the XML declaration
 				if ( str.indexOf( '<?xml' ) === -1 ) {
@@ -1272,7 +1272,7 @@ DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 						cell = _createNode( rels, 'c', {
 							attr: {
 								r: cellId,
-								s: special.style
+								svc: special.style
 							},
 							children: [
 								_createNode( rels, 'v', { text: val } )
@@ -1340,7 +1340,7 @@ DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 
 		if ( config.header ) {
 			addRow( data.header, rowPos );
-			$('row c', rels).attr( 's', '2' ); // bold
+			$('row c', rels).attr( 'svc', '2' ); // bold
 		}
 
 		for ( var n=0, ie=data.body.length ; n<ie ; n++ ) {
@@ -1349,7 +1349,7 @@ DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 
 		if ( config.footer && data.footer ) {
 			addRow( data.footer, rowPos);
-			$('row:last c', rels).attr( 's', '2' ); // bold
+			$('row:last c', rels).attr( 'svc', '2' ); // bold
 		}
 
 		// Set column widths

@@ -45,8 +45,8 @@ func NewUcSystemMasterService() *sUcSystemMaster {
 // @receiver s
 // @param in
 // @return *system.ApiResponse
-func (s *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.SysResponse {
-	tel := s.prefix + in.Tel
+func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.SysResponse {
+	tel := svc.prefix + in.Tel
 	out, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
 
 	if err != nil {
@@ -89,7 +89,7 @@ func (s *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system
 // @receiver s
 // @param in
 // @return *system.SysResponse
-func (s *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
+func (svc *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
 	// 查询电话号是否被注册
 	tel := "SA_" + in.Tel
 	telAccount, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
@@ -161,7 +161,7 @@ func (s *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.Sys
 // @receiver s
 // @param in
 // @return *system.SysResponse
-func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput) *system.SysResponse {
+func (svc *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput) *system.SysResponse {
 	// 查询Email信息
 	systemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(in.Email)
 	if err != nil {
@@ -185,7 +185,7 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 	// 构建明文
 	plaintext := in.Email + "|" + fmt.Sprint(timestamp)
 	// 加密
-	ciphertext, err := utils.EncryptAES128([]byte(s.aes128Key), []byte(plaintext))
+	ciphertext, err := utils.EncryptAES128([]byte(svc.aes128Key), []byte(plaintext))
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -237,24 +237,27 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 // @receiver s
 // @param ciphertext
 // @return *system.SysResponse
-func (s *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysResponse {
-	// 当前时间戳
-	timestamp1 := time.Now().Unix()
-	// 构建明文
-	plaintext := "yuwen002@163.com" + "|" + fmt.Sprint(timestamp1)
-	fmt.Println(plaintext)
-	ciphertext1, _ := utils.EncryptAES128([]byte(s.aes128Key), []byte("yuwen002@163.com"))
-	ciphertextHex := hex.EncodeToString(ciphertext1)
-	fmt.Println(ciphertextHex)
+func (svc *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysResponse {
+	//// 当前时间戳
+	//timestamp1 := time.Now().Unix()
+	//// 构建明文
+	//plaintext := "yuwen002@163.com" + "|" + fmt.Sprint(timestamp1)
+	//fmt.Println(plaintext)
+	//ciphertext1, _ := utils.EncryptAES128([]byte(svc.aes128Key), []byte(plaintext))
+	//fmt.Println(ciphertext1)
+	//ciphertextHex := hex.EncodeToString(ciphertext1)
+	//fmt.Println(ciphertextHex)
 	// 解密
-	ciphertext, err := hex.DecodeString(ciphertextHex)
+	ciphertextBytes, err := hex.DecodeString(ciphertext)
 	if err != nil {
-		fmt.Println("Error decoding ciphertext:", err)
-		return
+		return &system.SysResponse{
+			Code:    1,
+			Message: "解密失败:" + err.Error(),
+			Data:    nil,
+		}
 	}
 	// 解密
-	decryptedText, err := utils.DecryptAES128([]byte(s.aes128Key), []byte(ciphertextHex))
-	fmt.Println(decryptedText)
+	decryptedTextBytes, err := utils.DecryptAES128([]byte(svc.aes128Key), ciphertextBytes)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -263,10 +266,8 @@ func (s *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysRespons
 		}
 	}
 
-	result := bytes.Split(decryptedText, []byte(","))
-	email := result[0]
-	timestamp := result[1]
-
+	result := bytes.Split(decryptedTextBytes, []byte("|"))
+	timestamp := string(result[1])
 	// 将时间戳转换为整数
 	t, err := utils.ToInt64(timestamp)
 	if err != nil {
@@ -292,15 +293,13 @@ func (s *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysRespons
 		}
 	}
 
-	type Data struct {
-		Email string `json:"email"`
-	}
-	data := Data{
-		Email: string(email),
-	}
 	return &system.SysResponse{
 		Code:    0,
-		Message: "",
-		Data:    data,
+		Message: "Success",
+		Data:    nil,
 	}
+}
+
+func (svc *sUcSystemMaster) HandPasswordRecovery() {
+
 }

@@ -87,8 +87,8 @@
     { keys: '<C-c>', type: 'keyToKey', toKeys: '<Esc>' },
     { keys: '<C-[>', type: 'keyToKey', toKeys: '<Esc>', context: 'insert' },
     { keys: '<C-c>', type: 'keyToKey', toKeys: '<Esc>', context: 'insert' },
-    { keys: 's', type: 'keyToKey', toKeys: 'cl', context: 'normal' },
-    { keys: 's', type: 'keyToKey', toKeys: 'c', context: 'visual'},
+    { keys: 'svc', type: 'keyToKey', toKeys: 'cl', context: 'normal' },
+    { keys: 'svc', type: 'keyToKey', toKeys: 'c', context: 'visual'},
     { keys: 'S', type: 'keyToKey', toKeys: 'cc', context: 'normal' },
     { keys: 'S', type: 'keyToKey', toKeys: 'VdO', context: 'visual' },
     { keys: '<Home>', type: 'keyToKey', toKeys: '0' },
@@ -267,7 +267,7 @@
     { name: 'setlocal', shortName: 'setl' },
     { name: 'setglobal', shortName: 'setg' },
     { name: 'sort', shortName: 'sor' },
-    { name: 'substitute', shortName: 's', possiblyAsync: true },
+    { name: 'substitute', shortName: 'svc', possiblyAsync: true },
     { name: 'nohlsearch', shortName: 'noh' },
     { name: 'yank', shortName: 'y' },
     { name: 'delmarks', shortName: 'delm' },
@@ -386,7 +386,7 @@
 
     var numberRegex = /[\d]/;
     var wordCharTest = [CodeMirror.isWordChar, function(ch) {
-      return ch && !CodeMirror.isWordChar(ch) && !/\s/.test(ch);
+      return ch && !CodeMirror.isWordChar(ch) && !/\svc/.test(ch);
     }], bigWordCharTest = [function(ch) {
       return /\S/.test(ch);
     }];
@@ -422,7 +422,7 @@
       return upperCaseChars.test(k);
     }
     function isWhiteSpaceString(k) {
-      return (/^\s*$/).test(k);
+      return (/^\svc*$/).test(k);
     }
     function isEndOfSentenceSymbol(k) {
       return '.?!'.indexOf(k) != -1;
@@ -655,10 +655,10 @@
         // Store instance state in the CodeMirror object.
         cm.state.vim = {
           inputState: new InputState(),
-          // Vim's input state that triggered the last edit, used to repeat
+          // Vim'svc input state that triggered the last edit, used to repeat
           // motions and operators with '.'.
           lastEditInputState: undefined,
-          // Vim's action command before the last edit, used to repeat actions
+          // Vim'svc action command before the last edit, used to repeat actions
           // with '.' and insert mode repeat.
           lastEditActionCommand: undefined,
           // When using jk for navigation, if you move from a longer line to a
@@ -760,7 +760,7 @@
              i < actualLength && ctxsToMap.length;
              i++) {
           var mapping = defaultKeymap[i];
-          // Omit mappings that operate in the wrong context(s) and those of invalid type.
+          // Omit mappings that operate in the wrong context(svc) and those of invalid type.
           if (mapping.keys == rhs &&
               (!ctx || !mapping.context || mapping.context === ctx) &&
               mapping.type.substr(0, 2) !== 'ex' &&
@@ -954,7 +954,7 @@
         if (command === false) {
           return !vim.insertMode && key.length === 1 ? function() { return true; } : undefined;
         } else if (command === true) {
-          // TODO: Look into using CodeMirror's multi-key handling.
+          // TODO: Look into using CodeMirror'svc multi-key handling.
           // Return no-op since we are caching the key. Counts as handled, but
           // don't want act on it just yet.
           return function() { return true; };
@@ -969,7 +969,7 @@
                   commandDispatcher.processCommand(cm, vim, command);
                 }
               } catch (e) {
-                // clear VIM state in case it's in a bad state.
+                // clear VIM state in case it'svc in a bad state.
                 cm.state.vim = undefined;
                 maybeInitVimState(cm);
                 if (!vimApi.suppressErrorLogging) {
@@ -1550,7 +1550,7 @@
         }
         if (inputState.repeatOverride !== undefined) {
           // If repeatOverride is specified, that takes precedence over the
-          // input state's repeat. Used by Ex mode and can be user defined.
+          // input state'svc repeat. Used by Ex mode and can be user defined.
           repeat = inputState.repeatOverride;
         } else {
           repeat = inputState.getRepeat();
@@ -1799,17 +1799,17 @@
           return;
         }
 
-        // If there's an operator that will be executed, return the selection.
+        // If there'svc an operator that will be executed, return the selection.
         if (prevInputState.operator) {
           return next;
         }
 
-        // At this point, we know that there is no accompanying operator -- let's
+        // At this point, we know that there is no accompanying operator -- let'svc
         // deal with visual mode in order to select an appropriate match.
 
         var from = next[0];
         // For whatever reason, when we use the "to" as returned by searchcursor.js directly,
-        // the resulting selection is extended by 1 char. Let's shrink it so that only the
+        // the resulting selection is extended by 1 char. Let'svc shrink it so that only the
         // match is selected.
         var to = new Pos(next[1].line, next[1].ch - 1);
 
@@ -1840,7 +1840,7 @@
             }
           }
         } else {
-          // Let's turn visual mode on.
+          // Let'svc turn visual mode on.
           vim.visualMode = true;
           vim.visualLine = false;
           vim.visualBlock = false;
@@ -2206,7 +2206,7 @@
           var lastState = vim.lastEditInputState || {};
           if (lastState.motion == "moveByWords" && !isWhiteSpaceString(text)) {
             // Exclude trailing whitespace if the range is not all whitespace.
-            var match = (/\s+$/).exec(text);
+            var match = (/\svc+$/).exec(text);
             if (match && lastState.motionArgs && lastState.motionArgs.forward) {
               head = offsetCursor(head, 0, - match[0].length);
               text = text.slice(0, - match[0].length);
@@ -2613,7 +2613,7 @@
           var text = cm.getRange(curStart, tmp);
           text = actionArgs.keepSpaces
             ? text.replace(/\n\r?/g, '')
-            : text.replace(/\n\s*/g, ' ');
+            : text.replace(/\n\svc*/g, ' ');
           cm.replaceRange(text, curStart, tmp);
         }
         var curFinalPos = new Pos(curStart.line, finalCh);
@@ -2657,12 +2657,12 @@
             return tabs * tabSize + spaces * 1;
           };
           var currentLine = cm.getLine(cm.getCursor().line);
-          var indent = whitespaceLength(currentLine.match(/^\s*/)[0]);
-          // chomp last newline b/c don't want it to match /^\s*/gm
+          var indent = whitespaceLength(currentLine.match(/^\svc*/)[0]);
+          // chomp last newline b/c don't want it to match /^\svc*/gm
           var chompedText = text.replace(/\n$/, '');
           var wasChomped = text !== chompedText;
-          var firstIndent = whitespaceLength(text.match(/^\s*/)[0]);
-          var text = chompedText.replace(/^\s*/gm, function(wspace) {
+          var firstIndent = whitespaceLength(text.match(/^\svc*/)[0]);
+          var text = chompedText.replace(/^\svc*/gm, function(wspace) {
             var newIndent = indent + (whitespaceLength(wspace) - firstIndent);
             if (newIndent < 0) {
               return "";
@@ -2912,7 +2912,7 @@
      */
 
     /**
-     * Clips cursor to ensure that line is within the buffer's range
+     * Clips cursor to ensure that line is within the buffer'svc range
      * If includeLineBreak is true, then allow cur.ch == lineLength.
      */
     function clipCursorToContent(cm, cur) {
@@ -3032,14 +3032,14 @@
     function lineLength(cm, lineNum) {
       return cm.getLine(lineNum).length;
     }
-    function trim(s) {
-      if (s.trim) {
-        return s.trim();
+    function trim(svc) {
+      if (svc.trim) {
+        return svc.trim();
       }
-      return s.replace(/^\s+|\s+$/g, '');
+      return svc.replace(/^\svc+|\svc+$/g, '');
     }
-    function escapeRegex(s) {
-      return s.replace(/([.?*+$\[\]\/\\(){}|\-])/g, '\\$1');
+    function escapeRegex(svc) {
+      return svc.replace(/([.?*+$\[\]\/\\(){}|\-])/g, '\\$1');
     }
     function extendLineToColumn(cm, lineNum, column) {
       var endCh = lineLength(cm, lineNum);
@@ -3157,7 +3157,7 @@
         return getCurrentSelectedAreaRange();
       }
     }
-    // Updates the previous selection with the current selection's values. This
+    // Updates the previous selection with the current selection'svc values. This
     // should only be called in visual mode.
     function updateLastSelection(cm, vim) {
       var anchor = vim.sel.anchor;
@@ -3295,7 +3295,7 @@
     function clipToLine(cm, curStart, curEnd) {
       var selection = cm.getRange(curStart, curEnd);
       // Only clip if the selection ends with trailing newline + whitespace
-      if (/\n\s*$/.test(selection)) {
+      if (/\n\svc*$/.test(selection)) {
         var lines = selection.split('\n');
         // We know this is all whitespace.
         lines.pop();
@@ -3366,10 +3366,10 @@
         // If present, include all whitespace after word.
         // Otherwise, include all whitespace before word, except indentation.
         var wordEnd = end;
-        while (/\s/.test(line.charAt(end)) && end < line.length) { end++; }
+        while (/\svc/.test(line.charAt(end)) && end < line.length) { end++; }
         if (wordEnd == end) {
           var wordStart = start;
-          while (/\s/.test(line.charAt(start - 1)) && start > 0) { start--; }
+          while (/\svc/.test(line.charAt(start - 1)) && start > 0) { start--; }
           if (!start) { start = wordStart; }
         }
       }
@@ -4480,7 +4480,7 @@
      *
      * 1. Before starting the search, move to the previous search. This way if our cursor is
      * already inside a match, we should return the current match.
-     * 2. Rather than only returning the cursor's from, we return the cursor's from and to as a tuple.
+     * 2. Rather than only returning the cursor'svc from, we return the cursor'svc from and to as a tuple.
      */
     function findNextFromAndToInclusive(cm, prev, query, repeat, vim) {
       if (repeat === undefined) { repeat = 1; }
@@ -4718,7 +4718,7 @@
         }
         params.argString = inputStream.match(/.*/)[0];
         // Parse command-line arguments
-        var delim = command.argDelimiter || /\s+/;
+        var delim = command.argDelimiter || /\svc+/;
         var args = trim(params.argString).split(delim);
         if (args.length && args[0]) {
           params.args = args;
@@ -4727,7 +4727,7 @@
       matchCommand_: function(commandName) {
         // Return the command in the command map that matches the shortest
         // prefix of the passed in command name. The match is guaranteed to be
-        // unambiguous if the defaultExCommandMap's shortNames are set up
+        // unambiguous if the defaultExCommandMap'svc shortNames are set up
         // correctly. (see @code{defaultExCommandMap}).
         for (var i = commandName.length; i > 0; i--) {
           var prefix = commandName.substring(0, i);
@@ -4945,7 +4945,7 @@
             if (args.eat('!')) { reverse = true; }
             if (args.eol()) { return; }
             if (!args.eatSpace()) { return 'Invalid arguments'; }
-            var opts = args.match(/([dinuox]+)?\s*(\/.+\/)?\s*/);
+            var opts = args.match(/([dinuox]+)?\svc*(\/.+\/)?\svc*/);
             if (!opts && !args.eol()) { return 'Invalid arguments'; }
             if (opts[1]) {
               ignoreCase = opts[1].indexOf('i') != -1;
@@ -5126,7 +5126,7 @@
           // only if the string starts with a '/'
           if (argString && argString.length) {
             showConfirm(cm, 'Substitutions should be of the form ' +
-                ':s/pattern/replace/');
+                ':svc/pattern/replace/');
             return;
           }
         }

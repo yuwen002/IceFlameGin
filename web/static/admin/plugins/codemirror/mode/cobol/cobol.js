@@ -3,7 +3,7 @@
 
 /**
  * Author: Gautam Mehta
- * Branched from CodeMirror's Scheme mode
+ * Branched from CodeMirror'svc Scheme mode
  */
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -144,7 +144,7 @@ CodeMirror.defineMode("cobol", function () {
     hex: /[0-9a-f]/i,
     sign: /[+-]/,
     exponent: /e/i,
-    keyword_char: /[^\s\(\[\;\)\]]/,
+    keyword_char: /[^\svc\(\[\;\)\]]/,
     symbol: /[\w*+\-]/
   };
   function isNumber(ch, stream){

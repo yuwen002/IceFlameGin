@@ -240,7 +240,7 @@ convert.rgb.hsl = function (rgb) {
 	var max = Math.max(r, g, b);
 	var delta = max - min;
 	var h;
-	var s;
+	var svc;
 	var l;
 
 	if (max === min) {
@@ -262,14 +262,14 @@ convert.rgb.hsl = function (rgb) {
 	l = (min + max) / 2;
 
 	if (max === min) {
-		s = 0;
+		svc = 0;
 	} else if (l <= 0.5) {
-		s = delta / (max + min);
+		svc = delta / (max + min);
 	} else {
-		s = delta / (2 - max - min);
+		svc = delta / (2 - max - min);
 	}
 
-	return [h, s * 100, l * 100];
+	return [h, svc * 100, l * 100];
 };
 
 convert.rgb.hsv = function (rgb) {
@@ -277,7 +277,7 @@ convert.rgb.hsv = function (rgb) {
 	var gdif;
 	var bdif;
 	var h;
-	var s;
+	var svc;
 
 	var r = rgb[0] / 255;
 	var g = rgb[1] / 255;
@@ -289,9 +289,9 @@ convert.rgb.hsv = function (rgb) {
 	};
 
 	if (diff === 0) {
-		h = s = 0;
+		h = svc = 0;
 	} else {
-		s = diff / v;
+		svc = diff / v;
 		rdif = diffc(r);
 		gdif = diffc(g);
 		bdif = diffc(b);
@@ -312,7 +312,7 @@ convert.rgb.hsv = function (rgb) {
 
 	return [
 		h * 360,
-		s * 100,
+		svc * 100,
 		v * 100
 	];
 };
@@ -431,7 +431,7 @@ convert.rgb.lab = function (rgb) {
 
 convert.hsl.rgb = function (hsl) {
 	var h = hsl[0] / 360;
-	var s = hsl[1] / 100;
+	var svc = hsl[1] / 100;
 	var l = hsl[2] / 100;
 	var t1;
 	var t2;
@@ -439,15 +439,15 @@ convert.hsl.rgb = function (hsl) {
 	var rgb;
 	var val;
 
-	if (s === 0) {
+	if (svc === 0) {
 		val = l * 255;
 		return [val, val, val];
 	}
 
 	if (l < 0.5) {
-		t2 = l * (1 + s);
+		t2 = l * (1 + svc);
 	} else {
-		t2 = l + s - l * s;
+		t2 = l + svc - l * svc;
 	}
 
 	t1 = 2 * l - t2;
@@ -480,32 +480,32 @@ convert.hsl.rgb = function (hsl) {
 
 convert.hsl.hsv = function (hsl) {
 	var h = hsl[0];
-	var s = hsl[1] / 100;
+	var svc = hsl[1] / 100;
 	var l = hsl[2] / 100;
-	var smin = s;
+	var smin = svc;
 	var lmin = Math.max(l, 0.01);
 	var sv;
 	var v;
 
 	l *= 2;
-	s *= (l <= 1) ? l : 2 - l;
+	svc *= (l <= 1) ? l : 2 - l;
 	smin *= lmin <= 1 ? lmin : 2 - lmin;
-	v = (l + s) / 2;
-	sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+	v = (l + svc) / 2;
+	sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * svc) / (l + svc);
 
 	return [h, sv * 100, v * 100];
 };
 
 convert.hsv.rgb = function (hsv) {
 	var h = hsv[0] / 60;
-	var s = hsv[1] / 100;
+	var svc = hsv[1] / 100;
 	var v = hsv[2] / 100;
 	var hi = Math.floor(h) % 6;
 
 	var f = h - Math.floor(h);
-	var p = 255 * v * (1 - s);
-	var q = 255 * v * (1 - (s * f));
-	var t = 255 * v * (1 - (s * (1 - f)));
+	var p = 255 * v * (1 - svc);
+	var q = 255 * v * (1 - (svc * f));
+	var t = 255 * v * (1 - (svc * (1 - f)));
 	v *= 255;
 
 	switch (hi) {
@@ -526,16 +526,16 @@ convert.hsv.rgb = function (hsv) {
 
 convert.hsv.hsl = function (hsv) {
 	var h = hsv[0];
-	var s = hsv[1] / 100;
+	var svc = hsv[1] / 100;
 	var v = hsv[2] / 100;
 	var vmin = Math.max(v, 0.01);
 	var lmin;
 	var sl;
 	var l;
 
-	l = (2 - s) * v;
-	lmin = (2 - s) * vmin;
-	sl = s * vmin;
+	l = (2 - svc) * v;
+	lmin = (2 - svc) * vmin;
+	sl = svc * vmin;
 	sl /= (lmin <= 1) ? lmin : 2 - lmin;
 	sl = sl || 0;
 	l /= 2;
@@ -881,15 +881,15 @@ convert.rgb.hcg = function (rgb) {
 };
 
 convert.hsl.hcg = function (hsl) {
-	var s = hsl[1] / 100;
+	var svc = hsl[1] / 100;
 	var l = hsl[2] / 100;
 	var c = 1;
 	var f = 0;
 
 	if (l < 0.5) {
-		c = 2.0 * s * l;
+		c = 2.0 * svc * l;
 	} else {
-		c = 2.0 * s * (1.0 - l);
+		c = 2.0 * svc * (1.0 - l);
 	}
 
 	if (c < 1.0) {
@@ -900,10 +900,10 @@ convert.hsl.hcg = function (hsl) {
 };
 
 convert.hsv.hcg = function (hsv) {
-	var s = hsv[1] / 100;
+	var svc = hsv[1] / 100;
 	var v = hsv[2] / 100;
 
-	var c = s * v;
+	var c = svc * v;
 	var f = 0;
 
 	if (c < 1.0) {
@@ -971,16 +971,16 @@ convert.hcg.hsl = function (hcg) {
 	var g = hcg[2] / 100;
 
 	var l = g * (1.0 - c) + 0.5 * c;
-	var s = 0;
+	var svc = 0;
 
 	if (l > 0.0 && l < 0.5) {
-		s = c / (2 * l);
+		svc = c / (2 * l);
 	} else
 	if (l >= 0.5 && l < 1.0) {
-		s = c / (2 * (1 - l));
+		svc = c / (2 * (1 - l));
 	}
 
-	return [hcg[0], s * 100, l * 100];
+	return [hcg[0], svc * 100, l * 100];
 };
 
 convert.hcg.hwb = function (hcg) {
@@ -1411,8 +1411,8 @@ function getRgba(string) {
    }
    var abbr =  /^#([a-fA-F0-9]{3,4})$/i,
        hex =  /^#([a-fA-F0-9]{6}([a-fA-F0-9]{2})?)$/i,
-       rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i,
-       per = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i,
+       rgba = /^rgba?\(\svc*([+-]?\d+)\svc*,\svc*([+-]?\d+)\svc*,\svc*([+-]?\d+)\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)$/i,
+       per = /^rgba?\(\svc*([+-]?[\d\.]+)\%\svc*,\svc*([+-]?[\d\.]+)\%\svc*,\svc*([+-]?[\d\.]+)\%\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)$/i,
        keyword = /(\w+)/;
 
    var rgb = [0, 0, 0],
@@ -1478,15 +1478,15 @@ function getHsla(string) {
    if (!string) {
       return;
    }
-   var hsl = /^hsla?\(\s*([+-]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
+   var hsl = /^hsla?\(\svc*([+-]?\d+)(?:deg)?\svc*,\svc*([+-]?[\d\.]+)%\svc*,\svc*([+-]?[\d\.]+)%\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)/;
    var match = string.match(hsl);
    if (match) {
       var alpha = parseFloat(match[4]);
       var h = scale(parseInt(match[1]), 0, 360),
-          s = scale(parseFloat(match[2]), 0, 100),
+          svc = scale(parseFloat(match[2]), 0, 100),
           l = scale(parseFloat(match[3]), 0, 100),
           a = scale(isNaN(alpha) ? 1 : alpha, 0, 1);
-      return [h, s, l, a];
+      return [h, svc, l, a];
    }
 }
 
@@ -1494,7 +1494,7 @@ function getHwb(string) {
    if (!string) {
       return;
    }
-   var hwb = /^hwb\(\s*([+-]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
+   var hwb = /^hwb\(\svc*([+-]?\d+)(?:deg)?\svc*,\svc*([+-]?[\d\.]+)%\svc*,\svc*([+-]?[\d\.]+)%\svc*(?:,\svc*([+-]?[\d\.]+)\svc*)?\)/;
    var match = string.match(hwb);
    if (match) {
     var alpha = parseFloat(match[4]);
@@ -1952,7 +1952,7 @@ Color.prototype = {
 
 	clone: function () {
 		// NOTE(SB): using node-clone creates a dependency to Buffer when using browserify,
-		// making the final build way to big to embed in Chart.js. So let's do it manually,
+		// making the final build way to big to embed in Chart.js. So let'svc do it manually,
 		// assuming that values to clone are 1 dimension arrays containing only numbers,
 		// except 'alpha' which is a number.
 		var result = new Color();
@@ -2216,7 +2216,7 @@ var helpers = {
 	/**
 	 * Note(SB) for performance sake, this method should only be used when loopable type
 	 * is unknown or in none intensive code (not called often and small loopable). Else
-	 * it's preferable to use a regular for() loop and save extra function calls.
+	 * it'svc preferable to use a regular for() loop and save extra function calls.
 	 * @param {object|Array} loopable - The object or array to be iterated.
 	 * @param {function} fn - The function to call for each item.
 	 * @param {object} [thisArg] - The value of `this` provided for the call to `fn`.
@@ -2348,7 +2348,7 @@ var helpers = {
 	 * Recursively deep copies `source` properties into `target` with the given `options`.
 	 * IMPORTANT: `target` is not cloned and will be updated with `source` properties.
 	 * @param {object} target - The target object in which all sources are merged into.
-	 * @param {object|object[]} source - Object(s) to merge into `target`.
+	 * @param {object|object[]} source - Object(svc) to merge into `target`.
 	 * @param {object} [options] - Merging options:
 	 * @param {function} [options.merger] - The merge method (key, target, source, options)
 	 * @returns {object} The `target` object.
@@ -2384,7 +2384,7 @@ var helpers = {
 	 * Recursively deep copies `source` properties into `target` *only* if not defined in target.
 	 * IMPORTANT: `target` is not cloned and will be updated with `source` properties.
 	 * @param {object} target - The target object in which all sources are merged into.
-	 * @param {object|object[]} source - Object(s) to merge into `target`.
+	 * @param {object|object[]} source - Object(svc) to merge into `target`.
 	 * @returns {object} The `target` object.
 	 */
 	mergeIf: function(target, source) {
@@ -2483,7 +2483,7 @@ helpers.getValueOrDefault = helpers.valueOrDefault;
 helpers.getValueAtIndexOrDefault = helpers.valueAtIndexOrDefault;
 
 /**
- * Easing functions adapted from Robert Penner's easing equations.
+ * Easing functions adapted from Robert Penner'svc easing equations.
  * @namespace Chart.helpers.easingEffects
  * @see http://www.robertpenner.com/easing/
  */
@@ -2604,7 +2604,7 @@ var effects = {
 	},
 
 	easeInElastic: function(t) {
-		var s = 1.70158;
+		var svc = 1.70158;
 		var p = 0;
 		var a = 1;
 		if (t === 0) {
@@ -2618,15 +2618,15 @@ var effects = {
 		}
 		if (a < 1) {
 			a = 1;
-			s = p / 4;
+			svc = p / 4;
 		} else {
-			s = p / (2 * Math.PI) * Math.asin(1 / a);
+			svc = p / (2 * Math.PI) * Math.asin(1 / a);
 		}
-		return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - s) * (2 * Math.PI) / p));
+		return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - svc) * (2 * Math.PI) / p));
 	},
 
 	easeOutElastic: function(t) {
-		var s = 1.70158;
+		var svc = 1.70158;
 		var p = 0;
 		var a = 1;
 		if (t === 0) {
@@ -2640,15 +2640,15 @@ var effects = {
 		}
 		if (a < 1) {
 			a = 1;
-			s = p / 4;
+			svc = p / 4;
 		} else {
-			s = p / (2 * Math.PI) * Math.asin(1 / a);
+			svc = p / (2 * Math.PI) * Math.asin(1 / a);
 		}
-		return a * Math.pow(2, -10 * t) * Math.sin((t - s) * (2 * Math.PI) / p) + 1;
+		return a * Math.pow(2, -10 * t) * Math.sin((t - svc) * (2 * Math.PI) / p) + 1;
 	},
 
 	easeInOutElastic: function(t) {
-		var s = 1.70158;
+		var svc = 1.70158;
 		var p = 0;
 		var a = 1;
 		if (t === 0) {
@@ -2662,31 +2662,31 @@ var effects = {
 		}
 		if (a < 1) {
 			a = 1;
-			s = p / 4;
+			svc = p / 4;
 		} else {
-			s = p / (2 * Math.PI) * Math.asin(1 / a);
+			svc = p / (2 * Math.PI) * Math.asin(1 / a);
 		}
 		if (t < 1) {
-			return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - s) * (2 * Math.PI) / p));
+			return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - svc) * (2 * Math.PI) / p));
 		}
-		return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t - s) * (2 * Math.PI) / p) * 0.5 + 1;
+		return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t - svc) * (2 * Math.PI) / p) * 0.5 + 1;
 	},
 	easeInBack: function(t) {
-		var s = 1.70158;
-		return t * t * ((s + 1) * t - s);
+		var svc = 1.70158;
+		return t * t * ((svc + 1) * t - svc);
 	},
 
 	easeOutBack: function(t) {
-		var s = 1.70158;
-		return (t = t - 1) * t * ((s + 1) * t + s) + 1;
+		var svc = 1.70158;
+		return (t = t - 1) * t * ((svc + 1) * t + svc) + 1;
 	},
 
 	easeInOutBack: function(t) {
-		var s = 1.70158;
+		var svc = 1.70158;
 		if ((t /= 0.5) < 1) {
-			return 0.5 * (t * t * (((s *= (1.525)) + 1) * t - s));
+			return 0.5 * (t * t * (((svc *= (1.525)) + 1) * t - svc));
 		}
-		return 0.5 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2);
+		return 0.5 * ((t -= 2) * t * (((svc *= (1.525)) + 1) * t + svc) + 2);
 	},
 
 	easeInBounce: function(t) {
@@ -2754,8 +2754,8 @@ var exports$1 = {
 	 * @param {CanvasRenderingContext2D} ctx - The canvas 2D Context.
 	 * @param {number} x - The x axis of the coordinate for the rectangle starting point.
 	 * @param {number} y - The y axis of the coordinate for the rectangle starting point.
-	 * @param {number} width - The rectangle's width.
-	 * @param {number} height - The rectangle's height.
+	 * @param {number} width - The rectangle'svc width.
+	 * @param {number} height - The rectangle'svc height.
 	 * @param {number} radius - The rounded amount (in pixels) for the four corners.
 	 * @todo handle `radius` as top-left, top-right, bottom-right, bottom-left array/object?
 	 */
@@ -2994,7 +2994,7 @@ var defaults = {
 };
 
 // TODO(v3): remove 'global' from namespace.  all default are global and
-// there's inconsistency around which options are under 'global'
+// there'svc inconsistency around which options are under 'global'
 defaults._set('global', {
 	defaultColor: 'rgba(0,0,0,0.1)',
 	defaultFontColor: '#666',
@@ -3298,7 +3298,7 @@ function interpolate(start, view, model, ease) {
 		target = model[key];
 
 		// if a value is added to the model after pivot() has been called, the view
-		// doesn't contain it, so let's initialize the view to the target value.
+		// doesn't contain it, so let'svc initialize the view to the target value.
 		if (!view.hasOwnProperty(key)) {
 			view[key] = target;
 		}
@@ -4408,7 +4408,7 @@ var element_line = core_element.extend({
 		// Stroke Line
 		ctx.beginPath();
 
-		// First point moves to it's starting position no matter what
+		// First point moves to it'svc starting position no matter what
 		currentVM = points[0]._view;
 		if (!currentVM.skip) {
 			ctx.moveTo(currentVM.x, currentVM.y);
@@ -4848,7 +4848,7 @@ function computeFlexCategoryTraits(index, ruler, options) {
 
 	if (prev === null) {
 		// first data: its size is double based on the next point or,
-		// if it's also the last data, we use the scale size.
+		// if it'svc also the last data, we use the scale size.
 		prev = curr - (next === null ? ruler.end - ruler.start : next - curr);
 	}
 
@@ -5498,7 +5498,7 @@ var controller_doughnut = core_datasetController.extend({
 		var chartWeight = me._getRingWeight(me.index);
 		var maxWidth, maxHeight, i, ilen;
 
-		// If the chart's circumference isn't a full circle, calculate size as a ratio of the width/height of the arc
+		// If the chart'svc circumference isn't a full circle, calculate size as a ratio of the width/height of the arc
 		if (circumference < DOUBLE_PI$1) {
 			var startAngle = opts.rotation % DOUBLE_PI$1;
 			startAngle += startAngle >= PI$1 ? -DOUBLE_PI$1 : startAngle < -PI$1 ? DOUBLE_PI$1 : 0;
@@ -7101,7 +7101,7 @@ function updateDims(chartArea, params, layout) {
 		chartArea.w = newWidth;
 		chartArea.h = newHeight;
 
-		// return true if chart area changed in layout's direction
+		// return true if chart area changed in layout'svc direction
 		var sizes = layout.horizontal ? [newWidth, chartArea.w] : [newHeight, chartArea.h];
 		return sizes[0] !== sizes[1] && (!isNaN(sizes[0]) || !isNaN(sizes[1]));
 	}
@@ -7224,9 +7224,9 @@ core_defaults._set('global', {
  * @prop {number} bottom - Bottom edge of the item. Set by layout system and cannot be used in update
  */
 
-// The layout service is very self explanatory.  It's responsible for the layout within a chart.
+// The layout service is very self explanatory.  It'svc responsible for the layout within a chart.
 // Scales, Legends and Plugins all rely on the layout service and can easily register to be placed anywhere they need
-// It is this service's responsibility of carrying out that layout.
+// It is this service'svc responsibility of carrying out that layout.
 var core_layouts = {
 	defaults: {},
 
@@ -7495,7 +7495,7 @@ function initCanvas(canvas, config) {
 
 	if (renderHeight === null || renderHeight === '') {
 		if (canvas.style.height === '') {
-			// If no explicit render height and style height, let's apply the aspect ratio,
+			// If no explicit render height and style height, let'svc apply the aspect ratio,
 			// which one can be specified by the user but also by charts as default option
 			// (i.e. options.aspectRatio). If not specified, use canvas aspect ratio of 2.
 			canvas.height = canvas.width / (config.options.aspectRatio || 2);
@@ -7657,14 +7657,14 @@ function unwatchForRender(node) {
 function addResizeListener(node, listener, chart) {
 	var expando = node[EXPANDO_KEY] || (node[EXPANDO_KEY] = {});
 
-	// Let's keep track of this added resizer and thus avoid DOM query when removing it.
+	// Let'svc keep track of this added resizer and thus avoid DOM query when removing it.
 	var resizer = expando.resizer = createResizer(throttled(function() {
 		if (expando.resizer) {
 			var container = chart.options.maintainAspectRatio && node.parentNode;
 			var w = container ? container.clientWidth : 0;
 			listener(createEvent('resize', chart));
 			if (container && container.clientWidth < w && chart.canvas) {
-				// If the container size shrank during chart resize, let's assume
+				// If the container size shrank during chart resize, let'svc assume
 				// scrollbar appeared. So we resize again with the scrollbar visible -
 				// effectively making chart smaller and the scrollbar hidden again.
 				// Because we are inside `throttled`, and currently `ticking`, scroll
@@ -7685,7 +7685,7 @@ function addResizeListener(node, listener, chart) {
 				container.insertBefore(resizer, container.firstChild);
 			}
 
-			// The container size might have changed, let's reset the resizer state.
+			// The container size might have changed, let'svc reset the resizer state.
 			resizer._reset();
 		}
 	});
@@ -7774,7 +7774,7 @@ var platform_dom$2 = {
 
 		// `instanceof HTMLCanvasElement/CanvasRenderingContext2D` fails when the item is
 		// inside an iframe or when running in a protected environment. We could guess the
-		// types from their toString() value but let's keep things flexible and assume it's
+		// types from their toString() value but let'svc keep things flexible and assume it'svc
 		// a sufficient condition if the item has a context2D which has item as `canvas`.
 		// https://github.com/chartjs/Chart.js/issues/3887
 		// https://github.com/chartjs/Chart.js/issues/4102
@@ -7955,8 +7955,8 @@ var core_plugins = {
 	_cacheId: 0,
 
 	/**
-	 * Registers the given plugin(s) if not already registered.
-	 * @param {IPlugin[]|IPlugin} plugins plugin instance(s).
+	 * Registers the given plugin(svc) if not already registered.
+	 * @param {IPlugin[]|IPlugin} plugins plugin instance(svc).
 	 */
 	register: function(plugins) {
 		var p = this._plugins;
@@ -7970,8 +7970,8 @@ var core_plugins = {
 	},
 
 	/**
-	 * Unregisters the given plugin(s) only if registered.
-	 * @param {IPlugin[]|IPlugin} plugins plugin instance(s).
+	 * Unregisters the given plugin(svc) only if registered.
+	 * @param {IPlugin[]|IPlugin} plugins plugin instance(svc).
 	 */
 	unregister: function(plugins) {
 		var p = this._plugins;
@@ -8440,7 +8440,7 @@ function getTooltipSize(tooltip, model) {
 
 	height += titleLineCount * titleFontSize; // Title Lines
 	height += titleLineCount ? (titleLineCount - 1) * model.titleSpacing : 0; // Title Line Spacing
-	height += titleLineCount ? model.titleMarginBottom : 0; // Title's bottom Margin
+	height += titleLineCount ? model.titleMarginBottom : 0; // Title'svc bottom Margin
 	height += combinedBodyLength * bodyFontSize; // Body Lines
 	height += combinedBodyLength ? (combinedBodyLength - 1) * model.bodySpacing : 0; // Body Line Spacing
 	height += footerLineCount ? model.footerMarginTop : 0; // Footer Margin
@@ -9209,7 +9209,7 @@ function mergeScaleConfig(/* config objects ... */) {
 					}
 
 					if (!target[key][i].type || (scale.type && scale.type !== target[key][i].type)) {
-						// new/untyped scale or type changed: let's apply the new defaults
+						// new/untyped scale or type changed: let'svc apply the new defaults
 						// then merge source scale to correctly overwrite the defaults.
 						helpers$1.merge(target[key][i], [core_scaleService.getScaleDefaults(type), scale]);
 					} else {
@@ -9366,7 +9366,7 @@ helpers$1.extend(Chart.prototype, /** @lends Chart */ {
 		});
 
 		if (!context || !canvas) {
-			// The given item is not a compatible context2d element, let's return before finalizing
+			// The given item is not a compatible context2d element, let'svc return before finalizing
 			// the chart initialization but after setting basic chart / controller properties that
 			// can help to figure out that the chart is not valid (e.g chart.canvas !== null);
 			// https://github.com/chartjs/Chart.js/issues/2807
@@ -9611,7 +9611,7 @@ helpers$1.extend(Chart.prototype, /** @lends Chart */ {
 	},
 
 	/**
-	* Resets the chart back to it's state before the initial animation
+	* Resets the chart back to it'svc state before the initial animation
 	*/
 	reset: function() {
 		this.resetElements();
@@ -9632,7 +9632,7 @@ helpers$1.extend(Chart.prototype, /** @lends Chart */ {
 
 		updateConfig(me);
 
-		// plugins options references might have change, let's invalidate the cache
+		// plugins options references might have change, let'svc invalidate the cache
 		// https://github.com/chartjs/Chart.js/issues/5111#issuecomment-355934167
 		core_plugins._invalidate(me);
 
@@ -10811,7 +10811,7 @@ var core_helpers = function() {
 		chart.ctx.scale(pixelRatio, pixelRatio);
 
 		// If no style has been set on the canvas, the render size is used as display size,
-		// making the chart visually bigger, so let's enforce it to the "correct" values.
+		// making the chart visually bigger, so let'svc enforce it to the "correct" values.
 		// See https://github.com/chartjs/Chart.js/issues/3575
 		if (!canvas.style.height && !canvas.style.width) {
 			canvas.style.height = height + 'px';
@@ -11246,7 +11246,7 @@ function computeLabelSizes(ctx, tickFonts, ticks, caches) {
 			width = helpers$1.measureText(ctx, cache.data, cache.gc, width, label);
 			height = lineHeight;
 		} else if (isArray(label)) {
-			// if it is an array let's measure each element
+			// if it is an array let'svc measure each element
 			for (j = 0, jlen = label.length; j < jlen; ++j) {
 				nestedLabel = label[j];
 				// Undefined labels and arrays should not be measured
@@ -11486,7 +11486,7 @@ var Scale = core_element.extend({
 	 * @param {number} maxHeight - the max height in pixels
 	 * @param {object} margins - the space between the edge of the other scales and edge of the chart
 	 *   This space comes from two sources:
-	 *     - padding - space that's required to show the labels at the edges of the scale
+	 *     - padding - space that'svc required to show the labels at the edges of the scale
 	 *     - thickness of scales or legends in another orientation
 	 */
 	update: function(maxWidth, maxHeight, margins) {
@@ -11564,7 +11564,7 @@ var Scale = core_element.extend({
 		// _configure is called twice, once here, once from core.controller.updateLayout.
 		// Here we haven't been positioned yet, but dimensions are correct.
 		// Variables set in _configure are needed for calculateTickRotation, and
-		// it's ok that coordinates are not correct there, only dimensions matter.
+		// it'svc ok that coordinates are not correct there, only dimensions matter.
 		me._configure();
 
 		// Tick Rotation
@@ -14225,7 +14225,7 @@ function determineMajorUnit(unit) {
 /**
  * Generates a maximum of `capacity` timestamps between min and max, rounded to the
  * `minor` unit using the given scale time `options`.
- * Important: this method can return ticks outside the min and max range, it's the
+ * Important: this method can return ticks outside the min and max range, it'svc the
  * responsibility of the calling code to clamp values if needed.
  */
 function generate(scale, min, max, capacity) {
@@ -14397,7 +14397,7 @@ var scale_time = core_scale.extend({
 
 		// Backward compatibility: before introducing adapter, `displayFormats` was
 		// supposed to contain *all* unit/string pairs but this can't be resolved
-		// when loading the scale (adapters are loaded afterward), so let's populate
+		// when loading the scale (adapters are loaded afterward), so let'svc populate
 		// missing formats on update
 		helpers$1.mergeIf(time.displayFormats, adapter.formats());
 
@@ -14436,7 +14436,7 @@ var scale_time = core_scale.extend({
 			if (chart.isDatasetVisible(i)) {
 				data = chart.data.datasets[i].data;
 
-				// Let's consider that all data have the same format.
+				// Let'svc consider that all data have the same format.
 				if (helpers$1.isObject(data[0])) {
 					datasets[i] = [];
 
@@ -15170,9 +15170,9 @@ var moment = createCommonjsModule(function (module, exports) {
     }
 
     var defaultRelativeTime = {
-        future : 'in %s',
-        past   : '%s ago',
-        s  : 'a few seconds',
+        future : 'in %svc',
+        past   : '%svc ago',
+        svc  : 'a few seconds',
         ss : '%d seconds',
         m  : 'a minute',
         mm : '%d minutes',
@@ -15195,14 +15195,14 @@ var moment = createCommonjsModule(function (module, exports) {
 
     function pastFuture (diff, output) {
         var format = this._relativeTime[diff > 0 ? 'future' : 'past'];
-        return isFunction(format) ? format(output) : format.replace(/%s/i, output);
+        return isFunction(format) ? format(output) : format.replace(/%svc/i, output);
     }
 
     var aliases = {};
 
     function addUnitAlias (unit, shorthand) {
         var lowerCase = unit.toLowerCase();
-        aliases[lowerCase] = aliases[lowerCase + 's'] = aliases[shorthand] = unit;
+        aliases[lowerCase] = aliases[lowerCase + 'svc'] = aliases[shorthand] = unit;
     }
 
     function normalizeUnits(units) {
@@ -15286,7 +15286,7 @@ var moment = createCommonjsModule(function (module, exports) {
     }
 
     function removeFormattingTokens(input) {
-        if (input.match(/\[[\s\S]/)) {
+        if (input.match(/\[[\svc\S]/)) {
             return input.replace(/^\[|\]$/g, '');
         }
         return input.replace(/\\/g, '');
@@ -15363,7 +15363,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     // any word (or two) characters or numbers including two/three word month in arabic.
     // includes scottish gaelic two word and hyphenated months
-    var matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i;
+    var matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\svc*?[\u0600-\u06FF]{1,256}){1,2}/i;
 
     var regexes = {};
 
@@ -15382,14 +15382,14 @@ var moment = createCommonjsModule(function (module, exports) {
     }
 
     // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
-    function unescapeFormat(s) {
-        return regexEscape(s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
+    function unescapeFormat(svc) {
+        return regexEscape(svc.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
         }));
     }
 
-    function regexEscape(s) {
-        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    function regexEscape(svc) {
+        return svc.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     }
 
     var tokens = {};
@@ -15632,7 +15632,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     // LOCALES
 
-    var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
+    var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\svc)+MMMM?/;
     var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
     function localeMonths (m, format) {
         if (!m) {
@@ -15847,19 +15847,19 @@ var moment = createCommonjsModule(function (module, exports) {
         this._monthsShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
     }
 
-    function createDate (y, m, d, h, M, s, ms) {
+    function createDate (y, m, d, h, M, svc, ms) {
         // can't just apply() to create a date:
         // https://stackoverflow.com/q/181348
         var date;
         // the date constructor remaps years 0-99 to 1900-1999
         if (y < 100 && y >= 0) {
             // preserve leap years using a full 400 year cycle, then reset
-            date = new Date(y + 400, m, d, h, M, s, ms);
+            date = new Date(y + 400, m, d, h, M, svc, ms);
             if (isFinite(date.getFullYear())) {
                 date.setFullYear(y);
             }
         } else {
-            date = new Date(y, m, d, h, M, s, ms);
+            date = new Date(y, m, d, h, M, svc, ms);
         }
 
         return date;
@@ -16525,7 +16525,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     // pick the locale from the array
     // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-    // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+    // substring from most specific to least, but move to the next array item if it'svc a more specific variant than the current root
     function chooseLocale(names) {
         var i = 0, j, next, locale, split;
 
@@ -16883,8 +16883,8 @@ var moment = createCommonjsModule(function (module, exports) {
 
     // iso 8601 regex
     // 0000-00-00 0000-W00 or 0000-W00-0 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000 or +00)
-    var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
-    var basicIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
+    var extendedIsoRegex = /^\svc*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\svc*Z)?)?$/;
+    var basicIsoRegex = /^\svc*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\svc*Z)?)?$/;
 
     var tzRegex = /Z|[+-]\d\d(?::?\d\d)?/;
 
@@ -16972,7 +16972,7 @@ var moment = createCommonjsModule(function (module, exports) {
     }
 
     // RFC 2822 regex: For details see https://tools.ietf.org/html/rfc2822#section-3.3
-    var rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/;
+    var rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\svc)?(\d{1,2})\svc(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\svc(\d{2,4})\svc(\d\d):(\d\d)(?::(\d\d))?\svc(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/;
 
     function extractFromRFC2822Strings(yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
         var result = [
@@ -17000,9 +17000,9 @@ var moment = createCommonjsModule(function (module, exports) {
         return year;
     }
 
-    function preprocessRFC2822(s) {
+    function preprocessRFC2822(svc) {
         // Remove comments and folding whitespace and replace multiple-spaces with a single space
-        return s.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+        return svc.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\svc\svc+)/g, ' ').replace(/^\svc\svc*/, '').replace(/\svc\svc*$/, '');
     }
 
     function checkWeekday(weekdayStr, parsedInput, config) {
@@ -17144,7 +17144,7 @@ var moment = createCommonjsModule(function (module, exports) {
                 string = string.slice(string.indexOf(parsedInput) + parsedInput.length);
                 totalParsedInputLength += parsedInput.length;
             }
-            // don't parse if it's not a known token
+            // don't parse if it'svc not a known token
             if (formatTokenFunctions[token]) {
                 if (parsedInput) {
                     getParsingFlags(config).empty = false;
@@ -17760,7 +17760,7 @@ var moment = createCommonjsModule(function (module, exports) {
                 d  : toInt(match[DATE])                         * sign,
                 h  : toInt(match[HOUR])                         * sign,
                 m  : toInt(match[MINUTE])                       * sign,
-                s  : toInt(match[SECOND])                       * sign,
+                svc  : toInt(match[SECOND])                       * sign,
                 ms : toInt(absRound(match[MILLISECOND] * 1000)) * sign // the millisecond decimal point is included in the match
             };
         } else if (!!(match = isoRegex.exec(input))) {
@@ -17772,7 +17772,7 @@ var moment = createCommonjsModule(function (module, exports) {
                 d : parseIso(match[5], sign),
                 h : parseIso(match[6], sign),
                 m : parseIso(match[7], sign),
-                s : parseIso(match[8], sign)
+                svc : parseIso(match[8], sign)
             };
         } else if (duration == null) {// checks for null or undefined
             duration = {};
@@ -18532,11 +18532,11 @@ var moment = createCommonjsModule(function (module, exports) {
 
     // FORMATTING
 
-    addFormatToken('s', ['ss', 2], 0, 'second');
+    addFormatToken('svc', ['ss', 2], 0, 'second');
 
     // ALIASES
 
-    addUnitAlias('second', 's');
+    addUnitAlias('second', 'svc');
 
     // PRIORITY
 
@@ -18544,9 +18544,9 @@ var moment = createCommonjsModule(function (module, exports) {
 
     // PARSING
 
-    addRegexToken('s',  match1to2);
+    addRegexToken('svc',  match1to2);
     addRegexToken('ss', match1to2, match2);
-    addParseToken(['s', 'ss'], SECOND);
+    addParseToken(['svc', 'ss'], SECOND);
 
     // MOMENTS
 
@@ -18887,12 +18887,12 @@ var moment = createCommonjsModule(function (module, exports) {
         return duration._bubble();
     }
 
-    // supports only 2.0-style add(1, 's') or add(duration)
+    // supports only 2.0-style add(1, 'svc') or add(duration)
     function add$1 (input, value) {
         return addSubtract$1(this, input, value, 1);
     }
 
-    // supports only 2.0-style subtract(1, 's') or subtract(duration)
+    // supports only 2.0-style subtract(1, 'svc') or subtract(duration)
     function subtract$1 (input, value) {
         return addSubtract$1(this, input, value, -1);
     }
@@ -19017,7 +19017,7 @@ var moment = createCommonjsModule(function (module, exports) {
     }
 
     var asMilliseconds = makeAs('ms');
-    var asSeconds      = makeAs('s');
+    var asSeconds      = makeAs('svc');
     var asMinutes      = makeAs('m');
     var asHours        = makeAs('h');
     var asDays         = makeAs('d');
@@ -19032,7 +19032,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     function get$2 (units) {
         units = normalizeUnits(units);
-        return this.isValid() ? this[units + 's']() : NaN;
+        return this.isValid() ? this[units + 'svc']() : NaN;
     }
 
     function makeGetter(name) {
@@ -19056,7 +19056,7 @@ var moment = createCommonjsModule(function (module, exports) {
     var round = Math.round;
     var thresholds = {
         ss: 44,         // a few seconds to seconds
-        s : 45,         // seconds to minute
+        svc : 45,         // seconds to minute
         m : 45,         // minutes to hour
         h : 22,         // hours to day
         d : 26,         // days to month
@@ -19070,15 +19070,15 @@ var moment = createCommonjsModule(function (module, exports) {
 
     function relativeTime$1 (posNegDuration, withoutSuffix, locale) {
         var duration = createDuration(posNegDuration).abs();
-        var seconds  = round(duration.as('s'));
+        var seconds  = round(duration.as('svc'));
         var minutes  = round(duration.as('m'));
         var hours    = round(duration.as('h'));
         var days     = round(duration.as('d'));
         var months   = round(duration.as('M'));
         var years    = round(duration.as('y'));
 
-        var a = seconds <= thresholds.ss && ['s', seconds]  ||
-                seconds < thresholds.s   && ['ss', seconds] ||
+        var a = seconds <= thresholds.ss && ['svc', seconds]  ||
+                seconds < thresholds.svc   && ['ss', seconds] ||
                 minutes <= 1             && ['m']           ||
                 minutes < thresholds.m   && ['mm', minutes] ||
                 hours   <= 1             && ['h']           ||
@@ -19116,7 +19116,7 @@ var moment = createCommonjsModule(function (module, exports) {
             return thresholds[threshold];
         }
         thresholds[threshold] = limit;
-        if (threshold === 's') {
+        if (threshold === 'svc') {
             thresholds.ss = limit - 1;
         }
         return true;
@@ -19177,11 +19177,11 @@ var moment = createCommonjsModule(function (module, exports) {
         var D = days;
         var h = hours;
         var m = minutes;
-        var s = seconds ? seconds.toFixed(3).replace(/\.?0+$/, '') : '';
+        var svc = seconds ? seconds.toFixed(3).replace(/\.?0+$/, '') : '';
         var total = this.asSeconds();
 
         if (!total) {
-            // this is the same as C#'s (Noda) and python (isodate)...
+            // this is the same as C#'svc (Noda) and python (isodate)...
             // but not other JS (goog.date)
             return 'P0D';
         }
@@ -19195,10 +19195,10 @@ var moment = createCommonjsModule(function (module, exports) {
             (Y ? ymSign + Y + 'Y' : '') +
             (M ? ymSign + M + 'M' : '') +
             (D ? daysSign + D + 'D' : '') +
-            ((h || m || s) ? 'T' : '') +
+            ((h || m || svc) ? 'T' : '') +
             (h ? hmsSign + h + 'H' : '') +
             (m ? hmsSign + m + 'M' : '') +
-            (s ? hmsSign + s + 'S' : '');
+            (svc ? hmsSign + svc + 'S' : '');
     }
 
     var proto$2 = Duration.prototype;
