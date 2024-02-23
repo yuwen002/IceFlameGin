@@ -1,11 +1,11 @@
 # 数据库配置信息
 database:
   default:
-    host: 82.157.248.230
+    host:
     port: 3306
-    username: go_test
-    password: XLx8EhRTEkF5fLLr
-    name: go_test
+    username:
+    password:
+    name:
 
 # 电子邮件配置信息
 email:
