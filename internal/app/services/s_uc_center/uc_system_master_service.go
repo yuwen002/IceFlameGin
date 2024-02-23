@@ -238,8 +238,23 @@ func (s *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput)
 // @param ciphertext
 // @return *system.SysResponse
 func (s *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysResponse {
+	// 当前时间戳
+	timestamp1 := time.Now().Unix()
+	// 构建明文
+	plaintext := "yuwen002@163.com" + "|" + fmt.Sprint(timestamp1)
+	fmt.Println(plaintext)
+	ciphertext1, _ := utils.EncryptAES128([]byte(s.aes128Key), []byte("yuwen002@163.com"))
+	ciphertextHex := hex.EncodeToString(ciphertext1)
+	fmt.Println(ciphertextHex)
 	// 解密
-	decryptedText, err := utils.DecryptAES128([]byte(s.aes128Key), []byte(ciphertext))
+	ciphertext, err := hex.DecodeString(ciphertextHex)
+	if err != nil {
+		fmt.Println("Error decoding ciphertext:", err)
+		return
+	}
+	// 解密
+	decryptedText, err := utils.DecryptAES128([]byte(s.aes128Key), []byte(ciphertextHex))
+	fmt.Println(decryptedText)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,

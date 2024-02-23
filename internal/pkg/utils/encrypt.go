@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/md5"
@@ -89,21 +90,11 @@ func HashSHA512(data string) string {
 // @return []byte
 // @return error
 func EncryptAES128(key []byte, plaintext []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
+	if len(key) != 16 {
+		return nil, errors.New("AES-128 key size must be 16 bytes")
 	}
 
-	ciphertext := make([]byte, aes.BlockSize+len(plaintext))
-	iv := ciphertext[:aes.BlockSize]
-	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		return nil, err
-	}
-
-	mode := cipher.NewCBCEncrypter(block, iv)
-	mode.CryptBlocks(ciphertext[aes.BlockSize:], plaintext)
-
-	return ciphertext, nil
+	return EncryptAES(key, plaintext, 16)
 }
 
 // DecryptAES128
@@ -117,21 +108,11 @@ func EncryptAES128(key []byte, plaintext []byte) ([]byte, error) {
 // @return []byte
 // @return error
 func DecryptAES128(key []byte, ciphertext []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
+	if len(key) != 16 {
+		return nil, errors.New("AES-128 key size must be 16 bytes")
 	}
 
-	if len(ciphertext) < aes.BlockSize {
-		return nil, errors.New("ciphertext is too short")
-	}
-	iv := ciphertext[:aes.BlockSize]
-	ciphertext = ciphertext[aes.BlockSize:]
-
-	mode := cipher.NewCBCDecrypter(block, iv)
-	mode.CryptBlocks(ciphertext, ciphertext)
-
-	return ciphertext, nil
+	return DecryptAES(key, ciphertext, 16)
 }
 
 // EncryptAES256
@@ -145,21 +126,11 @@ func DecryptAES128(key []byte, ciphertext []byte) ([]byte, error) {
 // @return []byte
 // @return error
 func EncryptAES256(key []byte, plaintext []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
+	if len(key) != 32 {
+		return nil, errors.New("AES-256 key size must be 32 bytes")
 	}
 
-	ciphertext := make([]byte, aes.BlockSize+len(plaintext))
-	iv := ciphertext[:aes.BlockSize]
-	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		return nil, err
-	}
-
-	mode := cipher.NewCBCEncrypter(block, iv)
-	mode.CryptBlocks(ciphertext[aes.BlockSize:], plaintext)
-
-	return ciphertext, nil
+	return EncryptAES(key, plaintext, 32)
 }
 
 // DecryptAES256
@@ -173,19 +144,117 @@ func EncryptAES256(key []byte, plaintext []byte) ([]byte, error) {
 // @return []byte
 // @return error
 func DecryptAES256(key []byte, ciphertext []byte) ([]byte, error) {
+	if len(key) != 32 {
+		return nil, errors.New("AES-256 key size must be 32 bytes")
+	}
+
+	return DecryptAES(key, ciphertext, 32)
+}
+
+// pkcs7Pad
+//
+// @Title pkcs7Pad
+// @Description: 使用PKCS#7填充对数据进行填充
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-23 16:02:14
+// @param data
+// @param blockSize
+// @return []byte
+func pkcs7Pad(data []byte, blockSize int) []byte {
+	padding := blockSize - (len(data) % blockSize)
+	padText := bytes.Repeat([]byte{byte(padding)}, padding)
+	return append(data, padText...)
+}
+
+// pkcs7Unpad
+//
+// @Title pkcs7Unpad
+// @Description: 使用PKCS#7填充对数据进行去除填充
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-23 16:02:29
+// @param data
+// @return []byte
+// @return error
+func pkcs7Unpad(data []byte) ([]byte, error) {
+	length := len(data)
+	unpadding := int(data[length-1])
+	if unpadding > length {
+		return nil, errors.New("invalid padding")
+	}
+	return data[:(length - unpadding)], nil
+}
+
+// EncryptAES
+//
+// @Title EncryptAES
+// @Description: 使用AES对数据进行加密
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-23 16:02:53
+// @param key
+// @param plaintext
+// @param keySize
+// @return []byte
+// @return error
+func EncryptAES(key []byte, plaintext []byte, keySize int) ([]byte, error) {
+	if len(key) != keySize {
+		return nil, errors.New("AES key size is incorrect")
+	}
+
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
 	}
 
-	if len(ciphertext) < aes.BlockSize {
-		return nil, errors.New("ciphertext is too short")
-	}
-	iv := ciphertext[:aes.BlockSize]
-	ciphertext = ciphertext[aes.BlockSize:]
+	blockSize := block.BlockSize()
+	plaintext = pkcs7Pad(plaintext, blockSize)
 
-	mode := cipher.NewCBCDecrypter(block, iv)
-	mode.CryptBlocks(ciphertext, ciphertext)
+	ciphertext := make([]byte, blockSize+len(plaintext))
+	iv := ciphertext[:blockSize]
+	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+		return nil, err
+	}
+
+	mode := cipher.NewCBCEncrypter(block, iv)
+	mode.CryptBlocks(ciphertext[blockSize:], plaintext)
 
 	return ciphertext, nil
+}
+
+// DecryptAES
+//
+// @Title DecryptAES
+// @Description: 使用AES对数据进行解密
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-23 16:03:05
+// @param key
+// @param ciphertext
+// @param keySize
+func DecryptAES(key []byte, ciphertext []byte, keySize int) ([]byte, error) {
+	if len(key) != keySize {
+		return nil, errors.New("AES key size is incorrect")
+	}
+
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	blockSize := block.BlockSize()
+	if len(ciphertext)%blockSize != 0 {
+		return nil, errors.New("ciphertext is not a multiple of the block size")
+	}
+	iv := ciphertext[:blockSize]
+	ciphertext = ciphertext[blockSize:]
+
+	plaintext := make([]byte, len(ciphertext))
+
+	mode := cipher.NewCBCDecrypter(block, iv)
+	mode.CryptBlocks(plaintext, ciphertext)
+
+	plaintext, err = pkcs7Unpad(plaintext)
+	if err != nil {
+		return nil, err
+	}
+
+	return plaintext, nil
 }

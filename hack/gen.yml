@@ -1,12 +1,13 @@
 version: "0.1"
 database:
   # consult[https://gorm.io/docs/connecting_to_the_database.html]"
-  dsn: ""
+  dsn: "go_test:XLx8EhRTEkF5fLLr@(82.157.248.230:3306)/go_test?charset=utf8mb4&parseTime=True&loc=Local"
   # input mysql or postgres or sqlite or sqlserver. consult[https://gorm.io/docs/connecting_to_the_database.html]
   db: "mysql"
   # enter the required data table or leave it blank.You can input : orders,users,goods
   tables:
     - uc_system_master
+    - uc_account
   # 生成的查询类代码的输出路径，默认./query
   outPath: "./internal/app/models/query"
   # 生成的文件名，默认gen.go

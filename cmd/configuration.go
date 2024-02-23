@@ -21,7 +21,7 @@ func main() {
 		FieldWithTypeTag:  true,
 	})
 
-	gormDb, _ := gorm.Open(mysql.Open(""))
+	gormDb, _ := gorm.Open(mysql.Open("go_test:XLx8EhRTEkF5fLLr@(82.157.248.230:3306)/go_test?charset=utf8mb4&parseTime=True&loc=Local"))
 	g.UseDB(gormDb) // reuse your gorm db
 
 	// 按照约定为结构体 `model.User` 生成类型安全的 DAO API

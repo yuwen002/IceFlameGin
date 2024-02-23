@@ -26,7 +26,9 @@ func setupAdminRoutes(router *gin.Engine) {
 		r.GET(paths.AdminRegister, admin.UcSystemMaster.Register)
 		r.POST(paths.AdminHandleRegister, admin.UcSystemMaster.HandleRegister)
 		r.GET(paths.AdminForgotPassword, admin.UcSystemMaster.ForgotPassword)
-		r.POST(paths.AdminForgotPassword, admin.UcSystemMaster.HandleForgotPassword)
+		r.POST(paths.AdminHandleForgotPassword, admin.UcSystemMaster.HandleForgotPassword)
+		r.GET(paths.AdminPasswordRecovery, admin.UcSystemMaster.PasswordRecovery)
+		r.POST(paths.AdminHandlePasswordRecovery)
 
 	}
 	// 设置一个处理 404 中间件函数

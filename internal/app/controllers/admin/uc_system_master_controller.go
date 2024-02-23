@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
@@ -246,7 +245,6 @@ func (ctrl *cUcSystemMaster) HandleForgotPassword(c *gin.Context) {
 	output := services.NewUcSystemMasterService().ForgotPassword(dto.ForgotPasswordSystemMasterInput{
 		Email: form.Email,
 	})
-	fmt.Println(output)
 	if output.Code == 1 {
 		system.AddFlashData(c, output.Message, "msg")
 		// 跳转忘记密码页
@@ -269,16 +267,25 @@ func (ctrl *cUcSystemMaster) HandleForgotPassword(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
+	title := "重置密码"
 	// 获取URL参数的值
 	token := c.Query("token")
 	output := services.NewUcSystemMasterService().PasswordRecovery(token)
 	if output.Code == 1 {
-		c.JSON(http.StatusOK, gin.H{
-			"code":    1,
-			"message": output.Message,
+		system.Render(c, "admin/password_recovery.html", gin.H{
+			"title": title,
+			"fail":  output.Message,
 		})
 		return
 	}
 
 	system.Render(c, "admin/password_recovery.html", gin.H{})
+}
+
+func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
+	var form validators.AdminPasswordRecovery
+
+	if err := c.ShouldBind(&form); err != nil {
+		system.Redirect(c, paths.AdminRoot+paths.AdminPasswordRecovery)
+	}
 }

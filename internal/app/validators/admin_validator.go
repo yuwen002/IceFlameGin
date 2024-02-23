@@ -33,3 +33,13 @@ type AdminRegisterForm struct {
 type AdminForgotPassword struct {
 	Email string `form:"email" binding:"required,email" msg:"电子邮箱不能为空|电子邮箱格式不正确"`
 }
+
+// AdminPasswordRecovery
+// @Description: 用户充值密码
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-23 11:41:55
+type AdminPasswordRecovery struct {
+	Password       string `form:"password" binding:"required,min=5,max=32" msg:"密码不能为空|密码长度不能小于5个字符|密码长度不能超过32个字符"`
+	RetypePassword string `form:"retype_password" binding:"required,eqfield=Password" msg:"请重复输入密码|两次输入的密码不一致"`
+	Token          string `form:"token"`
+}
