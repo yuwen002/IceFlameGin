@@ -50,3 +50,22 @@ func (repo *UcAccountRepository) GetAccountByTel(tel string) (*model.UcAccount, 
 	}
 	return &account, nil
 }
+
+// UpdatePasswordById
+//
+// @Title UpdatePasswordById
+// @Description: 按ID更新用户密码
+// @Author liuxingyu
+// @Date 2024-02-25 01:37:25
+// @receiver repo
+// @param id
+// @param newPasswordHash
+// @return error
+func (repo *UcAccountRepository) UpdatePasswordById(id uint32, newPasswordHash string) error {
+	account := model.UcAccount{PasswordHash: newPasswordHash}
+	err := db.NewGormCore().UpdateByID(id, account)
+	if err != nil {
+		return err
+	}
+	return nil
+}

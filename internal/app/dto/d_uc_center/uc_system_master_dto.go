@@ -1,11 +1,11 @@
 package dto
 
-//	LoginTelPasswordInput
+//	LoginTelPasswordSystemMasterInput
 //	@Description: 用户电话密码登入
 //
 // @Author liuxingyu
 // @Date 2024-02-08 01:03:37
-type LoginTelPasswordInput struct {
+type LoginTelPasswordSystemMasterInput struct {
 	Tel      string
 	Password string
 }
@@ -22,11 +22,30 @@ type RegisterSystemMasterInput struct {
 	Email    string
 }
 
-// ForgotPasswordSystemMasterInput
+// ForgotPasswordInput
 //
 // @Description: 用户忘记密码
 // @Author liuxingyu
 // @Date 2024-02-15 19:48:44
-type ForgotPasswordSystemMasterInput struct {
+type ForgotPasswordInput struct {
 	Email string
+}
+
+// PasswordRecoveryOutput
+//
+// @Description: 重置密码
+// @Author liuxingyu
+// @Date 2024-02-25 00:21:21
+type PasswordRecoveryOutput struct {
+	Email     string `json:"email"`
+	Timestamp int64  `json:"timestamp"`
+}
+
+// EncryptTokenOutput
+//
+// @Description: 密文输出
+// @Author liuxingyu
+// @Date 2024-02-25 00:50:33
+type EncryptTokenOutput struct {
+	CiphertextHex string `json:"ciphertext_hex"`
 }

@@ -45,7 +45,7 @@ func NewUcSystemMasterService() *sUcSystemMaster {
 // @receiver s
 // @param in
 // @return *system.ApiResponse
-func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordInput) *system.SysResponse {
+func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMasterInput) *system.SysResponse {
 	tel := svc.prefix + in.Tel
 	out, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
 
@@ -161,7 +161,7 @@ func (svc *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.S
 // @receiver s
 // @param in
 // @return *system.SysResponse
-func (svc *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInput) *system.SysResponse {
+func (svc *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordInput) *system.SysResponse {
 	// 查询Email信息
 	systemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(in.Email)
 	if err != nil {
@@ -180,22 +180,21 @@ func (svc *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInpu
 		}
 	}
 
-	// 当前时间戳
-	timestamp := time.Now().Unix()
-	// 构建明文
-	plaintext := in.Email + "|" + fmt.Sprint(timestamp)
-	// 加密
-	ciphertext, err := utils.EncryptAES128([]byte(svc.aes128Key), []byte(plaintext))
-	if err != nil {
+	//  加密数据
+	result := svc.EncryptToken(in.Email)
+	if result.Code == 1 {
+		return result
+	}
+	output, ok := result.Data.(dto.EncryptTokenOutput)
+	if !ok {
+		// 类型断言失败，处理错误
 		return &system.SysResponse{
 			Code:    1,
-			Message: "加密失败:" + err.Error(),
+			Message: "数据转换失败",
 			Data:    nil,
 		}
 	}
-
-	// 将密文转换为十六进制字符串进行打印
-	ciphertextHex := hex.EncodeToString(ciphertext)
+	ciphertextHex := output.CiphertextHex
 	// 邮件内容信息 @todo 网址需要调整
 	body := "<p>这是邮件内容。点击 <a href=\"https://www.example.com/reset-password?token=" + ciphertextHex + "\">此处</a> 重置您的密码。</p>"
 	// 配置
@@ -228,34 +227,60 @@ func (svc *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordSystemMasterInpu
 	}
 }
 
-// PasswordRecovery
+// EncryptToken
 //
-// @Title PasswordRecovery
-// @Description
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-02-22 10:24:39
-// @receiver s
-// @param ciphertext
+// @Title EncryptToken
+// @Description: 加密token
+// @Author liuxingyu
+// @Date 2024-02-25 00:51:29
+// @receiver svc
+// @param email
 // @return *system.SysResponse
-func (svc *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysResponse {
-	//// 当前时间戳
-	//timestamp1 := time.Now().Unix()
-	//// 构建明文
-	//plaintext := "yuwen002@163.com" + "|" + fmt.Sprint(timestamp1)
-	//fmt.Println(plaintext)
-	//ciphertext1, _ := utils.EncryptAES128([]byte(svc.aes128Key), []byte(plaintext))
-	//fmt.Println(ciphertext1)
-	//ciphertextHex := hex.EncodeToString(ciphertext1)
-	//fmt.Println(ciphertextHex)
-	// 解密
-	ciphertextBytes, err := hex.DecodeString(ciphertext)
+func (svc *sUcSystemMaster) EncryptToken(email string) *system.SysResponse {
+	// 当前时间戳
+	timestamp := time.Now().Unix()
+	// 构建明文
+	plaintext := email + "|" + fmt.Sprint(timestamp)
+	// 加密
+	ciphertext, err := utils.EncryptAES128([]byte(svc.aes128Key), []byte(plaintext))
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
-			Message: "解密失败:" + err.Error(),
+			Message: "加密失败:" + err.Error(),
 			Data:    nil,
 		}
 	}
+
+	// 将密文转换为十六进制字符串进行打印
+	ciphertextHex := hex.EncodeToString(ciphertext)
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    dto.EncryptTokenOutput{CiphertextHex: ciphertextHex},
+	}
+}
+
+// DecryptToken
+//
+// @Title DecryptToken
+// @Description: 解密token
+// @Author liuxingyu
+// @Date 2024-02-25 00:28:45
+// @receiver svc
+// @param token
+// @return *system.SysResponse
+func (svc *sUcSystemMaster) DecryptToken(token string) *system.SysResponse {
+	// 将十六进制字符串表示的密文解码为字节切片
+	ciphertextBytes, err := hex.DecodeString(token)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "解码失败:" + err.Error(),
+			Data:    nil,
+		}
+	}
+
 	// 解密
 	decryptedTextBytes, err := utils.DecryptAES128([]byte(svc.aes128Key), ciphertextBytes)
 	if err != nil {
@@ -267,6 +292,7 @@ func (svc *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysRespo
 	}
 
 	result := bytes.Split(decryptedTextBytes, []byte("|"))
+	email := string(result[0])
 	timestamp := string(result[1])
 	// 将时间戳转换为整数
 	t, err := utils.ToInt64(timestamp)
@@ -293,13 +319,84 @@ func (svc *sUcSystemMaster) PasswordRecovery(ciphertext string) *system.SysRespo
 		}
 	}
 
+	data := dto.PasswordRecoveryOutput{
+		Email:     email,
+		Timestamp: t,
+	}
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    data,
+	}
+}
+
+// PasswordRecovery
+//
+// @Title PasswordRecovery
+// @Description
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-22 10:24:39
+// @receiver s
+// @param token
+// @return *system.SysResponse
+
+func (svc *sUcSystemMaster) PasswordRecovery(token string, newPassword string) *system.SysResponse {
+	result := svc.DecryptToken(token)
+	if result.Code == 1 {
+		return result
+	}
+
+	output, ok := result.Data.(dto.PasswordRecoveryOutput)
+	if !ok {
+		// 类型断言失败，处理错误
+		return &system.SysResponse{
+			Code:    1,
+			Message: "数据转换失败",
+			Data:    nil,
+		}
+	}
+
+	// 密码加密
+	newPasswordHash, err := utils.PasswordHash(newPassword)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	//  查询email是否存在
+	emailSystemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(output.Email)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if emailSystemMaster == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "用户Email不存在",
+			Data:    nil,
+		}
+	}
+
+	//  更新用户密码
+	err = repositories.NewUcAccountRepository().UpdatePasswordById(emailSystemMaster.ID, newPasswordHash)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
 	return &system.SysResponse{
 		Code:    0,
 		Message: "Success",
 		Data:    nil,
 	}
-}
-
-func (svc *sUcSystemMaster) HandPasswordRecovery() {
-
 }

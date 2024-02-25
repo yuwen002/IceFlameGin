@@ -127,7 +127,7 @@ func (g *GormCore) Update(condition string, data interface{}) error {
 // @param id
 // @param data
 // @return error
-func (g *GormCore) UpdateByID(id uint, data interface{}) error {
+func (g *GormCore) UpdateByID(id uint32, data interface{}) error {
 	return g.db.Model(data).Where("id = ?", id).Updates(data).Error
 }
 
@@ -159,7 +159,7 @@ func (g *GormCore) Query(condition string, out interface{}) error {
 // @param id
 // @param out
 // @return error
-func (g *GormCore) GetByID(id int, out interface{}) error {
+func (g *GormCore) GetByID(id uint32, out interface{}) error {
 	return g.db.Where("id = ?", id).First(out).Error
 }
 

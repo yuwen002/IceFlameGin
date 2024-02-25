@@ -9,6 +9,7 @@ import (
 	"ice_flame_gin/routers/paths"
 	"net/http"
 	"sync"
+	"time"
 )
 
 var UcSystemMaster = cUcSystemMaster{
@@ -17,7 +18,7 @@ var UcSystemMaster = cUcSystemMaster{
 
 type cUcSystemMaster struct {
 	pageNotFound string
-	usedTokens   map[string]bool
+	usedTokens   map[string]int64
 	mu           sync.Mutex
 }
 
@@ -69,7 +70,7 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 	}
 
 	// 调用登录服务进行验证
-	output := services.NewUcSystemMasterService().LoginTelPassword(dto.LoginTelPasswordInput{
+	output := services.NewUcSystemMasterService().LoginTelPassword(dto.LoginTelPasswordSystemMasterInput{
 		Tel:      form.Tel,
 		Password: form.Password,
 	})
@@ -249,7 +250,7 @@ func (ctrl *cUcSystemMaster) HandleForgotPassword(c *gin.Context) {
 		return
 	}
 
-	output := services.NewUcSystemMasterService().ForgotPassword(dto.ForgotPasswordSystemMasterInput{
+	output := services.NewUcSystemMasterService().ForgotPassword(dto.ForgotPasswordInput{
 		Email: form.Email,
 	})
 	if output.Code == 1 {
@@ -277,7 +278,7 @@ func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
 	title := "重置密码"
 	// 获取URL参数的值
 	token := c.Query("token")
-	output := services.NewUcSystemMasterService().PasswordRecovery(token)
+	output := services.NewUcSystemMasterService().DecryptToken(token)
 	if output.Code == 1 {
 		system.Render(c, "admin/password_recovery.html", gin.H{
 			"title": title,
@@ -294,14 +295,25 @@ func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
 		return
 	}
 
+	fail := system.GetFlashedData(c, "fail")
+
 	system.Render(c, "admin/password_recovery.html", gin.H{
 		"title": title,
 		"token": token,
 		"error": errMsg,
+		"fail":  fail,
 	})
 	return
 }
 
+// HandlePasswordRecovery
+//
+// @Title HandlePasswordRecovery
+// @Description: 密码恢复,设置新密码，处理页面
+// @Author liuxingyu
+// @Date 2024-02-25 22:53:33
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 	var form validators.AdminPasswordRecovery
 
@@ -321,13 +333,40 @@ func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 		return
 	}
 
-	// 检查 token 是否已被使用
-	ctrl.mu.Lock()
-	defer ctrl.mu.Unlock()
-	if ctrl.usedTokens[form.Token] {
-		// Token 已被使用
-		// 返回相应信息或重定向到其他页面
+	//  重置密码
+	output := services.NewUcSystemMasterService().PasswordRecovery(form.Token, form.Password)
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "fail")
+		// 获取 referer，即为 POST 请求前的 URL
+		referer := c.Request.Referer()
+		system.RedirectGet(c, referer)
 		return
 	}
+
+	ctrl.mu.Lock()
+	defer ctrl.mu.Unlock()
+
+	// 删除过期的 token
+	for token, expirationTime := range ctrl.usedTokens {
+		if expirationTime <= time.Now().Unix() {
+			delete(ctrl.usedTokens, token)
+		}
+	}
+
+	// 检查 token 是否已被使用或过期
+	generatedTime, ok := ctrl.usedTokens[form.Token]
+	if ok {
+		// 计算 token 的过期时间为生成 token 的时间加上 2 小时
+		expirationTime := generatedTime + 2*60*60 // 2小时的秒数
+
+		if expirationTime > time.Now().Unix() {
+			// Token 已超时
+			// 返回相应信息或重定向到其他页面
+			return
+		}
+	}
+
+	// 将 token 存储为生成时间
+	ctrl.usedTokens[form.Token] = time.Now().Unix()
 
 }
