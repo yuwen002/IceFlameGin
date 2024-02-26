@@ -9,6 +9,7 @@ import (
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
+	"sync"
 	"time"
 )
 
@@ -18,8 +19,10 @@ import (
 // @Author liuxingyu
 // @Date 2024-02-08 21:50:16
 type sUcSystemMaster struct {
-	prefix    string
-	aes128Key string
+	prefix     string
+	aes128Key  string
+	usedTokens map[string]int64
+	mu         sync.Mutex
 }
 
 // NewUcSystemMasterService
@@ -31,8 +34,9 @@ type sUcSystemMaster struct {
 // @return *sUcSystemMaster 返回一个指向 UcSystemMaster 服务实例的指针
 func NewUcSystemMasterService() *sUcSystemMaster {
 	return &sUcSystemMaster{
-		prefix:    "SA_",
-		aes128Key: "IceFlame-G84bWx5",
+		prefix:     "SA_",
+		aes128Key:  "IceFlame-G84bWx5",
+		usedTokens: make(map[string]int64),
 	}
 }
 
@@ -341,6 +345,16 @@ func (svc *sUcSystemMaster) DecryptToken(token string) *system.SysResponse {
 // @return *system.SysResponse
 
 func (svc *sUcSystemMaster) PasswordRecovery(token string, newPassword string) *system.SysResponse {
+	// 检查 token 是否已被使用或过期
+	_, ok := svc.usedTokens[token]
+	if ok {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "token 是否已被使用或过期",
+			Data:    nil,
+		}
+	}
+
 	result := svc.DecryptToken(token)
 	if result.Code == 1 {
 		return result
@@ -393,6 +407,19 @@ func (svc *sUcSystemMaster) PasswordRecovery(token string, newPassword string) *
 			Data:    nil,
 		}
 	}
+
+	svc.mu.Lock()
+	defer svc.mu.Unlock()
+
+	// 删除过期的 token
+	for key, expiresAt := range svc.usedTokens {
+		if expiresAt+2*60*60 <= time.Now().Unix() {
+			delete(svc.usedTokens, key)
+		}
+	}
+
+	// 将 token 存储为生成时间
+	svc.usedTokens[token] = output.Timestamp
 
 	return &system.SysResponse{
 		Code:    0,
