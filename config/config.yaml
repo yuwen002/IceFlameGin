@@ -1,11 +1,11 @@
 # 数据库配置信息
 database:
   default:
-    host:
+    host: 82.157.248.230
     port: 3306
-    username:
-    password:
-    name:
+    username: go_test
+    password: XLx8EhRTEkF5fLLr
+    name: go_test
 
 # 电子邮件配置信息
 email:
@@ -13,7 +13,7 @@ email:
     host: smtp.163.com
     port: 25
     username: yuwen002@163.com
-    password: my_password
+    password: DWJEWXZSUWVPYBVN
 
 # session配置信息
 session:

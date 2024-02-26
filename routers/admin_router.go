@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/controllers/admin"
+	"ice_flame_gin/internal/app/middlewares"
 	"ice_flame_gin/routers/paths"
 	"net/http"
 )
@@ -29,6 +30,11 @@ func setupAdminRoutes(router *gin.Engine) {
 		r.POST(paths.AdminHandleForgotPassword, admin.UcSystemMaster.HandleForgotPassword)
 		r.GET(paths.AdminPasswordRecovery, admin.UcSystemMaster.PasswordRecovery)
 		r.POST(paths.AdminHandlePasswordRecovery, admin.UcSystemMaster.HandlePasswordRecovery)
+
+		r.Use(middlewares.MasterAuthMiddleware())
+		{
+			r.GET("test")
+		}
 
 	}
 	// 设置一个处理 404 中间件函数
