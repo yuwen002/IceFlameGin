@@ -160,7 +160,18 @@ func (g *GormCore) Query(condition string, out interface{}) error {
 // @param out
 // @return error
 func (g *GormCore) GetByID(id uint32, out interface{}) error {
-	return g.db.Where("id = ?", id).First(out).Error
+	err := g.db.Where("id = ?", id).First(out).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			v := reflect.ValueOf(out)
+			if v.Kind() == reflect.Ptr && !v.IsNil() {
+				v.Elem().Set(reflect.Zero(v.Elem().Type())) // 设置结构体指针的内容为零值
+			}
+			return nil
+		}
+		return err
+	}
+	return nil
 }
 
 // QueryOne

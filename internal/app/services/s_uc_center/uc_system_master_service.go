@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"ice_flame_gin/config"
+	"ice_flame_gin/internal/app/constants"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/pkg/utils"
@@ -77,10 +79,43 @@ func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMaster
 		}
 	}
 
+	// 查询管理员其他信息
+	outExt, err := repositories.NewUcSystemMasterRepository().GetByAccountId(out.ID)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if outExt == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "Master查询错误",
+			Data:    nil,
+		}
+	}
+
+	token, err := utils.CreateToken(utils.CustomClaimsInput{
+		Id: out.ID,
+		UserInfo: gin.H{
+			"username":      out.Username,
+			"name":          outExt.Name,
+			"tel":           outExt.Tel,
+			"supper_master": outExt,
+		},
+		Expire:  60 * 60 * 24,
+		Issuer:  "系统管理员:" + outExt.Name,
+		Subject: "后台管理",
+	}, constants.MasterSecretKey)
+
 	return &system.SysResponse{
 		Code:    0,
 		Message: "success",
-		Data:    out,
+		Data: dto.LoginTelPasswordSystemMasterOutput{
+			Token: token,
+		},
 	}
 }
 

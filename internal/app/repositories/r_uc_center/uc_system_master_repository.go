@@ -108,3 +108,22 @@ func (repo *UcSystemMasterRepository) GetByEmail(email string) (*model.UcSystemM
 
 	return &systemMaster, nil
 }
+
+// GetByAccountId
+//
+// @Title GetByAccountId
+// @Description: 按EAccountId获取用户信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-02-27 16:25:16
+// @receiver repo
+// @param id
+// @return *model.UcSystemMaster
+// @return error
+func (repo *UcSystemMasterRepository) GetByAccountId(id uint32) (*model.UcSystemMaster, error) {
+	var systemMaster *model.UcSystemMaster
+	err := db.NewGormCore().GetByID(id, &systemMaster)
+	if err != nil {
+		return nil, err
+	}
+	return systemMaster, nil
+}
