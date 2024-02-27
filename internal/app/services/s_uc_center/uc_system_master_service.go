@@ -113,7 +113,7 @@ func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMaster
 	return &system.SysResponse{
 		Code:    0,
 		Message: "success",
-		Data: dto.LoginTelPasswordSystemMasterOutput{
+		Data: dto.SystemMasterTokenOutput{
 			Token: token,
 		},
 	}

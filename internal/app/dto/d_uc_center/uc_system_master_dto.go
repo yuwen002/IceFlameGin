@@ -10,11 +10,11 @@ type LoginTelPasswordSystemMasterInput struct {
 	Password string
 }
 
-// LoginTelPasswordSystemMasterOutput
+// SystemMasterTokenOutput
 // @Description: 登入后输出token
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-27 17:24:51
-type LoginTelPasswordSystemMasterOutput struct {
+type SystemMasterTokenOutput struct {
 	Token string
 }
 

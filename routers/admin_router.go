@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/controllers/admin"
 	"ice_flame_gin/internal/app/middlewares"
@@ -33,7 +34,13 @@ func setupAdminRoutes(router *gin.Engine) {
 
 		r.Use(middlewares.MasterAuthMiddleware())
 		{
-			r.GET("test")
+			r.GET("test", func(c *gin.Context) {
+				// 获取主用户的 ID 和用户信息
+				masterID, _ := c.Get("master_id")
+				userInfo, _ := c.Get("user_info")
+				fmt.Println(masterID)
+				fmt.Println(userInfo)
+			})
 		}
 
 	}

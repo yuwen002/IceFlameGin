@@ -9,7 +9,6 @@ import (
 	"ice_flame_gin/routers/paths"
 	"net/http"
 	"sync"
-	"time"
 )
 
 var UcSystemMaster = cUcSystemMaster{
@@ -80,6 +79,16 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 		system.RedirectGet(c, path)
 		return
 	}
+
+	token, ok := output.Data.(dto.SystemMasterTokenOutput)
+	if !ok {
+		system.AddFlashData(c, "登入失败", "error")
+		system.RedirectGet(c, path)
+		return
+	}
+
+	// 将token写入session
+	system.SetSession(c, "ice-flame-master", token)
 
 	// 设置cookie
 	cookieName := "admin_tel"
@@ -342,31 +351,4 @@ func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 		system.RedirectGet(c, referer)
 		return
 	}
-
-	ctrl.mu.Lock()
-	defer ctrl.mu.Unlock()
-
-	// 删除过期的 token
-	for token, expirationTime := range ctrl.usedTokens {
-		if expirationTime <= time.Now().Unix() {
-			delete(ctrl.usedTokens, token)
-		}
-	}
-
-	// 检查 token 是否已被使用或过期
-	generatedTime, ok := ctrl.usedTokens[form.Token]
-	if ok {
-		// 计算 token 的过期时间为生成 token 的时间加上 2 小时
-		expirationTime := generatedTime + 2*60*60 // 2小时的秒数
-
-		if expirationTime > time.Now().Unix() {
-			// Token 已超时
-			// 返回相应信息或重定向到其他页面
-			return
-		}
-	}
-
-	// 将 token 存储为生成时间
-	ctrl.usedTokens[form.Token] = time.Now().Unix()
-
 }
