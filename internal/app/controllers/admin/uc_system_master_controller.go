@@ -7,7 +7,6 @@ import (
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
-	"net/http"
 	"sync"
 )
 
@@ -99,7 +98,7 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 		c.SetCookie(cookieName, "", -1, "/", "", false, true)
 	}
 
-	//system.RedirectGet(c, paths.AdminRoot+paths.AdminIndex)
+	//system.RedirectGet(c, paths.AdminRoot+paths.Dashboard)
 }
 
 // Register
@@ -348,6 +347,6 @@ func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 	}
 }
 
-func (ctrl *cUcSystemMaster) AdminIndex(c *gin.Context) {
-	c.String(http.StatusOK, "系统首页")
+func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
+	system.Render(c, "admin/dashboard/index.html", nil)
 }

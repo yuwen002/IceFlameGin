@@ -14,11 +14,13 @@ func MasterAuthMiddleware() gin.HandlerFunc {
 		token := system.GetSession(c, "ice_flame_master")
 		fmt.Println(token)
 		if token == nil {
-			//system.RedirectGet(c, paths.AdminRoot)
+			system.RedirectGet(c, paths.AdminRoot)
+			return
 		}
 		claims, err := utils.ParseToken(token.(string), constants.MasterSecretKey)
 		if err != nil {
 			system.RedirectGet(c, paths.AdminRoot)
+			return
 		}
 
 		c.Set("master_id", claims.Id)
