@@ -3,6 +3,7 @@ package system
 import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 // SetSession
@@ -17,7 +18,10 @@ import (
 func SetSession(c *gin.Context, key string, value interface{}) {
 	session := sessions.Default(c)
 	session.Set(key, value)
-	session.Save()
+	err := session.Save()
+	if err != nil {
+		log.Fatalf("session出错：%v", err)
+	}
 }
 
 // GetSession

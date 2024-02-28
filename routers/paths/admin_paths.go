@@ -12,4 +12,5 @@ const (
 	AdminHandleForgotPassword   = "/forgot-password"
 	AdminPasswordRecovery       = "/password-recovery"
 	AdminHandlePasswordRecovery = "/password-recovery"
+	AdminIndex                  = "/admin-index"
 )

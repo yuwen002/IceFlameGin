@@ -17,6 +17,7 @@ func UseLoader(r *gin.Engine) {
 	// 加在session
 	session := config.GlobalConfig.Session
 	sessionOptions := sessions.Options{
+		Path:     "/",
 		MaxAge:   session.MaxAge,
 		Secure:   false,
 		HttpOnly: false,

@@ -103,7 +103,7 @@ func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMaster
 			"username":      out.Username,
 			"name":          outExt.Name,
 			"tel":           outExt.Tel,
-			"supper_master": outExt,
+			"supper_master": outExt.SuperMaster,
 		},
 		Expire:  60 * 60 * 24,
 		Issuer:  "系统管理员:" + outExt.Name,

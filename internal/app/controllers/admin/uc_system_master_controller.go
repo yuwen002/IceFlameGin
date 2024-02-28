@@ -86,25 +86,20 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 		system.RedirectGet(c, path)
 		return
 	}
-
 	// 将token写入session
-	system.SetSession(c, "ice-flame-master", token)
+	system.SetSession(c, "ice_flame_master", token.Token)
 
 	// 设置cookie
 	cookieName := "admin_tel"
 	// 将用户的用户名保存到cookie中
 	if form.Remember {
-		c.SetCookie(cookieName, form.Tel, 24*3600, "/", "", false, true)
+		c.SetCookie(cookieName, form.Tel, 30*24*3600, "/", "", false, true)
 	} else {
 		// 删除cookie
 		c.SetCookie(cookieName, "", -1, "/", "", false, true)
 	}
 
-	// 输出登入成功的JSON
-	c.JSON(http.StatusOK, gin.H{
-		"code":    0,
-		"message": "登入成功",
-	})
+	//system.RedirectGet(c, paths.AdminRoot+paths.AdminIndex)
 }
 
 // Register
@@ -351,4 +346,8 @@ func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 		system.RedirectGet(c, referer)
 		return
 	}
+}
+
+func (ctrl *cUcSystemMaster) AdminIndex(c *gin.Context) {
+	c.String(http.StatusOK, "系统首页")
 }
