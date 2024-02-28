@@ -1,7 +1,7 @@
 # 数据库配置信息
 database:
   default:
-    host: 82.157.248.230
+    host:
     port: 3306
     username:
     password:
