@@ -10,16 +10,25 @@ import (
 	"ice_flame_gin/config"
 	"ice_flame_gin/internal/pkg/utils"
 	"log"
+	"net/http"
 )
 
 func UseLoader(r *gin.Engine) {
 	// 加在session
 	session := config.GlobalConfig.Session
+	sessionOptions := sessions.Options{
+		MaxAge:   session.MaxAge,
+		Secure:   false,
+		HttpOnly: false,
+		SameSite: http.SameSiteStrictMode,
+	}
 	secret := []byte(utils.HashWithSHA256(session.Secret))
 	switch session.Type {
 	case "cookie":
 		// 初始化基于 Cookie 存储的会话存储引擎
 		store := cookie.NewStore(secret)
+		// 设置 Session 的选项
+		store.Options(sessionOptions)
 		// 将会话存储引擎添加到 Gin 中间件
 		r.Use(sessions.Sessions(session.Cookie.Name, store))
 	case "redis":
@@ -35,12 +44,16 @@ func UseLoader(r *gin.Engine) {
 		if err != nil {
 			log.Fatalf("Redis配置信息出错：%v", err)
 		}
+		// 设置 Session 的选项
+		store.Options(sessionOptions)
 		r.Use(sessions.Sessions(session.Redis.Name, store))
 	case "memcached":
 		// 创建 memcache 客户端与 Memcached 服务器建立连接
 		mc := memcache.New(session.Memcached.Address)
 		// 初始化基于 Memcached 存储的会话存储引擎
 		store := memcached.NewStore(mc, "", secret)
+		// 设置 Session 的选项
+		store.Options(sessionOptions)
 		r.Use(sessions.Sessions(session.Memcached.Name, store))
 	}
 

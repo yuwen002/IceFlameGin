@@ -3,22 +3,24 @@ database:
   default:
     host: 82.157.248.230
     port: 3306
-    username: go_test
-    password: XLx8EhRTEkF5fLLr
-    name: go_test
+    username:
+    password:
+    name:
 
 # 电子邮件配置信息
 email:
   smtp:
     host: smtp.163.com
     port: 25
-    username: yuwen002@163.com
-    password: DWJEWXZSUWVPYBVN
+    username: @163.com
+    password:
 
 # session配置信息
 session:
   type: cookie
   secret: 1234567890
+  # session 过期时间
+  max_age: 7200
   cookie:
     name: ice_flame
   redis:

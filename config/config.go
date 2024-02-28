@@ -52,6 +52,7 @@ type EmailInfo struct {
 type SessionInfo struct {
 	Type   string `yaml:"type"`
 	Secret string `yaml:"secret"`
+	MaxAge int    `yaml:"max_age"`
 	Cookie struct {
 		Name string `yaml:"name"`
 	} `yaml:"cookie"`
