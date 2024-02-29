@@ -30,8 +30,8 @@ func setupAdminRoutes(router *gin.Engine) {
 		r.POST(paths.AdminHandleRegister, admin.UcSystemMaster.HandleRegister)
 		r.GET(paths.AdminForgotPassword, admin.UcSystemMaster.ForgotPassword)
 		r.POST(paths.AdminHandleForgotPassword, admin.UcSystemMaster.HandleForgotPassword)
-		r.GET(paths.AdminPasswordRecovery, admin.UcSystemMaster.PasswordRecovery)
-		r.POST(paths.AdminHandlePasswordRecovery, admin.UcSystemMaster.HandlePasswordRecovery)
+		r.GET(paths.AdminPasswordRecovery, admin.UcSystemMaster.RecoverPassword)
+		r.POST(paths.AdminHandlePasswordRecovery, admin.UcSystemMaster.HandleRecoverPassword)
 
 		r.Use(middlewares.MasterAuthMiddleware())
 		{

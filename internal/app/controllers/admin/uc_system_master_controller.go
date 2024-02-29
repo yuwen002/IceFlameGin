@@ -269,15 +269,15 @@ func (ctrl *cUcSystemMaster) HandleForgotPassword(c *gin.Context) {
 	return
 }
 
-// PasswordRecovery
+// RecoverPassword
 //
-// @Title PasswordRecovery
+// @Title RecoverPassword
 // @Description: 密码恢复,设置新密码
 // @Author liuxingyu
 // @Date 2024-02-24 01:10:50
 // @receiver ctrl
 // @param c
-func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
+func (ctrl *cUcSystemMaster) RecoverPassword(c *gin.Context) {
 	title := "重置密码"
 	// 获取URL参数的值
 	token := c.Query("token")
@@ -300,7 +300,7 @@ func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
 
 	fail := system.GetFlashedData(c, "fail")
 
-	system.Render(c, "admin/password_recovery.html", gin.H{
+	system.Render(c, "admin/recovery_password.html", gin.H{
 		"title": title,
 		"token": token,
 		"error": errMsg,
@@ -309,15 +309,15 @@ func (ctrl *cUcSystemMaster) PasswordRecovery(c *gin.Context) {
 	return
 }
 
-// HandlePasswordRecovery
+// HandleRecoverPassword
 //
-// @Title HandlePasswordRecovery
+// @Title HandleRecoverPassword
 // @Description: 密码恢复,设置新密码，处理页面
 // @Author liuxingyu
 // @Date 2024-02-25 22:53:33
 // @receiver ctrl
 // @param c
-func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
+func (ctrl *cUcSystemMaster) HandleRecoverPassword(c *gin.Context) {
 	var form validators.AdminPasswordRecovery
 
 	if err := c.ShouldBind(&form); err != nil {
@@ -337,7 +337,7 @@ func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 	}
 
 	//  重置密码
-	output := services.NewUcSystemMasterService().PasswordRecovery(form.Token, form.Password)
+	output := services.NewUcSystemMasterService().RecoverPassword(form.Token, form.Password)
 	if output.Code == 1 {
 		system.AddFlashData(c, output.Message, "fail")
 		// 获取 referer，即为 POST 请求前的 URL
@@ -348,7 +348,16 @@ func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 }
 
 func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
+
+	masterID, masterInfo, err := system.GetUserInfo(c)
+	if err != nil {
+		// 处理错误，例如返回错误信息给客户端
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
 	system.Render(c, "admin/dashboard/index.html", gin.H{
-		"title": "控制台首页",
+		"title":       "控制台首页",
+		"master_id":   masterID,
+		"master_info": masterInfo,
 	})
 }

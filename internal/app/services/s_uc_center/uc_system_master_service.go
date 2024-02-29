@@ -369,17 +369,17 @@ func (svc *sUcSystemMaster) DecryptToken(token string) *system.SysResponse {
 	}
 }
 
-// PasswordRecovery
+// RecoverPassword
 //
-// @Title PasswordRecovery
-// @Description
+// @Title RecoverPassword
+// @Description: 找回密码
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-22 10:24:39
 // @receiver s
 // @param token
 // @return *system.SysResponse
 
-func (svc *sUcSystemMaster) PasswordRecovery(token string, newPassword string) *system.SysResponse {
+func (svc *sUcSystemMaster) RecoverPassword(token string, newPassword string) *system.SysResponse {
 	// 检查 token 是否已被使用或过期
 	_, ok := svc.usedTokens[token]
 	if ok {

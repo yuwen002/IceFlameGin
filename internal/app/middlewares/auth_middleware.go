@@ -22,7 +22,7 @@ func MasterAuthMiddleware() gin.HandlerFunc {
 		}
 
 		c.Set("master_id", claims.Id)
-		c.Set("user_info", claims.UserInfo)
+		c.Set("master_info", claims.UserInfo)
 		c.Next()
 	}
 }
