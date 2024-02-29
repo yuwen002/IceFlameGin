@@ -1,11 +1,16 @@
 {{ define "admin/layout/admin_footer_js" }}
 <!-- jQuery -->
 <script src="/static/admin/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
 <!-- Bootstrap 4 -->
 <script src="/static/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- jquery-validation -->
-<script src="/static/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
-<script src="/static/admin/plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="/static/admin/dist/js/adminlte.min.js"></script>
+<script src="/static/admin/dist/js/adminlte.js"></script>
 {{ end }}
