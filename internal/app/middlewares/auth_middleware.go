@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/constants"
 	"ice_flame_gin/internal/pkg/utils"
@@ -12,7 +11,6 @@ import (
 func MasterAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := system.GetSession(c, "ice_flame_master")
-		fmt.Println(token)
 		if token == nil {
 			system.RedirectGet(c, paths.AdminRoot)
 			return

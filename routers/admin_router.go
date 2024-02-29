@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/controllers/admin"
 	"ice_flame_gin/internal/app/middlewares"
+	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
 	"net/http"
 )
@@ -34,7 +35,7 @@ func setupAdminRoutes(router *gin.Engine) {
 
 		r.Use(middlewares.MasterAuthMiddleware())
 		{
-			r.GET(paths.AdminIndex, admin.UcSystemMaster.Dashboard)
+			r.GET(paths.AdminDashboard, admin.UcSystemMaster.Dashboard)
 			r.GET("/test", func(c *gin.Context) {
 				c.String(http.StatusOK, "系统首页")
 				// 获取主用户的 ID 和用户信息
@@ -48,6 +49,6 @@ func setupAdminRoutes(router *gin.Engine) {
 	}
 	// 设置一个处理 404 中间件函数
 	r.Use(func(c *gin.Context) {
-		c.HTML(http.StatusNotFound, "admin/error/404.html", nil)
+		system.Render(c, "admin/error/404.html", nil)
 	})
 }

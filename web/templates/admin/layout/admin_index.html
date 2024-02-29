@@ -1,0 +1,33 @@
+{{ define "admin/layout/admin_index" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IceFlame | {{ .title }}</title>
+
+    {{ template "admin/layout/admin_header_css" }}
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- Navbar -->
+    {{ template "admin/layout/admin_top_nav" }}
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    {{ template "admin/layout/admin_left_nav" }}
+
+    <!-- Content Wrapper. Contains page content -->
+    {{ block "content" . }}{{end}}
+    <!-- /.content-wrapper -->
+    {{ template "admin/layout/admin_footer" }}
+</div>
+<!-- ./wrapper -->
+
+{{ template "admin/layout/admin_footer_js" }}
+<!-- Page specific script -->
+{{ block "js" . }}{{end}}
+</body>
+</html>
+
+{{end}}

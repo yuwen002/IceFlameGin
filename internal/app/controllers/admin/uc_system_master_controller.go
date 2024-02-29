@@ -98,7 +98,7 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 		c.SetCookie(cookieName, "", -1, "/", "", false, true)
 	}
 
-	//system.RedirectGet(c, paths.AdminRoot+paths.Dashboard)
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminDashboard)
 }
 
 // Register
@@ -348,5 +348,7 @@ func (ctrl *cUcSystemMaster) HandlePasswordRecovery(c *gin.Context) {
 }
 
 func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
-	system.Render(c, "admin/dashboard/index.html", nil)
+	system.Render(c, "admin/dashboard/index.html", gin.H{
+		"title": "控制台首页",
+	})
 }
