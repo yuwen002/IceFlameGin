@@ -384,3 +384,31 @@ func (ctrl *cUcSystemMaster) ChangeOwnPassword(c *gin.Context) {
 		"path":  paths.AdminRoot + paths.AdminChangeOwnPassword,
 	})
 }
+
+// HandleChangeOwnPassword
+//
+// @Title HandleChangeOwnPassword
+// @Description: 修改自己的密码，处理页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-01 17:38:19
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
+	var form validators.AdminChangeOwnPassword
+
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		// 获取 referer，即为 POST 请求前的 URL
+		referer := c.Request.Referer()
+		system.RedirectGet(c, referer)
+		return
+	}
+}
