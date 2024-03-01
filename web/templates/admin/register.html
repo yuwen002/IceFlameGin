@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>IceFlame | {{ .title }}</title>
 
+    <link rel="icon" href="data:,">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -37,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    {{if .error}}
+                    {{if index .error "Name"}}
                     <span class="text-danger">{{index .error "Name"}}</span>
                     {{end}}
                     <label id="name-error" class="error invalid-feedback" for="name"></label>
@@ -51,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    {{if .error}}
+                    {{if index .error "Email"}}
                     <span class="text-danger">{{index .error "Email"}}</span>
                     {{end}}
                     <label id="email-error" class="error invalid-feedback" for="email"></label>
@@ -65,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    {{if .error}}
+                    {{if .error "Tel"}}
                     <span class="text-danger">{{index .error "Tel"}}</span>
                     {{end}}
                     <label id="tel-error" class="error invalid-feedback" for="tel"></label>
@@ -79,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                    {{if .error}}
+                    {{if .error "Password"}}
                     <span class="text-danger">{{index .error "Password"}}</span>
                     {{end}}
                     <label id="password-error" class="error invalid-feedback" for="password"></label>
@@ -93,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                    {{if .error}}
+                    {{if .error "RetypePassword"}}
                     <span class="text-danger">{{index .error "RetypePassword"}}</span>
                     {{end}}
                     <label id="retype_password-error" class="error invalid-feedback" for="retype_password"></label>
@@ -106,7 +107,7 @@
                                 我同意这些<a href="#">条款</a>
                             </label>
                         </div>
-                        {{if .error}}
+                        {{if .error "Terms"}}
                         <span class="text-danger">{{index .error "Terms"}}</span>
                         {{end}}
                         <label id="terms-error" class="error invalid-feedback" for="terms"></label>

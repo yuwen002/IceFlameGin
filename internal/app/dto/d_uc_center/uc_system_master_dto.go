@@ -57,3 +57,24 @@ type PasswordRecoveryOutput struct {
 type EncryptTokenOutput struct {
 	CiphertextHex string `json:"ciphertext_hex"`
 }
+
+// ChangePasswordInput
+//
+// @Description: 修改密码
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-01 23:26:01
+type ChangePasswordInput struct {
+	ID       uint32
+	Password string
+}
+
+// ChangeOwnPasswordInput
+//
+// @Description: 修改用户自己的密码
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-01 23:36:12
+type ChangeOwnPasswordInput struct {
+	ID          uint32
+	NewPassword string
+	OldPassword string
+}

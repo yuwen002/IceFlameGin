@@ -462,3 +462,81 @@ func (svc *sUcSystemMaster) RecoverPassword(token string, newPassword string) *s
 		Data:    nil,
 	}
 }
+
+// ChangePassword
+//
+// @Title ChangePassword
+// @Description: 修改密码
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-01 23:28:29
+// @receiver svc
+// @param in
+func (svc *sUcSystemMaster) ChangePassword(in dto.ChangePasswordInput) *system.SysResponse {
+	// 密码hash
+	passwordHash, err := utils.PasswordHash(in.Password)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	// 更新密码
+	err = repositories.NewUcAccountRepository().UpdatePasswordById(in.ID, passwordHash)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
+}
+
+// ChangeOwnPassword
+//
+// @Title ChangeOwnPassword
+// @Description: 修改自己的密码
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-01 23:43:54
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMaster) ChangeOwnPassword(in dto.ChangeOwnPasswordInput) *system.SysResponse {
+	out, err := repositories.NewUcAccountRepository().GetById(in.ID)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if out == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "没有查询到用户信息",
+			Data:    nil,
+		}
+	}
+
+	//  验证密码
+	if utils.PasswordVerify(in.OldPassword, out.PasswordHash) == false {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "旧密码错误",
+			Data:    nil,
+		}
+	}
+
+	return svc.ChangePassword(dto.ChangePasswordInput{
+		ID:       in.ID,
+		Password: in.NewPassword,
+	})
+}

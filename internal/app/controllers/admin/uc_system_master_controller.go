@@ -379,9 +379,21 @@ func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMaster) ChangeOwnPassword(c *gin.Context) {
+	// 从会话中获取错误信息
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	fail := system.GetFlashedData(c, "fail")
+
 	system.Render(c, "admin/system_master/change_password.html", gin.H{
 		"title": "控制台",
 		"path":  paths.AdminRoot + paths.AdminChangeOwnPassword,
+		"error": errMsg,
+		"fail":  fail,
 	})
 }
 
@@ -411,4 +423,28 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 		system.RedirectGet(c, referer)
 		return
 	}
+
+	masterID, _, err := system.GetMasterInfo(c)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 更改密码
+	output := services.NewUcSystemMasterService().ChangeOwnPassword(dto.ChangeOwnPasswordInput{
+		ID:          masterID,
+		NewPassword: form.NewPassword,
+		OldPassword: form.OldPassword,
+	})
+
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "fail")
+		// 获取 referer，即为 POST 请求前的 URL
+		referer := c.Request.Referer()
+		system.RedirectGet(c, referer)
+		return
+	}
+
+	system.DeleteSession(c, "ice_flame_master")
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
 }

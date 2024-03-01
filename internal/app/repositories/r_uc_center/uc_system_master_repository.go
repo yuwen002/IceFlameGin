@@ -125,5 +125,10 @@ func (repo *UcSystemMasterRepository) GetByAccountId(id uint32) (*model.UcSystem
 	if err != nil {
 		return nil, err
 	}
+
+	if systemMaster.ID == 0 {
+		return nil, nil
+	}
+
 	return systemMaster, nil
 }

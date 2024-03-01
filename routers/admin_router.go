@@ -35,6 +35,7 @@ func setupAdminRoutes(router *gin.Engine) {
 		{
 			r.GET(paths.AdminDashboard, admin.UcSystemMaster.Dashboard)
 			r.GET(paths.AdminChangeOwnPassword, admin.UcSystemMaster.ChangeOwnPassword)
+			r.POST(paths.AdminChangeOwnPassword, admin.UcSystemMaster.HandleChangeOwnPassword)
 			r.GET("/test", func(c *gin.Context) {
 				system.Render(c, "admin/system_master/change_password.html", gin.H{
 					"title": "控制台",
