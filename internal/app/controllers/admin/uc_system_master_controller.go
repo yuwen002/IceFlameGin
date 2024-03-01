@@ -347,17 +347,40 @@ func (ctrl *cUcSystemMaster) HandleRecoverPassword(c *gin.Context) {
 	}
 }
 
+// Dashboard
+//
+// @Title Dashboard
+// @Description: 后台管理首页
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-01 14:39:44
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
 
-	masterID, masterInfo, err := system.GetUserInfo(c)
+	masterID, masterInfo, err := system.GetMasterInfo(c)
 	if err != nil {
-		// 处理错误，例如返回错误信息给客户端
-		c.JSON(500, gin.H{"error": err.Error()})
+		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
+
 	system.Render(c, "admin/dashboard/index.html", gin.H{
-		"title":       "控制台首页",
+		"title":       "控制台",
 		"master_id":   masterID,
 		"master_info": masterInfo,
+	})
+}
+
+// ChangeOwnPassword
+//
+// @Title ChangeOwnPassword
+// @Description: 修改自己的密码
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-01 16:41:03
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) ChangeOwnPassword(c *gin.Context) {
+	system.Render(c, "admin/system_master/change_password.html", gin.H{
+		"title": "控制台",
+		"path":  paths.AdminRoot + paths.AdminChangeOwnPassword,
 	})
 }

@@ -125,7 +125,7 @@
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <img src="/static/admin/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <span class="d-none d-md-inline">{{ .master_info.name }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <!-- User image -->
@@ -133,8 +133,7 @@
                     <img src="/static/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
 
                     <p>
-                        Alexander Pierce - Web Developer
-                        <small>Member since Nov. 2012</small>
+                        {{ .master_info.name }} - Web Developer
                     </p>
                 </li>
                 <!-- Menu Body -->
@@ -154,8 +153,9 @@
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    <a href="#" class="btn btn-default btn-flat float-right">Sign out</a>
+                    <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                    <a href="/admin/change-own-password" class="btn btn-default btn-flat">修改密码</a>
+                    <a href="#" class="btn btn-default btn-flat float-right">登出</a>
                 </li>
             </ul>
         </li>

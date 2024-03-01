@@ -13,4 +13,5 @@ const (
 	AdminPasswordRecovery       = "/password-recovery"
 	AdminHandlePasswordRecovery = "/password-recovery"
 	AdminDashboard              = "/dashboard"
+	AdminChangeOwnPassword      = "/change-own-password"
 )
