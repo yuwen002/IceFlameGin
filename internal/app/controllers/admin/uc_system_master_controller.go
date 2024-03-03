@@ -99,6 +99,7 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 	}
 
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminDashboard)
+	return
 }
 
 // Register
@@ -368,6 +369,7 @@ func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
 		"master_id":   masterID,
 		"master_info": masterInfo,
 	})
+	return
 }
 
 // ChangeOwnPassword
@@ -389,12 +391,13 @@ func (ctrl *cUcSystemMaster) ChangeOwnPassword(c *gin.Context) {
 
 	fail := system.GetFlashedData(c, "fail")
 
-	system.Render(c, "admin/system_master/change_password.html", gin.H{
+	system.Render(c, "admin/system_master/change_master_password.html", gin.H{
 		"title": "控制台",
 		"path":  paths.AdminRoot + paths.AdminChangeOwnPassword,
 		"error": errMsg,
 		"fail":  fail,
 	})
+	return
 }
 
 // HandleChangeOwnPassword
@@ -447,6 +450,7 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 
 	system.DeleteSession(c, "ice_flame_master")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
+	return
 }
 
 // Logout
@@ -459,4 +463,18 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 func (ctrl *cUcSystemMaster) Logout(c *gin.Context) {
 	system.DeleteSession(c, "ice_flame_master")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
+	return
+}
+
+// ChangeMasterInfo
+//
+// @Title ChangeMasterInfo
+// @Description: 修改用户信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-04 00:15:23
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
+	system.Render(c, "admin/system_master/change_master_info.html", gin.H{})
+	return
 }

@@ -16,4 +16,5 @@ const (
 	AdminChangeOwnPassword       = "/change-own-password"
 	AdminHandleChangeOwnPassword = "/change-own-password"
 	AdminLogout                  = "/logout"
+	AdminChangeMasterInfo        = "/change-master-info"
 )
