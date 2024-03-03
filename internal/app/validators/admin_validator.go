@@ -51,5 +51,5 @@ type AdminPasswordRecovery struct {
 type AdminChangeOwnPassword struct {
 	OldPassword       string `form:"old_password" binding:"required,min=5,max=32" msg:"密码不能为空|密码长度不能小于5个字符|密码长度不能超过32个字符"`
 	NewPassword       string `form:"new_password" binding:"required,min=5,max=32" msg:"密码不能为空|密码长度不能小于5个字符|密码长度不能超过32个字符"`
-	RetypeNewPassword string `form:"retype_new_password" binding:"required,eqfield=Password" msg:"请重复输入密码|两次输入的密码不一致"`
+	RetypeNewPassword string `form:"retype_new_password" binding:"required,eqfield=NewPassword" msg:"请重复输入密码|两次输入的密码不一致"`
 }

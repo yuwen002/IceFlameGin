@@ -31,6 +31,48 @@
             <form id="register-form" action="/admin/register" method="post">
                 <div class="form-group">
                     <div class="input-group mb-3">
+                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="电话" value="{{if .form}}{{.form.Tel}}{{end}}">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-phone"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {{if index .error "Tel"}}
+                    <span class="text-danger">{{index .error "Tel"}}</span>
+                    {{end}}
+                    <label id="tel-error" class="error invalid-feedback" for="tel"></label>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="密码" value="">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {{if index .error "Password"}}
+                    <span class="text-danger">{{index .error "Password"}}</span>
+                    {{end}}
+                    <label id="password-error" class="error invalid-feedback" for="password"></label>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="password" id="retype_password" name="retype_password" class="form-control" placeholder="重复密码" value="">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {{if index .error "RetypePassword"}}
+                    <span class="text-danger">{{index .error "RetypePassword"}}</span>
+                    {{end}}
+                    <label id="retype_password-error" class="error invalid-feedback" for="retype_password"></label>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
                         <input type="text" id="name" name="name" class="form-control" placeholder="姓名" value="{{if .form}}{{.form.Name}}{{end}}">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -57,48 +99,6 @@
                     {{end}}
                     <label id="email-error" class="error invalid-feedback" for="email"></label>
                 </div>
-                <div class="form-group">
-                    <div class="input-group mb-3">
-                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="电话" value="{{if .form}}{{.form.Tel}}{{end}}">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-phone"></span>
-                            </div>
-                        </div>
-                    </div>
-                    {{if .error "Tel"}}
-                    <span class="text-danger">{{index .error "Tel"}}</span>
-                    {{end}}
-                    <label id="tel-error" class="error invalid-feedback" for="tel"></label>
-                </div>
-                <div class="form-group">
-                    <div class="input-group mb-3">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="密码" value="">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    {{if .error "Password"}}
-                    <span class="text-danger">{{index .error "Password"}}</span>
-                    {{end}}
-                    <label id="password-error" class="error invalid-feedback" for="password"></label>
-                </div>
-                <div class="form-group">
-                    <div class="input-group mb-3">
-                        <input type="password" id="retype_password" name="retype_password" class="form-control" placeholder="重复密码" value="">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    {{if .error "RetypePassword"}}
-                    <span class="text-danger">{{index .error "RetypePassword"}}</span>
-                    {{end}}
-                    <label id="retype_password-error" class="error invalid-feedback" for="retype_password"></label>
-                </div>
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
@@ -107,7 +107,7 @@
                                 我同意这些<a href="#">条款</a>
                             </label>
                         </div>
-                        {{if .error "Terms"}}
+                        {{if index .error "Terms"}}
                         <span class="text-danger">{{index .error "Terms"}}</span>
                         {{end}}
                         <label id="terms-error" class="error invalid-feedback" for="terms"></label>
