@@ -33,6 +33,7 @@ func setupAdminRoutes(router *gin.Engine) {
 
 		r.Use(middlewares.MasterAuthMiddleware())
 		{
+			r.GET(paths.AdminLogout, admin.UcSystemMaster.Logout)
 			r.GET(paths.AdminDashboard, admin.UcSystemMaster.Dashboard)
 			r.GET(paths.AdminChangeOwnPassword, admin.UcSystemMaster.ChangeOwnPassword)
 			r.POST(paths.AdminChangeOwnPassword, admin.UcSystemMaster.HandleChangeOwnPassword)

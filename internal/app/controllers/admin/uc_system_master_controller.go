@@ -448,3 +448,15 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 	system.DeleteSession(c, "ice_flame_master")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
 }
+
+// Logout
+//
+// @Title Logout
+// @Description: 退出登录
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-03 23:31:52
+// @receiver ctrl
+func (ctrl *cUcSystemMaster) Logout(c *gin.Context) {
+	system.DeleteSession(c, "ice_flame_master")
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
+}
