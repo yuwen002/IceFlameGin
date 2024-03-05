@@ -475,6 +475,18 @@ func (ctrl *cUcSystemMaster) Logout(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
+	masterID, _, err := system.GetMasterInfo(c)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output := services.NewUcSystemMasterService().GetMasterInfoById(masterID)
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "fail")
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
+		return
+	}
 	system.Render(c, "admin/system_master/change_master_info.html", gin.H{})
 	return
 }

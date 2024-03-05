@@ -540,3 +540,38 @@ func (svc *sUcSystemMaster) ChangeOwnPassword(in dto.ChangeOwnPasswordInput) *sy
 		Password: in.NewPassword,
 	})
 }
+
+// GetMasterInfoById
+//
+// @Title GetMasterInfoById
+// @Description: 按Account ID 查询master用户信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-06 00:48:17
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sUcSystemMaster) GetMasterInfoById(id uint32) *system.SysResponse {
+	// 查询用户信息
+	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if master == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "用户数据为空",
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    1,
+		Message: "success",
+		Data:    master,
+	}
+}
