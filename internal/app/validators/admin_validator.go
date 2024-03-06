@@ -53,3 +53,13 @@ type AdminChangeOwnPassword struct {
 	NewPassword       string `form:"new_password" binding:"required,min=5,max=32" msg:"密码不能为空|密码长度不能小于5个字符|密码长度不能超过32个字符"`
 	RetypeNewPassword string `form:"retype_new_password" binding:"required,eqfield=NewPassword" msg:"请重复输入密码|两次输入的密码不一致"`
 }
+
+// AdminChangeMasterInfo
+// @Description: 管理员修改个人信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-06 16:57:07
+type AdminChangeMasterInfo struct {
+	Name  string `form:"name" binding:"required,min=2,max=20" msg:"姓名不能为空|姓名长度不能小于2个字符|姓名长度不能超过20个字符"`
+	Email string `form:"email" binding:"required,email" msg:"电子邮箱不能为空|电子邮箱格式不正确"`
+	Tel   string `form:"tel" binding:"required,min=5,max=32" msg:"电话不能为空|电话长度不能小于5个字符|电话长度不能超过15个字符"`
+}

@@ -8,6 +8,7 @@ import (
 	"ice_flame_gin/config"
 	"ice_flame_gin/internal/app/constants"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/models/model"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
@@ -541,16 +542,16 @@ func (svc *sUcSystemMaster) ChangeOwnPassword(in dto.ChangeOwnPasswordInput) *sy
 	})
 }
 
-// GetMasterInfoById
+// GetMasterInfoByAccountId
 //
-// @Title GetMasterInfoById
+// @Title GetMasterInfoByAccountId
 // @Description: 按Account ID 查询master用户信息
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-06 00:48:17
 // @receiver svc
 // @param id
 // @return *system.SysResponse
-func (svc *sUcSystemMaster) GetMasterInfoById(id uint32) *system.SysResponse {
+func (svc *sUcSystemMaster) GetMasterInfoByAccountId(id uint32) *system.SysResponse {
 	// 查询用户信息
 	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(id)
 	if err != nil {
@@ -570,8 +571,40 @@ func (svc *sUcSystemMaster) GetMasterInfoById(id uint32) *system.SysResponse {
 	}
 
 	return &system.SysResponse{
-		Code:    1,
+		Code:    0,
 		Message: "success",
 		Data:    master,
+	}
+}
+
+// ChangeMasterInfoById
+//
+// @Title ChangeMasterInfoById
+// @Description: 按ID修改个人信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-06 17:20:26
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMaster) ChangeMasterInfoById(in dto.ChangeMasterInfoInput) *system.SysResponse {
+	// 修改个人信息
+	err := repositories.NewUcSystemMasterRepository().UpdateByAccountId(in.ID, &model.UcSystemMaster{
+		Email: in.Email,
+		Name:  in.Name,
+		Tel:   in.Tel,
+	})
+
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    nil,
 	}
 }

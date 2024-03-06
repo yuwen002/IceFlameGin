@@ -119,9 +119,10 @@ func (repo *UcSystemMasterRepository) GetByEmail(email string) (*model.UcSystemM
 // @param id
 // @return *model.UcSystemMaster
 // @return error
-func (repo *UcSystemMasterRepository) GetByAccountId(id uint32) (*model.UcSystemMaster, error) {
+func (repo *UcSystemMasterRepository) GetByAccountId(AccountID uint32) (*model.UcSystemMaster, error) {
 	var systemMaster *model.UcSystemMaster
-	err := db.NewGormCore().GetByID(id, &systemMaster)
+	condition := "account_id = ?"
+	err := db.NewGormCore().QueryOne(&systemMaster, condition, AccountID)
 	if err != nil {
 		return nil, err
 	}
@@ -131,4 +132,23 @@ func (repo *UcSystemMasterRepository) GetByAccountId(id uint32) (*model.UcSystem
 	}
 
 	return systemMaster, nil
+}
+
+// UpdateByAccountId
+//
+// @Title UpdateByAccountId
+// @Description: 按ID修改管理员密码
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-06 17:19:35
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *UcSystemMasterRepository) UpdateByAccountId(id uint32, in *model.UcSystemMaster) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -78,3 +78,14 @@ type ChangeOwnPasswordInput struct {
 	NewPassword string
 	OldPassword string
 }
+
+// ChangeMasterInfoInput
+// @Description: 修改用户的个人信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-06 16:29:54
+type ChangeMasterInfoInput struct {
+	ID    uint32
+	Email string
+	Name  string
+	Tel   string
+}

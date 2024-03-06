@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/models/model"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/system"
@@ -481,12 +482,71 @@ func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
 		return
 	}
 
-	output := services.NewUcSystemMasterService().GetMasterInfoById(masterID)
+	output := services.NewUcSystemMasterService().GetMasterInfoByAccountId(masterID)
 	if output.Code == 1 {
-		system.AddFlashData(c, output.Message, "fail")
+		system.AddFlashData(c, output.Message, "error")
 		system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
 		return
 	}
-	system.Render(c, "admin/system_master/change_master_info.html", gin.H{})
+
+	master, ok := output.Data.(*model.UcSystemMaster)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/system_master/change_master_info.html", gin.H{
+		"master": master,
+	})
 	return
+}
+func (ctrl *cUcSystemMaster) HandleChangeMasterInfo(c *gin.Context) {
+	var form validators.AdminChangeMasterInfo
+
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		// 获取 referer，即为 POST 请求前的 URL
+		referer := c.Request.Referer()
+		system.RedirectGet(c, referer)
+		return
+	}
+
+	masterID, _, err := system.GetMasterInfo(c)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output := services.NewUcSystemMasterService().GetMasterInfoByAccountId(masterID)
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "error")
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
+		return
+	}
+
+	master, ok := output.Data.(*model.UcSystemMaster)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	out := services.NewUcSystemMasterService().ChangeMasterInfoById(dto.ChangeMasterInfoInput{
+		ID:    master.ID,
+		Email: form.Email,
+		Name:  form.Name,
+		Tel:   form.Tel,
+	})
+
+	if out.Code == 1 {
+
+	}
+
 }
