@@ -30,9 +30,16 @@
           <div class="card-header">
             <h3 class="card-title">个人信息 <small>编辑</small></h3>
           </div>
+          {{if .success}}
+          <div class="col-sm-10 col-md-10 d-flex justify-content-center align-items-center">
+            <div class="color-palette-set">
+              <div class="bg-success color-palette text-center"  style="width: 200px;"><span>{{ .success }}</span></div>
+            </div>
+          </div>
+          {{end}}
           <!-- /.card-header -->
           <!-- form start -->
-          <form id="master-info" >
+          <form id="master-info" method="post" action="/admin/change-master-info">
             <div class="card-body">
               <div class="form-group">
                 <label for="email">Email</label>

@@ -359,7 +359,7 @@ func (ctrl *cUcSystemMaster) HandleRecoverPassword(c *gin.Context) {
 // @param c
 func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
 
-	masterID, masterInfo, err := system.GetMasterInfo(c)
+	accountID, masterInfo, err := system.GetMasterInfo(c)
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -367,7 +367,7 @@ func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
 
 	system.Render(c, "admin/dashboard/index.html", gin.H{
 		"title":       "控制台",
-		"master_id":   masterID,
+		"master_id":   accountID,
 		"master_info": masterInfo,
 	})
 	return
@@ -428,7 +428,7 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 		return
 	}
 
-	masterID, _, err := system.GetMasterInfo(c)
+	accountID, _, err := system.GetMasterInfo(c)
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -436,7 +436,7 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 
 	// 更改密码
 	output := services.NewUcSystemMasterService().ChangeOwnPassword(dto.ChangeOwnPasswordInput{
-		ID:          masterID,
+		ID:          accountID,
 		NewPassword: form.NewPassword,
 		OldPassword: form.OldPassword,
 	})
@@ -476,13 +476,13 @@ func (ctrl *cUcSystemMaster) Logout(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
-	masterID, _, err := system.GetMasterInfo(c)
+	accountID, _, err := system.GetMasterInfo(c)
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
-	output := services.NewUcSystemMasterService().GetMasterInfoByAccountId(masterID)
+	output := services.NewUcSystemMasterService().GetMasterInfoByAccountId(accountID)
 	if output.Code == 1 {
 		system.AddFlashData(c, output.Message, "error")
 		system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
@@ -495,11 +495,23 @@ func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
 		return
 	}
 
+	success := system.GetFlashedData(c, "success")
+
 	system.Render(c, "admin/system_master/change_master_info.html", gin.H{
-		"master": master,
+		"master":  master,
+		"success": success,
 	})
 	return
 }
+
+// HandleChangeMasterInfo
+//
+// @Title HandleChangeMasterInfo
+// @Description: 修改用户信息，处理页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-07 00:02:11
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMaster) HandleChangeMasterInfo(c *gin.Context) {
 	var form validators.AdminChangeMasterInfo
 
@@ -519,13 +531,14 @@ func (ctrl *cUcSystemMaster) HandleChangeMasterInfo(c *gin.Context) {
 		return
 	}
 
-	masterID, _, err := system.GetMasterInfo(c)
+	accountID, _, err := system.GetMasterInfo(c)
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
-	output := services.NewUcSystemMasterService().GetMasterInfoByAccountId(masterID)
+	// 查询用户信息
+	output := services.NewUcSystemMasterService().GetMasterInfoByAccountId(accountID)
 	if output.Code == 1 {
 		system.AddFlashData(c, output.Message, "error")
 		system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
@@ -538,6 +551,7 @@ func (ctrl *cUcSystemMaster) HandleChangeMasterInfo(c *gin.Context) {
 		return
 	}
 
+	// 更改用户信息
 	out := services.NewUcSystemMasterService().ChangeMasterInfoById(dto.ChangeMasterInfoInput{
 		ID:    master.ID,
 		Email: form.Email,
@@ -546,7 +560,12 @@ func (ctrl *cUcSystemMaster) HandleChangeMasterInfo(c *gin.Context) {
 	})
 
 	if out.Code == 1 {
-
+		system.AddFlashData(c, output.Message, "error")
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
+		return
 	}
 
+	system.AddFlashData(c, "信息修改成功", "success")
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminChangeMasterInfo)
+	return
 }
