@@ -476,6 +476,14 @@ func (ctrl *cUcSystemMaster) Logout(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
+	// 从会话中获取错误信息
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
 	accountID, _, err := system.GetMasterInfo(c)
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
@@ -500,6 +508,7 @@ func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
 	system.Render(c, "admin/system_master/change_master_info.html", gin.H{
 		"master":  master,
 		"success": success,
+		"err_msg": errMsg,
 	})
 	return
 }

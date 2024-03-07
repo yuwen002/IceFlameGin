@@ -3,73 +3,141 @@
 {{ end }}
 {{ define "content_header" }}
 <section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>编辑个人信息</h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
-          <li class="breadcrumb-item active">编辑个人信息</li>
-        </ol>
-      </div>
-    </div>
-  </div><!-- /.container-fluid -->
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>编辑个人信息</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
+                    <li class="breadcrumb-item active">编辑个人信息</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
 </section>
 {{ end }}
 
 {{ define "content" }}
 <section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <!-- left column -->
-      <div class="col-md-12">
-        <!-- jquery validation -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">个人信息 <small>编辑</small></h3>
-          </div>
-          {{if .success}}
-          <div class="col-sm-10 col-md-10 d-flex justify-content-center align-items-center">
-            <div class="color-palette-set">
-              <div class="bg-success color-palette text-center"  style="width: 200px;"><span>{{ .success }}</span></div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- jquery validation -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">个人信息 <small>编辑</small></h3>
+                    </div>
+                    {{if .success}}
+                    <div class="col-sm-10 col-md-10 d-flex justify-content-center align-items-center">
+                        <div class="color-palette-set">
+                            <div class="bg-success color-palette text-center" style="width: 200px;">
+                                <span>{{ .success }}</span></div>
+                        </div>
+                    </div>
+                    {{end}}
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form id="master-info" method="post" action="/admin/change-master-info">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" class="form-control" id="email" placeholder="电子信箱" value="{{ .master.Email }}">
+                                {{if index .err_msg "Email"}}
+                                <span class="text-danger">{{index .err_msg "Email"}}</span>
+                                {{end}}
+                            </div>
+                            <div class="form-group">
+                                <label for="name">用户姓名</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="姓名" value="{{ .master.Name }}">
+                                {{if index .err_msg "Name"}}
+                                <span class="text-danger">{{index .err_msg "Name"}}</span>
+                                {{end}}
+                            </div>
+                            <div class="form-group">
+                                <label for="name">用户电话</label>
+                                <input type="text" name="tel" class="form-control" id="tel" placeholder="电话" value="{{ .master.Tel }}">
+                                {{if index .err_msg "Tel"}}
+                                <span class="text-danger">{{index .err_msg "Tel"}}</span>
+                                {{end}}
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">修改</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
             </div>
-          </div>
-          {{end}}
-          <!-- /.card-header -->
-          <!-- form start -->
-          <form id="master-info" method="post" action="/admin/change-master-info">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="电子信箱" value="{{ .master.Email }}">
-              </div>
-              <div class="form-group">
-                <label for="name">用户姓名</label>
-                <input type="text" name="name" class="form-control" id="name" placeholder="姓名" value="{{ .master.Name }}">
-              </div>
-              <div class="tel">
-                <label for="name">用户电话</label>
-                <input type="text" name="tel" class="form-control" id="tel" placeholder="电话" value="{{ .master.Tel }}">
-              </div>
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">修改</button>
-            </div>
-          </form>
-        </div>
-        <!-- /.card -->
-      </div>
-      <!--/.col (left) -->
-      <!-- right column -->
-      <div class="col-md-6">
+            <!--/.col (left) -->
+            <!-- right column -->
+            <div class="col-md-6">
 
-      </div>
-      <!--/.col (right) -->
-    </div>
-    <!-- /.row -->
-  </div><!-- /.container-fluid -->
+            </div>
+            <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
 </section>
+{{ end }}
+{{ define "content_js" }}
+<script>
+    $(function () {
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+        $('#master-info').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                },
+                name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 20
+                },
+                tel: {
+                    required: true,
+                    digits: true,
+                    minlength: 5,
+                    maxlength: 15
+                },
+            },
+            messages: {
+                email: {
+                    required: "请输入邮箱",
+                    email: "请输入有效的邮箱地址"
+                },
+                name: {
+                    required: "请输入姓名",
+                    minlength: "姓名长度不能小于2位",
+                    maxlength: "姓名长度不能大于50位"
+                },
+                tel: {
+                    required: "请输入电话号码",
+                    digits: "电话号码只能包含数字",
+                    minlength: "电话号码长度不能小于5位",
+                    maxlength: "电话号码长度不能大于15位"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>
 {{ end }}
