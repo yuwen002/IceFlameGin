@@ -44,6 +44,10 @@ func setupAdminRoutes(router *gin.Engine) {
 					"title": "控制台",
 				})
 			})
+
+			// 用户角色信息
+			r.GET(paths.AdminCreateMasterRole, admin.UcSystemMasterRole.ShowCreateMasterRole)
+			r.POST(paths.AdminHandleCreateMasterRole, admin.UcSystemMasterRole.HandleCreateMasterRole)
 		}
 
 	}

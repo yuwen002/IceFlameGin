@@ -11,10 +11,16 @@ import (
 	"sync"
 )
 
+// UcSystemMaster 初始化管理员控制器
 var UcSystemMaster = cUcSystemMaster{
 	pageNotFound: paths.AdminRoot + paths.Admin404,
 }
 
+// cUcSystemMaster
+//
+// @Description: 管理员控制器
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-08 00:57:50
 type cUcSystemMaster struct {
 	pageNotFound string
 	usedTokens   map[string]int64

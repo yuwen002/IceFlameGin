@@ -17,26 +17,29 @@ import (
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:             db,
-		UcAccount:      newUcAccount(db, opts...),
-		UcSystemMaster: newUcSystemMaster(db, opts...),
+		db:                 db,
+		UcAccount:          newUcAccount(db, opts...),
+		UcSystemMaster:     newUcSystemMaster(db, opts...),
+		UcSystemMasterRole: newUcSystemMasterRole(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	UcAccount      ucAccount
-	UcSystemMaster ucSystemMaster
+	UcAccount          ucAccount
+	UcSystemMaster     ucSystemMaster
+	UcSystemMasterRole ucSystemMasterRole
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:             db,
-		UcAccount:      q.UcAccount.clone(db),
-		UcSystemMaster: q.UcSystemMaster.clone(db),
+		db:                 db,
+		UcAccount:          q.UcAccount.clone(db),
+		UcSystemMaster:     q.UcSystemMaster.clone(db),
+		UcSystemMasterRole: q.UcSystemMasterRole.clone(db),
 	}
 }
 
@@ -50,21 +53,24 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:             db,
-		UcAccount:      q.UcAccount.replaceDB(db),
-		UcSystemMaster: q.UcSystemMaster.replaceDB(db),
+		db:                 db,
+		UcAccount:          q.UcAccount.replaceDB(db),
+		UcSystemMaster:     q.UcSystemMaster.replaceDB(db),
+		UcSystemMasterRole: q.UcSystemMasterRole.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	UcAccount      *ucAccountDo
-	UcSystemMaster *ucSystemMasterDo
+	UcAccount          *ucAccountDo
+	UcSystemMaster     *ucSystemMasterDo
+	UcSystemMasterRole *ucSystemMasterRoleDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		UcAccount:      q.UcAccount.WithContext(ctx),
-		UcSystemMaster: q.UcSystemMaster.WithContext(ctx),
+		UcAccount:          q.UcAccount.WithContext(ctx),
+		UcSystemMaster:     q.UcSystemMaster.WithContext(ctx),
+		UcSystemMasterRole: q.UcSystemMasterRole.WithContext(ctx),
 	}
 }
 

@@ -18,4 +18,6 @@ const (
 	AdminLogout                  = "/logout"
 	AdminChangeMasterInfo        = "/change-master-info"
 	AdminHandleChangeMasterInfo  = "/change-master-info"
+	AdminCreateMasterRole        = "/master-role/create"
+	AdminHandleCreateMasterRole  = "/master-role/create"
 )
