@@ -31,7 +31,13 @@ import (
 //	r.Static("/static", "./web/static")
 //}
 
-// LoadTemplates 加载模板函数
+// LoadTemplates
+//
+// @Title LoadTemplates
+// @Description: 加载模板函数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-11 01:19:26
+// @param r
 func LoadTemplates(r *gin.Engine) {
 	r.HTMLRender = utils.TemplatePath("web/templates")
 	// 配置静态文件路径
