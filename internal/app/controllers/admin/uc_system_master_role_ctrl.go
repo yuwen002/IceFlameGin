@@ -1,7 +1,10 @@
 package admin
 
 import (
+	"fmt"
+	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
+	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
 )
@@ -31,7 +34,7 @@ var UcSystemMasterRole = cUcSystemMasterRole{
 func (ctrl *cUcSystemMasterRole) ShowCreateMasterRole(c *gin.Context) {
 	// 从会话中获取成功信息
 	success := system.GetFlashedData(c, "success")
-
+	fmt.Println(success)
 	// 从会话中获取错误信息
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
@@ -40,11 +43,11 @@ func (ctrl *cUcSystemMasterRole) ShowCreateMasterRole(c *gin.Context) {
 		return
 	}
 
-	system.Render(c, "admin/dashboard/create_master_role.html", gin.H{
+	system.Render(c, "admin/dashboard/create_master_role.html", pongo2.Context(gin.H{
 		"title":   "创建用户角色页面",
 		"success": success,
 		"err_msg": errMsg,
-	})
+	}))
 	return
 }
 
@@ -57,5 +60,12 @@ func (ctrl *cUcSystemMasterRole) ShowCreateMasterRole(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
+	var form validators.AdminRole
+	if err := c.ShouldBind(&form); err != nil {
+		system.SetOldInput(c, "name", form.Name)
+		system.SetOldInput(c, "remark", form.Remark)
 
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRole)
+		return
+	}
 }

@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	"ice_flame_gin/internal/app/models/model"
@@ -45,12 +46,12 @@ func (ctrl *cUcSystemMaster) Login(c *gin.Context) {
 	if err == nil {
 		tel = cookie.Value
 	}
-	system.Render(c, "admin/login.html", gin.H{
+	system.Render(c, "admin/login.html", pongo2.Context(gin.H{
 		"title":   "后台登入",
 		"tel":     tel,
 		"checked": tel != "",
 		"error":   errMsg,
-	})
+	}))
 	return
 }
 
@@ -135,12 +136,12 @@ func (ctrl *cUcSystemMaster) Register(c *gin.Context) {
 
 	fail := system.GetFlashedData(c, "fail")
 
-	system.Render(c, "admin/register.html", gin.H{
+	system.Render(c, "admin/register.html", pongo2.Context(gin.H{
 		"title": "管理员注册",
 		"error": errMsg,
 		"fail":  fail,
 		"form":  form,
-	})
+	}))
 	return
 }
 
@@ -220,12 +221,12 @@ func (ctrl *cUcSystemMaster) ForgotPassword(c *gin.Context) {
 
 	msg := system.GetFlashedData(c, "msg")
 
-	system.Render(c, "admin/forgot_password.html", gin.H{
+	system.Render(c, "admin/forgot_password.html", pongo2.Context(gin.H{
 		"title": "忘记密码",
 		"error": errMsg,
 		"form":  form,
 		"msg":   msg,
-	})
+	}))
 	return
 }
 
@@ -291,10 +292,10 @@ func (ctrl *cUcSystemMaster) RecoverPassword(c *gin.Context) {
 	token := c.Query("token")
 	output := services.NewUcSystemMasterService().DecryptToken(token)
 	if output.Code == 1 {
-		system.Render(c, "admin/password_recovery.html", gin.H{
+		system.Render(c, "admin/password_recovery.html", pongo2.Context(gin.H{
 			"title": title,
 			"fail":  output.Message,
-		})
+		}))
 		return
 	}
 
@@ -308,12 +309,12 @@ func (ctrl *cUcSystemMaster) RecoverPassword(c *gin.Context) {
 
 	fail := system.GetFlashedData(c, "fail")
 
-	system.Render(c, "admin/recovery_password.html", gin.H{
+	system.Render(c, "admin/recovery_password.html", pongo2.Context(gin.H{
 		"title": title,
 		"token": token,
 		"error": errMsg,
 		"fail":  fail,
-	})
+	}))
 	return
 }
 
@@ -371,11 +372,11 @@ func (ctrl *cUcSystemMaster) Dashboard(c *gin.Context) {
 		return
 	}
 
-	system.Render(c, "admin/dashboard/index.html", gin.H{
+	system.Render(c, "admin/dashboard/index.html", pongo2.Context(gin.H{
 		"title":       "控制台",
 		"master_id":   accountID,
 		"master_info": masterInfo,
-	})
+	}))
 	return
 }
 
@@ -398,12 +399,12 @@ func (ctrl *cUcSystemMaster) ChangeOwnPassword(c *gin.Context) {
 
 	fail := system.GetFlashedData(c, "fail")
 
-	system.Render(c, "admin/system_master/change_master_password.html", gin.H{
+	system.Render(c, "admin/system_master/change_master_password.html", pongo2.Context(gin.H{
 		"title": "控制台",
 		"path":  paths.AdminRoot + paths.AdminChangeOwnPassword,
 		"error": errMsg,
 		"fail":  fail,
-	})
+	}))
 	return
 }
 
@@ -511,11 +512,11 @@ func (ctrl *cUcSystemMaster) ChangeMasterInfo(c *gin.Context) {
 
 	success := system.GetFlashedData(c, "success")
 
-	system.Render(c, "admin/system_master/change_master_info.html", gin.H{
+	system.Render(c, "admin/system_master/change_master_info.html", pongo2.Context(gin.H{
 		"master":  master,
 		"success": success,
 		"err_msg": errMsg,
-	})
+	}))
 	return
 }
 

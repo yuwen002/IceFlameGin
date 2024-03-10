@@ -1,6 +1,7 @@
 package system
 
 import (
+	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -14,6 +15,6 @@ import (
 // @param c
 // @param name
 // @param data
-func Render(c *gin.Context, name string, data gin.H) {
+func Render(c *gin.Context, name string, data pongo2.Context) {
 	c.HTML(http.StatusOK, name, data)
 }

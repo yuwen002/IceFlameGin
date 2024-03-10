@@ -6,6 +6,7 @@ import (
 	"ice_flame_gin/internal/app/middlewares"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
+	"net/http"
 )
 
 // setupAdminRoutes
@@ -40,9 +41,7 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminChangeMasterInfo, admin.UcSystemMaster.ChangeMasterInfo)
 			r.POST(paths.AdminHandleChangeMasterInfo, admin.UcSystemMaster.HandleChangeMasterInfo)
 			r.GET("/test", func(c *gin.Context) {
-				system.Render(c, "admin/system_master/change_password.html", gin.H{
-					"title": "控制台",
-				})
+				c.HTML(http.StatusOK, "admin/test/index.html", nil)
 			})
 
 			// 用户角色信息

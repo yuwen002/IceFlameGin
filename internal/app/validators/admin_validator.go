@@ -63,3 +63,13 @@ type AdminChangeMasterInfo struct {
 	Email string `form:"email" binding:"required,email" msg:"电子邮箱不能为空|电子邮箱格式不正确"`
 	Tel   string `form:"tel" binding:"required,min=5,max=32" msg:"电话不能为空|电话长度不能小于5个字符|电话长度不能超过15个字符"`
 }
+
+// AdminRole
+//
+// @Description: 管理员角色信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-08 22:03:17
+type AdminRole struct {
+	Name   string `form:"name" binding:"required,min=2,max=20" msg:"角色名称不能为空|角色名称长度不能小于2个字符|角色名称长度不能超过20个字符"`
+	Remark string `form:"remark"`
+}

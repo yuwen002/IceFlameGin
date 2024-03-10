@@ -1,8 +1,6 @@
 {{ define "admin/dashboard/create_master_role.html" }}
-{{ template "admin/layout/admin_base" . }}
+    {{ template "admin/layout/admin_base" . }}
 {{ end }}
-
-
 {{ define "content_header" }}
 <section class="content-header">
     <div class="container-fluid">
@@ -20,3 +18,66 @@
     </div><!-- /.container-fluid -->
 </section>
 {{ end }}
+{{ define "content" }}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- jquery validation -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">角色信息 <small>创建</small></h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" onclick="javascript:location.reload();">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{if .success}}
+                    <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
+                        <div class="color-palette-set">
+                            <div class="bg-success color-palette text-center" style="width: 200px;">
+                                <span>{{ .success }}</span></div>
+                        </div>
+                    </div>
+                    {{end}}
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form id="master-info" method="post" action="/admin/change-master-info">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="name">角色名称</label>
+                                <input type="email" name="name" class="form-control" id="name" placeholder="角色名称" value="{{ .GetOldInput "name" }}}">
+                                {{if index .err_msg "Email"}}
+                                <span class="text-danger">{{index .err_msg "Email"}}</span>
+                                {{end}}
+                            </div>
+                            <div class="form-group">
+                                <label for="remark">备注</label>
+                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ .GetOldInput "remark" }}">
+                                {{if index .err_msg "Remark"}}
+                                <span class="text-danger">{{index .err_msg "Remark"}}</span>
+                                {{end}}
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">提交信息</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!--/.col (left) -->
+            <!-- right column -->
+            <div class="col-md-6">
+
+            </div>
+            <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+{{ end }}
+{{ template "admin/layout/admin_base" . }}
