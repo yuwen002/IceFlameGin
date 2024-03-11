@@ -187,6 +187,11 @@ func (ctrl *cUcSystemMaster) HandleRegister(c *gin.Context) {
 	if output.Code != 0 {
 		system.AddFlashData(c, output.Message, "fail")
 		system.RedirectGet(c, path)
+		errFlash := system.AddDataToFlash(c, form, "form")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
 		return
 	}
 

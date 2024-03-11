@@ -1,13 +1,7 @@
-{{ define "admin/dashboard/index.html" }}
-{{ template "admin/layout/admin_index" . }}
-{{ end }}
+{% extends "../layout/admin_index.html" %}
 
-
-{{ define "content" }}
-
-{{ end }}
-{{ define "js" }}
+{% block js %}
 <script>
     alert("控制台首页")
 </script>
-{{ end }}
+{% endblock %}

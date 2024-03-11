@@ -1,7 +1,6 @@
-{{ define "admin/system_master/change_master_info.html" }}
-{{ template "admin/layout/admin_base" . }}
-{{ end }}
-{{ define "content_header" }}
+{% extends "../layout/admin_base.html" %}
+
+{% block content_header %}
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -17,9 +16,9 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
-{{ end }}
+{% endblock %}
 
-{{ define "content" }}
+{% block content %}
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -35,38 +34,38 @@
                             </button>
                         </div>
                     </div>
-                    {{if .success}}
+                    {% if success %}
                     <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
                         <div class="color-palette-set">
                             <div class="bg-success color-palette text-center" style="width: 200px;">
-                                <span>{{ .success }}</span></div>
+                                <span>{{ success }}</span></div>
                         </div>
                     </div>
-                    {{end}}
+                    {% endif %}
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form id="master-info" method="post" action="/admin/change-master-info">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" placeholder="电子信箱" value="{{ .master.Email }}">
-                                {{if index .err_msg "Email"}}
-                                <span class="text-danger">{{index .err_msg "Email"}}</span>
-                                {{end}}
+                                <input type="email" name="email" class="form-control" id="email" placeholder="电子信箱" value="{{ master.Email }}">
+                                {% if err_msg["Email"] %}
+                                <span class="text-danger">{{ err_msg["Email"] }}</span>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="name">用户姓名</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="姓名" value="{{ .master.Name }}">
-                                {{if index .err_msg "Name"}}
-                                <span class="text-danger">{{index .err_msg "Name"}}</span>
-                                {{end}}
+                                <input type="text" name="name" class="form-control" id="name" placeholder="姓名" value="{{ master.Name }}">
+                                {% if err_msg["Name"] %}
+                                <span class="text-danger">{{ err_msg["Name"] }}</span>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="name">用户电话</label>
-                                <input type="text" name="tel" class="form-control" id="tel" placeholder="电话" value="{{ .master.Tel }}">
-                                {{if index .err_msg "Tel"}}
-                                <span class="text-danger">{{index .err_msg "Tel"}}</span>
-                                {{end}}
+                                <input type="text" name="tel" class="form-control" id="tel" placeholder="电话" value="{{ master.Tel }}">
+                                {% if err_msg["Tel"] %}
+                                <span class="text-danger">{{ err_msg["Tel"] }}</span>
+                                {% endif %}
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -87,8 +86,8 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
-{{ end }}
-{{ define "content_js" }}
+{% endblock %}
+{% block content_js %}
 <script>
     $(function () {
         $.validator.setDefaults({
@@ -145,4 +144,4 @@
         });
     });
 </script>
-{{ end }}
+{% endblock %}

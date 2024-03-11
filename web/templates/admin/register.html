@@ -1,10 +1,9 @@
-{{ define "admin/register.html" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>IceFlame | {{ .title }}</title>
+    <title>IceFlame | {{ title }}</title>
 
     <link rel="icon" href="data:,">
     <!-- Google Font: Source Sans Pro -->
@@ -25,22 +24,22 @@
     <div class="card">
         <div class="card-body register-card-body">
             <p class="login-box-msg">注册新会员</p>
-            {{if .fail}}
-            <p style="color: red;">{{.fail}}</p>
-            {{end}}
+            {% if fail %}
+            <p style="color: red;">{{ fail }}</p>
+            {% endif %}
             <form id="register-form" action="/admin/register" method="post">
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="电话" value="{{if .form}}{{.form.Tel}}{{end}}">
+                        <input type="tel" id="tel" name="tel" class="form-control" placeholder="电话" value="{% if form %}{{ error["Tel"] }}{% endif %}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-phone"></span>
                             </div>
                         </div>
                     </div>
-                    {{if index .error "Tel"}}
-                    <span class="text-danger">{{index .error "Tel"}}</span>
-                    {{end}}
+                    {% if "Tel" in error %}
+                    <span class="text-danger">{{ error["Tel"] }}</span>
+                    {% endif %}
                     <label id="tel-error" class="error invalid-feedback" for="tel"></label>
                 </div>
                 <div class="form-group">
@@ -52,9 +51,9 @@
                             </div>
                         </div>
                     </div>
-                    {{if index .error "Password"}}
-                    <span class="text-danger">{{index .error "Password"}}</span>
-                    {{end}}
+                    {% if "Password" in error %}
+                    <span class="text-danger">{{ error["Password"] }}</span>
+                    {% endif %}
                     <label id="password-error" class="error invalid-feedback" for="password"></label>
                 </div>
                 <div class="form-group">
@@ -66,50 +65,50 @@
                             </div>
                         </div>
                     </div>
-                    {{if index .error "RetypePassword"}}
-                    <span class="text-danger">{{index .error "RetypePassword"}}</span>
-                    {{end}}
+                    {% if "RetypePassword" in error %}
+                    <span class="text-danger">{{ error["RetypePassword"] }}</span>
+                    {% endif %}
                     <label id="retype_password-error" class="error invalid-feedback" for="retype_password"></label>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="text" id="name" name="name" class="form-control" placeholder="姓名" value="{{if .form}}{{.form.Name}}{{end}}">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="姓名" value="{% if form %}{{ form.Name }}{% endif %}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
                     </div>
-                    {{if index .error "Name"}}
-                    <span class="text-danger">{{index .error "Name"}}</span>
-                    {{end}}
+                    {% if "Name" in error %}
+                    <span class="text-danger">{{ error["Name"] }}</span>
+                    {% endif %}
                     <label id="name-error" class="error invalid-feedback" for="name"></label>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" value="{{if .form}}{{.form.Email}}{{end}}">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" value="{% if form %}{{ form.Email }}{% endif %}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
-                    {{if index .error "Email"}}
-                    <span class="text-danger">{{index .error "Email"}}</span>
-                    {{end}}
+                    {% if "Email" in error %}
+                    <span class="text-danger">{{ error["Email"] }}</span>
+                    {% endif %}
                     <label id="email-error" class="error invalid-feedback" for="email"></label>
                 </div>
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
-                            <input type="checkbox" id="terms" name="terms" value="agree" {{if .form}}{{if .form.Terms}}checked{{end}}{{end}}>
+                            <input type="checkbox" id="terms" name="terms" value="agree" {% if form and form.Terms %}checked{% endif %}>
                             <label for="terms">
                                 我同意这些<a href="#">条款</a>
                             </label>
                         </div>
-                        {{if index .error "Terms"}}
-                        <span class="text-danger">{{index .error "Terms"}}</span>
-                        {{end}}
+                        {% if "Terms" in error %}
+                        <span class="text-danger">{{ error["Terms"] }}</span>
+                        {% endif %}
                         <label id="terms-error" class="error invalid-feedback" for="terms"></label>
                     </div>
                     <!-- /.col -->
@@ -210,4 +209,3 @@
 </script>
 </body>
 </html>
-{{end}}

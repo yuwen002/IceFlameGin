@@ -1,22 +1,21 @@
-{{ define "admin/layout/admin_index" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>IceFlame | {{ .title }}</title>
+    <title>IceFlame | {{ title }}</title>
 
-    {{ template "admin/layout/admin_header_css" }}
+    {% include "admin_header_css.html" %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" data-panel-auto-height-mode="height">
 <div class="wrapper">
 
     <!-- Navbar -->
-    {{ template "admin/layout/admin_top_nav" . }}
+    {% include "admin_top_nav.html" %}
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    {{ template "admin/layout/admin_left_nav" }}
+    {% include  "admin_left_nav.html" %}
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
@@ -45,7 +44,7 @@
         </div>
     </div>
     <!-- /.content-wrapper -->
-    {{ template "admin/layout/admin_footer" }}
+    {% include  "admin_footer.html" %}
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
@@ -55,10 +54,8 @@
 </div>
 <!-- ./wrapper -->
 
-{{ template "admin/layout/admin_footer_js" }}
-{{ block "js" . }}{{end}}
+{% include  "admin_footer_js.html" %}
+{% block js %}{% endblock %}
 
 </body>
 </html>
-
-{{end}}
