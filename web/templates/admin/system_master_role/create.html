@@ -1,7 +1,5 @@
-{{ define "admin/dashboard/create_master_role.html" }}
-    {{ template "admin/layout/admin_base" . }}
-{{ end }}
-{{ define "content_header" }}
+{% extends "../layout/admin_base.html" %}
+{%  block content_header %}
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -17,8 +15,8 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
-{{ end }}
-{{ define "content" }}
+{%  endblock %}
+{%  block content %}
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -34,31 +32,31 @@
                             </button>
                         </div>
                     </div>
-                    {{if .success}}
+                    {% if success %}
                     <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
                         <div class="color-palette-set">
                             <div class="bg-success color-palette text-center" style="width: 200px;">
-                                <span>{{ .success }}</span></div>
+                                <span>{{ success }}</span></div>
                         </div>
                     </div>
-                    {{end}}
+                    {% endif %}
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form id="master-info" method="post" action="/admin/change-master-info">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">角色名称</label>
-                                <input type="email" name="name" class="form-control" id="name" placeholder="角色名称" value="{{ .GetOldInput "name" }}}">
-                                {{if index .err_msg "Email"}}
-                                <span class="text-danger">{{index .err_msg "Email"}}</span>
-                                {{end}}
+                                <input type="email" name="name" class="form-control" id="name" placeholder="角色名称" value="{{  .GetOldInput "" }}">
+                                {% if err_msg["Email"] %}
+                                <span class="text-danger">{{ err_msg["Email"] }}</span>
+                                {% end%}
                             </div>
                             <div class="form-group">
                                 <label for="remark">备注</label>
-                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ .GetOldInput "remark" }}">
-                                {{if index .err_msg "Remark"}}
-                                <span class="text-danger">{{index .err_msg "Remark"}}</span>
-                                {{end}}
+                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{%  .GetOldInput "remark" %}">
+                                {% if err_msg["Remark"] %}
+                                <span class="text-danger">{{ err_msg["Remark"] }}</span>
+                                {% end%}
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -79,5 +77,4 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
-{{ end }}
-{{ template "admin/layout/admin_base" . }}
+{%  endblock %}

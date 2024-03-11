@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"ice_flame_gin/internal/system"
 	"net/http"
 	"path"
 )
@@ -96,4 +98,64 @@ func (p *PongoHTML) WriteContentType(w http.ResponseWriter) {
 	if val := header["Content-Type"]; len(val) == 0 {
 		header["Content-Type"] = []string{"text/html; charset=utf-8"}
 	}
+}
+
+// OldTag
+//
+// @Title OldTag
+// @Description:
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-11 23:25:02
+// @param doc
+// @param start
+// @param line
+// @return pongo2.Tag
+// @return *pongo2.Error
+func OldTag(doc *pongo2.Parser, start *pongo2.Token, arguments *pongo2.Parser) (pongo2.INodeTag, *pongo2.Error) {
+	// 解析标签参数
+	value, err := arguments.ParseExpression()
+	if err != nil {
+		return nil, &pongo2.Error{
+			Sender:    "old",
+			OrigError: fmt.Errorf("无法解析标签参数"),
+		}
+	}
+
+	// 解析标签参数
+	valueToken := arguments.Peek(pongo2.String, "")
+	if valueToken == nil {
+		return nil, &pongo2.Error{
+			Sender:    "old",
+			OrigError: fmt.Errorf("无法获取标签参数"),
+		}
+	}
+	value := valueToken.Val
+
+	// 进行其他操作...
+
+	return nil, nil
+
+}
+
+type OldTagImpl struct {
+	fieldName string
+}
+
+func (node *OldTagImpl) Execute(ctx *pongo2.ExecutionContext, writer pongo2.TemplateWriter) *pongo2.Error {
+	// 获取 Gin 上下文
+	ginContext, ok := ctx.Public["ginContext"].(*gin.Context)
+	if !ok {
+		return &pongo2.Error{
+			Sender:    "old",
+			OrigError: fmt.Errorf("invalid gin.Context type"),
+		}
+	}
+
+	// 调用获取旧输入数据的函数
+	oldValue := system.GetOldInput(ginContext, node.fieldName)
+
+	// 将旧输入数据写入模板
+	writer.WriteString(oldValue)
+
+	return nil
 }

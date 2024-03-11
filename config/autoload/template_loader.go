@@ -45,6 +45,8 @@ func LoadTemplates(r *gin.Engine) {
 	// 加载模板
 	r.HTMLRender = utils.TemplatePath("web/templates")
 	// 注册过滤器
+	// 注册自定义标签
+	pongo2.RegisterTag("old", utils.OldTag)
 	pongo2.RegisterFilter("old", func(in *pongo2.Value, param *pongo2.Value) (out *pongo2.Value, err *pongo2.Error) {
 		// 获取键名
 		key := param.String()
@@ -63,6 +65,9 @@ func LoadTemplates(r *gin.Engine) {
 
 		// 返回旧输入数据
 		return pongo2.AsValue(oldValue), nil
+	})
+	pongo2.RegisterTag("old", func(doc *pongo2.Parser, start *pongo2.Token, arguments *pongo2.Parser) (pongo2.INodeTag, *pongo2.Error) {
+
 	})
 
 	// 配置静态文件路径
