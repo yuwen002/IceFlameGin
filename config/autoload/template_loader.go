@@ -1,8 +1,11 @@
 package autoload
 
 import (
+	"fmt"
+	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/pkg/utils"
+	"ice_flame_gin/internal/system"
 )
 
 //func LoadTemplates(r *gin.Engine) {
@@ -39,7 +42,29 @@ import (
 // @Date 2024-03-11 01:19:26
 // @param r
 func LoadTemplates(r *gin.Engine) {
+	// 加载模板
 	r.HTMLRender = utils.TemplatePath("web/templates")
+	// 注册过滤器
+	pongo2.RegisterFilter("old", func(in *pongo2.Value, param *pongo2.Value) (out *pongo2.Value, err *pongo2.Error) {
+		// 获取键名
+		key := param.String()
+
+		// 获取 Gin 上下文
+		ginContext, ok := in.Interface().(*gin.Context)
+		if !ok {
+			return nil, &pongo2.Error{
+				Sender:    "old",
+				OrigError: fmt.Errorf("invalid gin.Context type"),
+			}
+		}
+
+		// 调用获取旧输入数据的函数
+		oldValue := system.GetOldInput(ginContext, key)
+
+		// 返回旧输入数据
+		return pongo2.AsValue(oldValue), nil
+	})
+
 	// 配置静态文件路径
 	r.Static("/static", "./web/static")
 }
