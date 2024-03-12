@@ -1,5 +1,5 @@
 {% extends "../layout/admin_base.html" %}
-{%  block content_header %}
+{% block content_header %}
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -15,8 +15,8 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
-{%  endblock %}
-{%  block content %}
+{% endblock %}
+{% block content %}
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -27,7 +27,7 @@
                     <div class="card-header">
                         <h3 class="card-title">角色信息 <small>创建</small></h3>
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" onclick="javascript:location.reload();">
+                            <button type="button" class="btn btn-tool" onclick="location.reload();">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                         </div>
@@ -42,18 +42,18 @@
                     {% endif %}
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="master-info" method="post" action="/admin/change-master-info">
+                    <form id="master-info" method="post" action="/admin/master-role/create">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">角色名称</label>
-                                <input type="email" name="name" class="form-control" id="name" placeholder="角色名称" value='{{ old .ginContext 'yourKey' }}">
-                                {% if err_msg["Email"] %}
-                                <span class="text-danger">{{ err_msg["Email"] }}</span>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="角色名称" value="{{ ginContext|old:'name' }}">
+                                {% if err_msg["Name"] %}
+                                <span class="text-danger">{{ err_msg["Name"] }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="remark">备注</label>
-                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="">
+                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ ginContext|old:'remark' }}">
                                 {% if err_msg["Remark"] %}
                                 <span class="text-danger">{{ err_msg["Remark"] }}</span>
                                 {% endif %}
@@ -77,4 +77,42 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
-{%  endblock %}
+{% endblock %}
+{% block content_js %}
+<script>
+    $(function () {
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+        $('#master-info').validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 20
+                },
+            },
+            messages: {
+                name: {
+                    required: "请输入姓名",
+                    minlength: "角色名称长度不能小于2位",
+                    maxlength: "角色名称长度不能大于50位"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>
+{% endblock %}

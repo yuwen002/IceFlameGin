@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -106,7 +107,8 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 		c.SetCookie(cookieName, "", -1, "/", "", false, true)
 	}
 
-	system.RedirectGet(c, paths.AdminRoot+paths.AdminDashboard)
+	// 登录成功后返回 JavaScript 脚本，刷新页面并跳转到其他页面
+	fmt.Fprintf(c.Writer, "<script>window.top.location.href = '%s';</script>", paths.AdminRoot+paths.AdminDashboard)
 	return
 }
 
@@ -475,8 +477,8 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 // @receiver ctrl
 func (ctrl *cUcSystemMaster) Logout(c *gin.Context) {
 	system.DeleteSession(c, "ice_flame_master")
-	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
-	return
+	// 返回 JavaScript 脚本，刷新页面并跳转到登录页
+	fmt.Fprint(c.Writer, "<script>window.top.location.href = '", paths.AdminRoot+paths.AdminLogin, "'; window.top.location.reload();</script>")
 }
 
 // ChangeMasterInfo

@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"ice_flame_gin/internal/system"
 	"net/http"
 	"path"
 )
@@ -51,10 +53,15 @@ func (p *PongoRender) Instance(name string, data interface{}) render.Render {
 		template = pongo2.Must(pongo2.FromCache(fileName))
 	}
 
+	var ctx pongo2.Context
+	if data != nil {
+		ctx = data.(pongo2.Context)
+	}
+
 	return &PongoHTML{
 		Template: template,
 		Name:     name,
-		Data:     data.(pongo2.Context),
+		Data:     ctx,
 	}
 }
 
@@ -98,12 +105,31 @@ func (p *PongoHTML) WriteContentType(w http.ResponseWriter) {
 	}
 }
 
-type GinContext struct {
-	GinContext *gin.Context
-}
+// OldFilter
+//
+// @Title OldFilter
+// @Description: 模板Old，类似laravel函数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-12 23:07:16
+// @param in
+// @param param
+// @return out
+// @return err
+func OldFilter(in *pongo2.Value, param *pongo2.Value) (out *pongo2.Value, err *pongo2.Error) {
+	// 获取键名
+	key := param.String()
 
-func Old(in *pongo2.Value, param *pongo2.Value) (out *pongo2.Value, err *pongo2.Error) {
+	// 获取 Gin 上下文
+	ginContext, ok := in.Interface().(*gin.Context)
+	if !ok {
+		return nil, &pongo2.Error{
+			Sender:    "old",
+			OrigError: fmt.Errorf("invalid gin.Context type"),
+		}
+	}
 
-	return nil, nil
+	// 调用获取旧输入数据的函数
+	oldValue := system.GetOldInput(ginContext, key)
 
+	return pongo2.AsValue(oldValue), nil
 }

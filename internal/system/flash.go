@@ -128,6 +128,9 @@ func GetOldInput(c *gin.Context, key string) string {
 	if val := session.Get(key); val != nil {
 		// 如果存在，将旧输入值作为字符串返回
 		if strVal, ok := val.(string); ok {
+			// 从会话中删除旧输入数据
+			session.Delete(key)
+			session.Save()
 			return strVal
 		}
 	}

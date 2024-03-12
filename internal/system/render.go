@@ -16,5 +16,6 @@ import (
 // @param name
 // @param data
 func Render(c *gin.Context, name string, data pongo2.Context) {
+	data["ginContext"] = c
 	c.HTML(http.StatusOK, name, data)
 }

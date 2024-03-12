@@ -52,7 +52,7 @@ Like above the biggest change is the Main Sidebar contains now the Logo and the 
 
 <div class="row">
   <div class="col-md-6" markdown="1">
-Old sample entry
+OldFilter sample entry
 ```html
 <li>
   <a href="pages/widgets.html">
@@ -82,7 +82,7 @@ New sample entry
 
 <div class="row">
   <div class="col-md-6" markdown="1">
-Old sample entry (with tree menu)
+OldFilter sample entry (with tree menu)
 ```html
 <li class="treeview">
   <a href="#">
@@ -137,7 +137,7 @@ The biggest change in content header is AdminLTE use here now `.container-fluid`
 
 <div class="row">
   <div class="col-md-6" markdown="1">
-Old Content Header Markup
+OldFilter Content Header Markup
 ```html
 <section class="content-header">
   <h1>

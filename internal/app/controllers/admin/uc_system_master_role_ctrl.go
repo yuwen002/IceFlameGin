@@ -60,10 +60,68 @@ func (ctrl *cUcSystemMasterRole) ShowCreateMasterRole(c *gin.Context) {
 func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
 	var form validators.AdminRole
 	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
 		system.SetOldInput(c, "name", form.Name)
 		system.SetOldInput(c, "remark", form.Remark)
 
-		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRole)
-		return
+	} else {
+		system.AddFlashData(c, "添加角色信息成功", "success")
 	}
+
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRole)
+}
+
+func (ctrl *cUcSystemMasterRole) ShowListMasterRole(c *gin.Context) {
+	// 可以在这里编写获取用户角色列表数据的逻辑
+
+	// 渲染用户角色列表页面
+	system.Render(c, "admin/system_master_role/list.html", pongo2.Context{
+		"title": "用户角色列表页面",
+		// 可以传递用户角色列表数据到模板中
+	})
+}
+
+func (ctrl *cUcSystemMasterRole) ShowEditMasterRole(c *gin.Context) {
+	// 可以在这里编写获取要编辑的用户角色数据的逻辑
+
+	// 渲染编辑用户角色页面
+	system.Render(c, "admin/system_master_role/edit.html", pongo2.Context{
+		"title": "编辑用户角色页面",
+		// 可以传递要编辑的用户角色数据到模板中
+	})
+}
+
+func (ctrl *cUcSystemMasterRole) HandleEditMasterRole(c *gin.Context) {
+	// 获取要编辑的用户角色ID
+	id := c.Param("id")
+
+	var form validators.AdminRole
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		system.SetOldInput(c, "name", form.Name)
+		system.SetOldInput(c, "remark", form.Remark)
+
+	} else {
+		// 根据 ID 更新用户角色信息
+		// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+		system.AddFlashData(c, "更新角色信息成功", "success")
+	}
+
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminEditMasterRole)
 }
