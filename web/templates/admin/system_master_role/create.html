@@ -46,17 +46,17 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">角色名称</label>
-                                <input type="email" name="name" class="form-control" id="name" placeholder="角色名称" value="{{  .GetOldInput "" }}">
+                                <input type="email" name="name" class="form-control" id="name" placeholder="角色名称" value='{{ old .ginContext 'yourKey' }}">
                                 {% if err_msg["Email"] %}
                                 <span class="text-danger">{{ err_msg["Email"] }}</span>
-                                {% end%}
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="remark">备注</label>
-                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{%  .GetOldInput "remark" %}">
+                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="">
                                 {% if err_msg["Remark"] %}
                                 <span class="text-danger">{{ err_msg["Remark"] }}</span>
-                                {% end%}
+                                {% endif %}
                             </div>
                         </div>
                         <!-- /.card-body -->
