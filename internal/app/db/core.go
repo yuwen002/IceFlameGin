@@ -190,9 +190,71 @@ func (g *GormCore) QueryOne(out interface{}, condition string, args ...interface
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			// 查询未找到数据
+			v := reflect.ValueOf(out)
+			if v.Kind() == reflect.Ptr && !v.IsNil() {
+				v.Elem().Set(reflect.Zero(v.Elem().Type())) // 设置结构体指针的内容为零值
+			}
 			return nil
 		}
 		return err
 	}
+	return nil
+}
+
+// QueryListWithCondition
+//
+// @Title QueryListWithCondition
+// @Description: 方法用于根据条件查询列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-13 16:30:34
+// @receiver g
+// @param opts
+// @param out
+// @return error
+func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) error {
+	db := g.db
+
+	// 查询字段
+	if opts.Field != "" {
+		db = db.Select(opts.Field)
+	}
+
+	// 条件查询
+	if opts.Condition != "" {
+		if len(opts.Args) > 0 {
+			db = db.Where(opts.Condition, opts.Args...)
+		} else {
+			db = db.Where(opts.Condition)
+		}
+	}
+
+	// 分页
+	page := opts.Page
+	if page == 0 {
+		page = 1
+	}
+	pageSize := opts.PageSize
+	// 计算偏移量
+	offset := (page - 1) * pageSize
+	db = db.Offset(offset).Limit(pageSize)
+
+	db = db.Order(opts.Order)
+
+	// 查询数据
+	err := db.Find(out).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			v := reflect.ValueOf(out)
+			if v.Kind() == reflect.Ptr && !v.IsNil() {
+				if v.Elem().Kind() == reflect.Slice && v.Elem().Len() == 0 {
+					return nil
+				}
+				v.Elem().Set(reflect.Zero(v.Elem().Type())) // 设置切片的内容为零值
+			}
+			return nil
+		}
+		return err
+	}
+
 	return nil
 }

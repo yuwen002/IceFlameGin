@@ -51,3 +51,28 @@ func (repo *rUcSystemMasterRoleRepository) Insert(data dto.SystemMasterRoleInput
 
 	return nil
 }
+
+// GetList
+//
+// @Title GetList
+// @Description: 管理员角色列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-13 16:45:08
+// @receiver repo
+// @param data
+// @return *model.UcSystemMasterRole
+// @return error
+func (repo *rUcSystemMasterRoleRepository) GetList(data dto.SystemMasterRoleOutput) ([]*model.UcSystemMasterRole, error) {
+	var systemMasterRoles []*model.UcSystemMasterRole
+	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+		Order:    data.Order,
+		Page:     data.Page,
+		PageSize: data.PageSize,
+	}, &systemMasterRoles)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return systemMasterRoles, nil
+}

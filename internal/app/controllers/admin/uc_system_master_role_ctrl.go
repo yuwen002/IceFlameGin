@@ -3,7 +3,10 @@ package admin
 import (
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
+	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	services "ice_flame_gin/internal/app/services/s_uc_center"
 	"ice_flame_gin/internal/app/validators"
+	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
 )
@@ -22,15 +25,15 @@ var UcSystemMasterRole = cUcSystemMasterRole{
 	pageNotFound: paths.AdminRoot + paths.Admin404,
 }
 
-// ShowCreateMasterRole
+// CreateMasterRole
 //
-// @Title ShowCreateMasterRole
+// @Title CreateMasterRole
 // @Description: 渲染创建用户角色页面
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-08 00:59:47
 // @receiver ctrl
 // @param c
-func (ctrl *cUcSystemMasterRole) ShowCreateMasterRole(c *gin.Context) {
+func (ctrl *cUcSystemMasterRole) CreateMasterRole(c *gin.Context) {
 	// 从会话中获取成功信息
 	success := system.GetFlashedData(c, "success")
 	// 从会话中获取错误信息
@@ -42,7 +45,7 @@ func (ctrl *cUcSystemMasterRole) ShowCreateMasterRole(c *gin.Context) {
 	}
 
 	system.Render(c, "admin/system_master_role/create.html", pongo2.Context{
-		"title":   "创建用户角色页面",
+		"title":   "创建用户角色",
 		"success": success,
 		"err_msg": errMsg,
 	})
@@ -79,17 +82,36 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRole)
 }
 
-func (ctrl *cUcSystemMasterRole) ShowListMasterRole(c *gin.Context) {
-	// 可以在这里编写获取用户角色列表数据的逻辑
+func (ctrl *cUcSystemMasterRole) ListMasterRole(c *gin.Context) {
+	page, err := utils.ToInt(c.DefaultQuery("page", "1"))
+	if err != nil {
+		page = 1
+	}
+
+	pageSize, err := utils.ToInt(c.DefaultQuery("pageSize", "10"))
+	if err != nil {
+		pageSize = 10
+	}
+
+	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.SystemMasterRoleOutput{
+		Order:    "id desc",
+		Page:     page,
+		PageSize: pageSize,
+	})
+
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 
 	// 渲染用户角色列表页面
 	system.Render(c, "admin/system_master_role/list.html", pongo2.Context{
-		"title": "用户角色列表页面",
-		// 可以传递用户角色列表数据到模板中
+		"title": "用户角色列表",
+		"data":  output.Data,
 	})
 }
 
-func (ctrl *cUcSystemMasterRole) ShowEditMasterRole(c *gin.Context) {
+func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
 	// 可以在这里编写获取要编辑的用户角色数据的逻辑
 
 	// 渲染编辑用户角色页面
@@ -101,7 +123,7 @@ func (ctrl *cUcSystemMasterRole) ShowEditMasterRole(c *gin.Context) {
 
 func (ctrl *cUcSystemMasterRole) HandleEditMasterRole(c *gin.Context) {
 	// 获取要编辑的用户角色ID
-	id := c.Param("id")
+	//id := c.Param("id")
 
 	var form validators.AdminRole
 	if err := c.ShouldBind(&form); err != nil {

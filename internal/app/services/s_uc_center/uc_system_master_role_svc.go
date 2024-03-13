@@ -50,3 +50,29 @@ func (svc *sUcSystemMasterRole) CreateMasterRole(in dto.SystemMasterRoleInput) *
 		Data:    nil,
 	}
 }
+
+// ShowMasterRole
+//
+// @Title ShowMasterRole
+// @Description: 用户角色信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-13 17:04:07
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.SystemMasterRoleOutput) *system.SysResponse {
+	out, err := repositories.NewUcSystemMasterRoleRepository().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    out,
+	}
+}

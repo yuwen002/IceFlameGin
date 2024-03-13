@@ -10,3 +10,9 @@ type SystemMasterRoleInput struct {
 	Remark       string
 	SupperMaster bool
 }
+
+type SystemMasterRoleOutput struct {
+	Order    string
+	Page     int
+	PageSize int
+}

@@ -23,5 +23,5 @@ const (
 	AdminHandleCreateMasterRole = "/master-role/create"
 	AdminEditMasterRole         = "/master-role/edit"
 	AdminHandleEditMasterRole   = "/master-role/edit"
-	AdminListMasterRole         = "/master-rol/list"
+	AdminListMasterRole         = "/master-role/list"
 )

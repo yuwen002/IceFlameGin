@@ -41,11 +41,11 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.POST(paths.AdminHandleChangeMasterInfo, admin.UcSystemMaster.HandleChangeMasterInfo)
 
 			// 用户角色信息
-			r.GET(paths.AdminCreateMasterRole, admin.UcSystemMasterRole.ShowCreateMasterRole)
+			r.GET(paths.AdminCreateMasterRole, admin.UcSystemMasterRole.CreateMasterRole)
 			r.POST(paths.AdminHandleCreateMasterRole, admin.UcSystemMasterRole.HandleCreateMasterRole)
-			r.GET(paths.AdminEditMasterRole, admin.UcSystemMasterRole.ShowEditMasterRole)
+			r.GET(paths.AdminEditMasterRole, admin.UcSystemMasterRole.EditMasterRole)
 			r.POST(paths.AdminHandleEditMasterRole, admin.UcSystemMasterRole.HandleEditMasterRole)
-			r.GET(paths.AdminListMasterRole, admin.UcSystemMasterRole.ShowListMasterRole)
+			r.GET(paths.AdminListMasterRole, admin.UcSystemMasterRole.ListMasterRole)
 		}
 
 	}
