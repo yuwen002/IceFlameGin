@@ -46,6 +46,7 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminEditMasterRole, admin.UcSystemMasterRole.EditMasterRole)
 			r.POST(paths.AdminHandleEditMasterRole, admin.UcSystemMasterRole.HandleEditMasterRole)
 			r.GET(paths.AdminListMasterRole, admin.UcSystemMasterRole.ListMasterRole)
+			r.GET(paths.AdminAjaxListMasterRole, admin.UcSystemMasterRole.AjaxListMasterRole)
 		}
 
 	}

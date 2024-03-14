@@ -62,7 +62,7 @@ func (repo *rUcSystemMasterRoleRepository) Insert(data dto.SystemMasterRoleInput
 // @param data
 // @return *model.UcSystemMasterRole
 // @return error
-func (repo *rUcSystemMasterRoleRepository) GetList(data dto.SystemMasterRoleOutput) ([]*model.UcSystemMasterRole, error) {
+func (repo *rUcSystemMasterRoleRepository) GetList(data dto.ListSystemMasterRoleInput) ([]*model.UcSystemMasterRole, error) {
 	var systemMasterRoles []*model.UcSystemMasterRole
 	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Order:    data.Order,
@@ -75,4 +75,22 @@ func (repo *rUcSystemMasterRoleRepository) GetList(data dto.SystemMasterRoleOutp
 	}
 
 	return systemMasterRoles, nil
+}
+
+// CountRecords
+//
+// @Title CountRecords
+// @Description: 管理员角色列表总条数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-14 11:14:13
+// @receiver repo
+// @return int64
+// @return error
+func (repo *rUcSystemMasterRoleRepository) CountRecords() (int64, error) {
+	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterRole).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return totalRecords, err
 }

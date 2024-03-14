@@ -258,3 +258,43 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 
 	return nil
 }
+
+// Count
+//
+// @Title Count
+// @Description: 计算记录数量
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-14 11:00:34
+// @receiver g
+// @param condition
+// @param args
+// @return int64
+// @return error
+func (g *GormCore) Count() (int64, error) {
+	var count int64
+	err := g.db.Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// CountWhere
+//
+// @Title CountWhere
+// @Description: 根据条件计算记录的数量
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-14 11:03:13
+// @receiver g
+// @param condition
+// @param args
+// @return int64
+// @return error
+func (g *GormCore) CountWhere(condition string, args ...interface{}) (int64, error) {
+	var count int64
+	err := g.db.Where(condition, args...).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}

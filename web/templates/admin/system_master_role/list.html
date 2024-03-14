@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>DataTables</h1>
+                <h1>角色信息</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -25,79 +25,31 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">DataTable 列表</h3>
+                        <h3 class="card-title">角色信息 列表</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="data-list" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(svc)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th>ID</th>
+                                <th>角色名称</th>
+                                <th>备注</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 4.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td> 4</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.5
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5.5</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 6
-                                </td>
-                                <td>Win 98+</td>
-                                <td>6</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet Explorer 7</td>
-                                <td>Win XP SP2+</td>
-                                <td>7</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>AOL browser (AOL desktop)</td>
-                                <td>Win XP</td>
-                                <td>6</td>
-                                <td>A</td>
-                            </tr>
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(svc)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th>ID</th>
+                                <th>角色名称</th>
+                                <th>备注</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -130,13 +82,39 @@
 <script>
     $(function () {
         $('#data-list').DataTable({
-            "paging": true,
-            "lengthChange": false,
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Chinese.json" // 引入中文语言包
+            },
+            "paging": false,
             "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "info": false,
+            "lengthChange": true,
+            "lengthMenu": [10, 25, 50, 100],
+            "pageLength": 2,
+            "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "remark"},
+                {"data": "created_at"},
+                {"data": "updated_at"},
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        return `
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary" onclick="editItem(${data.id})">修改</button>
+                            </div>
+                        `;
+                    }
+                }
+            ],
+            "ajax": {
+                "url": "/admin/master-role/ajax/list/",
+                "type": "GET",
+                "dataSrc": "data"
+            },
         });
     });
 </script>

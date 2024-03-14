@@ -60,8 +60,19 @@ func (svc *sUcSystemMasterRole) CreateMasterRole(in dto.SystemMasterRoleInput) *
 // @receiver svc
 // @param in
 // @return *system.SysResponse
-func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.SystemMasterRoleOutput) *system.SysResponse {
+func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.ListSystemMasterRoleInput) *system.SysResponse {
+	// 角色信息数据列表
 	out, err := repositories.NewUcSystemMasterRoleRepository().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	// 角色信息记录的数量
+	totalRecords, err := repositories.NewUcSystemMasterRoleRepository().CountRecords()
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -73,6 +84,9 @@ func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.SystemMasterRoleOutput) *s
 	return &system.SysResponse{
 		Code:    0,
 		Message: "Success",
-		Data:    out,
+		Data: dto.ListSystemMasterRoleOutput{
+			List:  out,
+			Total: totalRecords,
+		},
 	}
 }

@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -9,6 +10,7 @@ import (
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
+	"net/http"
 )
 
 // cUcSystemMasterRole
@@ -93,7 +95,7 @@ func (ctrl *cUcSystemMasterRole) ListMasterRole(c *gin.Context) {
 		pageSize = 10
 	}
 
-	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.SystemMasterRoleOutput{
+	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
 		Order:    "id desc",
 		Page:     page,
 		PageSize: pageSize,
@@ -108,6 +110,37 @@ func (ctrl *cUcSystemMasterRole) ListMasterRole(c *gin.Context) {
 	system.Render(c, "admin/system_master_role/list.html", pongo2.Context{
 		"title": "用户角色列表",
 		"data":  output.Data,
+	})
+}
+
+func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
+	page, err := utils.ToInt(c.DefaultQuery("start", "1"))
+	if err != nil {
+		page = 1
+	}
+	fmt.Println(page)
+	fmt.Println(c.Query("length"))
+	pageSize, err := utils.ToInt(c.DefaultQuery("pageSize", "10"))
+	fmt.Println(pageSize)
+	if err != nil {
+		pageSize = 10
+	}
+
+	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
+		Order:    "id desc",
+		Page:     page,
+		PageSize: pageSize,
+	})
+
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	data := output.Data.(dto.ListSystemMasterRoleOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"data":         data.List,
+		"recordsTotal": data.Total,
 	})
 }
 

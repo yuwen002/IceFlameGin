@@ -45,7 +45,7 @@ func (repo *rUcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput
 
 	account := "SA_" + data.Tel
 	// 写入uc_account主表数据
-	id, err := db.NewGormCore().SetDefaultTable("uc_account").InsertAndGetID(&model.UcAccount{
+	id, err := db.NewGormCore().SetDefaultTable(model.TableNameUcAccount).InsertAndGetID(&model.UcAccount{
 		Username:     account,
 		PasswordHash: data.Password,
 		Tel:          account,
@@ -62,7 +62,7 @@ func (repo *rUcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput
 	}
 
 	// 写入uc_system_master数据
-	err = db.NewGormCore().SetDefaultTable("uc_system_master").Insert(&model.UcSystemMaster{
+	err = db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMaster).Insert(&model.UcSystemMaster{
 		AccountID: id,
 		Name:      data.Name,
 		Tel:       data.Tel,
