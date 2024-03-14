@@ -34,6 +34,7 @@ type GormCore struct {
 func NewGormCore() *GormCore {
 	// 默认链接default数据库
 	firstDB := DB["default"]
+	firstDB = firstDB.Debug() // 打开调试模式
 	return &GormCore{
 		db:  firstDB, // db.DB是初始化后的全局*gorm.DB实例
 		dbs: DB,

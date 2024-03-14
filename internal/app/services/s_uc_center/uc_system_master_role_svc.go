@@ -80,7 +80,6 @@ func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.ListSystemMasterRoleInput)
 			Data:    nil,
 		}
 	}
-
 	return &system.SysResponse{
 		Code:    0,
 		Message: "Success",

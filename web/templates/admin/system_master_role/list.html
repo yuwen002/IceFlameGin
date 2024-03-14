@@ -79,26 +79,43 @@
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="/static/admin/plugins/moment/moment.min.js"></script>
 <script>
     $(function () {
         $('#data-list').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Chinese.json" // 引入中文语言包
             },
-            "paging": false,
+            "paging": true,
+            "lengthChange": false,
+            "ordering": true,
+            "autoWidth": false,
+            "responsive": true,
+            "pageLength": 2,
             "searching": false,
             "processing": true,
             "serverSide": true,
             "info": false,
-            "lengthChange": true,
-            "lengthMenu": [10, 25, 50, 100],
-            "pageLength": 2,
+            "renderer": "bootstrap",
+            "pagingType": "simple_numbers",
             "columns": [
                 {"data": "id"},
                 {"data": "name"},
                 {"data": "remark"},
-                {"data": "created_at"},
-                {"data": "updated_at"},
+                {
+                    "data": "created_at",
+                    "render": function (data, type, row) {
+                        // 使用 Moment.js 格式化时间
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
+                {
+                    "data": "updated_at",
+                    "render": function (data, type, row) {
+                        // 使用 Moment.js 格式化时间
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
                 {
                     "data": null,
                     "render": function (data, type, row) {
@@ -113,6 +130,7 @@
             "ajax": {
                 "url": "/admin/master-role/ajax/list/",
                 "type": "GET",
+                "cache": false,
                 "dataSrc": "data"
             },
         });

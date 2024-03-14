@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -114,22 +113,23 @@ func (ctrl *cUcSystemMasterRole) ListMasterRole(c *gin.Context) {
 }
 
 func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
-	page, err := utils.ToInt(c.DefaultQuery("start", "1"))
+	start, err := utils.ToInt(c.DefaultQuery("start", "1"))
 	if err != nil {
-		page = 1
+		start = 0
 	}
-	fmt.Println(page)
-	fmt.Println(c.Query("length"))
-	pageSize, err := utils.ToInt(c.DefaultQuery("pageSize", "10"))
-	fmt.Println(pageSize)
+
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
 	if err != nil {
-		pageSize = 10
+		length = 10
 	}
+
+	// 计算当前页码
+	page := start/length + 1
 
 	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
 		Order:    "id desc",
 		Page:     page,
-		PageSize: pageSize,
+		PageSize: length,
 	})
 
 	if output.Code == 1 {
@@ -139,8 +139,10 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
 
 	data := output.Data.(dto.ListSystemMasterRoleOutput)
 	c.JSON(http.StatusOK, gin.H{
-		"data":         data.List,
-		"recordsTotal": data.Total,
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
 	})
 }
 
@@ -149,8 +151,7 @@ func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
 
 	// 渲染编辑用户角色页面
 	system.Render(c, "admin/system_master_role/edit.html", pongo2.Context{
-		"title": "编辑用户角色页面",
-		// 可以传递要编辑的用户角色数据到模板中
+		"title": "编辑用户角色页面", // 可以传递要编辑的用户角色数据到模板中
 	})
 }
 
