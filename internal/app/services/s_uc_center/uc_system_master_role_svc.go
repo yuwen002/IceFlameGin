@@ -89,3 +89,29 @@ func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.ListSystemMasterRoleInput)
 		},
 	}
 }
+
+// GetMasterRoleById
+//
+// @Title GetMasterRoleById
+// @Description: 按ID获取角色信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-15 15:52:59
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sUcSystemMasterRole) GetMasterRoleById(id uint32) *system.SysResponse {
+	out, err := repositories.NewUcSystemMasterRoleRepository().GetById(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    out,
+	}
+}

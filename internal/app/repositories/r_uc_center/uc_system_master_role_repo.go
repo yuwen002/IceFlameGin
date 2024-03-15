@@ -99,3 +99,27 @@ func (repo *rUcSystemMasterRoleRepository) CountRecords() (int64, error) {
 
 	return totalRecords, err
 }
+
+// GetById
+//
+// @Title GetById
+// @Description: 按ID获取角色信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-15 15:48:01
+// @receiver repo
+// @param id
+// @return *model.UcSystemMasterRole
+// @return error
+func (repo *rUcSystemMasterRoleRepository) GetById(id uint32) (*model.UcSystemMasterRole, error) {
+	var role *model.UcSystemMasterRole
+	err := db.NewGormCore().GetByID(id, &role)
+	if err != nil {
+		return nil, err
+	}
+
+	if role.ID == 0 {
+		return nil, nil
+	}
+
+	return role, nil
+}

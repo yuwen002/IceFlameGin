@@ -4,6 +4,7 @@ import (
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/models/model"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/pkg/utils"
@@ -137,12 +138,40 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
 	})
 }
 
+// EditMasterRole
+//
+// @Title EditMasterRole
+// @Description: 渲染创编辑户角色页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-15 16:13:32
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
-	// 可以在这里编写获取要编辑的用户角色数据的逻辑
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	uint32ID, err := utils.ToUint32(id)
+
+	output := services.NewUcSystemMasterRoleService().GetMasterRoleById(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	role, ok := output.Data.(*model.UcSystemMasterRole)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 
 	// 渲染编辑用户角色页面
 	system.Render(c, "admin/system_master_role/edit.html", pongo2.Context{
-		"title": "编辑用户角色页面", // 可以传递要编辑的用户角色数据到模板中
+		"title": "编辑用户角色页面",
+		"role":  role,
+		"id":    id,
 	})
 }
 

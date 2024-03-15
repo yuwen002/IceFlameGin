@@ -121,8 +121,12 @@
                     "render": function (data, type, row) {
                         return `
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary" onclick="editItem(${data.id})">修改</button>
+                                <a type="button" class="btn btn-primary nav-link" onclick="editItem(${data.id})">编辑</a>
                             </div>
+                            <a href="/admin/master-role/create" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>添加角色信息</p>
+                                    </a>
                         `;
                     }
                 }
@@ -135,5 +139,13 @@
             },
         });
     });
+
+    function editItem(roleId) {
+        // 根据角色ID执行相应的编辑操作
+        console.log("编辑角色ID: " + roleId);
+        $(parent.document).find('.content-wrapper').IFrame('createTab', 'Home', '/admin/master-role/edit?id=' + roleId, 'index', true);
+        $('.content-wrapper').IFrame('createTab', 'Home', '/admin/master-role/edit?id=' + roleId, 'index', true);
+        console.log("chengg")
+    }
 </script>
 {% endblock %}
