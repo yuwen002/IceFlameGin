@@ -83,35 +83,29 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRole)
 }
 
+// ListMasterRole
+//
+// @Title ListMasterRole
+// @Description: 获取角色显示页
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-15 11:08:55
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMasterRole) ListMasterRole(c *gin.Context) {
-	page, err := utils.ToInt(c.DefaultQuery("page", "1"))
-	if err != nil {
-		page = 1
-	}
-
-	pageSize, err := utils.ToInt(c.DefaultQuery("pageSize", "10"))
-	if err != nil {
-		pageSize = 10
-	}
-
-	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
-		Order:    "id desc",
-		Page:     page,
-		PageSize: pageSize,
-	})
-
-	if output.Code == 1 {
-		system.RedirectGet(c, ctrl.pageNotFound)
-		return
-	}
-
 	// 渲染用户角色列表页面
 	system.Render(c, "admin/system_master_role/list.html", pongo2.Context{
 		"title": "用户角色列表",
-		"data":  output.Data,
 	})
 }
 
+// AjaxListMasterRole
+//
+// @Title AjaxListMasterRole
+// @Description: Ajax获取角色列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-15 11:08:15
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
 	start, err := utils.ToInt(c.DefaultQuery("start", "1"))
 	if err != nil {
@@ -123,13 +117,10 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
 		length = 10
 	}
 
-	// 计算当前页码
-	page := start/length + 1
-
 	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
-		Order:    "id desc",
-		Page:     page,
-		PageSize: length,
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
 	})
 
 	if output.Code == 1 {

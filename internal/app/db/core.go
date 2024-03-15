@@ -2,6 +2,7 @@ package db
 
 import (
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
 	"reflect"
 )
@@ -213,6 +214,7 @@ func (g *GormCore) QueryOne(out interface{}, condition string, args ...interface
 // @param out
 // @return error
 func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) error {
+	fmt.Println(opts)
 	db := g.db
 
 	// 查询字段
@@ -229,15 +231,27 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 		}
 	}
 
-	// 分页
-	page := opts.Page
-	if page == 0 {
-		page = 1
+	// 分页类型判断
+	switch opts.PageType {
+	case 1:
+		// 判断是否需要分页
+		if opts.Page > 0 {
+			if opts.Size == 0 {
+				// 分页默认长度
+				opts.Size = 10
+			}
+			// 计算偏移量
+			offset := (opts.Page - 1) * opts.Size
+			db = db.Offset(offset).Limit(opts.Size)
+		}
+	case 2:
+		// 判断分页
+		if opts.Length > 0 {
+			db = db.Offset(opts.Offset).Limit(opts.Length)
+		} else if opts.Offset > 0 {
+			db = db.Limit(opts.Offset)
+		}
 	}
-	pageSize := opts.PageSize
-	// 计算偏移量
-	offset := (page - 1) * pageSize
-	db = db.Offset(offset).Limit(pageSize)
 
 	db = db.Order(opts.Order)
 

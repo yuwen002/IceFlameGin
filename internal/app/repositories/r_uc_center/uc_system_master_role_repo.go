@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -64,10 +65,14 @@ func (repo *rUcSystemMasterRoleRepository) Insert(data dto.SystemMasterRoleInput
 // @return error
 func (repo *rUcSystemMasterRoleRepository) GetList(data dto.ListSystemMasterRoleInput) ([]*model.UcSystemMasterRole, error) {
 	var systemMasterRoles []*model.UcSystemMasterRole
+	fmt.Println(data)
 	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Order:    data.Order,
-		Page:     data.Page,
-		PageSize: data.PageSize,
+		PageType: 2,
+		Limit: db.Limit{
+			Length: data.Length,
+			Offset: data.Start,
+		},
 	}, &systemMasterRoles)
 
 	if err != nil {

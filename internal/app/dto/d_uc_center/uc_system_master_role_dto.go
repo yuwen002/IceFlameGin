@@ -18,9 +18,9 @@ type SystemMasterRoleInput struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-14 14:01:34
 type ListSystemMasterRoleInput struct {
-	Order    string
-	Page     int
-	PageSize int
+	Order  string
+	Start  int
+	Length int
 }
 
 // ListSystemMasterRoleOutput
