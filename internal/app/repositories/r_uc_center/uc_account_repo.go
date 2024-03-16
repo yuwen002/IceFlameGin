@@ -6,11 +6,11 @@ import (
 	"ice_flame_gin/internal/app/models/model"
 )
 
-// rUcAccountRepository
+// rUcAccount
 // @Description: 用户中心总表
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-01 16:34:24
-type rUcAccountRepository struct {
+type rUcAccount struct {
 	DBs map[string]*gorm.DB
 }
 
@@ -20,9 +20,9 @@ type rUcAccountRepository struct {
 // @Description: 创建一个新的UcAccountRepository实例，并使用已初始化的DB
 // @Author liuxingyu
 // @Date 2024-02-03 00:58:14
-// @return *rUcAccountRepository
-func NewUcAccountRepository() *rUcAccountRepository {
-	return &rUcAccountRepository{
+// @return *rUcAccount
+func NewUcAccountRepository() *rUcAccount {
+	return &rUcAccount{
 		DBs: db.DB, // 直接使用全局的DB实例
 	}
 }
@@ -37,7 +37,7 @@ func NewUcAccountRepository() *rUcAccountRepository {
 // @param id
 // @return out
 // @return err
-func (repo *rUcAccountRepository) GetById(id uint32) (out *model.UcAccount, err error) {
+func (repo *rUcAccount) GetById(id uint32) (out *model.UcAccount, err error) {
 	err = db.NewGormCore().GetByID(id, &out)
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (repo *rUcAccountRepository) GetById(id uint32) (out *model.UcAccount, err 
 // @param tel
 // @return *r_uc_center.UcAccount
 // @return error
-func (repo *rUcAccountRepository) GetAccountByTel(tel string) (*model.UcAccount, error) {
+func (repo *rUcAccount) GetAccountByTel(tel string) (*model.UcAccount, error) {
 	var account model.UcAccount
 	condition := "username = ?"
 	err := db.NewGormCore().QueryOne(&account, condition, tel)
@@ -79,7 +79,7 @@ func (repo *rUcAccountRepository) GetAccountByTel(tel string) (*model.UcAccount,
 // @param id
 // @param newPasswordHash
 // @return error
-func (repo *rUcAccountRepository) UpdatePasswordById(id uint32, newPasswordHash string) error {
+func (repo *rUcAccount) UpdatePasswordById(id uint32, newPasswordHash string) error {
 	account := model.UcAccount{PasswordHash: newPasswordHash}
 	err := db.NewGormCore().UpdateByID(id, account)
 	if err != nil {

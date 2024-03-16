@@ -19,10 +19,10 @@ const (
 	AdminChangeMasterInfo        = "/change-master-info"
 	AdminHandleChangeMasterInfo  = "/change-master-info"
 
-	AdminCreateMasterRole       = "/master-role/create"
-	AdminHandleCreateMasterRole = "/master-role/create"
-	AdminEditMasterRole         = "/master-role/edit"
-	AdminHandleEditMasterRole   = "/master-role/edit"
-	AdminListMasterRole         = "/master-role/list"
-	AdminAjaxListMasterRole     = "/master-role/ajax/list/"
+	AdminCreateMasterRole         = "/master-role/create"
+	AdminHandleCreateMasterRole   = "/master-role/create"
+	AdminEditMasterRole           = "/master-role/edit"
+	AdminHandleAjaxEditMasterRole = "/master-role/ajax/edit"
+	AdminListMasterRole           = "/master-role/list"
+	AdminAjaxListMasterRole       = "/master-role/ajax/list/"
 )

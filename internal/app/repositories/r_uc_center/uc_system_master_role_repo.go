@@ -8,12 +8,12 @@ import (
 	"ice_flame_gin/internal/app/models/model"
 )
 
-// rUcSystemMasterRoleRepository
+// rUcSystemMasterRole
 //
 // @Description: 管理员角色
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-08 00:10:01
-type rUcSystemMasterRoleRepository struct {
+type rUcSystemMasterRole struct {
 	DBs map[string]*gorm.DB
 	DB  *gorm.DB
 }
@@ -21,12 +21,12 @@ type rUcSystemMasterRoleRepository struct {
 // NewUcSystemMasterRoleRepository
 //
 // @Title NewUcSystemMasterRoleRepository
-// @Description: 创建一个新的 rUcSystemMasterRoleRepository 仓库实例
+// @Description: 创建一个新的 rUcSystemMasterRole 仓库实例
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-08 00:10:55
-// @return *rUcSystemMasterRoleRepository
-func NewUcSystemMasterRoleRepository() *rUcSystemMasterRoleRepository {
-	return &rUcSystemMasterRoleRepository{
+// @return *rUcSystemMasterRole
+func NewUcSystemMasterRoleRepository() *rUcSystemMasterRole {
+	return &rUcSystemMasterRole{
 		DB: db.DB["default"],
 	}
 }
@@ -40,7 +40,7 @@ func NewUcSystemMasterRoleRepository() *rUcSystemMasterRoleRepository {
 // @receiver repo
 // @param data
 // @return error
-func (repo *rUcSystemMasterRoleRepository) Insert(data dto.SystemMasterRoleInput) error {
+func (repo *rUcSystemMasterRole) Insert(data dto.SystemMasterRoleInput) error {
 	err := db.NewGormCore().Insert(&model.UcSystemMasterRole{
 		Name:         data.Name,
 		Remark:       data.Remark,
@@ -63,7 +63,7 @@ func (repo *rUcSystemMasterRoleRepository) Insert(data dto.SystemMasterRoleInput
 // @param data
 // @return *model.UcSystemMasterRole
 // @return error
-func (repo *rUcSystemMasterRoleRepository) GetList(data dto.ListSystemMasterRoleInput) ([]*model.UcSystemMasterRole, error) {
+func (repo *rUcSystemMasterRole) GetList(data dto.ListSystemMasterRoleInput) ([]*model.UcSystemMasterRole, error) {
 	var systemMasterRoles []*model.UcSystemMasterRole
 	fmt.Println(data)
 	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
@@ -91,7 +91,7 @@ func (repo *rUcSystemMasterRoleRepository) GetList(data dto.ListSystemMasterRole
 // @receiver repo
 // @return int64
 // @return error
-func (repo *rUcSystemMasterRoleRepository) CountRecords() (int64, error) {
+func (repo *rUcSystemMasterRole) CountRecords() (int64, error) {
 	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterRole).Count()
 	if err != nil {
 		return 0, err
@@ -110,7 +110,7 @@ func (repo *rUcSystemMasterRoleRepository) CountRecords() (int64, error) {
 // @param id
 // @return *model.UcSystemMasterRole
 // @return error
-func (repo *rUcSystemMasterRoleRepository) GetById(id uint32) (*model.UcSystemMasterRole, error) {
+func (repo *rUcSystemMasterRole) GetById(id uint32) (*model.UcSystemMasterRole, error) {
 	var role *model.UcSystemMasterRole
 	err := db.NewGormCore().GetByID(id, &role)
 	if err != nil {
@@ -122,4 +122,23 @@ func (repo *rUcSystemMasterRoleRepository) GetById(id uint32) (*model.UcSystemMa
 	}
 
 	return role, nil
+}
+
+// UpdateByID
+//
+// @Title UpdateByID
+// @Description: 按ID修改角色信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-17 02:05:00
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *rUcSystemMasterRole) UpdateByID(id uint32, in *model.UcSystemMasterRole) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -64,6 +64,26 @@
     </div>
     <!-- /.container-fluid -->
 </section>
+<!-- Modal -->
+<div class="modal fade" id="edit-modal-content" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  w-100" style="max-width: none;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">角色信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block content_js %}
@@ -120,14 +140,10 @@
                     "data": null,
                     "render": function (data, type, row) {
                         return `
-                            <div class="btn-group">
-                                <a type="button" class="btn btn-primary nav-link" onclick="editItem(${data.id})">编辑</a>
-                            </div>
-                            <a href="/admin/master-role/create" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>添加角色信息</p>
-                                    </a>
-                        `;
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-edit" data-id="${data.id}" data-toggle="modal" data-target="#edit-modal-content">编辑</button>
+                                </div>
+                               `;
                     }
                 }
             ],
@@ -138,14 +154,20 @@
                 "dataSrc": "data"
             },
         });
-    });
 
-    function editItem(roleId) {
-        // 根据角色ID执行相应的编辑操作
-        console.log("编辑角色ID: " + roleId);
-        $(parent.document).find('.content-wrapper').IFrame('createTab', 'Home', '/admin/master-role/edit?id=' + roleId, 'index', true);
-        $('.content-wrapper').IFrame('createTab', 'Home', '/admin/master-role/edit?id=' + roleId, 'index', true);
-        console.log("chengg")
-    }
+        $('#data-list').on('click', '.btn-edit', function () {
+            // 获取角色 ID
+            let roleId = $(this).data('id');
+            console.log(roleId);
+
+            // 使用 AJAX 获取角色信息并填充表单
+            $('.modal-body').load('/admin/master-role/edit?id=' + roleId, function (response, status, xhr) {
+                if (status === 'error') {
+                    // 处理加载错误的情况
+                    $('.modal-body').html('<p>加载失败，请重试。</p>');
+                }
+            });
+        });
+    });
 </script>
 {% endblock %}

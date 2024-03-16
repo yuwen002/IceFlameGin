@@ -2,6 +2,7 @@ package services
 
 import (
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/models/model"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
 	"ice_flame_gin/internal/system"
 )
@@ -113,5 +114,36 @@ func (svc *sUcSystemMasterRole) GetMasterRoleById(id uint32) *system.SysResponse
 		Code:    0,
 		Message: "Success",
 		Data:    out,
+	}
+}
+
+// ChangeMasterRoleById
+//
+// @Title ChangeMasterRoleById
+// @Description: 按ID更改角色信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-17 02:06:42
+// @receiver svc
+// @param id
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMasterRole) ChangeMasterRoleById(id uint32, in dto.SystemMasterRoleInput) *system.SysResponse {
+	// 根据ID更新角色信息
+	err := repositories.NewUcSystemMasterRoleRepository().UpdateByID(id, &model.UcSystemMasterRole{
+		Name:   in.Name,
+		Remark: in.Remark,
+	})
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
 	}
 }

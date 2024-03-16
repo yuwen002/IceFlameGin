@@ -154,6 +154,10 @@ func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
 	}
 
 	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 
 	output := services.NewUcSystemMasterRoleService().GetMasterRoleById(uint32ID)
 	if output.Code == 1 {
@@ -175,29 +179,57 @@ func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
 	})
 }
 
-func (ctrl *cUcSystemMasterRole) HandleEditMasterRole(c *gin.Context) {
+// HandleAjaxEditMasterRole
+//
+// @Title HandleAjaxEditMasterRole
+// @Description: Ajax处理编辑用户角色请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-17 02:18:18
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRole(c *gin.Context) {
 	// 获取要编辑的用户角色ID
-	//id := c.Param("id")
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
 
 	var form validators.AdminRole
 	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
-		// 将错误信息存储到会话中
-		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
-		if errFlash != nil {
-			system.RedirectGet(c, ctrl.pageNotFound)
-			return
-		}
-
-		system.SetOldInput(c, "name", form.Name)
-		system.SetOldInput(c, "remark", form.Remark)
-
-	} else {
-		// 根据 ID 更新用户角色信息
-		// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
-		system.AddFlashData(c, "更新角色信息成功", "success")
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+	// 根据 ID 更新用户角色信息
+	output := services.NewUcSystemMasterRoleService().ChangeMasterRoleById(uint32ID, dto.SystemMasterRoleInput{
+		Name:   form.Name,
+		Remark: form.Remark,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
 	}
 
-	system.RedirectGet(c, paths.AdminRoot+paths.AdminEditMasterRole)
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }

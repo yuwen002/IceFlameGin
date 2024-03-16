@@ -5,4 +5,28 @@
     // top.location.reload();
     alert("控制台首页")
 </script>
+<script>
+    function aaa() {
+        // $('.content-wrapper').IFrame({
+        //     onTabClick(item) {
+        //         return item
+        //     },
+        //     onTabChanged(item) {
+        //         return item
+        //     },
+        //     onTabCreated(item) {
+        //         return item
+        //     },
+        //     autoIframeMode: true,
+        //     autoItemActive: true,
+        //     autoShowNewTab: true,
+        //     allowDuplicates: true,
+        //     loadingScreen: 750,
+        //     useNavbarItems: true
+        // })
+
+        console.log('alkasjdlfkjsldkfj')
+        $('.content-wrapper').IFrame('createTab', '工', '/admin/master-role/edit?id=' + 9, 'index', true);
+    }
+</script>
 {% endblock %}

@@ -85,6 +85,9 @@ func ToInt(value interface{}) (int, error) {
 			return 0, nil
 		}
 	case string:
+		if v == "" {
+			return 0, errors.New("空字符串无法转换为int")
+		}
 		i, err := strconv.Atoi(v)
 		if err != nil {
 			return 0, err
@@ -167,6 +170,9 @@ func ToInt8(value interface{}) (int8, error) {
 		}
 		return 0, nil
 	case string:
+		if v == "" {
+			return 0, errors.New("空字符串无法转换为int8")
+		}
 		i, err := strconv.Atoi(v)
 		if err != nil {
 			return 0, err
@@ -465,6 +471,9 @@ func ToUint8(value interface{}) (uint8, error) {
 			return 0, nil
 		}
 	case string:
+		if v == "" {
+			return 0, errors.New("空字符串无法转换为uint8")
+		}
 		i, err := strconv.Atoi(v)
 		if err != nil {
 			return 0, err
@@ -550,6 +559,9 @@ func ToUint16(value interface{}) (uint16, error) {
 			return 0, nil
 		}
 	case string:
+		if v == "" {
+			return 0, errors.New("空字符串无法转换为uint16")
+		}
 		i, err := strconv.Atoi(v)
 		if err != nil {
 			return 0, err
@@ -632,6 +644,9 @@ func ToUint32(value interface{}) (uint32, error) {
 			return 0, nil
 		}
 	case string:
+		if v == "" {
+			return 0, errors.New("空字符串无法转换为uint32")
+		}
 		i, err := strconv.Atoi(v)
 		if err != nil {
 			return 0, err
@@ -708,6 +723,9 @@ func ToUint64(value interface{}) (uint64, error) {
 			return 0, nil
 		}
 	case string:
+		if v == "" {
+			return 0, errors.New("空字符串无法转换为uint64")
+		}
 		i, err := strconv.Atoi(v)
 		if err != nil {
 			return 0, err

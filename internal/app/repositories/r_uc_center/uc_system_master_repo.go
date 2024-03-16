@@ -8,12 +8,12 @@ import (
 	"ice_flame_gin/internal/app/models/model"
 )
 
-//	rUcSystemMasterRepository
+//	rUcSystemMaster
 //	@Description: 后台管理员
 //
 // @Author liuxingyu
 // @Date 2024-02-08 23:31:58
-type rUcSystemMasterRepository struct {
+type rUcSystemMaster struct {
 	DBs map[string]*gorm.DB
 	DB  *gorm.DB
 }
@@ -21,12 +21,12 @@ type rUcSystemMasterRepository struct {
 // NewUcSystemMasterRepository
 //
 // @Title NewUcSystemMasterRepository
-// @Description: 创建一个新的 rUcSystemMasterRepository 仓库实例
+// @Description: 创建一个新的 rUcSystemMaster 仓库实例
 // @Author liuxingyu
 // @Date 2024-02-08 23:36:52
-// @return *rUcSystemMasterRepository 创建一个新的 rUcSystemMasterRepository 仓库实例
-func NewUcSystemMasterRepository() *rUcSystemMasterRepository {
-	return &rUcSystemMasterRepository{
+// @return *rUcSystemMaster 创建一个新的 rUcSystemMaster 仓库实例
+func NewUcSystemMasterRepository() *rUcSystemMaster {
+	return &rUcSystemMaster{
 		DB: db.DB["default"], //默认使用default
 	}
 }
@@ -40,7 +40,7 @@ func NewUcSystemMasterRepository() *rUcSystemMasterRepository {
 // @receiver repo
 // @param data
 // @return error
-func (repo *rUcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput) error {
+func (repo *rUcSystemMaster) Insert(data dto.RegisterSystemMasterInput) error {
 	tx := repo.DB.Begin()
 
 	account := "SA_" + data.Tel
@@ -94,7 +94,7 @@ func (repo *rUcSystemMasterRepository) Insert(data dto.RegisterSystemMasterInput
 // @param email
 // @return *models.UcSystemMaster
 // @return error
-func (repo *rUcSystemMasterRepository) GetByEmail(email string) (*model.UcSystemMaster, error) {
+func (repo *rUcSystemMaster) GetByEmail(email string) (*model.UcSystemMaster, error) {
 	var systemMaster model.UcSystemMaster
 	condition := "email = ?"
 	err := db.NewGormCore().QueryOne(&systemMaster, condition, email)
@@ -119,7 +119,7 @@ func (repo *rUcSystemMasterRepository) GetByEmail(email string) (*model.UcSystem
 // @param id
 // @return *model.UcSystemMaster
 // @return error
-func (repo *rUcSystemMasterRepository) GetByAccountId(AccountID uint32) (*model.UcSystemMaster, error) {
+func (repo *rUcSystemMaster) GetByAccountId(AccountID uint32) (*model.UcSystemMaster, error) {
 	var systemMaster *model.UcSystemMaster
 	condition := "account_id = ?"
 	err := db.NewGormCore().QueryOne(&systemMaster, condition, AccountID)
@@ -144,7 +144,7 @@ func (repo *rUcSystemMasterRepository) GetByAccountId(AccountID uint32) (*model.
 // @param id
 // @param in
 // @return error
-func (repo *rUcSystemMasterRepository) UpdateByAccountId(id uint32, in *model.UcSystemMaster) error {
+func (repo *rUcSystemMaster) UpdateByAccountId(id uint32, in *model.UcSystemMaster) error {
 	err := db.NewGormCore().UpdateByID(id, in)
 	if err != nil {
 		return err

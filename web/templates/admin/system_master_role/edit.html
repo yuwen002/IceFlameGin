@@ -1,21 +1,9 @@
 {% extends "../layout/admin_base.html" %}
-{% block content_header %}
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>角色信息</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-                    <li class="breadcrumb-item active">编辑角色信息</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
+
+{% block header_link %}
+<link rel="stylesheet" href="/static/admin/plugins/toastr/toastr.min.css">
 {% endblock %}
+
 {% block content %}
 <section class="content">
     <div class="container-fluid">
@@ -26,11 +14,6 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">角色信息 <small>编辑</small></h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" onclick="location.reload();">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </div>
                     </div>
                     {% if success %}
                     <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
@@ -42,7 +25,7 @@
                     {% endif %}
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="master-info" method="post" action="/admin/master-role/edit?id={{ id }}">
+                    <form id="master-info" method="post" action="/admin/master-role/ajax/edit?id={{ id }}">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">角色名称</label>
@@ -61,7 +44,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">提交信息</button>
+                            <button type="submit" id="submit-btn" class="btn btn-primary">提交信息</button>
                         </div>
                     </form>
                 </div>
@@ -79,18 +62,20 @@
 </section>
 {% endblock %}
 {% block content_js %}
+<!-- Toastr -->
+<script src="/static/admin/plugins/toastr/toastr.min.js"></script>
 <script>
     $(function () {
         $.validator.setDefaults({
             submitHandler: function (form) {
-                form.submit();
+                // form.submit();
             }
         });
         $('#master-info').validate({
             rules: {
                 name: {
                     required: true,
-                    minlength: 2,
+                    // minlength: 2,
                     maxlength: 20
                 },
             },
@@ -113,6 +98,33 @@
                 $(element).removeClass('is-invalid');
             }
         });
+
+        $('#submit-btn').click(function () {
+            if ($('#master-info').valid()) {
+                $.ajax({
+                    url: '/admin/master-role/ajax/edit?id={{ id }}',
+                    type: 'POST',
+                    data: $('#master-info').serialize(),
+                    success: function (response) {
+                        // 根据返回的数据做相应处理
+                        if (response.code === 0) {
+                            // 成功时的处理逻辑
+                            // 可以显示成功消息等
+                        } else {
+                            // 失败时的处理逻辑
+                            // 可以显示错误消息等
+                            if (response.code === 2) {
+
+                            } else {
+
+                            }
+                        }
+                    }
+                });
+            }
+        });
     });
+
+
 </script>
 {% endblock %}
