@@ -74,7 +74,7 @@
             rules: {
                 name: {
                     required: true,
-                    // minlength: 2,
+                    minlength: 2,
                     maxlength: 20
                 },
             },
@@ -105,17 +105,34 @@
                     type: 'POST',
                     data: $('#master-info').serialize(),
                     success: function (response) {
-                        // 根据返回的数据做相应处理
+                        let messageOpts = {
+                            "closeButton": true,// 是否显示关闭按钮
+                            "progressBar":true,// 是否显示进度条
+                            "positionClass": "toast-top-center",// 弹出窗的位置
+                            "showDuration": "1000",// 显示的动画时间
+                            "hideDuration": "1000",// 消失的动画时间
+                            "timeOut": "6000",// 弹窗展现时间
+                            "showEasing": "swing",//显示时的动画缓冲方式
+                            "hideEasing": "linear",//消失时的动画缓冲方式
+                            "showMethod": "fadeIn",//显示时的动画方式
+                            "hideMethod": "fadeOut", //消失时的动画方式
+                        };
+                        toastr.options = messageOpts;
                         if (response.code === 0) {
-                            // 成功时的处理逻辑
-                            // 可以显示成功消息等
+                            // 修改成功时的处理逻辑
+                            toastr.success("恭喜，修改角色信息成功！", "成功")
+                            hideModalAndClearData();
                         } else {
                             // 失败时的处理逻辑
                             // 可以显示错误消息等
                             if (response.code === 2) {
-
+                                for (let key in response.data) {
+                                    toastr.error(response.data[key], "错误")
+                                    break;
+                                }
                             } else {
-
+                                toastr.error(response.message, "错误")
+                                hideModalAndClearData();
                             }
                         }
                     }
