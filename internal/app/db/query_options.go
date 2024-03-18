@@ -27,6 +27,7 @@ type QueryOptions struct {
 	Condition  string
 	Args       []interface{}
 	Order      string
+	Preload    string
 	PageType   int8
 	Pagination // 分页，页码
 	Limit      // 分页，偏移量

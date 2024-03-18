@@ -2,7 +2,6 @@ package db
 
 import (
 	"errors"
-	"fmt"
 	"gorm.io/gorm"
 	"reflect"
 )
@@ -214,7 +213,6 @@ func (g *GormCore) QueryOne(out interface{}, condition string, args ...interface
 // @param out
 // @return error
 func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) error {
-	fmt.Println(opts)
 	db := g.db
 
 	// 查询字段
@@ -229,6 +227,11 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 		} else {
 			db = db.Where(opts.Condition)
 		}
+	}
+
+	// 关联
+	if opts.Preload != "" {
+		db = db.Preload(opts.Preload)
 	}
 
 	// 分页类型判断
@@ -314,8 +317,29 @@ func (g *GormCore) CountWhere(condition string, args ...interface{}) (int64, err
 	return count, nil
 }
 
-func (g *GormCore) QueryWithHasOne(out interface{}, association string, condition string, args ...interface{}) error {
-	err := g.db.Where(condition, args...).Preload(association).First(out).Error
+// QueryWithHasOne
+//
+// @Title QueryWithHasOne
+// @Description: 一对一关联的查询一条数据
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 00:39:07
+// @receiver g
+// @param out
+// @param associations
+// @param condition
+// @param args
+// @return error
+func (g *GormCore) QueryWithHasOne(out interface{}, associations []string, condition string, args ...interface{}) error {
+	// 将条件添加到查询中
+	g.db = g.db.Where(condition, args...)
+
+	// 遍历关联表，对每个关联表进行预加载
+	for _, association := range associations {
+		g.db = g.db.Preload(association)
+	}
+
+	// 执行查询并获取结果
+	err := g.db.First(out).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			v := reflect.ValueOf(out)

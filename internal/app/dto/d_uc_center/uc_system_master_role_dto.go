@@ -31,3 +31,13 @@ type ListSystemMasterRoleOutput struct {
 	List  []*model.UcSystemMasterRole // 角色信息列表
 	Total int64                       // 角色信息记录数量
 }
+
+// SystemMasterRoleRelationInput
+//
+// @Description: 管理员关联角色信息写入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 00:24:53
+type SystemMasterRoleRelationInput struct {
+	AccountId uint32
+	RoleId    uint32
+}

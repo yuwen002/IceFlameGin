@@ -48,6 +48,16 @@
     function jumpToHome() {
         parent.location.href = "/admin/dashboard";
     }
+
+
+    function hideModalAndRefreshData() {
+        $('#edit-modal-content').hide();
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        setTimeout(function() {
+            table.draw(false)
+        }, 500);
+    }
 </script>
 {% block content_js %}{% endblock %}
 </body>

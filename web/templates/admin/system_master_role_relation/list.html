@@ -100,7 +100,6 @@
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="/static/admin/plugins/moment/moment.min.js"></script>
 <script>
-    let table
     $(function () {
         table = $('#data-list').DataTable({
             "language": {
@@ -169,15 +168,5 @@
         });
     });
 
-
-    function hideModalAndClearData() {
-        $('#edit-modal-content').hide();
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-        setTimeout(function() {
-            table.draw(false)
-            // table.ajax.reload();  // 重新加载数据表格
-        }, 500); //
-    }
 </script>
 {% endblock %}

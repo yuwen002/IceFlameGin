@@ -101,6 +101,7 @@
 <script src="/static/admin/plugins/moment/moment.min.js"></script>
 <script>
     let table
+
     $(function () {
         table = $('#data-list').DataTable({
             "language": {
@@ -168,16 +169,5 @@
             });
         });
     });
-
-
-    function hideModalAndRefreshData() {
-        $('#edit-modal-content').hide();
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-        setTimeout(function() {
-            table.draw(false)
-            // table.ajax.reload();  // 重新加载数据表格
-        }, 500); //
-    }
 </script>
 {% endblock %}

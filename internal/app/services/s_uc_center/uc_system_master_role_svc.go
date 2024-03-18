@@ -147,3 +147,11 @@ func (svc *sUcSystemMasterRole) ChangeMasterRoleById(id uint32, in dto.SystemMas
 		Data:    nil,
 	}
 }
+
+func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRoleRelationInput) *system.SysResponse {
+
+}
+
+func (svc *sUcSystemMasterRole) ShowMasterRoleRelation(in dto.ListSystemMasterRoleInput) *system.SysResponse {
+	out, err := repositories.NewUcSystemMasterRoleRelationRepository().GetByIdHasOne(8)
+}
