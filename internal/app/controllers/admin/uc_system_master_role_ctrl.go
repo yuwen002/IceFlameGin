@@ -233,3 +233,13 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRole(c *gin.Context) {
 	})
 	return
 }
+
+func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
+
+}
+
+func (ctrl *cUcSystemMasterRole) ListMasterRoleRelation(c *gin.Context) {
+	system.Render(c, "admin/system_master_role_relation/list.html", pongo2.Context{
+		"title": "用户角色关联 列表",
+	})
+}
