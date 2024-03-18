@@ -1,4 +1,4 @@
-package relation
+package association
 
 import "ice_flame_gin/internal/app/models/model"
 

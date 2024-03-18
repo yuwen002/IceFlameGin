@@ -313,3 +313,18 @@ func (g *GormCore) CountWhere(condition string, args ...interface{}) (int64, err
 	}
 	return count, nil
 }
+
+func (g *GormCore) QueryWithHasOne(out interface{}, association string, condition string, args ...interface{}) error {
+	err := g.db.Where(condition, args...).Preload(association).First(out).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			v := reflect.ValueOf(out)
+			if v.Kind() == reflect.Ptr && !v.IsNil() {
+				v.Elem().Set(reflect.Zero(v.Elem().Type())) // 设置结构体指针的内容为零值
+			}
+			return nil
+		}
+		return err
+	}
+	return nil
+}
