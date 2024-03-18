@@ -174,8 +174,8 @@
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
         setTimeout(function() {
-
-            table.ajax.reload();  // 重新加载数据表格
+            table.draw(false)
+            // table.ajax.reload();  // 重新加载数据表格
         }, 500); //
     }
 </script>
