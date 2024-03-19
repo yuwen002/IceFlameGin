@@ -50,6 +50,7 @@ func setupAdminRoutes(router *gin.Engine) {
 
 			// 用户角色关联
 			r.GET(paths.AdminListMasterRoleRelation, admin.UcSystemMasterRole.ListMasterRoleRelation)
+			r.GET(paths.AdminHandleAjaxEditMasterRoleRelation, admin.UcSystemMasterRole.AjaxListMasterRoleRelation)
 		}
 
 	}

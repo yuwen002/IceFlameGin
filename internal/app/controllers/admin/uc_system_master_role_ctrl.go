@@ -108,7 +108,7 @@ func (ctrl *cUcSystemMasterRole) ListMasterRole(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
-	start, err := utils.ToInt(c.DefaultQuery("start", "1"))
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
 	if err != nil {
 		start = 0
 	}
@@ -238,13 +238,56 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 
 }
 
+// ListMasterRoleRelation
+//
+// @Title ListMasterRoleRelation
+// @Description: 管理员角色关联显示页
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 23:17:26
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMasterRole) ListMasterRoleRelation(c *gin.Context) {
-	services.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleInput{
-		Order:  "id desc",
-		Start:  1,
-		Length: 2,
+	system.Render(c, "admin/system_master_role_relation/list.html", pongo2.Context{
+		"title": "管理员角色关联列表",
 	})
-	//system.Render(c, "admin/system_master_role_relation/list.html", pongo2.Context{
-	//	"title": "用户角色关联 列表",
-	//})
+}
+
+// AjaxListMasterRoleRelation
+//
+// @Title AjaxListMasterRoleRelation
+// @Description: Ajax获取管理员角色关联
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 23:47:02
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMasterRole) AjaxListMasterRoleRelation(c *gin.Context) {
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
+	if err != nil {
+		start = 0
+	}
+
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
+	if err != nil {
+		length = 10
+	}
+
+	output := services.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleRelationInput{
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
+	})
+
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	data := output.Data.(dto.ListSystemMasterRoleRoleRelationOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
+	})
+
 }

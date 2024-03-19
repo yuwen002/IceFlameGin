@@ -230,8 +230,8 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 	}
 
 	// 关联
-	if opts.Preload != "" {
-		db = db.Preload(opts.Preload)
+	for _, association := range opts.Preload {
+		db = db.Preload(association)
 	}
 
 	// 分页类型判断
@@ -259,7 +259,7 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 	db = db.Order(opts.Order)
 
 	// 查询数据
-	err := db.Find(out).Error
+	err := db.Debug().Find(out).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			v := reflect.ValueOf(out)

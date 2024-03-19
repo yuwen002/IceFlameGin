@@ -1,6 +1,9 @@
 package dto
 
-import "ice_flame_gin/internal/app/models/model"
+import (
+	"ice_flame_gin/internal/app/models/association"
+	"ice_flame_gin/internal/app/models/model"
+)
 
 // SystemMasterRoleInput
 //
@@ -40,4 +43,25 @@ type ListSystemMasterRoleOutput struct {
 type SystemMasterRoleRelationInput struct {
 	AccountId uint32
 	RoleId    uint32
+}
+
+// ListSystemMasterRoleRelationInput
+//
+// @Description: 管理员关联角色信息列表输入信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 23:19:43
+type ListSystemMasterRoleRelationInput struct {
+	Order  string
+	Start  int
+	Length int
+}
+
+// ListSystemMasterRoleRoleRelationOutput
+//
+// @Description: 管理员关联角色信息列表输出信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 23:44:05
+type ListSystemMasterRoleRoleRelationOutput struct {
+	List  []*association.UcSystemMasterRoleRelation // 角色信息列表
+	Total int64                                     // 角色信息记录数量
 }

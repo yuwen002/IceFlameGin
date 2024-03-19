@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	"ice_flame_gin/internal/app/models/model"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
@@ -153,8 +152,17 @@ func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRole
 	return nil
 }
 
-func (svc *sUcSystemMasterRole) ShowMasterRoleRelation(in dto.ListSystemMasterRoleInput) *system.SysResponse {
-	out, err := repositories.NewUcSystemMasterRoleRelationRepository().GetByIdHasOne(4)
+// ShowMasterRoleRelation
+//
+// @Title ShowMasterRoleRelation
+// @Description: 管理员角色关联信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 23:20:23
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMasterRole) ShowMasterRoleRelation(in dto.ListSystemMasterRoleRelationInput) *system.SysResponse {
+	out, err := repositories.NewUcSystemMasterRoleRelationRepository().GetList(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -163,10 +171,22 @@ func (svc *sUcSystemMasterRole) ShowMasterRoleRelation(in dto.ListSystemMasterRo
 		}
 	}
 
-	fmt.Println(out)
+	// 角色信息记录的数量
+	totalRecords, err := repositories.NewUcSystemMasterRoleRelationRepository().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
 	return &system.SysResponse{
 		Code:    0,
 		Message: "Success",
-		Data:    nil,
+		Data: dto.ListSystemMasterRoleRoleRelationOutput{
+			List:  out,
+			Total: totalRecords,
+		},
 	}
 }

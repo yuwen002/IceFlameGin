@@ -69,8 +69,46 @@ func (r *rUcSystemMasterRoleRelation) GetByIdHasOne(id uint32) (*association.UcS
 	associations := []string{"Role", "Master"}
 	err := db.NewGormCore().QueryWithHasOne(&relation, associations, condition, id)
 	if err != nil {
-		return nil, err
+		return nil, nil
 	}
 
 	return relation, nil
+}
+
+// GetList
+//
+// @Title GetList
+// @Description: 管理员关联角色列表信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-19 23:30:42
+// @receiver r
+// @param data
+// @return []*association.UcSystemMasterRoleRelation
+// @return error
+func (r *rUcSystemMasterRoleRelation) GetList(data dto.ListSystemMasterRoleRelationInput) ([]*association.UcSystemMasterRoleRelation, error) {
+	var relations []*association.UcSystemMasterRoleRelation
+	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+		Order:    "id desc",
+		Preload:  []string{"Master", "Role"},
+		PageType: 2,
+		Limit: db.Limit{
+			Length: data.Length,
+			Offset: data.Start,
+		},
+	}, &relations)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return relations, nil
+}
+
+func (r *rUcSystemMasterRoleRelation) CountRecords() (int64, error) {
+	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterRoleRelation).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return totalRecords, err
 }

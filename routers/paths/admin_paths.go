@@ -24,8 +24,8 @@ const (
 	AdminEditMasterRole           = "/master-role/edit"
 	AdminHandleAjaxEditMasterRole = "/master-role/ajax/edit"
 	AdminListMasterRole           = "/master-role/list"
-	AdminAjaxListMasterRole       = "/master-role/ajax/list/"
+	AdminAjaxListMasterRole       = "/master-role/ajax/list"
 
-	AdminListMasterRoleRelation           = "/master-role-relation/list/"
-	AdminHandleAjaxEditMasterRoleRelation = "/master-role-relation/ajax/list/"
+	AdminListMasterRoleRelation           = "/master-role-relation/list"
+	AdminHandleAjaxEditMasterRoleRelation = "/master-role-relation/ajax/list"
 )
