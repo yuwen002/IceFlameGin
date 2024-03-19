@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -270,6 +271,7 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRoleRelation(c *gin.Context) {
 	if err != nil {
 		length = 10
 	}
+	fmt.Println(length)
 
 	output := services.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleRelationInput{
 		Order:  "id desc",
