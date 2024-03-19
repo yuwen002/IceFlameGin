@@ -4,6 +4,6 @@ import "ice_flame_gin/internal/app/models/model"
 
 type UcSystemMasterRoleRelation struct {
 	model.UcSystemMasterRoleRelation
-	UcSystemMaster     model.UcSystemMaster     `gorm:"foreignKey:AccountID"`
-	UcSystemMasterRole model.UcSystemMasterRole `gorm:"foreignKey:AccountID"`
+	Master model.UcSystemMaster     `gorm:"references:AccountID"`
+	Role   model.UcSystemMasterRole `gorm:"foreignKey:RoleID"`
 }

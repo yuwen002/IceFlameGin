@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	"ice_flame_gin/internal/app/models/model"
 	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
@@ -149,9 +150,23 @@ func (svc *sUcSystemMasterRole) ChangeMasterRoleById(id uint32, in dto.SystemMas
 }
 
 func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRoleRelationInput) *system.SysResponse {
-
+	return nil
 }
 
 func (svc *sUcSystemMasterRole) ShowMasterRoleRelation(in dto.ListSystemMasterRoleInput) *system.SysResponse {
-	out, err := repositories.NewUcSystemMasterRoleRelationRepository().GetByIdHasOne(8)
+	out, err := repositories.NewUcSystemMasterRoleRelationRepository().GetByIdHasOne(4)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	fmt.Println(out)
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
 }

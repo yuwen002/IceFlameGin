@@ -66,7 +66,7 @@ func (r *rUcSystemMasterRoleRelation) Insert(data dto.SystemMasterRoleRelationIn
 func (r *rUcSystemMasterRoleRelation) GetByIdHasOne(id uint32) (*association.UcSystemMasterRoleRelation, error) {
 	var relation *association.UcSystemMasterRoleRelation
 	condition := "id = ?"
-	associations := []string{"Pet"}
+	associations := []string{"Role", "Master"}
 	err := db.NewGormCore().QueryWithHasOne(&relation, associations, condition, id)
 	if err != nil {
 		return nil, err

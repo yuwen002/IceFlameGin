@@ -239,7 +239,12 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 }
 
 func (ctrl *cUcSystemMasterRole) ListMasterRoleRelation(c *gin.Context) {
-	system.Render(c, "admin/system_master_role_relation/list.html", pongo2.Context{
-		"title": "用户角色关联 列表",
+	services.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleInput{
+		Order:  "id desc",
+		Start:  1,
+		Length: 2,
 	})
+	//system.Render(c, "admin/system_master_role_relation/list.html", pongo2.Context{
+	//	"title": "用户角色关联 列表",
+	//})
 }
