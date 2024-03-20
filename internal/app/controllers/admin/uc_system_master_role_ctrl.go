@@ -79,7 +79,16 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
 		system.SetOldInput(c, "remark", form.Remark)
 
 	} else {
-		system.AddFlashData(c, "添加角色信息成功", "success")
+		output := services.NewUcSystemMasterRoleService().CreateMasterRole(dto.SystemMasterRoleInput{
+			Name:   form.Name,
+			Remark: form.Remark,
+		})
+
+		if output.Code == 1 {
+			system.AddFlashData(c, output.Message, "fail")
+		} else {
+			system.AddFlashData(c, "添加角色信息成功", "success")
+		}
 	}
 
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRole)
@@ -318,7 +327,15 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 			return
 		}
 	} else {
-		system.AddFlashData(c, "添加管理员角色绑定成功", "success")
+		output := services.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
+			AccountId: form.AccountID,
+			RoleId:    form.RoleID,
+		})
+		if output.Code == 1 {
+			system.AddFlashData(c, "添加管理员角色绑定失败，数据已存在", "fail")
+		} else {
+			system.AddFlashData(c, "添加管理员角色绑定成功", "success")
+		}
 	}
 
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
