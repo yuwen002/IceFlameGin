@@ -352,3 +352,30 @@ func (g *GormCore) QueryWithHasOne(out interface{}, associations []string, condi
 	}
 	return nil
 }
+
+// GetAll
+//
+// @Title GetAll
+// @Description: 获取所有数据
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 10:50:17
+// @receiver g
+// @param out
+// @return error
+func (g *GormCore) GetAll(out interface{}) error {
+	err := g.db.Find(out).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			v := reflect.ValueOf(out)
+			if v.Kind() == reflect.Ptr && !v.IsNil() {
+				if v.Elem().Kind() == reflect.Slice && v.Elem().Len() == 0 {
+					return nil
+				}
+				v.Elem().Set(reflect.Zero(v.Elem().Type())) // 设置切片的内容为零值
+			}
+			return nil
+		}
+		return err
+	}
+	return nil
+}

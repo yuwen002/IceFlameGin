@@ -608,3 +608,33 @@ func (svc *sUcSystemMaster) ChangeMasterInfoById(in dto.ChangeMasterInfoInput) *
 		Data:    nil,
 	}
 }
+
+// ShowMasterAll
+//
+// @Title ShowMasterAll
+// @Description: 获取全部管理员信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 14:59:07
+// @receiver svc
+// @return *system.SysResponse
+func (svc *sUcSystemMaster) ShowMasterAll() *system.SysResponse {
+	output, err := repositories.NewUcSystemMasterRepository().GetAll()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	data := make(map[uint32]string)
+	for _, v := range output {
+		data[v.AccountID] = v.Name
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    data,
+	}
+}

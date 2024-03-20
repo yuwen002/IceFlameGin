@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>角色信息</h1>
+                <h1>绑定角色信息关</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-                    <li class="breadcrumb-item active">创建角色信息</li>
+                    <li class="breadcrumb-item active">创建绑定角色信息关</li>
                 </ol>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">角色信息 <small>创建</small></h3>
+                        <h3 class="card-title">绑定角色信息关 <small>创建</small></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" onclick="location.reload();">
                                 <i class="fas fa-sync-alt"></i>
@@ -42,20 +42,30 @@
                     {% endif %}
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="form-info" method="post" action="/admin/master-role/create">
+                    <form id="form-info" method="post" action="/admin/master-role-relation/create">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">角色名称</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="角色名称" value="{{ ginContext|old:'name' }}">
-                                {% if err_msg["Name"] %}
-                                <span class="text-danger">{{ err_msg["Name"] }}</span>
+                                <label for="role">角色名称</label>
+                                <select name="role_id" class="form-control select2" style="width: 100%;" id="role">
+                                    <option value="">请选择角色</option>
+                                    {% for roleID, roleName in roles %}
+                                    <option value="{{ roleID }}">{{ roleName }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if err_msg["RoleID"] %}
+                                <span class="text-danger">{{ err_msg["RoleID"] }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
-                                <label for="remark">备注</label>
-                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ ginContext|old:'remark' }}">
-                                {% if err_msg["Remark"] %}
-                                <span class="text-danger">{{ err_msg["Remark"] }}</span>
+                                <label for="master">管理员</label>
+                                <select name="account_id" class="form-control select2" style="width: 100%;" id="master">
+                                    <option value="">请选择管理员</option>
+                                    {% for masterID, masterName in masters %}
+                                    <option value="{{ masterID }}">{{ masterName }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if err_msg["AccountID"] %}
+                                <span class="text-danger">{{ err_msg["AccountID"] }}</span>
                                 {% endif %}
                             </div>
                         </div>
@@ -81,6 +91,15 @@
 {% block content_js %}
 <script>
     $(function () {
+        let accountID = '{{ form.AccountID }}';
+        if (accountID > 0) {
+            $('#role').val('{{ form.AccountID }}');
+        }
+        let roleID = '{{ form.RoleID }}'
+        if (roleID > 0) {
+            $('#role').val('{{ form.RoleID }}');
+        }
+
         $.validator.setDefaults({
             submitHandler: function (form) {
                 form.submit();
@@ -88,18 +107,24 @@
         });
         $('#form-info').validate({
             rules: {
-                name: {
+                role_id: {
                     required: true,
-                    minlength: 2,
-                    maxlength: 20
+                    digits: true
                 },
+                account_id: {
+                    required: true,
+                    digits: true
+                }
             },
             messages: {
-                name: {
-                    required: "请输入姓名",
-                    minlength: "角色名称长度不能小于2位",
-                    maxlength: "角色名称长度不能大于50位"
+                role_id: {
+                    required: "请选择角色",
+                    digits: "角色信息数据错误"
                 },
+                account_id: {
+                    required: "请选择管理员",
+                    digits: "管理员信息数据错误"
+                }
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {

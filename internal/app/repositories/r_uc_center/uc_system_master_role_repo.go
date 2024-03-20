@@ -140,3 +140,22 @@ func (repo *rUcSystemMasterRole) UpdateByID(id uint32, in *model.UcSystemMasterR
 
 	return nil
 }
+
+// GetAll
+//
+// @Title GetAll
+// @Description: 获取全部角色信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 10:46:40
+// @receiver repo
+// @return *model.UcSystemMasterRole
+// @return error
+func (repo *rUcSystemMasterRole) GetAll() ([]*model.UcSystemMasterRole, error) {
+	var role []*model.UcSystemMasterRole
+	err := db.NewGormCore().GetAll(&role)
+	if err != nil {
+		return nil, err
+	}
+
+	return role, nil
+}

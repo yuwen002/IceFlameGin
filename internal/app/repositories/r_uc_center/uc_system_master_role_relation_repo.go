@@ -104,6 +104,15 @@ func (r *rUcSystemMasterRoleRelation) GetList(data dto.ListSystemMasterRoleRelat
 	return relations, nil
 }
 
+// CountRecords
+//
+// @Title CountRecords
+// @Description: 管理员关联角色列表总条数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 17:17:10
+// @receiver r
+// @return int64
+// @return error
 func (r *rUcSystemMasterRoleRelation) CountRecords() (int64, error) {
 	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterRoleRelation).Count()
 	if err != nil {
@@ -111,4 +120,25 @@ func (r *rUcSystemMasterRoleRelation) CountRecords() (int64, error) {
 	}
 
 	return totalRecords, err
+}
+
+// GetOneByWhere
+//
+// @Title GetOneByWhere
+// @Description: 条件查询管理员角色关联
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 17:26:59
+// @receiver r
+// @param in
+// @return *model.UcSystemMasterRoleRelation
+// @return error
+func (r *rUcSystemMasterRoleRelation) GetOneByWhere(in dto.SystemMasterRoleRelationInput) (*model.UcSystemMasterRoleRelation, error) {
+	var out *model.UcSystemMasterRoleRelation
+	condition := "role_id =  ? and account_id = ?"
+	err := db.NewGormCore().QueryOne(&out, condition, in.RoleId, in.AccountId)
+	if err != nil {
+		return nil, nil
+	}
+
+	return out, nil
 }

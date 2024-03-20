@@ -148,8 +148,77 @@ func (svc *sUcSystemMasterRole) ChangeMasterRoleById(id uint32, in dto.SystemMas
 	}
 }
 
+// ShowMasterRoleAll
+//
+// @Title ShowMasterRoleAll
+// @Description:
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 11:11:57
+// @receiver svc
+// @return *system.SysResponse
+func (svc *sUcSystemMasterRole) ShowMasterRoleAll() *system.SysResponse {
+	output, err := repositories.NewUcSystemMasterRoleRepository().GetAll()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	data := make(map[uint32]string)
+	for _, v := range output {
+		data[v.ID] = v.Name
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    data,
+	}
+}
+
+// CreateMasterRoleRelation
+//
+// @Title CreateMasterRoleRelation
+// @Description: 新建管理员角色关联信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 17:30:41
+// @receiver svc
+// @param in
+// @return *system.SysResponse
 func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRoleRelationInput) *system.SysResponse {
-	return nil
+	output, err := repositories.NewUcSystemMasterRoleRelationRepository().GetOneByWhere(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if output != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "关联信息已存在",
+			Data:    nil,
+		}
+	}
+
+	err = repositories.NewUcSystemMasterRoleRelationRepository().Insert(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
 }
 
 // ShowMasterRoleRelation

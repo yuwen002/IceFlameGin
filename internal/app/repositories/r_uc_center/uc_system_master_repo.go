@@ -152,3 +152,22 @@ func (repo *rUcSystemMaster) UpdateByAccountId(id uint32, in *model.UcSystemMast
 
 	return nil
 }
+
+// GetAll
+//
+// @Title GetAll
+// @Description: 获取管理员全部信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 14:39:49
+// @receiver repo
+// @return []*model.UcSystemMaster
+// @return error
+func (repo *rUcSystemMaster) GetAll() ([]*model.UcSystemMaster, error) {
+	var systemMaster []*model.UcSystemMaster
+	err := db.NewGormCore().GetAll(&systemMaster)
+	if err != nil {
+		return nil, err
+	}
+
+	return systemMaster, nil
+}

@@ -235,8 +235,93 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRole(c *gin.Context) {
 	return
 }
 
+// CreateMasterRoleRelation
+//
+// @Title CreateMasterRoleRelation
+// @Description: 渲染创建管理员角色关联页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-20 15:29:52
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
+	// 从会话中获取成功信息
+	success := system.GetFlashedData(c, "success")
+	// 从会话中获取错误信息
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 
+	var form validators.AdminRoleRelation
+	err = system.GetDataFromFlash(c, "form", &form)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	fmt.Println("form:", form)
+
+	// 角色信息列表
+	output := services.NewUcSystemMasterRoleService().ShowMasterRoleAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	roles, ok := output.Data.(map[uint32]string)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 管理员信息列表
+	output = services.NewUcSystemMasterService().ShowMasterAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	masters, ok := output.Data.(map[uint32]string)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/system_master_role_relation/create.html", pongo2.Context{
+		"title":   "新建管理员角色关联",
+		"roles":   roles,
+		"masters": masters,
+		"success": success,
+		"err_msg": errMsg,
+		"form":    form,
+	})
+	return
+}
+
+func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) {
+	var form validators.AdminRoleRelation
+
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		errFlash = system.AddDataToFlash(c, form, "form")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+	} else {
+		system.AddFlashData(c, "添加管理员角色绑定成功", "success")
+	}
+
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
 }
 
 // ListMasterRoleRelation
