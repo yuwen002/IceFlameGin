@@ -8,6 +8,7 @@ import (
 
 func main() {
 	r := gin.Default()
+	autoload.ValidatorLoader()
 	// 注册使用组件
 	autoload.UseLoader(r)
 	// 注册模版文件

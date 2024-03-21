@@ -79,6 +79,6 @@ type AdminRole struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-20 16:17:20
 type AdminRoleRelation struct {
-	AccountID uint32 `form:"account_id" binding:"required,number,gt=0" msg:"管理员名称不能为空|管理员ID信息错误|管理员ID要大于0"`
-	RoleID    uint32 `form:"role_id" binding:"required,number,gt=0" msg:"角色名称不能为空|角色ID信息错误|角色ID要大于0"`
+	AccountID uint32 `form:"account_id" binding:"required,positive_number" msg:"管理员名称不能为空|管理员ID信息错误"`
+	RoleID    uint32 `form:"role_id" binding:"required,positive_number" msg:"角色名称不能为空|角色ID信息错误"`
 }

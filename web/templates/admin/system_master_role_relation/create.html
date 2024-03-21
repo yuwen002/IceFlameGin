@@ -40,6 +40,14 @@
                         </div>
                     </div>
                     {% endif %}
+                    {% if non_field_error %}
+                    <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
+                        <div class="color-palette-set">
+                            <div class="bg-danger color-palette text-center" style="width: 200px;">
+                                <span>{{ non_field_error }}</span></div>
+                        </div>
+                    </div>
+                    {% endif %}
                     {% if success %}
                     <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
                         <div class="color-palette-set">
@@ -54,8 +62,8 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="role">角色名称</label>
-                                <select name="role_id" class="form-control select2" style="width: 100%;" id="role">
-                                    <option value="">请选择角色</option>
+                                <select name="role_id" class="form-control select2" style="width:100%;" id="role">
+                                    <option value="-1">请选择角色</option>
                                     {% for roleID, roleName in roles %}
                                     <option value="{{ roleID }}">{{ roleName }}</option>
                                     {% endfor %}
@@ -66,7 +74,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="master">管理员</label>
-                                <select name="account_id" class="form-control select2" style="width: 100%;" id="master">
+                                <select name="account_id" class="form-control select2" style="width:100%;" id="master">
                                     <option value="">请选择管理员</option>
                                     {% for masterID, masterName in masters %}
                                     <option value="{{ masterID }}">{{ masterName }}</option>
@@ -98,54 +106,54 @@
 {% endblock %}
 {% block content_js %}
 <script>
-    $(function () {
-        let accountID = '{{ form.AccountID }}';
-        if (accountID > 0) {
-            $('#role').val('{{ form.AccountID }}');
-        }
-        let roleID = '{{ form.RoleID }}'
-        if (roleID > 0) {
-            $('#role').val('{{ form.RoleID }}');
-        }
-
-        $.validator.setDefaults({
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-        $('#form-info').validate({
-            rules: {
-                role_id: {
-                    required: true,
-                    digits: true
-                },
-                account_id: {
-                    required: true,
-                    digits: true
-                }
-            },
-            messages: {
-                role_id: {
-                    required: "请选择角色",
-                    digits: "角色信息数据错误"
-                },
-                account_id: {
-                    required: "请选择管理员",
-                    digits: "管理员信息数据错误"
-                }
-            },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-            }
-        });
-    });
+    // $(function () {
+    //     let accountID = '{{ form.AccountID }}';
+    //     if (accountID > 0) {
+    //         $('#role').val('{{ form.AccountID }}');
+    //     }
+    //     let roleID = '{{ form.RoleID }}'
+    //     if (roleID > 0) {
+    //         $('#role').val('{{ form.RoleID }}');
+    //     }
+    //
+    //     $.validator.setDefaults({
+    //         submitHandler: function (form) {
+    //             form.submit();
+    //         }
+    //     });
+    //     $('#form-info').validate({
+    //         rules: {
+    //             role_id: {
+    //                 required: true,
+    //                 digits: true
+    //             },
+    //             account_id: {
+    //                 required: true,
+    //                 digits: true
+    //             }
+    //         },
+    //         messages: {
+    //             role_id: {
+    //                 required: "请选择角色",
+    //                 digits: "角色信息数据错误"
+    //             },
+    //             account_id: {
+    //                 required: "请选择管理员",
+    //                 digits: "管理员信息数据错误"
+    //             }
+    //         },
+    //         errorElement: 'span',
+    //         errorPlacement: function (error, element) {
+    //             error.addClass('invalid-feedback');
+    //             element.closest('.form-group').append(error);
+    //         },
+    //         highlight: function (element, errorClass, validClass) {
+    //             $(element).addClass('is-invalid');
+    //         },
+    //         unhighlight: function (element, errorClass, validClass) {
+    //             $(element).removeClass('is-invalid');
+    //         }
+    //     });
+    // });
 </script>
 {% endblock %}
