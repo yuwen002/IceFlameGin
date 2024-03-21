@@ -1,10 +1,8 @@
 package system
 
 import (
-	"fmt"
 	"github.com/go-playground/validator/v10"
 	"reflect"
-	"strconv"
 	"strings"
 )
 
@@ -117,31 +115,4 @@ func GetCustomErrorMsg(fieldName string, tagName string, form interface{}) strin
 
 	// 默认返回默认错误消息
 	return tagName
-}
-
-// PositiveInt
-//
-// @Title PositiveInt
-// @Description: 验证是否为正整数的自定义验证函数
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-03-21 10:38:45
-// @param fl
-// @return bool
-func PositiveInt(fl validator.FieldLevel) bool {
-	field := fl.Field()
-	fmt.Println(field)
-	switch field.Kind() {
-	case reflect.String:
-		val, err := strconv.Atoi(field.String())
-		if err != nil {
-			return false
-		}
-		return val > 0
-	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		return field.Int() > 0
-	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		return field.Uint() > 0
-	default:
-		return false
-	}
 }

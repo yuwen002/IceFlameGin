@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
@@ -314,8 +313,6 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 	var form validators.AdminRoleRelation
 
 	if err := c.ShouldBind(&form); err != nil {
-		fmt.Println("err:", err)
-		fmt.Println("form:", form)
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
@@ -389,7 +386,6 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRoleRelation(c *gin.Context) {
 	if err != nil {
 		length = 10
 	}
-	fmt.Println(length)
 
 	output := services.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleRelationInput{
 		Order:  "id desc",
