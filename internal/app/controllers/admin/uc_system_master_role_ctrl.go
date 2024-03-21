@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	"ice_flame_gin/internal/app/models/model"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
@@ -259,7 +258,6 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 
 	// 从会话中获取错误信息
 	nonFieldError := system.GetFlashedData(c, "non_field_error")
-	fmt.Println("non", nonFieldError)
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
 	if err != nil {
@@ -315,7 +313,9 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) {
 	var form validators.AdminRoleRelation
 
-	if err := c.ShouldBindWith(&form, binding.Query); err != nil {
+	if err := c.ShouldBind(&form); err != nil {
+		fmt.Println("err:", err)
+		fmt.Println("form:", form)
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
@@ -335,9 +335,17 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 			}
 		}
 	} else {
+		accountID, errUint := utils.ToUint32(form.AccountID)
+		if errUint != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		roleID, errUint := utils.ToUint32(form.RoleID)
+
 		output := services.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
-			AccountId: form.AccountID,
-			RoleId:    form.RoleID,
+			AccountId: accountID,
+			RoleId:    roleID,
 		})
 		if output.Code == 1 {
 			system.AddFlashData(c, "添加管理员角色绑定失败", "fail")
@@ -346,7 +354,7 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 		}
 	}
 
-	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
+	//system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
 }
 
 // ListMasterRoleRelation

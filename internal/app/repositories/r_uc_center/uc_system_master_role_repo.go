@@ -114,8 +114,7 @@ func (repo *rUcSystemMasterRole) GetById(id uint32) (*model.UcSystemMasterRole, 
 	if err != nil {
 		return nil, err
 	}
-
-	if role.ID == 0 {
+	if role == nil {
 		return nil, nil
 	}
 

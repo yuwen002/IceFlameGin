@@ -56,17 +56,17 @@ func (repo *rUcAccount) GetById(id uint32) (out *model.UcAccount, err error) {
 // @return *r_uc_center.UcAccount
 // @return error
 func (repo *rUcAccount) GetAccountByTel(tel string) (*model.UcAccount, error) {
-	var account model.UcAccount
+	var account *model.UcAccount
 	condition := "username = ?"
 	err := db.NewGormCore().QueryOne(&account, condition, tel)
 	if err != nil {
 		return nil, err
 	}
 
-	if account.ID == 0 {
+	if account == nil {
 		return nil, nil
 	}
-	return &account, nil
+	return account, nil
 }
 
 // UpdatePasswordById

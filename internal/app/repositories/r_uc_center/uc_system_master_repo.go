@@ -95,18 +95,18 @@ func (repo *rUcSystemMaster) Insert(data dto.RegisterSystemMasterInput) error {
 // @return *models.UcSystemMaster
 // @return error
 func (repo *rUcSystemMaster) GetByEmail(email string) (*model.UcSystemMaster, error) {
-	var systemMaster model.UcSystemMaster
+	var systemMaster *model.UcSystemMaster
 	condition := "email = ?"
 	err := db.NewGormCore().QueryOne(&systemMaster, condition, email)
 	if err != nil {
 		return nil, err
 	}
 
-	if systemMaster.ID == 0 {
+	if systemMaster == nil {
 		return nil, nil
 	}
 
-	return &systemMaster, nil
+	return systemMaster, nil
 }
 
 // GetByAccountId
@@ -127,7 +127,7 @@ func (repo *rUcSystemMaster) GetByAccountId(AccountID uint32) (*model.UcSystemMa
 		return nil, err
 	}
 
-	if systemMaster.ID == 0 {
+	if systemMaster == nil {
 		return nil, nil
 	}
 
