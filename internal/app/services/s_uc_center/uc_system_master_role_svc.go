@@ -205,6 +205,39 @@ func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRole
 		}
 	}
 
+	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(in.AccountId)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if master == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "管理员信息不存在",
+			Data:    nil,
+		}
+	}
+
+	role, err := repositories.NewUcSystemMasterRoleRepository().GetById(in.RoleId)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if role == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "角色信息不存在",
+			Data:    nil,
+		}
+	}
 	err = repositories.NewUcSystemMasterRoleRelationRepository().Insert(in)
 	if err != nil {
 		return &system.SysResponse{

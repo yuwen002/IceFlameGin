@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	dto "ice_flame_gin/internal/app/dto/d_uc_center"
 	"ice_flame_gin/internal/app/models/model"
 	services "ice_flame_gin/internal/app/services/s_uc_center"
@@ -314,7 +315,7 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) {
 	var form validators.AdminRoleRelation
 
-	if err := c.ShouldBind(&form); err != nil {
+	if err := c.ShouldBindWith(&form, binding.Query); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
@@ -334,18 +335,18 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 			}
 		}
 	} else {
-		//output := services.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
-		//	AccountId: form.AccountID,
-		//	RoleId:    form.RoleID,
-		//})
-		//if output.Code == 1 {
-		//	system.AddFlashData(c, "添加管理员角色绑定失败，数据已存在", "fail")
-		//} else {
-		//	system.AddFlashData(c, "添加管理员角色绑定成功", "success")
-		//}
+		output := services.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
+			AccountId: form.AccountID,
+			RoleId:    form.RoleID,
+		})
+		if output.Code == 1 {
+			system.AddFlashData(c, "添加管理员角色绑定失败", "fail")
+		} else {
+			system.AddFlashData(c, "添加管理员角色绑定成功", "success")
+		}
 	}
 
-	//system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
 }
 
 // ListMasterRoleRelation
