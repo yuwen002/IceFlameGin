@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
-	services2 "ice_flame_gin/internal/app/services"
+	"ice_flame_gin/internal/app/services"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
@@ -81,7 +81,7 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
 		system.SetOldInput(c, "remark", form.Remark)
 
 	} else {
-		output := services2.NewUcSystemMasterRoleService().CreateMasterRole(dto.SystemMasterRoleInput{
+		output := services.NewUcSystemMasterRoleService().CreateMasterRole(dto.SystemMasterRoleInput{
 			Name:   form.Name,
 			Remark: form.Remark,
 		})
@@ -130,7 +130,7 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
 		length = 10
 	}
 
-	output := services2.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
+	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
 		Order:  "id desc",
 		Start:  start,
 		Length: length,
@@ -171,7 +171,7 @@ func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
 		return
 	}
 
-	output := services2.NewUcSystemMasterRoleService().GetMasterRoleById(uint32ID)
+	output := services.NewUcSystemMasterRoleService().GetMasterRoleById(uint32ID)
 	if output.Code == 1 {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -187,7 +187,7 @@ func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
 	system.Render(c, "admin/system_master_role/edit.html", pongo2.Context{
 		"title": "编辑用户角色页面",
 		"role":  role,
-		"id":    id,
+		"id":    uint32ID,
 	})
 }
 
@@ -224,7 +224,7 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRole(c *gin.Context) {
 		return
 	}
 	// 根据 ID 更新用户角色信息
-	output := services2.NewUcSystemMasterRoleService().ChangeMasterRoleById(uint32ID, dto.SystemMasterRoleInput{
+	output := services.NewUcSystemMasterRoleService().ChangeMasterRoleById(uint32ID, dto.SystemMasterRoleInput{
 		Name:   form.Name,
 		Remark: form.Remark,
 	})
@@ -276,7 +276,7 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 	}
 
 	// 角色信息列表
-	output := services2.NewUcSystemMasterRoleService().ShowMasterRoleAll()
+	output := services.NewUcSystemMasterRoleService().ShowMasterRoleAll()
 	if output.Code == 1 {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -289,7 +289,7 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 	}
 
 	// 管理员信息列表
-	output = services2.NewUcSystemMasterService().ShowMasterAll()
+	output = services.NewUcSystemMasterService().ShowMasterAll()
 	if output.Code == 1 {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -352,8 +352,12 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 		}
 
 		roleID, errUint := utils.ToUint32(form.RoleID)
+		if errUint != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
 
-		output := services2.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
+		output := services.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
 			AccountId: accountID,
 			RoleId:    roleID,
 		})
@@ -402,7 +406,7 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRoleRelation(c *gin.Context) {
 		length = 10
 	}
 
-	output := services2.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleRelationInput{
+	output := services.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleRelationInput{
 		Order:  "id desc",
 		Start:  start,
 		Length: length,
@@ -421,4 +425,149 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRoleRelation(c *gin.Context) {
 		"recordsFiltered": data.Total,
 	})
 
+}
+
+// EditMasterRoleRelation
+//
+// @Title EditMasterRoleRelation
+// @Description: 渲染管理员角色关联页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-22 16:56:26
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMasterRole) EditMasterRoleRelation(c *gin.Context) {
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 角色信息列表
+	output := services.NewUcSystemMasterRoleService().ShowMasterRoleAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	roles, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 管理员信息列表
+	output = services.NewUcSystemMasterService().ShowMasterAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	masters, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output = services.NewUcSystemMasterRoleService().GetMasterRoleRelationById(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	relation, ok := output.Data.(*model.UcSystemMasterRoleRelation)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	fmt.Println(relation)
+
+	// 渲染编辑用户角色页面
+	system.Render(c, "admin/system_master_role_relation/edit.html", pongo2.Context{
+		"title":    "编辑用户角色页面",
+		"roles":    roles,
+		"masters":  masters,
+		"id":       uint32ID,
+		"relation": relation,
+	})
+}
+
+// HandleAjaxEditMasterRoleRelation
+//
+// @Title HandleAjaxEditMasterRoleRelation
+// @Description: Ajax处理编辑管理员角色绑定请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-22 17:30:09
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRoleRelation(c *gin.Context) {
+	// 获取要编辑的用户角色ID
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	var form validators.AdminRoleRelation
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+
+	accountID, errUint := utils.ToUint32(form.AccountID)
+	if errUint != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: errUint.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	roleID, errUint := utils.ToUint32(form.RoleID)
+	if errUint != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: errUint.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	// 根据 ID 更新用户角色信息
+	output := services.NewUcSystemMasterRoleService().ChangeMasterRoleRelationById(uint32ID, dto.SystemMasterRoleRelationInput{
+		AccountId: accountID,
+		RoleId:    roleID,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }

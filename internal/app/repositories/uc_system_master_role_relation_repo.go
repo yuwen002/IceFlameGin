@@ -40,7 +40,7 @@ func NewUcSystemMasterRoleRelationRepository() *rUcSystemMasterRoleRelation {
 // @receiver r
 // @param data
 // @return error
-func (r *rUcSystemMasterRoleRelation) Insert(data dto.SystemMasterRoleRelationInput) error {
+func (repo *rUcSystemMasterRoleRelation) Insert(data dto.SystemMasterRoleRelationInput) error {
 	err := db.NewGormCore().Insert(&model.UcSystemMasterRoleRelation{
 		AccountID: data.AccountId,
 		RoleID:    data.RoleId,
@@ -53,6 +53,27 @@ func (r *rUcSystemMasterRoleRelation) Insert(data dto.SystemMasterRoleRelationIn
 	return nil
 }
 
+// GetById
+//
+// @Title GetById
+// @Description: 按ID获取管理员关联角色信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-22 17:05:31
+// @receiver r
+// @param id
+// @return *model.UcSystemMasterRoleRelation
+// @return error
+func (repo *rUcSystemMasterRoleRelation) GetById(id uint32) (*model.UcSystemMasterRoleRelation, error) {
+	var relation *model.UcSystemMasterRoleRelation
+	condition := "id = ?"
+	err := db.NewGormCore().QueryOne(&relation, condition, id)
+	if err != nil {
+		return nil, nil
+	}
+
+	return relation, nil
+}
+
 // GetByIdHasOne
 //
 // @Title GetByIdHasOne
@@ -63,7 +84,7 @@ func (r *rUcSystemMasterRoleRelation) Insert(data dto.SystemMasterRoleRelationIn
 // @param id
 // @return *association.UcSystemMasterRoleRelation
 // @return error
-func (r *rUcSystemMasterRoleRelation) GetByIdHasOne(id uint32) (*association.UcSystemMasterRoleRelation, error) {
+func (repo *rUcSystemMasterRoleRelation) GetByIdHasOne(id uint32) (*association.UcSystemMasterRoleRelation, error) {
 	var relation *association.UcSystemMasterRoleRelation
 	condition := "id = ?"
 	associations := []string{"Role", "Master"}
@@ -85,7 +106,7 @@ func (r *rUcSystemMasterRoleRelation) GetByIdHasOne(id uint32) (*association.UcS
 // @param data
 // @return []*association.UcSystemMasterRoleRelation
 // @return error
-func (r *rUcSystemMasterRoleRelation) GetList(data dto.ListSystemMasterRoleRelationInput) ([]*association.UcSystemMasterRoleRelation, error) {
+func (repo *rUcSystemMasterRoleRelation) GetList(data dto.ListSystemMasterRoleRelationInput) ([]*association.UcSystemMasterRoleRelation, error) {
 	var relations []*association.UcSystemMasterRoleRelation
 	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Order:    "id desc",
@@ -113,7 +134,7 @@ func (r *rUcSystemMasterRoleRelation) GetList(data dto.ListSystemMasterRoleRelat
 // @receiver r
 // @return int64
 // @return error
-func (r *rUcSystemMasterRoleRelation) CountRecords() (int64, error) {
+func (repo *rUcSystemMasterRoleRelation) CountRecords() (int64, error) {
 	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterRoleRelation).Count()
 	if err != nil {
 		return 0, err
@@ -122,9 +143,9 @@ func (r *rUcSystemMasterRoleRelation) CountRecords() (int64, error) {
 	return totalRecords, err
 }
 
-// GetOneByWhere
+// GetOneByRoleIdAndAccountId
 //
-// @Title GetOneByWhere
+// @Title GetOneByRoleIdAndAccountId
 // @Description: 条件查询管理员角色关联
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-20 17:26:59
@@ -132,7 +153,7 @@ func (r *rUcSystemMasterRoleRelation) CountRecords() (int64, error) {
 // @param in
 // @return *model.UcSystemMasterRoleRelation
 // @return error
-func (r *rUcSystemMasterRoleRelation) GetOneByWhere(in dto.SystemMasterRoleRelationInput) (*model.UcSystemMasterRoleRelation, error) {
+func (repo *rUcSystemMasterRoleRelation) GetOneByRoleIdAndAccountId(in dto.SystemMasterRoleRelationInput) (*model.UcSystemMasterRoleRelation, error) {
 	var out *model.UcSystemMasterRoleRelation
 	condition := "role_id =  ? and account_id = ?"
 	err := db.NewGormCore().QueryOne(&out, condition, in.RoleId, in.AccountId)
@@ -141,4 +162,23 @@ func (r *rUcSystemMasterRoleRelation) GetOneByWhere(in dto.SystemMasterRoleRelat
 	}
 
 	return out, nil
+}
+
+// UpdateByID
+//
+// @Title UpdateByID
+// @Description: 按ID更改管理员角色关联
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-22 17:44:49
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *rUcSystemMasterRoleRelation) UpdateByID(id uint32, in *model.UcSystemMasterRoleRelation) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

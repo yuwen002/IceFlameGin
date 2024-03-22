@@ -9,7 +9,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-                    <li class="breadcrumb-item active">创建绑定角色信息关</li>
+                    <li class="breadcrumb-item active">编辑绑定角色信息关</li>
                 </ol>
             </div>
         </div>
@@ -25,40 +25,16 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">绑定角色信息关 <small>创建</small></h3>
+                        <h3 class="card-title">绑定角色信息关 <small>编辑</small></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" onclick="location.reload();">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                         </div>
                     </div>
-                    {% if fail %}
-                    <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
-                        <div class="color-palette-set">
-                            <div class="bg-danger color-palette text-center" style="width: 200px;">
-                                <span>{{ fail }}</span></div>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% if non_field_error %}
-                    <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
-                        <div class="color-palette-set">
-                            <div class="bg-danger color-palette text-center" style="width: 200px;">
-                                <span>{{ non_field_error }}</span></div>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% if success %}
-                    <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
-                        <div class="color-palette-set">
-                            <div class="bg-success color-palette text-center" style="width: 200px;">
-                                <span>{{ success }}</span></div>
-                        </div>
-                    </div>
-                    {% endif %}
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="form-info" method="post" action="/admin/master-role-relation/create">
+                    <form id="form-info" method="post" action="/admin/master-role-relation/ajax/edit?id={{ id }">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="role">角色名称</label>
@@ -87,7 +63,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">提交信息</button>
+                            <button type="submit" id="submit-btn" class="btn btn-primary">提交信息</button>
                         </div>
                     </form>
                 </div>
@@ -107,18 +83,17 @@
 {% block content_js %}
 <script>
     $(function () {
-        let accountID = '{{ form.AccountID }}';
+        let accountID = '{{ relation.AccountID }}';
         if (accountID > 0) {
-            $('#master').val('{{ form.AccountID }}');
+            $('#master').val('{{ relation.AccountID }}');
         }
-        let roleID = '{{ form.RoleID }}'
+        let roleID = '{{ relation.RoleID }}'
         if (roleID > 0) {
-            $('#role').val('{{ form.RoleID }}');
+            $('#role').val('{{ relation.RoleID }}');
         }
 
         $.validator.setDefaults({
             submitHandler: function (form) {
-                form.submit();
             }
         });
         $('#form-info').validate({
@@ -152,6 +127,48 @@
             },
             unhighlight: function (element, errorClass, validClass) {
                 $(element).removeClass('is-invalid');
+            }
+        });
+
+        $('#submit-btn').click(function () {
+            if ($('#master-info').valid()) {
+                $.ajax({
+                    url: '/admin/master-role-relation/ajax/edit?id={{ id }}',
+                    type: 'POST',
+                    data: $('#master-info').serialize(),
+                    success: function (response) {
+                        let messageOpts = {
+                            "closeButton": true,// 是否显示关闭按钮
+                            "progressBar":true,// 是否显示进度条
+                            "positionClass": "toast-top-center",// 弹出窗的位置
+                            "showDuration": "1000",// 显示的动画时间
+                            "hideDuration": "1000",// 消失的动画时间
+                            "timeOut": "6000",// 弹窗展现时间
+                            "showEasing": "swing",//显示时的动画缓冲方式
+                            "hideEasing": "linear",//消失时的动画缓冲方式
+                            "showMethod": "fadeIn",//显示时的动画方式
+                            "hideMethod": "fadeOut", //消失时的动画方式
+                        };
+                        toastr.options = messageOpts;
+                        if (response.code === 0) {
+                            // 修改成功时的处理逻辑
+                            toastr.success("恭喜，修改角色信息成功！", "成功")
+                            hideModalAndRefreshData();
+                        } else {
+                            // 失败时的处理逻辑
+                            // 可以显示错误消息等
+                            if (response.code === 2) {
+                                for (let key in response.data) {
+                                    toastr.error(response.data[key], "错误")
+                                    break;
+                                }
+                            } else {
+                                toastr.error(response.message, "错误")
+                                hideModalAndRefreshData();
+                            }
+                        }
+                    }
+                });
             }
         });
     });
