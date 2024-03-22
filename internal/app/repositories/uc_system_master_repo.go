@@ -4,7 +4,7 @@ import (
 	"errors"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
-	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
 )
 

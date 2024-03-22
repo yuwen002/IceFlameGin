@@ -63,9 +63,9 @@
                             <div class="form-group">
                                 <label for="role">角色名称</label>
                                 <select name="role_id" class="form-control select2" style="width:100%;" id="role">
-                                    <option value="100.5">请选择角色</option>
-                                    {% for roleID, roleName in roles %}
-                                    <option value="{{ roleID }}">{{ roleName }}</option>
+                                    <option value="">请选择角色</option>
+                                    {% for role in roles %}
+                                    <option value="{{ role.Key }}">{{ role.Value }}</option>
                                     {% endfor %}
                                 </select>
                                 {% if err_msg["RoleID"] %}
@@ -76,8 +76,8 @@
                                 <label for="master">管理员</label>
                                 <select name="account_id" class="form-control select2" style="width:100%;" id="master">
                                     <option value="">请选择管理员</option>
-                                    {% for masterID, masterName in masters %}
-                                    <option value="{{ masterID }}">{{ masterName }}</option>
+                                    {% for master in masters %}
+                                    <option value="{{ master.Key }}">{{ master.Value }}</option>
                                     {% endfor %}
                                 </select>
                                 {% if err_msg["AccountID"] %}

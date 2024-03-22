@@ -1,9 +1,9 @@
 package services
 
 import (
-	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
-	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
+	repositories2 "ice_flame_gin/internal/app/repositories"
 	"ice_flame_gin/internal/system"
 )
 
@@ -36,7 +36,7 @@ func NewUcSystemMasterRoleService() *sUcSystemMasterRole {
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) CreateMasterRole(in dto.SystemMasterRoleInput) *system.SysResponse {
-	err := repositories.NewUcSystemMasterRoleRepository().Insert(in)
+	err := repositories2.NewUcSystemMasterRoleRepository().Insert(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -63,7 +63,7 @@ func (svc *sUcSystemMasterRole) CreateMasterRole(in dto.SystemMasterRoleInput) *
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.ListSystemMasterRoleInput) *system.SysResponse {
 	// 角色信息数据列表
-	out, err := repositories.NewUcSystemMasterRoleRepository().GetList(in)
+	out, err := repositories2.NewUcSystemMasterRoleRepository().GetList(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -73,7 +73,7 @@ func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.ListSystemMasterRoleInput)
 	}
 
 	// 角色信息记录的数量
-	totalRecords, err := repositories.NewUcSystemMasterRoleRepository().CountRecords()
+	totalRecords, err := repositories2.NewUcSystemMasterRoleRepository().CountRecords()
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -101,7 +101,7 @@ func (svc *sUcSystemMasterRole) ShowMasterRole(in dto.ListSystemMasterRoleInput)
 // @param id
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) GetMasterRoleById(id uint32) *system.SysResponse {
-	out, err := repositories.NewUcSystemMasterRoleRepository().GetById(id)
+	out, err := repositories2.NewUcSystemMasterRoleRepository().GetById(id)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -129,7 +129,7 @@ func (svc *sUcSystemMasterRole) GetMasterRoleById(id uint32) *system.SysResponse
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) ChangeMasterRoleById(id uint32, in dto.SystemMasterRoleInput) *system.SysResponse {
 	// 根据ID更新角色信息
-	err := repositories.NewUcSystemMasterRoleRepository().UpdateByID(id, &model.UcSystemMasterRole{
+	err := repositories2.NewUcSystemMasterRoleRepository().UpdateByID(id, &model.UcSystemMasterRole{
 		Name:   in.Name,
 		Remark: in.Remark,
 	})
@@ -157,7 +157,7 @@ func (svc *sUcSystemMasterRole) ChangeMasterRoleById(id uint32, in dto.SystemMas
 // @receiver svc
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) ShowMasterRoleAll() *system.SysResponse {
-	output, err := repositories.NewUcSystemMasterRoleRepository().GetAll()
+	output, err := repositories2.NewUcSystemMasterRoleRepository().GetAll()
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -166,9 +166,14 @@ func (svc *sUcSystemMasterRole) ShowMasterRoleAll() *system.SysResponse {
 		}
 	}
 
-	data := make(map[uint32]string)
+	var data []*dto.SelectOptionOutput
 	for _, v := range output {
-		data[v.ID] = v.Name
+		d := dto.SelectOptionOutput{
+			Key:   v.ID,
+			Value: v.Name,
+		}
+
+		data = append(data, &d)
 	}
 
 	return &system.SysResponse{
@@ -188,7 +193,7 @@ func (svc *sUcSystemMasterRole) ShowMasterRoleAll() *system.SysResponse {
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRoleRelationInput) *system.SysResponse {
-	output, err := repositories.NewUcSystemMasterRoleRelationRepository().GetOneByWhere(in)
+	output, err := repositories2.NewUcSystemMasterRoleRelationRepository().GetOneByWhere(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -205,7 +210,7 @@ func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRole
 		}
 	}
 
-	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(in.AccountId)
+	master, err := repositories2.NewUcSystemMasterRepository().GetByAccountId(in.AccountId)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -222,7 +227,7 @@ func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRole
 		}
 	}
 
-	role, err := repositories.NewUcSystemMasterRoleRepository().GetById(in.RoleId)
+	role, err := repositories2.NewUcSystemMasterRoleRepository().GetById(in.RoleId)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -238,7 +243,7 @@ func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRole
 			Data:    nil,
 		}
 	}
-	err = repositories.NewUcSystemMasterRoleRelationRepository().Insert(in)
+	err = repositories2.NewUcSystemMasterRoleRelationRepository().Insert(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -264,7 +269,7 @@ func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRole
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) ShowMasterRoleRelation(in dto.ListSystemMasterRoleRelationInput) *system.SysResponse {
-	out, err := repositories.NewUcSystemMasterRoleRelationRepository().GetList(in)
+	out, err := repositories2.NewUcSystemMasterRoleRelationRepository().GetList(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -274,7 +279,7 @@ func (svc *sUcSystemMasterRole) ShowMasterRoleRelation(in dto.ListSystemMasterRo
 	}
 
 	// 角色信息记录的数量
-	totalRecords, err := repositories.NewUcSystemMasterRoleRelationRepository().CountRecords()
+	totalRecords, err := repositories2.NewUcSystemMasterRoleRelationRepository().CountRecords()
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,

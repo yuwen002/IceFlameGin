@@ -1,7 +1,6 @@
 package autoload
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
 	"ice_flame_gin/internal/pkg/utils"
@@ -27,7 +26,6 @@ func ValidatorLoader() {
 // @return bool
 func PositiveInt(fl validator.FieldLevel) bool {
 	field := fl.Field().Interface()
-	fmt.Println(field)
 	v, err := utils.ToUint32(field)
 	if err != nil {
 		return false

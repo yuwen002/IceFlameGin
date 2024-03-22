@@ -1,11 +1,12 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
-	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
-	services "ice_flame_gin/internal/app/services/s_uc_center"
+	services2 "ice_flame_gin/internal/app/services"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
@@ -38,6 +39,7 @@ var UcSystemMasterRole = cUcSystemMasterRole{
 func (ctrl *cUcSystemMasterRole) CreateMasterRole(c *gin.Context) {
 	// 从会话中获取成功信息
 	success := system.GetFlashedData(c, "success")
+	fail := system.GetFlashedData(c, "fail")
 	// 从会话中获取错误信息
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
@@ -49,6 +51,7 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRole(c *gin.Context) {
 	system.Render(c, "admin/system_master_role/create.html", pongo2.Context{
 		"title":   "创建用户角色",
 		"success": success,
+		"fail":    fail,
 		"err_msg": errMsg,
 	})
 	return
@@ -78,7 +81,7 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
 		system.SetOldInput(c, "remark", form.Remark)
 
 	} else {
-		output := services.NewUcSystemMasterRoleService().CreateMasterRole(dto.SystemMasterRoleInput{
+		output := services2.NewUcSystemMasterRoleService().CreateMasterRole(dto.SystemMasterRoleInput{
 			Name:   form.Name,
 			Remark: form.Remark,
 		})
@@ -127,7 +130,7 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRole(c *gin.Context) {
 		length = 10
 	}
 
-	output := services.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
+	output := services2.NewUcSystemMasterRoleService().ShowMasterRole(dto.ListSystemMasterRoleInput{
 		Order:  "id desc",
 		Start:  start,
 		Length: length,
@@ -168,7 +171,7 @@ func (ctrl *cUcSystemMasterRole) EditMasterRole(c *gin.Context) {
 		return
 	}
 
-	output := services.NewUcSystemMasterRoleService().GetMasterRoleById(uint32ID)
+	output := services2.NewUcSystemMasterRoleService().GetMasterRoleById(uint32ID)
 	if output.Code == 1 {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -221,7 +224,7 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRole(c *gin.Context) {
 		return
 	}
 	// 根据 ID 更新用户角色信息
-	output := services.NewUcSystemMasterRoleService().ChangeMasterRoleById(uint32ID, dto.SystemMasterRoleInput{
+	output := services2.NewUcSystemMasterRoleService().ChangeMasterRoleById(uint32ID, dto.SystemMasterRoleInput{
 		Name:   form.Name,
 		Remark: form.Remark,
 	})
@@ -256,6 +259,7 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 	success := system.GetFlashedData(c, "success")
 
 	// 从会话中获取错误信息
+	fail := system.GetFlashedData(c, "fail")
 	nonFieldError := system.GetFlashedData(c, "non_field_error")
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
@@ -272,26 +276,26 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 	}
 
 	// 角色信息列表
-	output := services.NewUcSystemMasterRoleService().ShowMasterRoleAll()
+	output := services2.NewUcSystemMasterRoleService().ShowMasterRoleAll()
 	if output.Code == 1 {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
-	roles, ok := output.Data.(map[uint32]string)
+	roles, ok := output.Data.([]*dto.SelectOptionOutput)
 	if !ok {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
 	// 管理员信息列表
-	output = services.NewUcSystemMasterService().ShowMasterAll()
+	output = services2.NewUcSystemMasterService().ShowMasterAll()
 	if output.Code == 1 {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
-	masters, ok := output.Data.(map[uint32]string)
+	masters, ok := output.Data.([]*dto.SelectOptionOutput)
 	if !ok {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -302,6 +306,7 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 		"roles":           roles,
 		"masters":         masters,
 		"success":         success,
+		"fail":            fail,
 		"non_field_error": nonFieldError,
 		"err_msg":         errMsg,
 		"form":            form,
@@ -309,6 +314,14 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 	return
 }
 
+// HandleCreateMasterRoleRelation
+//
+// @Title HandleCreateMasterRoleRelation
+// @Description: 渲染创建管理员角色关联处理页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-22 11:22:36
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) {
 	var form validators.AdminRoleRelation
 
@@ -340,10 +353,12 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 
 		roleID, errUint := utils.ToUint32(form.RoleID)
 
-		output := services.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
+		output := services2.NewUcSystemMasterRoleService().CreateMasterRoleRelation(dto.SystemMasterRoleRelationInput{
 			AccountId: accountID,
 			RoleId:    roleID,
 		})
+
+		fmt.Println(output.Data)
 		if output.Code == 1 {
 			system.AddFlashData(c, "添加管理员角色绑定失败", "fail")
 		} else {
@@ -351,7 +366,7 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 		}
 	}
 
-	//system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
 }
 
 // ListMasterRoleRelation
@@ -387,7 +402,7 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRoleRelation(c *gin.Context) {
 		length = 10
 	}
 
-	output := services.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleRelationInput{
+	output := services2.NewUcSystemMasterRoleService().ShowMasterRoleRelation(dto.ListSystemMasterRoleRelationInput{
 		Order:  "id desc",
 		Start:  start,
 		Length: length,

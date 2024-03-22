@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/config"
 	"ice_flame_gin/internal/app/constants"
-	dto "ice_flame_gin/internal/app/dto/d_uc_center"
+	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
-	repositories "ice_flame_gin/internal/app/repositories/r_uc_center"
+	repositories2 "ice_flame_gin/internal/app/repositories"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
 	"sync"
@@ -54,7 +54,7 @@ func NewUcSystemMasterService() *sUcSystemMaster {
 // @return *system.ApiResponse
 func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMasterInput) *system.SysResponse {
 	tel := svc.prefix + in.Tel
-	out, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
+	out, err := repositories2.NewUcAccountRepository().GetAccountByTel(tel)
 
 	if err != nil {
 		return &system.SysResponse{
@@ -81,7 +81,7 @@ func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMaster
 	}
 
 	// 查询管理员其他信息
-	outExt, err := repositories.NewUcSystemMasterRepository().GetByAccountId(out.ID)
+	outExt, err := repositories2.NewUcSystemMasterRepository().GetByAccountId(out.ID)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -132,7 +132,7 @@ func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMaster
 func (svc *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.SysResponse {
 	// 查询电话号是否被注册
 	tel := "SA_" + in.Tel
-	telAccount, err := repositories.NewUcAccountRepository().GetAccountByTel(tel)
+	telAccount, err := repositories2.NewUcAccountRepository().GetAccountByTel(tel)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -149,7 +149,7 @@ func (svc *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.S
 	}
 
 	//  查询email是否被使用
-	emailSystemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(in.Email)
+	emailSystemMaster, err := repositories2.NewUcSystemMasterRepository().GetByEmail(in.Email)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -176,7 +176,7 @@ func (svc *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.S
 		}
 	}
 
-	err = repositories.NewUcSystemMasterRepository().Insert(in)
+	err = repositories2.NewUcSystemMasterRepository().Insert(in)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -203,7 +203,7 @@ func (svc *sUcSystemMaster) Register(in dto.RegisterSystemMasterInput) *system.S
 // @return *system.SysResponse
 func (svc *sUcSystemMaster) ForgotPassword(in dto.ForgotPasswordInput) *system.SysResponse {
 	// 查询Email信息
-	systemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(in.Email)
+	systemMaster, err := repositories2.NewUcSystemMasterRepository().GetByEmail(in.Email)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -417,7 +417,7 @@ func (svc *sUcSystemMaster) RecoverPassword(token string, newPassword string) *s
 	}
 
 	//  查询email是否存在
-	emailSystemMaster, err := repositories.NewUcSystemMasterRepository().GetByEmail(output.Email)
+	emailSystemMaster, err := repositories2.NewUcSystemMasterRepository().GetByEmail(output.Email)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -435,7 +435,7 @@ func (svc *sUcSystemMaster) RecoverPassword(token string, newPassword string) *s
 	}
 
 	//  更新用户密码
-	err = repositories.NewUcAccountRepository().UpdatePasswordById(emailSystemMaster.ID, newPasswordHash)
+	err = repositories2.NewUcAccountRepository().UpdatePasswordById(emailSystemMaster.ID, newPasswordHash)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -484,7 +484,7 @@ func (svc *sUcSystemMaster) ChangePassword(in dto.ChangePasswordInput) *system.S
 	}
 
 	// 更新密码
-	err = repositories.NewUcAccountRepository().UpdatePasswordById(in.ID, passwordHash)
+	err = repositories2.NewUcAccountRepository().UpdatePasswordById(in.ID, passwordHash)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -510,7 +510,7 @@ func (svc *sUcSystemMaster) ChangePassword(in dto.ChangePasswordInput) *system.S
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMaster) ChangeOwnPassword(in dto.ChangeOwnPasswordInput) *system.SysResponse {
-	out, err := repositories.NewUcAccountRepository().GetById(in.ID)
+	out, err := repositories2.NewUcAccountRepository().GetById(in.ID)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -553,7 +553,7 @@ func (svc *sUcSystemMaster) ChangeOwnPassword(in dto.ChangeOwnPasswordInput) *sy
 // @return *system.SysResponse
 func (svc *sUcSystemMaster) GetMasterInfoByAccountId(id uint32) *system.SysResponse {
 	// 查询用户信息
-	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(id)
+	master, err := repositories2.NewUcSystemMasterRepository().GetByAccountId(id)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -588,7 +588,7 @@ func (svc *sUcSystemMaster) GetMasterInfoByAccountId(id uint32) *system.SysRespo
 // @return *system.SysResponse
 func (svc *sUcSystemMaster) ChangeMasterInfoById(in dto.ChangeMasterInfoInput) *system.SysResponse {
 	// 修改个人信息
-	err := repositories.NewUcSystemMasterRepository().UpdateByAccountId(in.ID, &model.UcSystemMaster{
+	err := repositories2.NewUcSystemMasterRepository().UpdateByAccountId(in.ID, &model.UcSystemMaster{
 		Email: in.Email,
 		Name:  in.Name,
 		Tel:   in.Tel,
@@ -618,7 +618,7 @@ func (svc *sUcSystemMaster) ChangeMasterInfoById(in dto.ChangeMasterInfoInput) *
 // @receiver svc
 // @return *system.SysResponse
 func (svc *sUcSystemMaster) ShowMasterAll() *system.SysResponse {
-	output, err := repositories.NewUcSystemMasterRepository().GetAll()
+	output, err := repositories2.NewUcSystemMasterRepository().GetAll()
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -627,9 +627,13 @@ func (svc *sUcSystemMaster) ShowMasterAll() *system.SysResponse {
 		}
 	}
 
-	data := make(map[uint32]string)
+	var data []*dto.SelectOptionOutput
 	for _, v := range output {
-		data[v.AccountID] = v.Name
+		d := dto.SelectOptionOutput{
+			Key:   v.ID,
+			Value: v.Name,
+		}
+		data = append(data, &d)
 	}
 
 	return &system.SysResponse{
