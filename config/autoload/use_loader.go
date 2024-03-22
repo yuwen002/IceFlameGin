@@ -57,5 +57,4 @@ func UseLoader(r *gin.Engine) {
 		store.Options(sessionOptions)
 		r.Use(sessions.Sessions(session.Memcached.Name, store))
 	}
-
 }

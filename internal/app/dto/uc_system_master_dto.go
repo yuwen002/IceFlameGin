@@ -89,3 +89,15 @@ type ChangeMasterInfoInput struct {
 	Name  string
 	Tel   string
 }
+
+// CreateSystemMasterInput
+//
+// @Description: 后台新建管理员
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-23 00:16:51
+type CreateSystemMasterInput struct {
+	Tel      string
+	Name     string
+	Email    string
+	Password string
+}

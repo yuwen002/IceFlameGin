@@ -40,7 +40,7 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminChangeMasterInfo, admin.UcSystemMaster.ChangeMasterInfo)
 			r.POST(paths.AdminHandleChangeMasterInfo, admin.UcSystemMaster.HandleChangeMasterInfo)
 
-			// 用户角色信息
+			// 管理员角色信息
 			r.GET(paths.AdminCreateMasterRole, admin.UcSystemMasterRole.CreateMasterRole)
 			r.POST(paths.AdminHandleCreateMasterRole, admin.UcSystemMasterRole.HandleCreateMasterRole)
 			r.GET(paths.AdminEditMasterRole, admin.UcSystemMasterRole.EditMasterRole)
@@ -48,13 +48,17 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminListMasterRole, admin.UcSystemMasterRole.ListMasterRole)
 			r.GET(paths.AdminAjaxListMasterRole, admin.UcSystemMasterRole.AjaxListMasterRole)
 
-			// 用户角色关联
+			// 管理员角色关联
 			r.GET(paths.AdminCreateMasterRoleRelation, admin.UcSystemMasterRole.CreateMasterRoleRelation)
 			r.POST(paths.AdminHandleCreateMasterRoleRelation, admin.UcSystemMasterRole.HandleCreateMasterRoleRelation)
 			r.GET(paths.AdminListMasterRoleRelation, admin.UcSystemMasterRole.ListMasterRoleRelation)
 			r.GET(paths.AdminAjaxListMasterRoleRelation, admin.UcSystemMasterRole.AjaxListMasterRoleRelation)
 			r.GET(paths.AdminEditMasterRoleRelation, admin.UcSystemMasterRole.EditMasterRoleRelation)
 			r.POST(paths.AdminHandleAjaxEditMasterRoleRelation, admin.UcSystemMasterRole.HandleAjaxEditMasterRoleRelation)
+
+			// 管理员
+			r.GET(paths.AdminCreateMaster, admin.UcSystemMaster.CreateSystemMaster)
+			r.POST(paths.AdminHandleCreateMaster, admin.UcSystemMaster.HandleCreateSystemMaster)
 		}
 
 	}

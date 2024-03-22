@@ -82,3 +82,14 @@ type AdminRoleRelation struct {
 	AccountID string `form:"account_id" binding:"required,positive_int" msg:"管理员名称不能为空|管理员ID信息错误"`
 	RoleID    string `form:"role_id" binding:"required,positive_int" msg:"角色名称不能为空|角色ID信息错误"`
 }
+
+// AdminSystemMaster
+//
+// @Description: 后台注册管理员
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-23 00:07:34
+type AdminSystemMaster struct {
+	Name  string `form:"name" binding:"required,min=2,max=20" msg:"姓名不能为空|姓名长度不能小于2个字符|姓名长度不能超过20个字符"`
+	Email string `form:"email" binding:"required,email" msg:"电子邮箱不能为空|电子邮箱格式不正确"`
+	Tel   string `form:"tel" binding:"required,min=5,max=32" msg:"电话不能为空|电话长度不能小于5个字符|电话长度不能超过15个字符"`
+}

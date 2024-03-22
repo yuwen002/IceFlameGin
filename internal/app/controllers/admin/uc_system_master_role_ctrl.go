@@ -39,8 +39,9 @@ var UcSystemMasterRole = cUcSystemMasterRole{
 func (ctrl *cUcSystemMasterRole) CreateMasterRole(c *gin.Context) {
 	// 从会话中获取成功信息
 	success := system.GetFlashedData(c, "success")
-	fail := system.GetFlashedData(c, "fail")
 	// 从会话中获取错误信息
+	fail := system.GetFlashedData(c, "fail")
+
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
 	if err != nil {

@@ -592,3 +592,81 @@ func (ctrl *cUcSystemMaster) HandleChangeMasterInfo(c *gin.Context) {
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminChangeMasterInfo)
 	return
 }
+
+// CreateSystemMaster
+//
+// @Title CreateSystemMaster
+// @Description: 渲染创建管理员页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-23 00:35:18
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) CreateSystemMaster(c *gin.Context) {
+	// 从会话中获取成功信息
+	success := system.GetFlashedData(c, "success")
+	// 从会话中获取错误信息
+	fail := system.GetFlashedData(c, "fail")
+
+	// 从会话中获取错误信息
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	system.Render(c, "admin/system_master/create.html", pongo2.Context{
+		"title":   "新建管理员",
+		"success": success,
+		"fail":    fail,
+		"err_msg": errMsg,
+	})
+	return
+}
+
+// HandleCreateSystemMaster
+//
+// @Title HandleCreateSystemMaster
+// @Description: 处理新建管理员请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-23 00:36:20
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) HandleCreateSystemMaster(c *gin.Context) {
+	var form validators.AdminSystemMaster
+
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		system.SetOldInput(c, "name", form.Name)
+		system.SetOldInput(c, "email", form.Email)
+		system.SetOldInput(c, "tel", form.Tel)
+
+		// 跳转注册页
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMaster)
+		return
+	} else {
+		output := services.NewUcSystemMasterService().Register(dto.RegisterSystemMasterInput{
+			Password: "123456",
+			Tel:      form.Tel,
+			Name:     form.Name,
+			Email:    form.Email,
+		})
+		fmt.Println(output)
+
+		// 用户注册失败
+		if output.Code == 1 {
+			system.AddFlashData(c, output.Message, "fail")
+		} else {
+			system.AddFlashData(c, "添加管理员信息成功", "success")
+		}
+	}
+
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMaster)
+}
