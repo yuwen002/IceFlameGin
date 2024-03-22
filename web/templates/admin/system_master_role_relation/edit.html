@@ -1,21 +1,26 @@
 {% extends "../layout/admin_base.html" %}
+{% block header_link %}
+<link rel="stylesheet" href="/static/admin/plugins/toastr/toastr.min.css">
+{% endblock %}
+
 {% block content_header %}
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>绑定角色信息关</h1>
+                <h1>绑定角色信息</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-                    <li class="breadcrumb-item active">编辑绑定角色信息关</li>
+                    <li class="breadcrumb-item active">编辑绑定角色信息</li>
                 </ol>
             </div>
         </div>
     </div><!-- /.container-fluid -->
 </section>
 {% endblock %}
+
 {% block content %}
 <section class="content">
     <div class="container-fluid">
@@ -34,7 +39,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="form-info" method="post" action="/admin/master-role-relation/ajax/edit?id={{ id }">
+                    <form id="form-info" method="post" action="/admin/master-role-relation/ajax/edit?id={{ id }}">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="role">角色名称</label>
@@ -80,7 +85,9 @@
     </div><!-- /.container-fluid -->
 </section>
 {% endblock %}
+
 {% block content_js %}
+<script src="/static/admin/plugins/toastr/toastr.min.js"></script>
 <script>
     $(function () {
         let accountID = '{{ relation.AccountID }}';
@@ -131,11 +138,11 @@
         });
 
         $('#submit-btn').click(function () {
-            if ($('#master-info').valid()) {
+            if ($('#form-info').valid()) {
                 $.ajax({
                     url: '/admin/master-role-relation/ajax/edit?id={{ id }}',
                     type: 'POST',
-                    data: $('#master-info').serialize(),
+                    data: $('#form-info').serialize(),
                     success: function (response) {
                         let messageOpts = {
                             "closeButton": true,// 是否显示关闭按钮
@@ -153,7 +160,7 @@
                         if (response.code === 0) {
                             // 修改成功时的处理逻辑
                             toastr.success("恭喜，修改管理员角色绑定信息成功！", "成功")
-                            hideModalAndRefreshData();
+                            // hideModalAndRefreshData();
                         } else {
                             // 失败时的处理逻辑
                             // 可以显示错误消息等

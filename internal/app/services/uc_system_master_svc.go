@@ -630,7 +630,7 @@ func (svc *sUcSystemMaster) ShowMasterAll() *system.SysResponse {
 	var data []*dto.SelectOptionOutput
 	for _, v := range output {
 		d := dto.SelectOptionOutput{
-			Key:   v.ID,
+			Key:   v.AccountID,
 			Value: v.Name,
 		}
 		data = append(data, &d)

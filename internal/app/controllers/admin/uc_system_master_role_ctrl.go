@@ -362,7 +362,6 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 			RoleId:    roleID,
 		})
 
-		fmt.Println(output.Data)
 		if output.Code == 1 {
 			system.AddFlashData(c, "添加管理员角色绑定失败", "fail")
 		} else {
@@ -484,7 +483,6 @@ func (ctrl *cUcSystemMasterRole) EditMasterRoleRelation(c *gin.Context) {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
-	fmt.Println(relation)
 
 	// 渲染编辑用户角色页面
 	system.Render(c, "admin/system_master_role_relation/edit.html", pongo2.Context{
@@ -517,8 +515,10 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRoleRelation(c *gin.Context
 		return
 	}
 
+	fmt.Println("ajax_post", c.PostForm("role_id"))
 	var form validators.AdminRoleRelation
 	if err := c.ShouldBind(&form); err != nil {
+
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrors(err, form)
 		c.JSON(http.StatusOK, &system.SysResponse{
