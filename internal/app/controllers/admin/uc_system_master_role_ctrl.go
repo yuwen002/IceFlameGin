@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -424,7 +423,7 @@ func (ctrl *cUcSystemMasterRole) AjaxListMasterRoleRelation(c *gin.Context) {
 		"recordsTotal":    data.Total,
 		"recordsFiltered": data.Total,
 	})
-
+	return
 }
 
 // EditMasterRoleRelation
@@ -516,7 +515,6 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRoleRelation(c *gin.Context
 		return
 	}
 
-	fmt.Println("ajax_post", c.PostForm("role_id"))
 	var form validators.AdminRoleRelation
 	if err := c.ShouldBind(&form); err != nil {
 

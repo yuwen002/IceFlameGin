@@ -37,6 +37,6 @@ const (
 	AdminHandleCreateMaster   = "/master/create"
 	AdminListMaster           = "/master/list"
 	AdminAjaxListMaster       = "/master/ajax/list"
-	AdminEditMaster           = "/master-role-relation/edit"
+	AdminEditMaster           = "/master/edit"
 	AdminHandleAjaxEditMaster = "/master/ajax/edit"
 )

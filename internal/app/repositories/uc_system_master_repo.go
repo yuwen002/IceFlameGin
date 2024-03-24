@@ -109,19 +109,44 @@ func (repo *rUcSystemMaster) GetByEmail(email string) (*model.UcSystemMaster, er
 	return systemMaster, nil
 }
 
-// GetByAccountId
+// GetByAccountID
 //
-// @Title GetByAccountId
-// @Description: 按EAccountId获取用户信息
+// @Title GetByAccountID
+// @Description: 按AccountId获取用户信息
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-27 16:25:16
 // @receiver repo
 // @param id
 // @return *model.UcSystemMaster
 // @return error
-func (repo *rUcSystemMaster) GetByAccountId(AccountID uint32) (*model.UcSystemMaster, error) {
+func (repo *rUcSystemMaster) GetByAccountID(AccountID uint32) (*model.UcSystemMaster, error) {
 	var systemMaster *model.UcSystemMaster
 	condition := "account_id = ?"
+	err := db.NewGormCore().QueryOne(&systemMaster, condition, AccountID)
+	if err != nil {
+		return nil, err
+	}
+
+	if systemMaster == nil {
+		return nil, nil
+	}
+
+	return systemMaster, nil
+}
+
+// GetByID
+//
+// @Title GetByID
+// @Description: 按ID获取用户信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 23:35:26
+// @receiver repo
+// @param AccountID
+// @return *model.UcSystemMaster
+// @return error
+func (repo *rUcSystemMaster) GetByID(AccountID uint32) (*model.UcSystemMaster, error) {
+	var systemMaster *model.UcSystemMaster
+	condition := "id = ?"
 	err := db.NewGormCore().QueryOne(&systemMaster, condition, AccountID)
 	if err != nil {
 		return nil, err
@@ -170,4 +195,49 @@ func (repo *rUcSystemMaster) GetAll() ([]*model.UcSystemMaster, error) {
 	}
 
 	return systemMaster, nil
+}
+
+// GetList
+//
+// @Title GetList
+// @Description: 获取管理员列表信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 22:50:17
+// @receiver repo
+// @param data
+// @return []*model.UcSystemMaster
+// @return error
+func (repo *rUcSystemMaster) GetList(data dto.ListSystemMasterInput) ([]*model.UcSystemMaster, error) {
+	var systemMaster []*model.UcSystemMaster
+	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+		Order:    data.Order,
+		PageType: 2,
+		Limit: db.Limit{
+			Length: data.Length,
+			Offset: data.Start,
+		},
+	}, &systemMaster)
+	if err != nil {
+		return nil, err
+	}
+
+	return systemMaster, nil
+}
+
+// CountRecords
+//
+// @Title CountRecords
+// @Description: 管理员列表总条数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 22:56:40
+// @receiver repo
+// @return int64
+// @return error
+func (repo *rUcSystemMaster) CountRecords() (int64, error) {
+	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMaster).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return totalRecords, err
 }

@@ -210,7 +210,7 @@ func (svc *sUcSystemMasterRole) CreateMasterRoleRelation(in dto.SystemMasterRole
 		}
 	}
 
-	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(in.AccountId)
+	master, err := repositories.NewUcSystemMasterRepository().GetByAccountID(in.AccountId)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -335,7 +335,7 @@ func (svc *sUcSystemMasterRole) GetMasterRoleRelationById(id uint32) *system.Sys
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMasterRole) ChangeMasterRoleRelationById(id uint32, in dto.SystemMasterRoleRelationInput) *system.SysResponse {
-	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(in.AccountId)
+	master, err := repositories.NewUcSystemMasterRepository().GetByAccountID(in.AccountId)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,

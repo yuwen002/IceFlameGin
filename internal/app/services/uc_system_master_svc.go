@@ -81,7 +81,7 @@ func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMaster
 	}
 
 	// 查询管理员其他信息
-	outExt, err := repositories.NewUcSystemMasterRepository().GetByAccountId(out.ID)
+	outExt, err := repositories.NewUcSystemMasterRepository().GetByAccountID(out.ID)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -553,7 +553,7 @@ func (svc *sUcSystemMaster) ChangeOwnPassword(in dto.ChangeOwnPasswordInput) *sy
 // @return *system.SysResponse
 func (svc *sUcSystemMaster) GetMasterInfoByAccountId(id uint32) *system.SysResponse {
 	// 查询用户信息
-	master, err := repositories.NewUcSystemMasterRepository().GetByAccountId(id)
+	master, err := repositories.NewUcSystemMasterRepository().GetByAccountID(id)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -640,5 +640,70 @@ func (svc *sUcSystemMaster) ShowMasterAll() *system.SysResponse {
 		Code:    0,
 		Message: "success",
 		Data:    data,
+	}
+}
+
+func (svc *sUcSystemMaster) ShowSystemMaster(in dto.ListSystemMasterInput) *system.SysResponse {
+	output, err := repositories.NewUcSystemMasterRepository().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	// 角色信息记录的数量
+	totalRecords, err := repositories.NewUcSystemMasterRepository().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data: dto.ListSystemMasterOutput{
+			List:  output,
+			Total: totalRecords,
+		},
+	}
+}
+
+// GetMasterInfoById
+//
+// @Title GetMasterInfoById
+// @Description: 按ID获取管理员信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 23:36:59
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sUcSystemMaster) GetMasterInfoById(id uint32) *system.SysResponse {
+	// 查询用户信息
+	master, err := repositories.NewUcSystemMasterRepository().GetByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if master == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "用户数据为空",
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    master,
 	}
 }

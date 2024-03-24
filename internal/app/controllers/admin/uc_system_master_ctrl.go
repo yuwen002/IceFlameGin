@@ -8,8 +8,10 @@ import (
 	"ice_flame_gin/internal/app/models/model"
 	"ice_flame_gin/internal/app/services"
 	"ice_flame_gin/internal/app/validators"
+	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
+	"net/http"
 	"sync"
 )
 
@@ -669,4 +671,155 @@ func (ctrl *cUcSystemMaster) HandleCreateSystemMaster(c *gin.Context) {
 	}
 
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMaster)
+}
+
+// ListSystemMaster
+//
+// @Title ListSystemMaster
+// @Description: 渲染管理员列表页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 22:10:56
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) ListSystemMaster(c *gin.Context) {
+	system.Render(c, "admin/system_master/list.html", pongo2.Context{
+		"title": "管理员列表",
+	})
+	return
+}
+
+// AjaxListSystemMaster
+//
+// @Title AjaxListSystemMaster
+// @Description: Ajax获取管理员列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 23:24:05
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) AjaxListSystemMaster(c *gin.Context) {
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
+	if err != nil {
+		start = 0
+	}
+
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
+	if err != nil {
+		length = 10
+	}
+
+	output := services.NewUcSystemMasterService().ShowSystemMaster(dto.ListSystemMasterInput{
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
+	})
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	data := output.Data.(dto.ListSystemMasterOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
+	})
+	return
+}
+
+// EditMaster
+//
+// @Title EditMaster
+// @Description: 渲染编辑管理员页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 23:40:12
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) EditMaster(c *gin.Context) {
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output := services.NewUcSystemMasterService().GetMasterInfoById(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	master, ok := output.Data.(*model.UcSystemMaster)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/system_master/edit.html", pongo2.Context{
+		"title":  "编辑管理员",
+		"master": master,
+	})
+	return
+}
+
+// HandleAjaxEditMaster
+//
+// @Title HandleAjaxEditMaster
+// @Description:  Ajax处理编辑管理员请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 23:43:09
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) HandleAjaxEditMaster(c *gin.Context) {
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	var form validators.AdminSystemMaster
+	if err := c.ShouldBind(&form); err != nil {
+
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+
+	// 根据 ID 更新管理员信息
+	output := services.NewUcSystemMasterService().ChangeMasterInfoById(dto.ChangeMasterInfoInput{
+		ID:    uint32ID,
+		Email: form.Email,
+		Name:  form.Name,
+		Tel:   form.Tel,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }

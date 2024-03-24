@@ -59,6 +59,10 @@ func setupAdminRoutes(router *gin.Engine) {
 			// 管理员
 			r.GET(paths.AdminCreateMaster, admin.UcSystemMaster.CreateSystemMaster)
 			r.POST(paths.AdminHandleCreateMaster, admin.UcSystemMaster.HandleCreateSystemMaster)
+			r.GET(paths.AdminListMaster, admin.UcSystemMaster.ListSystemMaster)
+			r.GET(paths.AdminAjaxListMaster, admin.UcSystemMaster.AjaxListSystemMaster)
+			r.GET(paths.AdminEditMaster, admin.UcSystemMaster.EditMaster)
+			r.POST(paths.AdminHandleAjaxEditMaster, admin.UcSystemMaster.HandleAjaxEditMaster)
 		}
 
 	}

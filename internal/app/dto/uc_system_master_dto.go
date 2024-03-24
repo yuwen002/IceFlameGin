@@ -1,5 +1,7 @@
 package dto
 
+import "ice_flame_gin/internal/app/models/model"
+
 //	LoginTelPasswordSystemMasterInput
 //	@Description: 用户电话密码登入
 //
@@ -100,4 +102,25 @@ type CreateSystemMasterInput struct {
 	Name     string
 	Email    string
 	Password string
+}
+
+// ListSystemMasterInput
+//
+// @Description: 后台管理员列表输入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 22:41:48
+type ListSystemMasterInput struct {
+	Order  string
+	Start  int
+	Length int
+}
+
+// ListSystemMasterOutput
+//
+// @Description: 后台管理员列表输出
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-24 22:59:43
+type ListSystemMasterOutput struct {
+	List  []*model.UcSystemMaster
+	Total int64
 }
