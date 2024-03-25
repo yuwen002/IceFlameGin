@@ -93,3 +93,11 @@ type AdminSystemMaster struct {
 	Email string `form:"email" binding:"required,email" msg:"电子邮箱不能为空|电子邮箱格式不正确"`
 	Tel   string `form:"tel" binding:"required,min=5,max=32" msg:"电话不能为空|电话长度不能小于5个字符|电话长度不能超过15个字符"`
 }
+
+// AdminVisitorCategory
+// @Description: 访问类型分类
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-25 17:04:45
+type AdminVisitorCategory struct {
+	Title string `form:"name" binding:"required,min=2,max=20" msg:"姓名不能为空|姓名长度不能小于2个字符|姓名长度不能超过20个字符"`
+}

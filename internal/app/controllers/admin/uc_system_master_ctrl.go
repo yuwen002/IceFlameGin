@@ -762,6 +762,7 @@ func (ctrl *cUcSystemMaster) EditMaster(c *gin.Context) {
 	system.Render(c, "admin/system_master/edit.html", pongo2.Context{
 		"title":  "编辑管理员",
 		"master": master,
+		"id":     uint32ID,
 	})
 	return
 }

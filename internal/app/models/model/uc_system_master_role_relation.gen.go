@@ -13,8 +13,8 @@ const TableNameUcSystemMasterRoleRelation = "uc_system_master_role_relation"
 // UcSystemMasterRoleRelation 角色信息关联管理ID
 type UcSystemMasterRoleRelation struct {
 	ID        uint32    `gorm:"column:id;type:int(10) unsigned;primaryKey;autoIncrement:true" json:"id"`
-	AccountID uint32    `gorm:"column:account_id;type:int(10) unsigned;comment:管理员ID" json:"account_id"` // 管理员ID
-	RoleID    uint32    `gorm:"column:role_id;type:int(10) unsigned;comment:身份ID" json:"role_id"`        // 身份ID
+	AccountID uint32    `gorm:"column:account_id;type:int(10) unsigned;index:account_id,priority:1;comment:管理员ID" json:"account_id"` // 管理员ID
+	RoleID    uint32    `gorm:"column:role_id;type:int(10) unsigned;index:role_id,priority:1;comment:身份ID" json:"role_id"`           // 身份ID
 	CreatedAt time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

@@ -39,4 +39,7 @@ const (
 	AdminAjaxListMaster       = "/master/ajax/list"
 	AdminEditMaster           = "/master/edit"
 	AdminHandleAjaxEditMaster = "/master/ajax/edit"
+
+	AdminCreateVisitorCategory       = "/visitor-category/create"
+	AdminHandleCreateVisitorCategory = "/visitor-category/create"
 )
