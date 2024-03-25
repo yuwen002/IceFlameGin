@@ -42,4 +42,6 @@ const (
 
 	AdminCreateVisitorCategory       = "/visitor-category/create"
 	AdminHandleCreateVisitorCategory = "/visitor-category/create"
+	AdminListVisitorCategory         = "/visitor-category/list"
+	AdminAjaxListVisitorCategory     = "/visitor-category/ajax/list"
 )

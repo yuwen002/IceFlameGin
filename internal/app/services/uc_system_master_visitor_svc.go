@@ -49,3 +49,41 @@ func (svc *sUcSystemMasterVisitor) CreateVisitorCategory(in dto.SystemMasterVisi
 		Data:    nil,
 	}
 }
+
+// ShowVisitorCategory
+//
+// @Title ShowVisitorCategory
+// @Description: 访问类型分类列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-25 22:08:28
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMasterVisitor) ShowVisitorCategory(in dto.ListSystemMasterVisitorCategoryInput) *system.SysResponse {
+	out, err := repositories.NewUcSystemMasterVisitor().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	totalRecords, err := repositories.NewUcSystemMasterVisitor().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data: dto.ListSystemMasterVisitorCategoryOutput{
+			List:  out,
+			Total: totalRecords,
+		},
+	}
+}

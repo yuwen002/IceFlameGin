@@ -36,7 +36,7 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminLogout, admin.UcSystemMaster.Logout)
 			r.GET(paths.AdminDashboard, admin.UcSystemMaster.Dashboard)
 			r.GET(paths.AdminChangeOwnPassword, admin.UcSystemMaster.ChangeOwnPassword)
-			r.POST(paths.AdminChangeOwnPassword, admin.UcSystemMaster.HandleChangeOwnPassword)
+			r.POST(paths.AdminHandleChangeOwnPassword, admin.UcSystemMaster.HandleChangeOwnPassword)
 			r.GET(paths.AdminChangeMasterInfo, admin.UcSystemMaster.ChangeMasterInfo)
 			r.POST(paths.AdminHandleChangeMasterInfo, admin.UcSystemMaster.HandleChangeMasterInfo)
 
@@ -67,6 +67,8 @@ func setupAdminRoutes(router *gin.Engine) {
 			// 访问类型
 			r.GET(paths.AdminCreateVisitorCategory, admin.UcSystemMasterVisitor.CreateVisitorCategory)
 			r.POST(paths.AdminHandleCreateVisitorCategory, admin.UcSystemMasterVisitor.HandleCreateVisitorCategory)
+			r.GET(paths.AdminListVisitorCategory, admin.UcSystemMasterVisitor.ListVisitorCategory)
+			r.GET(paths.AdminAjaxListVisitorCategory, admin.UcSystemMasterVisitor.AjaxListVisitorCategory)
 		}
 
 	}

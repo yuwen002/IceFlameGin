@@ -32,7 +32,7 @@ func NewUcSystemMasterVisitor() *rUcSystemMasterVisitorCategory {
 // Insert
 //
 // @Title Insert
-// @Description: 访问类型写入
+// @Description: 访问类型分类写入
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-25 16:18:05
 // @receiver repo
@@ -48,4 +48,50 @@ func (repo *rUcSystemMasterVisitorCategory) Insert(data dto.SystemMasterVisitorC
 	}
 
 	return nil
+}
+
+// GetList
+//
+// @Title GetList
+// @Description: 访问类型分类列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-25 21:54:24
+// @receiver repo
+// @param data
+// @return []*model.UcSystemMasterVisitCategory
+// @return error
+func (repo *rUcSystemMasterVisitorCategory) GetList(data dto.ListSystemMasterVisitorCategoryInput) ([]*model.UcSystemMasterVisitCategory, error) {
+	var systemMasterVisitCategory []*model.UcSystemMasterVisitCategory
+	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+		Order:    data.Order,
+		PageType: 2,
+		Limit: db.Limit{
+			Length: data.Length,
+			Offset: data.Start,
+		},
+	}, &systemMasterVisitCategory)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return systemMasterVisitCategory, nil
+}
+
+// CountRecords
+//
+// @Title CountRecords
+// @Description: 访问类型分类列表总条数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-25 21:55:07
+// @receiver repo
+// @return int64
+// @return error
+func (repo *rUcSystemMasterVisitorCategory) CountRecords() (int64, error) {
+	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterVisitCategory).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return totalRecords, err
 }
