@@ -65,10 +65,12 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.POST(paths.AdminHandleAjaxEditMaster, admin.UcSystemMaster.HandleAjaxEditMaster)
 
 			// 访问类型
-			r.GET(paths.AdminCreateVisitorCategory, admin.UcSystemMasterVisitor.CreateVisitorCategory)
-			r.POST(paths.AdminHandleCreateVisitorCategory, admin.UcSystemMasterVisitor.HandleCreateVisitorCategory)
-			r.GET(paths.AdminListVisitorCategory, admin.UcSystemMasterVisitor.ListVisitorCategory)
-			r.GET(paths.AdminAjaxListVisitorCategory, admin.UcSystemMasterVisitor.AjaxListVisitorCategory)
+			r.GET(paths.AdminCreateVisitCategory, admin.UcSystemMasterVisit.CreateVisitCategory)
+			r.POST(paths.AdminHandleCreateVisitCategory, admin.UcSystemMasterVisit.HandleCreateVisitCategory)
+			r.GET(paths.AdminListVisitCategory, admin.UcSystemMasterVisit.ListVisitCategory)
+			r.GET(paths.AdminAjaxListVisitCategory, admin.UcSystemMasterVisit.AjaxListVisitCategory)
+			r.GET(paths.AdminEditVisitCategory, admin.UcSystemMasterVisit.EditVisitCategory)
+			r.POST(paths.AdminHandleAjaxVisitCategory, admin.UcSystemMasterVisit.AjaxEditVisitCategory)
 		}
 
 	}

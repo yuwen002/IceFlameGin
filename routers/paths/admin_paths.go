@@ -40,8 +40,10 @@ const (
 	AdminEditMaster           = "/master/edit"
 	AdminHandleAjaxEditMaster = "/master/ajax/edit"
 
-	AdminCreateVisitorCategory       = "/visitor-category/create"
-	AdminHandleCreateVisitorCategory = "/visitor-category/create"
-	AdminListVisitorCategory         = "/visitor-category/list"
-	AdminAjaxListVisitorCategory     = "/visitor-category/ajax/list"
+	AdminCreateVisitCategory       = "/visit-category/create"
+	AdminHandleCreateVisitCategory = "/visit-category/create"
+	AdminListVisitCategory         = "/visit-category/list"
+	AdminAjaxListVisitCategory     = "/visit-category/ajax/list"
+	AdminEditVisitCategory         = "/visit-category/edit"
+	AdminHandleAjaxVisitCategory   = "/visit-category/ajax/edit"
 )
