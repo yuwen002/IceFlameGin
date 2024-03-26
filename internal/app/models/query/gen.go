@@ -23,6 +23,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		UcSystemMasterRole:          newUcSystemMasterRole(db, opts...),
 		UcSystemMasterRoleRelation:  newUcSystemMasterRoleRelation(db, opts...),
 		UcSystemMasterVisitCategory: newUcSystemMasterVisitCategory(db, opts...),
+		UcSystemMasterVisitorLog:    newUcSystemMasterVisitorLog(db, opts...),
 	}
 }
 
@@ -34,6 +35,7 @@ type Query struct {
 	UcSystemMasterRole          ucSystemMasterRole
 	UcSystemMasterRoleRelation  ucSystemMasterRoleRelation
 	UcSystemMasterVisitCategory ucSystemMasterVisitCategory
+	UcSystemMasterVisitorLog    ucSystemMasterVisitorLog
 }
 
 func (q *Query) Available() bool { return q.db != nil }
@@ -46,6 +48,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		UcSystemMasterRole:          q.UcSystemMasterRole.clone(db),
 		UcSystemMasterRoleRelation:  q.UcSystemMasterRoleRelation.clone(db),
 		UcSystemMasterVisitCategory: q.UcSystemMasterVisitCategory.clone(db),
+		UcSystemMasterVisitorLog:    q.UcSystemMasterVisitorLog.clone(db),
 	}
 }
 
@@ -65,6 +68,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		UcSystemMasterRole:          q.UcSystemMasterRole.replaceDB(db),
 		UcSystemMasterRoleRelation:  q.UcSystemMasterRoleRelation.replaceDB(db),
 		UcSystemMasterVisitCategory: q.UcSystemMasterVisitCategory.replaceDB(db),
+		UcSystemMasterVisitorLog:    q.UcSystemMasterVisitorLog.replaceDB(db),
 	}
 }
 
@@ -74,6 +78,7 @@ type queryCtx struct {
 	UcSystemMasterRole          *ucSystemMasterRoleDo
 	UcSystemMasterRoleRelation  *ucSystemMasterRoleRelationDo
 	UcSystemMasterVisitCategory *ucSystemMasterVisitCategoryDo
+	UcSystemMasterVisitorLog    *ucSystemMasterVisitorLogDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
@@ -83,6 +88,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		UcSystemMasterRole:          q.UcSystemMasterRole.WithContext(ctx),
 		UcSystemMasterRoleRelation:  q.UcSystemMasterRoleRelation.WithContext(ctx),
 		UcSystemMasterVisitCategory: q.UcSystemMasterVisitCategory.WithContext(ctx),
+		UcSystemMasterVisitorLog:    q.UcSystemMasterVisitorLog.WithContext(ctx),
 	}
 }
 

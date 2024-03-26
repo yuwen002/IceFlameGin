@@ -144,3 +144,30 @@ func (svc *sUcSystemMasterVisit) ChangeVisitCategoryByID(id uint32, in dto.Syste
 		Data:    nil,
 	}
 }
+
+// CreateVisitorLogs
+//
+// @Title CreateVisitorLogs
+// @Description: 管理员访问记录写入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-26 21:37:29
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMasterVisit) CreateVisitorLogs(in dto.SystemMasterVisitorLogsInput) *system.SysResponse {
+	err := repositories.NewUcSystemMasterVisitorLogs().Insert(in)
+
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
+}

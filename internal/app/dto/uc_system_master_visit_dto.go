@@ -30,3 +30,18 @@ type ListSystemMasterVisitCategoryOutput struct {
 	List  []*model.UcSystemMasterVisitCategory
 	Total int64
 }
+
+// SystemMasterVisitorLogsInput
+//
+// @Description: 管理员访问记录写入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-26 21:33:45
+type SystemMasterVisitorLogsInput struct {
+	AccountID     uint32
+	OsCategory    uint32
+	VisitCategory uint32
+	UnionID       uint32
+	Description   string
+	IPLong        string
+	IP            string
+}
