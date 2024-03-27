@@ -1,9 +1,11 @@
 package services
 
 import (
+	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
 	"ice_flame_gin/internal/app/repositories"
+	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
 )
 
@@ -213,4 +215,48 @@ func (svc *sUcSystemMasterVisit) ShowVisitorLogs(in dto.ListSystemMasterVisitorL
 			Total: totalRecords,
 		},
 	}
+}
+
+// WriteSystemMasterVisitorLogs
+//
+// @Title SystemMasterVisitorLogs
+// @Description: 写入用户访问几率
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-26 22:46:17
+// @param accountID
+// @param osCategory
+// @param visitCategory
+// @param unionID
+// @param description
+// @param
+func (svc *sUcSystemMasterVisit) WriteSystemMasterVisitorLogs(c *gin.Context, osCategory uint32, visitCategory uint32, unionID uint32, description string) error {
+	// 管理员AccountID
+	accountID, _, err := system.GetMasterInfo(c)
+	if err != nil {
+		return err
+	}
+
+	// 获取管理员IP
+	ip := c.ClientIP()
+	ipLong, err := utils.IPToLong(ip)
+	if err != nil {
+		return err
+	}
+
+	ipLongString, err := utils.ToString(ipLong)
+	if err != nil {
+		return err
+	}
+
+	svc.CreateVisitorLogs(dto.SystemMasterVisitorLogsInput{
+		AccountID:     accountID,
+		OsCategory:    osCategory,
+		VisitCategory: visitCategory,
+		UnionID:       unionID,
+		Description:   description,
+		IPLong:        ipLongString,
+		IP:            ip,
+	})
+
+	return nil
 }

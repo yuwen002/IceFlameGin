@@ -80,7 +80,7 @@ func (repo *rUcSystemMasterVisitorLogs) GetListByWhere(data dto.ListSystemMaster
 			Length: data.Length,
 			Offset: data.Start,
 		},
-	}, out)
+	}, &out)
 
 	if err != nil {
 		return nil, err

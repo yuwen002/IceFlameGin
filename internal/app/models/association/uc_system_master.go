@@ -19,5 +19,5 @@ type UcSystemMasterRoleRelation struct {
 type UcSystemVisitorLogs struct {
 	model.UcSystemMasterVisitorLog
 	Master        model.UcSystemMaster              `gorm:"foreignKey:AccountID;references:AccountID"`
-	VisitCategory model.UcSystemMasterVisitCategory `gorm:"foreignKey:VisitCategory"`
+	VisitCategory model.UcSystemMasterVisitCategory `gorm:"foreignKey:VisitCategory;references:ID"`
 }
