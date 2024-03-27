@@ -89,6 +89,7 @@ func (ctrl *cUcSystemMasterVisit) HandleCreateVisitCategory(c *gin.Context) {
 		}
 	}
 
+	_ = system.WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加访问类型分类信息")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateVisitCategory)
 }
 
@@ -229,6 +230,7 @@ func (ctrl *cUcSystemMasterVisit) AjaxEditVisitCategory(c *gin.Context) {
 		return
 	}
 
+	_ = system.WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑访问类型分类信息")
 	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
@@ -236,4 +238,56 @@ func (ctrl *cUcSystemMasterVisit) AjaxEditVisitCategory(c *gin.Context) {
 		Data:    nil,
 	})
 	return
+}
+
+// ListVisitorLogs
+//
+// @Title ListVisitorLogs
+// @Description:
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-27 15:00:39
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMasterVisit) ListVisitorLogs(c *gin.Context) {
+	// 渲染编辑用户访问类型分类页面
+	system.Render(c, "admin/system_master_visit/list_logs.html", pongo2.Context{
+		"title": "用户访问记录列表",
+	})
+	return
+}
+
+func (ctrl *cUcSystemMasterVisit) AjaxListVisitorLogs(c *gin.Context) {
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
+	if err != nil {
+		start = 0
+	}
+
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
+	if err != nil {
+		length = 10
+	}
+
+	output := services.NewUcSystemMasterVisit().ShowVisitorLogs(dto.ListSystemMasterVisitorLogsInput{
+
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
+	})
+
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	data := output.Data.(dto.ListSystemMasterVisitorLogsOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
+	})
 }

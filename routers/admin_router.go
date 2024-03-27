@@ -71,6 +71,7 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminAjaxListVisitCategory, admin.UcSystemMasterVisit.AjaxListVisitCategory)
 			r.GET(paths.AdminEditVisitCategory, admin.UcSystemMasterVisit.EditVisitCategory)
 			r.POST(paths.AdminHandleAjaxVisitCategory, admin.UcSystemMasterVisit.AjaxEditVisitCategory)
+			r.GET(paths.AdminListVisitorLogs, admin.UcSystemMasterVisit.ListVisitorLogs)
 		}
 
 	}

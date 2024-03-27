@@ -46,4 +46,5 @@ const (
 	AdminAjaxListVisitCategory     = "/visit-category/ajax/list"
 	AdminEditVisitCategory         = "/visit-category/edit"
 	AdminHandleAjaxVisitCategory   = "/visit-category/ajax/edit"
+	AdminListVisitorLogs           = "/visitor-logs/list"
 )

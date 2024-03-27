@@ -1,6 +1,9 @@
 package dto
 
-import "ice_flame_gin/internal/app/models/model"
+import (
+	"ice_flame_gin/internal/app/models/association"
+	"ice_flame_gin/internal/app/models/model"
+)
 
 // SystemMasterVisitCategoryInput
 // @Description: 访问型类分类输入
@@ -44,4 +47,25 @@ type SystemMasterVisitorLogsInput struct {
 	Description   string
 	IPLong        string
 	IP            string
+}
+
+// ListSystemMasterVisitorLogsInput
+// @Description: 管理员访问记录列表写入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-27 16:01:22
+type ListSystemMasterVisitorLogsInput struct {
+	Condition string
+	Args      []interface{}
+	Order     string
+	Start     int
+	Length    int
+}
+
+// ListSystemMasterVisitorLogsOutput
+// @Description: 管理员访问记录列表输出
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-27 17:13:49
+type ListSystemMasterVisitorLogsOutput struct {
+	List  []*association.UcSystemVisitorLogs
+	Total int64
 }

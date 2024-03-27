@@ -1,0 +1,152 @@
+{% extends "../layout/admin_base.html" %}
+
+{% block content_header %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>角色信息</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
+                    <li class="breadcrumb-item active">角色信息</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">角色信息 列表</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="data-list" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>访问管理员</th>
+                                <th>访问类型</th>
+                                <th>关联ID</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>描述</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>访问管理员</th>
+                                <th>访问类型</th>
+                                <th>关联ID</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>描述</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- Modal -->
+<div class="modal fade" id="edit-modal-content" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  w-100" style="max-width: none;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">角色信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content_js %}
+<script src="/static/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/admin/plugins/jszip/jszip.min.js"></script>
+<script src="/static/admin/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/admin/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/static/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="/static/admin/plugins/moment/moment.min.js"></script>
+<script>
+    let table
+
+    $(function () {
+        table = $('#data-list').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Chinese.json" // 引入中文语言包
+            },
+            "paging": true,
+            "lengthChange": false,
+            "ordering": true,
+            "autoWidth": false,
+            "responsive": true,
+            "pageLength": 10,
+            "searching": false,
+            "processing": true,
+            "serverSide": true,
+            "info": false,
+            "renderer": "bootstrap",
+            "pagingType": "simple_numbers",
+            "columns": [
+                {"data": "id"},
+                {"data": "title"},
+                {
+                    "data": "created_at",
+                    "render": function (data, type, row) {
+                        // 使用 Moment.js 格式化时间
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
+                {
+                    "data": "updated_at",
+                    "render": function (data, type, row) {
+                        // 使用 Moment.js 格式化时间
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
+            ],
+            "ajax": {
+                "url": "/admin/visit-category/ajax/list/",
+                "type": "GET",
+                "cache": false,
+                "dataSrc": "data"
+            },
+        });
+
+    });
+</script>
+{% endblock %}

@@ -171,3 +171,46 @@ func (svc *sUcSystemMasterVisit) CreateVisitorLogs(in dto.SystemMasterVisitorLog
 		Data:    nil,
 	}
 }
+
+// ShowVisitorLogs
+//
+// @Title ShowVisitorLogs
+// @Description: 管理员访问及记录列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-27 16:10:24
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sUcSystemMasterVisit) ShowVisitorLogs(in dto.ListSystemMasterVisitorLogsInput) *system.SysResponse {
+	out, err := repositories.NewUcSystemMasterVisitorLogs().GetListByWhere(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	var totalRecords int64
+	if in.Condition == "" {
+		totalRecords, err = repositories.NewUcSystemMasterVisitorLogs().CountRecords()
+	} else {
+		totalRecords, err = repositories.NewUcSystemMasterVisitorLogs().CountWhereRecords(in)
+	}
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data: dto.ListSystemMasterVisitorLogsOutput{
+			List:  out,
+			Total: totalRecords,
+		},
+	}
+}
