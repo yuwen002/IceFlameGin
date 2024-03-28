@@ -243,19 +243,27 @@ func (ctrl *cUcSystemMasterVisit) AjaxEditVisitCategory(c *gin.Context) {
 // ListVisitorLogs
 //
 // @Title ListVisitorLogs
-// @Description:
+// @Description: 渲染管理员访问记录列表
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-27 15:00:39
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMasterVisit) ListVisitorLogs(c *gin.Context) {
-	// 渲染编辑用户访问类型分类页面
+	// 渲染管理员访问记录页面
 	system.Render(c, "admin/system_master_visit/list_logs.html", pongo2.Context{
-		"title": "用户访问记录列表",
+		"title": "管理员访问记录列表",
 	})
 	return
 }
 
+// AjaxListVisitorLogs
+//
+// @Title AjaxListVisitorLogs
+// @Description: 处理管理员访问记录列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-28 23:26:33
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMasterVisit) AjaxListVisitorLogs(c *gin.Context) {
 	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
 	if err != nil {

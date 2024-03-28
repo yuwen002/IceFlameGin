@@ -1,5 +1,10 @@
 {% extends "../layout/admin_base.html" %}
 
+{% block header_link %}
+<!-- Select2 -->
+<link rel="stylesheet" href="/static/admin/plugins/select2/css/select2.min.css">
+{% endblock %}
+
 {% block content_header %}
 <section class="content-header">
     <div class="container-fluid">
@@ -26,6 +31,56 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">角色信息 列表</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" onclick="location.reload();">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <form action="enhanced-results.html">
+                            <div class="row">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>管理员:</label>
+                                                <select class="select2" multiple="multiple" data-placeholder="Any" style="width: 100%;">
+                                                    <option>Text only</option>
+                                                    <option>Images</option>
+                                                    <option>Video</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>系统类型:</label>
+                                                <select class="select2" style="width: 100%;">
+                                                    <option selected>ASC</option>
+                                                    <option>DESC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>访问类型:</label>
+                                                <select class="select2" style="width: 100%;">
+                                                    <option selected>Title</option>
+                                                    <option>Date</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-lg">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -34,11 +89,13 @@
                             <tr>
                                 <th>ID</th>
                                 <th>访问管理员</th>
+                                <th>系统类型</th>
                                 <th>访问类型</th>
                                 <th>关联ID</th>
+                                <th>描述</th>
+                                <th>IP</th>
                                 <th>创建时间</th>
                                 <th>更新时间</th>
-                                <th>描述</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,11 +104,13 @@
                             <tr>
                                 <th>ID</th>
                                 <th>访问管理员</th>
+                                <th>系统类型</th>
                                 <th>访问类型</th>
                                 <th>关联ID</th>
+                                <th>描述</th>
+                                <th>IP</th>
                                 <th>创建时间</th>
                                 <th>更新时间</th>
-                                <th>描述</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -123,7 +182,39 @@
             "pagingType": "simple_numbers",
             "columns": [
                 {"data": "id"},
-                {"data": "title"},
+                {
+                    "data": "account_id",
+                    "render": function (data, type, row) {
+                        let master
+                        master = row.Master.name + "    (ID: [ " + data + " ])"
+                        return master
+                    }
+                },
+                {
+                    "data": "os_category",
+                    "render": function (data, type, row) {
+                        if (data === 1) {
+                            return 'web端';
+                        } else if (data === 2) {
+                            return 'android端';
+                        } else if (data === 3) {
+                            return 'IOS端';
+                        } else {
+                            return '未知';
+                        }
+                    }
+                },
+                {
+                    "data": "visit_category",
+                    "render": function (data, type, row) {
+                        let category
+                        category = row.VisitCategory.title + "    (ID: [ " + data + " ])"
+                        return category
+                    }
+                },
+                {"data": "union_id"},
+                {"data": "description"},
+                {"data": "ip"},
                 {
                     "data": "created_at",
                     "render": function (data, type, row) {
@@ -145,6 +236,34 @@
                 "cache": false,
                 "dataSrc": "data"
             },
+        });
+
+        // 点击搜索按钮时执行
+        $('#search-button').on('click', function() {
+            var adminValue = $('#admin-select').val();
+            var systemValue = $('#system-select').val();
+            var visitValue = $('#visit-select').val();
+
+            // 发送 AJAX 请求获取新数据
+            $.ajax({
+                url: 'your-api-endpoint-url',
+                method: 'GET',
+                data: {
+                    admins: adminValue,
+                    systems: systemValue,
+                    visits: visitValue
+                },
+                success: function(data) {
+                    // 清空表格数据
+                    table.clear().draw();
+
+                    // 更新表格数据
+                    table.rows.add(data).draw();
+                },
+                error: function() {
+                    // 处理错误
+                }
+            });
         });
 
     });
