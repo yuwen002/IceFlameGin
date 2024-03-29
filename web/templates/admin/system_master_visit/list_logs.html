@@ -3,6 +3,7 @@
 {% block header_link %}
 <!-- Select2 -->
 <link rel="stylesheet" href="/static/admin/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/static/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 {% endblock %}
 
 {% block content_header %}
@@ -36,43 +37,48 @@
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                         </div>
-                        <form action="enhanced-results.html">
+                        <form action="/admin/visitor-logs/list" method="get">
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label>管理员:</label>
-                                                <select class="select2" multiple="multiple" data-placeholder="Any" style="width: 100%;">
-                                                    <option>Text only</option>
-                                                    <option>Images</option>
-                                                    <option>Video</option>
+                                                <select class="form-control select2" name="account_id" id="account_id">
+                                                    <option value="">请选择管理员</option>
+                                                    {% for master in masters %}
+                                                    <option value="{{ master.Key }}">{{ master.Value }}</option>
+                                                    {% endfor %}
+
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label>系统类型:</label>
-                                                <select class="select2" style="width: 100%;">
-                                                    <option selected>ASC</option>
-                                                    <option>DESC</option>
+                                                <select class="form-control select2" name="os_category" id="os_category">
+                                                    <option value="">请选择系统类型</option>
+                                                    <option value="1">web端</option>
+                                                    <option value="2">android端</option>
+                                                    <option value="3">IOS端</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label>访问类型:</label>
-                                                <select class="select2" style="width: 100%;">
-                                                    <option selected>Title</option>
-                                                    <option>Date</option>
+                                                <select class="form-control select2" name="visit_category" id="visit_category">
+                                                    <option value="">请选择访问类型</option>
+                                                    {% for category in categories %}
+                                                    <option value="{{ category.Key }}">{{ category.Value }}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group input-group-lg">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-lg btn-default">
+                                        <div class="col-1">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <button id="search-button" type="submit" class="form-control btn btn-lg btn-default">
                                                     <i class="fa fa-search"></i>
                                                 </button>
                                             </div>
@@ -125,25 +131,6 @@
     </div>
     <!-- /.container-fluid -->
 </section>
-<!-- Modal -->
-<div class="modal fade" id="edit-modal-content" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog  w-100" style="max-width: none;" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">角色信息</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 {% block content_js %}
@@ -162,8 +149,37 @@
 <script src="/static/admin/plugins/moment/moment.min.js"></script>
 <script>
     let table
+    // 获取 URL 中的查询参数部分
+    let queryString = window.location.search;
+
+    // 声明一个函数用于解析查询参数
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[[\]]/g, '\\$&');
+        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
 
     $(function () {
+        let account_id = getParameterByName('account_id', queryString);
+        if (account_id > 0) {
+            $('#account_id').val(account_id);
+        }
+
+        let visit_category = getParameterByName('visit_category', queryString);
+        if (visit_category > 0) {
+            $('#visit_category').val(visit_category);
+        }
+
+        let os_category = getParameterByName('os_category', queryString);
+        if (os_category > 0) {
+            $('#os_category').val(os_category);
+        }
+
         table = $('#data-list').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Chinese.json" // 引入中文语言包
@@ -231,41 +247,17 @@
                 },
             ],
             "ajax": {
-                "url": "/admin/visitor-logs/ajax/list/",
-                "type": "GET",
-                "cache": false,
-                "dataSrc": "data"
+                url: "/admin/visitor-logs/ajax/list/",
+                type: "GET",
+                cache: false,
+                dataSrc: "data",
+                data: {
+                    account_id: account_id,
+                    visit_category: visit_category,
+                    os_category: os_category
+                },
             },
         });
-
-        // 点击搜索按钮时执行
-        $('#search-button').on('click', function() {
-            var adminValue = $('#admin-select').val();
-            var systemValue = $('#system-select').val();
-            var visitValue = $('#visit-select').val();
-
-            // 发送 AJAX 请求获取新数据
-            $.ajax({
-                url: 'your-api-endpoint-url',
-                method: 'GET',
-                data: {
-                    admins: adminValue,
-                    systems: systemValue,
-                    visits: visitValue
-                },
-                success: function(data) {
-                    // 清空表格数据
-                    table.clear().draw();
-
-                    // 更新表格数据
-                    table.rows.add(data).draw();
-                },
-                error: function() {
-                    // 处理错误
-                }
-            });
-        });
-
     });
 </script>
 {% endblock %}

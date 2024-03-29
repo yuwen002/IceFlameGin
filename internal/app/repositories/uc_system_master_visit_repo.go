@@ -136,3 +136,21 @@ func (repo *rUcSystemMasterVisitCategory) UpdateByID(id uint32, in *model.UcSyst
 
 	return nil
 }
+
+// GetAll
+//
+// @Title GetAll
+// @Description: 获取全部访问类型分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-29 15:06:26
+// @receiver repo
+// @return out
+// @return err
+func (repo *rUcSystemMasterVisitCategory) GetAll() (out []*model.UcSystemMasterVisitCategory, err error) {
+	err = db.NewGormCore().GetAll(&out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

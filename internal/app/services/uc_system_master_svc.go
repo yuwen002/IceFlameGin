@@ -115,7 +115,8 @@ func (svc *sUcSystemMaster) LoginTelPassword(in dto.LoginTelPasswordSystemMaster
 		Code:    0,
 		Message: "success",
 		Data: dto.SystemMasterTokenOutput{
-			Token: token,
+			Token:     token,
+			AccountID: out.ID,
 		},
 	}
 }

@@ -249,9 +249,33 @@ func (ctrl *cUcSystemMasterVisit) AjaxEditVisitCategory(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cUcSystemMasterVisit) ListVisitorLogs(c *gin.Context) {
+	output := services.NewUcSystemMasterService().ShowMasterAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	masters, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output = services.NewUcSystemMasterVisit().ShowVisitCategoryAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	categories, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
 	// 渲染管理员访问记录页面
 	system.Render(c, "admin/system_master_visit/list_logs.html", pongo2.Context{
-		"title": "管理员访问记录列表",
+		"title":      "管理员访问记录列表",
+		"masters":    masters,
+		"categories": categories,
 	})
 	return
 }
@@ -275,9 +299,50 @@ func (ctrl *cUcSystemMasterVisit) AjaxListVisitorLogs(c *gin.Context) {
 		length = 10
 	}
 
+	//  管理员account id
+	accountID, err := utils.ToUint32(c.Query("account_id"))
+	if err != nil {
+		accountID = 0
+	}
+
+	condition := ""
+	var args []interface{}
+	if accountID > 0 {
+		condition = "account_id = ?"
+		args = append(args, accountID)
+	}
+
+	// 访问类型 visit category id
+	visitCategory, err := utils.ToUint32(c.Query("visit_category"))
+	if err != nil {
+		visitCategory = 0
+	}
+	if visitCategory > 0 {
+		if condition == "" {
+			condition = "visit_category = ?"
+		} else {
+			condition += " and visit_category = ?"
+		}
+		args = append(args, visitCategory)
+	}
+
+	//  系统类型 ID
+	osCategory, err := utils.ToUint32(c.Query("os_category"))
+	if err != nil {
+		osCategory = 0
+	}
+	if osCategory > 0 {
+		if condition == "" {
+			condition = "os_category = ?"
+		} else {
+			condition += " and os_category = ?"
+		}
+		args = append(args, osCategory)
+	}
+
 	output := services.NewUcSystemMasterVisit().ShowVisitorLogs(dto.ListSystemMasterVisitorLogsInput{
-		Condition: "",
-		Args:      nil,
+		Condition: condition,
+		Args:      args,
 		Order:     "id desc",
 		Start:     start,
 		Length:    length,

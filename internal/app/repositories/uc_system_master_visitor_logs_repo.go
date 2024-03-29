@@ -118,7 +118,7 @@ func (repo *rUcSystemMasterVisitorLogs) CountRecords() (int64, error) {
 // @return int64
 // @return error
 func (repo *rUcSystemMasterVisitorLogs) CountWhereRecords(data dto.ListSystemMasterVisitorLogsInput) (int64, error) {
-	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterVisitorLog).CountWhere(data.Condition, data.Args)
+	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameUcSystemMasterVisitorLog).CountWhere(data.Condition, data.Args...)
 	if err != nil {
 		return 0, err
 	}

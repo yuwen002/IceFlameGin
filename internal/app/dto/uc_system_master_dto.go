@@ -17,7 +17,8 @@ type LoginTelPasswordSystemMasterInput struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-27 17:24:51
 type SystemMasterTokenOutput struct {
-	Token string
+	Token     string
+	AccountID uint32
 }
 
 //	RegisterSystemMasterInput

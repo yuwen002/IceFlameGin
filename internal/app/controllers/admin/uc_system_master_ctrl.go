@@ -109,6 +109,7 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 		c.SetCookie(cookieName, "", -1, "/", "", false, true)
 	}
 
+	c.Set("master_id", token.AccountID)
 	// 写入用户登入记录
 	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 1, 0, "管理员登入")
 	// 登录成功后返回 JavaScript 脚本，刷新页面并跳转到其他页面

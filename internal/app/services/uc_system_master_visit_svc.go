@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
@@ -50,6 +51,40 @@ func (svc *sUcSystemMasterVisit) CreateVisitCategory(in dto.SystemMasterVisitCat
 		Code:    0,
 		Message: "success",
 		Data:    nil,
+	}
+}
+
+// ShowVisitCategoryAll
+//
+// @Title ShowVisitCategoryAll
+// @Description: 全部访问类型分类列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-29 15:09:43
+// @receiver svc
+// @return *system.SysResponse
+func (svc *sUcSystemMasterVisit) ShowVisitCategoryAll() *system.SysResponse {
+	out, err := repositories.NewUcSystemMasterVisit().GetAll()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	var data []*dto.SelectOptionOutput
+	for _, v := range out {
+		d := dto.SelectOptionOutput{
+			Key:   v.ID,
+			Value: v.Title,
+		}
+		data = append(data, &d)
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    data,
 	}
 }
 
@@ -184,6 +219,7 @@ func (svc *sUcSystemMasterVisit) CreateVisitorLogs(in dto.SystemMasterVisitorLog
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMasterVisit) ShowVisitorLogs(in dto.ListSystemMasterVisitorLogsInput) *system.SysResponse {
+	fmt.Println("in:", in)
 	out, err := repositories.NewUcSystemMasterVisitorLogs().GetListByWhere(in)
 	if err != nil {
 		return &system.SysResponse{
@@ -220,7 +256,7 @@ func (svc *sUcSystemMasterVisit) ShowVisitorLogs(in dto.ListSystemMasterVisitorL
 // WriteSystemMasterVisitorLogs
 //
 // @Title SystemMasterVisitorLogs
-// @Description: 写入用户访问几率
+// @Description: 写入用户访问记录
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-26 22:46:17
 // @param accountID
@@ -231,7 +267,7 @@ func (svc *sUcSystemMasterVisit) ShowVisitorLogs(in dto.ListSystemMasterVisitorL
 // @param
 func (svc *sUcSystemMasterVisit) WriteSystemMasterVisitorLogs(c *gin.Context, osCategory uint32, visitCategory uint32, unionID uint32, description string) error {
 	// 管理员AccountID
-	accountID, _, err := system.GetMasterInfo(c)
+	accountID, err := system.GetMasterID(c)
 	if err != nil {
 		return err
 	}
