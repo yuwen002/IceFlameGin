@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
@@ -219,7 +218,6 @@ func (svc *sUcSystemMasterVisit) CreateVisitorLogs(in dto.SystemMasterVisitorLog
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMasterVisit) ShowVisitorLogs(in dto.ListSystemMasterVisitorLogsInput) *system.SysResponse {
-	fmt.Println("in:", in)
 	out, err := repositories.NewUcSystemMasterVisitorLogs().GetListByWhere(in)
 	if err != nil {
 		return &system.SysResponse{
