@@ -1,0 +1,33 @@
+version: "0.1"
+database:
+  # consult[https://gorm.io/docs/connecting_to_the_database.html]"
+  dsn: ""
+  # input mysql or postgres or sqlite or sqlserver. consult[https://gorm.io/docs/connecting_to_the_database.html]
+  db: "mysql"
+  # enter the required data table or leave it blank.You can input : orders,users,goods
+  tables:
+    - single_page
+    - uc_system_master_visitor_logs
+    - uc_system_master_visit_category
+    - uc_system_master_role_relation
+    - uc_system_master_role
+    - uc_system_master
+    - uc_account
+  # 生成的查询类代码的输出路径，默认./query
+  outPath: "./internal/app/models/query"
+  # 生成的文件名，默认gen.go
+  outFile: ""
+  # generate unit test for query code
+  withUnitTest: false
+  # 是否为DAO包生成单元测试代码，默认：false
+  modelPkgName: ""
+  # 数据库中的字段可为空，则生成struct字段为指针类型
+  fieldNullable: false
+  # 为结构体生成gorm index tag，如gorm:"index:idx_name"，默认：false
+  fieldWithIndexTag: true
+  # 为结构体生成gorm type tag，如：gorm:"type:varchar(12)"，默认：false
+  fieldWithTypeTag: true
+  # detect integer field's unsigned type, adjust generated data type
+  fieldSignable: true
+  # 如果数据库中字段有默认值，则生成指针类型的字段，以避免零值（zero-value）
+  fieldCoverable: true
