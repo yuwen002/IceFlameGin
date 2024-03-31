@@ -16,14 +16,14 @@ import (
 type sUcSystemMasterVisit struct {
 }
 
-// NewUcSystemMasterVisit
+// NewUcSystemMasterVisitService
 //
-// @Title NewUcSystemMasterVisit
-// @Description: 创建一个新的 NewUcSystemMasterVisit 服务实例
+// @Title NewUcSystemMasterVisitService
+// @Description: 创建一个新的 NewUcSystemMasterVisitService 服务实例
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-25 16:29:01
 // @return *sUcSystemMasterVisit
-func NewUcSystemMasterVisit() *sUcSystemMasterVisit {
+func NewUcSystemMasterVisitService() *sUcSystemMasterVisit {
 	return &sUcSystemMasterVisit{}
 }
 

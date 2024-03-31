@@ -92,7 +92,7 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRole(c *gin.Context) {
 			system.AddFlashData(c, "添加角色信息成功", "success")
 		}
 	}
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加角色信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加角色信息")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRole)
 }
 
@@ -237,7 +237,7 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRole(c *gin.Context) {
 		return
 	}
 
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑角色信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑角色信息")
 	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
@@ -370,7 +370,7 @@ func (ctrl *cUcSystemMasterRole) HandleCreateMasterRoleRelation(c *gin.Context) 
 		}
 	}
 
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加管理员角色绑定信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加管理员角色绑定信息")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMasterRoleRelation)
 }
 
@@ -564,7 +564,7 @@ func (ctrl *cUcSystemMasterRole) HandleAjaxEditMasterRoleRelation(c *gin.Context
 		return
 	}
 
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑管理员角色绑定信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑管理员角色绑定信息")
 	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,

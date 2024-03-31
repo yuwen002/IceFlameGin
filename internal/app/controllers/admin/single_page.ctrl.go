@@ -102,7 +102,7 @@ func (ctrl *cSinglePage) HandleCreateSinglePage(c *gin.Context) {
 		}
 	}
 
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "添加单页信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "添加单页信息")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateSinglePage)
 }
 

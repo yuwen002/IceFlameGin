@@ -78,7 +78,7 @@ func (ctrl *cUcSystemMasterVisit) HandleCreateVisitCategory(c *gin.Context) {
 
 		system.SetOldInput(c, "title", form.Title)
 	} else {
-		output := services.NewUcSystemMasterVisit().CreateVisitCategory(dto.SystemMasterVisitCategoryInput{
+		output := services.NewUcSystemMasterVisitService().CreateVisitCategory(dto.SystemMasterVisitCategoryInput{
 			Title: form.Title,
 		})
 
@@ -89,7 +89,7 @@ func (ctrl *cUcSystemMasterVisit) HandleCreateVisitCategory(c *gin.Context) {
 		}
 	}
 
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加访问类型分类信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加访问类型分类信息")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateVisitCategory)
 }
 
@@ -127,7 +127,7 @@ func (ctrl *cUcSystemMasterVisit) AjaxListVisitCategory(c *gin.Context) {
 		length = 10
 	}
 
-	output := services.NewUcSystemMasterVisit().ShowVisitCategory(dto.ListSystemMasterVisitCategoryInput{
+	output := services.NewUcSystemMasterVisitService().ShowVisitCategory(dto.ListSystemMasterVisitCategoryInput{
 		Order:  "id desc",
 		Start:  start,
 		Length: length,
@@ -168,7 +168,7 @@ func (ctrl *cUcSystemMasterVisit) EditVisitCategory(c *gin.Context) {
 		return
 	}
 
-	output := services.NewUcSystemMasterVisit().GetVisitCategoryByID(uint32ID)
+	output := services.NewUcSystemMasterVisitService().GetVisitCategoryByID(uint32ID)
 	visit, ok := output.Data.(*model.UcSystemMasterVisitCategory)
 	if !ok {
 		system.RedirectGet(c, ctrl.pageNotFound)
@@ -218,7 +218,7 @@ func (ctrl *cUcSystemMasterVisit) AjaxEditVisitCategory(c *gin.Context) {
 	}
 
 	// 根据 ID 更新访问类型分类
-	output := services.NewUcSystemMasterVisit().ChangeVisitCategoryByID(uint32ID, dto.SystemMasterVisitCategoryInput{
+	output := services.NewUcSystemMasterVisitService().ChangeVisitCategoryByID(uint32ID, dto.SystemMasterVisitCategoryInput{
 		Title: form.Title,
 	})
 	if output.Code == 1 {
@@ -230,7 +230,7 @@ func (ctrl *cUcSystemMasterVisit) AjaxEditVisitCategory(c *gin.Context) {
 		return
 	}
 
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑访问类型分类信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑访问类型分类信息")
 	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
@@ -260,7 +260,7 @@ func (ctrl *cUcSystemMasterVisit) ListVisitorLogs(c *gin.Context) {
 		return
 	}
 
-	output = services.NewUcSystemMasterVisit().ShowVisitCategoryAll()
+	output = services.NewUcSystemMasterVisitService().ShowVisitCategoryAll()
 	if output.Code == 1 {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -340,7 +340,7 @@ func (ctrl *cUcSystemMasterVisit) AjaxListVisitorLogs(c *gin.Context) {
 		args = append(args, osCategory)
 	}
 
-	output := services.NewUcSystemMasterVisit().ShowVisitorLogs(dto.ListSystemMasterVisitorLogsInput{
+	output := services.NewUcSystemMasterVisitService().ShowVisitorLogs(dto.ListSystemMasterVisitorLogsInput{
 		Condition: condition,
 		Args:      args,
 		Order:     "id desc",

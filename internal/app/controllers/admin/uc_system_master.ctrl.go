@@ -111,7 +111,7 @@ func (ctrl *cUcSystemMaster) HandleLogin(c *gin.Context) {
 
 	c.Set("master_id", token.AccountID)
 	// 写入用户登入记录
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 1, 0, "管理员登入")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 1, 0, "管理员登入")
 	// 登录成功后返回 JavaScript 脚本，刷新页面并跳转到其他页面
 	fmt.Fprintf(c.Writer, "<script>window.top.location.href = '%s';</script>", paths.AdminRoot+paths.AdminDashboard)
 	return
@@ -472,7 +472,7 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminLogin)
 
 	// 写入修改自己的密码操作记录
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "修改自己的密码")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "修改自己的密码")
 	return
 }
 
@@ -485,7 +485,7 @@ func (ctrl *cUcSystemMaster) HandleChangeOwnPassword(c *gin.Context) {
 // @receiver ctrl
 func (ctrl *cUcSystemMaster) Logout(c *gin.Context) {
 	// 写入退出登录操作记录
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 1, 0, "退出登录")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 1, 0, "退出登录")
 	system.DeleteSession(c, "ice_flame_master")
 	// 返回 JavaScript 脚本，刷新页面并跳转到登录页
 	fmt.Fprint(c.Writer, "<script>window.top.location.href = '", paths.AdminRoot+paths.AdminLogin, "'; window.top.location.reload();</script>")
@@ -602,7 +602,7 @@ func (ctrl *cUcSystemMaster) HandleChangeMasterInfo(c *gin.Context) {
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminChangeMasterInfo)
 
 	// 写入修改管理员自己的信息操作记录
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "修改管理员自己的信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "修改管理员自己的信息")
 	return
 }
 
@@ -681,7 +681,7 @@ func (ctrl *cUcSystemMaster) HandleCreateSystemMaster(c *gin.Context) {
 		}
 
 		// 写入添加管理员信息操作记录
-		_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加管理员信息")
+		_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加管理员信息")
 	}
 
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateMaster)
@@ -831,7 +831,7 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditMaster(c *gin.Context) {
 	}
 
 	// 写入编辑管理员信息操作记录
-	_ = services.NewUcSystemMasterVisit().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑管理员信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑管理员信息")
 	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
