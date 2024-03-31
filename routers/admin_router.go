@@ -81,6 +81,10 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminAjaxListSinglePage, admin.SinglePage.AjaxListSinglePage)
 			r.GET(paths.AdminEditSinglePage, admin.SinglePage.EditSinglePage)
 			r.POST(paths.AdminHandleAjaxSinglePage, admin.SinglePage.AjaxListSinglePage)
+
+			// 文件上传
+			r.POST(paths.AdminUploadFile, admin.SysUploadFile.UploadFile)
+			r.POST(paths.AdminUploadImage, admin.SysUploadFile.UploadImage)
 		}
 
 	}

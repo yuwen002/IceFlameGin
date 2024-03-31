@@ -20,4 +20,5 @@ func LoadTemplates(r *gin.Engine) {
 	pongo2.RegisterFilter("old", utils.OldFilter)
 	// 配置静态文件路径
 	r.Static("/static", "./web/static")
+	r.Static("/uploads", "./web/uploads")
 }

@@ -12,10 +12,16 @@ import (
 	"reflect"
 )
 
+// cSinglePage
+//
+// @Description: 单页信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-03-31 23:15:13
 type cSinglePage struct {
 	pageNotFound string
 }
 
+// SinglePage 初始化单页信息控制器
 var SinglePage = cSinglePage{
 	pageNotFound: paths.AdminRoot + paths.Admin404,
 }

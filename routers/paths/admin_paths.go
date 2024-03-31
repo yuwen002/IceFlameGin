@@ -55,4 +55,7 @@ const (
 	AdminAjaxListSinglePage     = "/single-page/ajax/list"
 	AdminEditSinglePage         = "/single-page/edit"
 	AdminHandleAjaxSinglePage   = "/single-page/ajax/edit"
+
+	AdminUploadFile  = "/upload/file"
+	AdminUploadImage = "/upload/image"
 )

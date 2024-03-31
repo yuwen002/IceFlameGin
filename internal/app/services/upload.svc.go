@@ -107,7 +107,7 @@ func (svc *sUpload) GenerateUniqueFileName() *system.SysResponse {
 // @return *system.SysResponse
 func (svc *sUpload) UploadFile(c *gin.Context, file *multipart.FileHeader) *system.SysResponse {
 	//  文件目录
-	out := svc.GenerateUniqueFileName()
+	out := svc.CreateDirectoryByYearMonth()
 	if out.Code != 0 {
 		return out
 	}
@@ -125,9 +125,10 @@ func (svc *sUpload) UploadFile(c *gin.Context, file *multipart.FileHeader) *syst
 	ext := filepath.Ext(file.Filename)
 	// 拼接完整文件路径
 	fullFilePath := filepath.Join(dirName, fileName+ext)
+	url := strings.Replace(fullFilePath, "web", "", 1)
 
 	// 保存文件到指定目录
-	err := c.SaveUploadedFile(file, "uploads/"+fullFilePath)
+	err := c.SaveUploadedFile(file, fullFilePath)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -138,8 +139,8 @@ func (svc *sUpload) UploadFile(c *gin.Context, file *multipart.FileHeader) *syst
 
 	return &system.SysResponse{
 		Code:    0,
-		Message: err.Error(),
-		Data:    fullFilePath,
+		Message: "文件上传成功",
+		Data:    url,
 	}
 }
 
@@ -156,7 +157,7 @@ func (svc *sUpload) UploadFiles(c *gin.Context, files []*multipart.FileHeader) *
 	var uploadedFiles []string
 
 	for _, file := range files {
-		out := svc.GenerateUniqueFileName()
+		out := svc.CreateDirectoryByYearMonth()
 		if out.Code != 0 {
 			return out
 		}
@@ -171,6 +172,7 @@ func (svc *sUpload) UploadFiles(c *gin.Context, files []*multipart.FileHeader) *
 
 		ext := filepath.Ext(file.Filename)
 		fullFilePath := filepath.Join(dirName, fileName+ext)
+		url := strings.Replace(fullFilePath, "web", "", 1)
 
 		err := c.SaveUploadedFile(file, "uploads/"+fullFilePath)
 		if err != nil {
@@ -181,7 +183,7 @@ func (svc *sUpload) UploadFiles(c *gin.Context, files []*multipart.FileHeader) *
 			}
 		}
 
-		uploadedFiles = append(uploadedFiles, fullFilePath)
+		uploadedFiles = append(uploadedFiles, url)
 	}
 
 	return &system.SysResponse{
@@ -232,12 +234,12 @@ func (svc *sUpload) UploadSingleImage(c *gin.Context, file *multipart.FileHeader
 	}
 
 	// 继续处理文件上传逻辑
-	out := svc.GenerateUniqueFileName()
+	out := svc.CreateDirectoryByYearMonth()
 	if out.Code != 0 {
 		return out
 	}
-
 	dirName := out.Data.(string)
+	fmt.Println(dirName)
 
 	out = svc.GenerateUniqueFileName()
 	if out.Code != 0 {
@@ -247,8 +249,9 @@ func (svc *sUpload) UploadSingleImage(c *gin.Context, file *multipart.FileHeader
 
 	ext := filepath.Ext(file.Filename)
 	fullFilePath := filepath.Join(dirName, fileName+ext)
+	url := strings.Replace(fullFilePath, "web", "", 1)
 
-	err = c.SaveUploadedFile(file, "uploads/"+fullFilePath)
+	err = c.SaveUploadedFile(file, fullFilePath)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -260,7 +263,7 @@ func (svc *sUpload) UploadSingleImage(c *gin.Context, file *multipart.FileHeader
 	return &system.SysResponse{
 		Code:    0,
 		Message: "图片上传成功",
-		Data:    fullFilePath,
+		Data:    url,
 	}
 }
 
@@ -310,7 +313,7 @@ func (svc *sUpload) UploadMultipleImages(c *gin.Context, files []*multipart.File
 		}
 
 		// 继续处理文件上传逻辑
-		out := svc.GenerateUniqueFileName()
+		out := svc.CreateDirectoryByYearMonth()
 		if out.Code != 0 {
 			return out
 		}
@@ -325,12 +328,13 @@ func (svc *sUpload) UploadMultipleImages(c *gin.Context, files []*multipart.File
 
 		ext := filepath.Ext(file.Filename)
 		fullFilePath := filepath.Join(dirName, fileName+ext)
+		url := strings.Replace(fullFilePath, "web", "", 1)
 
 		// 重新打开文件，因为前面已经读取了一部分内容
 		uploadedFile, _ = file.Open()
 
 		// 保存文件到指定目录
-		err = c.SaveUploadedFile(file, "uploads/"+fullFilePath)
+		err = c.SaveUploadedFile(file, fullFilePath)
 		if err != nil {
 			return &system.SysResponse{
 				Code:    1,
@@ -339,7 +343,7 @@ func (svc *sUpload) UploadMultipleImages(c *gin.Context, files []*multipart.File
 			}
 		}
 
-		uploadedFiles = append(uploadedFiles, fullFilePath)
+		uploadedFiles = append(uploadedFiles, url)
 	}
 
 	return &system.SysResponse{
