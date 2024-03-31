@@ -73,6 +73,14 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.POST(paths.AdminHandleAjaxVisitCategory, admin.UcSystemMasterVisit.AjaxEditVisitCategory)
 			r.GET(paths.AdminListVisitorLogs, admin.UcSystemMasterVisit.ListVisitorLogs)
 			r.GET(paths.AdminAjaxListVisitorLogs, admin.UcSystemMasterVisit.AjaxListVisitorLogs)
+
+			// 单页信息
+			r.GET(paths.AdminCreateSinglePage, admin.SinglePage.CreateSinglePage)
+			r.POST(paths.AdminHandleCreateSinglePage, admin.SinglePage.HandleEditSinglePage)
+			r.GET(paths.AdminListSinglePage, admin.SinglePage.ListSinglePage)
+			r.GET(paths.AdminAjaxListSinglePage, admin.SinglePage.AjaxListSinglePage)
+			r.GET(paths.AdminEditSinglePage, admin.SinglePage.EditSinglePage)
+			r.POST(paths.AdminHandleAjaxSinglePage, admin.SinglePage.AjaxListSinglePage)
 		}
 
 	}

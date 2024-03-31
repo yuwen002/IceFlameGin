@@ -44,8 +44,15 @@ const (
 	AdminHandleCreateVisitCategory = "/visit-category/create"
 	AdminListVisitCategory         = "/visit-category/list"
 	AdminAjaxListVisitCategory     = "/visit-category/ajax/list"
-	AdminEditVisitCategory         = "/visit-category/edit"
+	AdminEditVisitCategory         = "/visit-category/editedit"
 	AdminHandleAjaxVisitCategory   = "/visit-category/ajax/edit"
 	AdminListVisitorLogs           = "/visitor-logs/list"
 	AdminAjaxListVisitorLogs       = "/visitor-logs/ajax/list"
+
+	AdminCreateSinglePage       = "/single-page/create"
+	AdminHandleCreateSinglePage = "/single-page/create"
+	AdminListSinglePage         = "/single-page/list"
+	AdminAjaxListSinglePage     = "/single-page/ajax/list"
+	AdminEditSinglePage         = "/single-page/edit"
+	AdminHandleAjaxSinglePage   = "/single-page/ajax/edit"
 )

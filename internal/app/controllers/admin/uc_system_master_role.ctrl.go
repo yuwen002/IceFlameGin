@@ -318,7 +318,7 @@ func (ctrl *cUcSystemMasterRole) CreateMasterRoleRelation(c *gin.Context) {
 // HandleCreateMasterRoleRelation
 //
 // @Title HandleCreateMasterRoleRelation
-// @Description: 渲染创建管理员角色关联处理页面
+// @Description: 处理创建管理员角色关联处理页面
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-22 11:22:36
 // @receiver ctrl
