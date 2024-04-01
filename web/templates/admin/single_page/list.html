@@ -5,12 +5,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>角色信息</h1>
+                <h1>单页信息</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-                    <li class="breadcrumb-item active">角色信息</li>
+                    <li class="breadcrumb-item active">单页信息</li>
                 </ol>
             </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">角色信息 列表</h3>
+                        <h3 class="card-title">单页信息 列表</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" onclick="location.reload();">
                                 <i class="fas fa-sync-alt"></i>
@@ -38,8 +38,10 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>角色名称</th>
-                                <th>备注</th>
+                                <th>标题</th>
+                                <th>缩略图</th>
+                                <th>点击量</th>
+                                <th>显示状态</th>
                                 <th>创建时间</th>
                                 <th>更新时间</th>
                                 <th>操作</th>
@@ -50,8 +52,10 @@
                             <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>角色名称</th>
-                                <th>备注</th>
+                                <th>标题</th>
+                                <th>缩略图</th>
+                                <th>点击量</th>
+                                <th>显示状态</th>
                                 <th>创建时间</th>
                                 <th>更新时间</th>
                                 <th>操作</th>
@@ -126,8 +130,28 @@
             "pagingType": "simple_numbers",
             "columns": [
                 {"data": "id"},
-                {"data": "name"},
-                {"data": "remark"},
+                {"data": "title"},
+                {
+                    "data": "thumbnail",
+                    "render": function (data, type, row) {
+                        if (data.thumbnail) {
+                            return `<img src="${data.thumbnail}"/>`;
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {"data": "click"},
+                {
+                    "data": "status",
+                    "render": function (data, type, row) {
+                        if (data == 0) {
+                            return "已发布";
+                        } else {
+                            return "未发布";
+                        }
+                    }
+                },
                 {
                     "data": "created_at",
                     "render": function (data, type, row) {
@@ -154,7 +178,7 @@
                 }
             ],
             "ajax": {
-                "url": "/admin/master-role/ajax/list/",
+                "url": "/admin/single-page/ajax/list/",
                 "type": "GET",
                 "cache": false,
                 "dataSrc": "data"

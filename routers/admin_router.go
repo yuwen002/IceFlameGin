@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/controllers/admin"
 	"ice_flame_gin/internal/app/middlewares"
@@ -19,7 +20,7 @@ func setupAdminRoutes(router *gin.Engine) {
 	r := router.Group(paths.AdminRoot)
 	{
 		r.GET(paths.Admin404, func(c *gin.Context) {
-			c.AbortWithStatus(404)
+			system.Render(c, "admin/error/404.html", pongo2.Context{})
 		})
 		r.GET("/", admin.UcSystemMaster.Login)
 		r.GET(paths.AdminLogin, admin.UcSystemMaster.Login)
@@ -76,7 +77,7 @@ func setupAdminRoutes(router *gin.Engine) {
 
 			// 单页信息
 			r.GET(paths.AdminCreateSinglePage, admin.SinglePage.CreateSinglePage)
-			r.POST(paths.AdminHandleCreateSinglePage, admin.SinglePage.HandleEditSinglePage)
+			r.POST(paths.AdminHandleCreateSinglePage, admin.SinglePage.HandleCreateSinglePage)
 			r.GET(paths.AdminListSinglePage, admin.SinglePage.ListSinglePage)
 			r.GET(paths.AdminAjaxListSinglePage, admin.SinglePage.AjaxListSinglePage)
 			r.GET(paths.AdminEditSinglePage, admin.SinglePage.EditSinglePage)

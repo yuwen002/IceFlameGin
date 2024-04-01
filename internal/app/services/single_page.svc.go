@@ -50,3 +50,41 @@ func (svc *sSinglePage) CreateSinglePage(in dto.SinglePageInput) *system.SysResp
 		Data:    nil,
 	}
 }
+
+// ShowSinglePage
+//
+// @Title ShowSinglePage
+// @Description: 单页信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-02 00:22:25
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sSinglePage) ShowSinglePage(in dto.ListSinglePageInput) *system.SysResponse {
+	out, err := repositories.NewSinglePageRepository().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	totalRecords, err := repositories.NewSinglePageRepository().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data: dto.ListSinglePageOutput{
+			List:  out,
+			Total: totalRecords,
+		},
+	}
+}

@@ -9,12 +9,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>管理员信息</h1>
+                <h1>信息</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-                    <li class="breadcrumb-item active">创建管理员信息</li>
+                    <li class="breadcrumb-item active">创建单页信息</li>
                 </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">管理员信息 <small>创建</small></h3>
+                        <h3 class="card-title">单页信息 <small>创建</small></h3>
                         <div class="card-tools">
                             <button class="btn btn-tool" onclick="location.reload();" type="button">
                                 <i class="fas fa-sync-alt"></i>
@@ -55,7 +55,7 @@
                     {% endif %}
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form action="/admin/master/create" id="form-info" method="post">
+                    <form action="/admin/single-page/create" id="form-info" method="post">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="title">标题</label>

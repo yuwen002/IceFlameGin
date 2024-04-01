@@ -9,6 +9,7 @@ import (
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
+	"net/http"
 	"reflect"
 )
 
@@ -35,8 +36,22 @@ var SinglePage = cSinglePage{
 // @receiver ctrl
 // @param c
 func (ctrl *cSinglePage) CreateSinglePage(c *gin.Context) {
+	// 从会话中获取成功信息
+	success := system.GetFlashedData(c, "success")
+	// 从会话中获取错误信息
+	fail := system.GetFlashedData(c, "fail")
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
 	system.Render(c, "admin/single_page/create.html", pongo2.Context{
-		"title": "新建单页信息",
+		"title":   "新建单页信息",
+		"success": success,
+		"fail":    fail,
+		"err_msg": errMsg,
 	})
 	return
 }
@@ -51,7 +66,6 @@ func (ctrl *cSinglePage) CreateSinglePage(c *gin.Context) {
 // @param c
 func (ctrl *cSinglePage) HandleCreateSinglePage(c *gin.Context) {
 	var form validators.SinglePageForm
-
 	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
 		errMsg := system.GetValidationErrorMsg(err, form)
@@ -81,14 +95,12 @@ func (ctrl *cSinglePage) HandleCreateSinglePage(c *gin.Context) {
 	} else {
 		click, errUInt32 := utils.ToUint32(form.Click)
 		if errUInt32 != nil {
-			system.RedirectGet(c, ctrl.pageNotFound)
-			return
+			click = 0
 		}
 
 		status, errUInt32 := utils.ToUint32(form.Status)
 		if errUInt32 != nil {
-			system.RedirectGet(c, ctrl.pageNotFound)
-			return
+			status = 0
 		}
 
 		output := services.NewSinglePageService().CreateSinglePage(dto.SinglePageInput{
@@ -110,14 +122,61 @@ func (ctrl *cSinglePage) HandleCreateSinglePage(c *gin.Context) {
 
 	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "添加单页信息")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateSinglePage)
+	return
 }
 
+// ListSinglePage
+//
+// @Title ListSinglePage
+// @Description: 渲染单页信息列表页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-02 00:11:03
+// @receiver ctrl
+// @param c
 func (ctrl *cSinglePage) ListSinglePage(c *gin.Context) {
-
+	// 渲染单页信息列表页面
+	system.Render(c, "admin/single_page/list.html", pongo2.Context{
+		"title": "用户角色列表",
+	})
 }
 
+// AjaxListSinglePage
+//
+// @Title AjaxListSinglePage
+// @Description: Ajax获取单页信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-02 00:11:22
+// @receiver ctrl
+// @param c
 func (ctrl *cSinglePage) AjaxListSinglePage(c *gin.Context) {
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
+	if err != nil {
+		start = 0
+	}
 
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
+	if err != nil {
+		length = 10
+	}
+
+	output := services.NewSinglePageService().ShowSinglePage(dto.ListSinglePageInput{
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
+	})
+
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	data := output.Data.(dto.ListSinglePageOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
+	})
 }
 
 func (ctrl *cSinglePage) EditSinglePage(c *gin.Context) {
