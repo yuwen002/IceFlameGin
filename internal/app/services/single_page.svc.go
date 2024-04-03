@@ -88,3 +88,29 @@ func (svc *sSinglePage) ShowSinglePage(in dto.ListSinglePageInput) *system.SysRe
 		},
 	}
 }
+
+// GetSinglePageByID
+//
+// @Title GetSinglePageByID
+// @Description: 按ID获取单页信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-03 15:32:54
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sSinglePage) GetSinglePageByID(id uint32) *system.SysResponse {
+	out, err := repositories.NewSinglePageRepository().GetByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    out,
+	}
+}

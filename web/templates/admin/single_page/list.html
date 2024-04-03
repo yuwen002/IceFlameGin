@@ -190,7 +190,7 @@
             let roleId = $(this).data('id');
 
             // 使用 AJAX 获取角色信息并填充表单
-            $('.modal-body').load('/admin/master-role/edit?id=' + roleId, function (response, status, xhr) {
+            $('.modal-body').load('/admin/single-page/edit?id=' + roleId, function (response, status, xhr) {
                 if (status === 'error') {
                     // 处理加载错误的情况
                     $('.modal-body').html('<p>加载失败，请重试。</p>');

@@ -27,9 +27,9 @@ func NewUcAccountRepository() *rUcAccount {
 	}
 }
 
-// GetById
+// GetByID
 //
-// @Title GetById
+// @Title GetByID
 // @Description: 按ID获取用户信息
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-02 00:16:58
@@ -37,7 +37,7 @@ func NewUcAccountRepository() *rUcAccount {
 // @param id
 // @return out
 // @return err
-func (repo *rUcAccount) GetById(id uint32) (out *model.UcAccount, err error) {
+func (repo *rUcAccount) GetByID(id uint32) (out *model.UcAccount, err error) {
 	err = db.NewGormCore().GetByID(id, &out)
 	if err != nil {
 		return nil, err

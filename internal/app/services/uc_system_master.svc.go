@@ -511,7 +511,7 @@ func (svc *sUcSystemMaster) ChangePassword(in dto.ChangePasswordInput) *system.S
 // @param in
 // @return *system.SysResponse
 func (svc *sUcSystemMaster) ChangeOwnPassword(in dto.ChangeOwnPasswordInput) *system.SysResponse {
-	out, err := repositories.NewUcAccountRepository().GetById(in.ID)
+	out, err := repositories.NewUcAccountRepository().GetByID(in.ID)
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,

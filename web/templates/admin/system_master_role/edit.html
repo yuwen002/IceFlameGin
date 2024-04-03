@@ -17,7 +17,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="master-info" method="post" action="/admin/master-role/ajax/edit?id={{ id }}">
+                    <form id="form-info" method="post" action="/admin/master-role/ajax/edit?id={{ id }}">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">角色名称</label>
@@ -62,7 +62,7 @@
             submitHandler: function (form) {
             }
         });
-        $('#master-info').validate({
+        $('#form-info').validate({
             rules: {
                 name: {
                     required: true,
@@ -91,11 +91,11 @@
         });
 
         $('#submit-btn').click(function () {
-            if ($('#master-info').valid()) {
+            if ($('#form-info').valid()) {
                 $.ajax({
                     url: '/admin/master-role/ajax/edit?id={{ id }}',
                     type: 'POST',
-                    data: $('#master-info').serialize(),
+                    data: $('#form-info').serialize(),
                     success: function (response) {
                         let messageOpts = {
                             "closeButton": true,// 是否显示关闭按钮

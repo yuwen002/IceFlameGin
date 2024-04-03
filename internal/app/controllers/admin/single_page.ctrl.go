@@ -1,9 +1,11 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
+	"ice_flame_gin/internal/app/models/model"
 	"ice_flame_gin/internal/app/services"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/pkg/utils"
@@ -136,7 +138,7 @@ func (ctrl *cSinglePage) HandleCreateSinglePage(c *gin.Context) {
 func (ctrl *cSinglePage) ListSinglePage(c *gin.Context) {
 	// 渲染单页信息列表页面
 	system.Render(c, "admin/single_page/list.html", pongo2.Context{
-		"title": "用户角色列表",
+		"title": "单页信息列表",
 	})
 }
 
@@ -179,8 +181,46 @@ func (ctrl *cSinglePage) AjaxListSinglePage(c *gin.Context) {
 	})
 }
 
+// EditSinglePage
+//
+// @Title EditSinglePage
+// @Description:
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-03 16:41:35
+// @receiver ctrl
+// @param c
 func (ctrl *cSinglePage) EditSinglePage(c *gin.Context) {
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output := services.NewSinglePageService().GetSinglePageByID(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	singlePage, ok := output.Data.(*model.SinglePage)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	fmt.Println(singlePage)
+
+	// 渲染单页信息列表页面
+	system.Render(c, "admin/single_page/edit.html", pongo2.Context{
+		"title":      "单页信息编辑",
+		"singlePage": singlePage,
+		"id":         uint32ID,
+	})
 }
 
 func (ctrl *cSinglePage) HandleEditSinglePage(c *gin.Context) {
