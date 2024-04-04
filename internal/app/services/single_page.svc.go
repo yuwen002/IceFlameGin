@@ -2,6 +2,7 @@ package services
 
 import (
 	"ice_flame_gin/internal/app/dto"
+	"ice_flame_gin/internal/app/models/model"
 	"ice_flame_gin/internal/app/repositories"
 	"ice_flame_gin/internal/system"
 )
@@ -35,7 +36,15 @@ func NewSinglePageService() *sSinglePage {
 // @param in
 // @return *system.SysResponse
 func (svc *sSinglePage) CreateSinglePage(in dto.SinglePageInput) *system.SysResponse {
-	err := repositories.NewSinglePageRepository().Insert(in)
+	err := repositories.NewSinglePageRepository().Insert(&model.SinglePage{
+		Title:       in.Title,
+		Description: in.Description,
+		Keyword:     in.Keyword,
+		Content:     in.Content,
+		Thumbnail:   in.Thumbnail,
+		Click:       in.Click,
+		Status:      in.Status,
+	})
 	if err != nil {
 		return &system.SysResponse{
 			Code:    1,
@@ -112,5 +121,40 @@ func (svc *sSinglePage) GetSinglePageByID(id uint32) *system.SysResponse {
 		Code:    0,
 		Message: "Success",
 		Data:    out,
+	}
+}
+
+// ChangeSinglePageByID
+//
+// @Title ChangeSinglePageByID
+// @Description: 按ID修改单页信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-04 23:37:35
+// @receiver svc
+// @param id
+// @param in
+// @return *system.SysResponse
+func (svc *sSinglePage) ChangeSinglePageByID(id uint32, in dto.SinglePageInput) *system.SysResponse {
+	err := repositories.NewSinglePageRepository().UpdateByID(id, &model.SinglePage{
+		Title:       in.Title,
+		Description: in.Description,
+		Keyword:     in.Keyword,
+		Content:     in.Content,
+		Thumbnail:   in.Thumbnail,
+		Click:       in.Click,
+		Status:      in.Status,
+	})
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
 	}
 }

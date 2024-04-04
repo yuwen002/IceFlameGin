@@ -49,12 +49,12 @@ const (
 	AdminListVisitorLogs           = "/visitor-logs/list"
 	AdminAjaxListVisitorLogs       = "/visitor-logs/ajax/list"
 
-	AdminCreateSinglePage       = "/single-page/create"
-	AdminHandleCreateSinglePage = "/single-page/create"
-	AdminListSinglePage         = "/single-page/list"
-	AdminAjaxListSinglePage     = "/single-page/ajax/list"
-	AdminEditSinglePage         = "/single-page/edit"
-	AdminHandleAjaxSinglePage   = "/single-page/ajax/edit"
+	AdminCreateSinglePage         = "/single-page/create"
+	AdminHandleCreateSinglePage   = "/single-page/create"
+	AdminListSinglePage           = "/single-page/list"
+	AdminAjaxListSinglePage       = "/single-page/ajax/list"
+	AdminEditSinglePage           = "/single-page/edit"
+	AdminHandleAjaxEditSinglePage = "/single-page/ajax/edit"
 
 	AdminUploadFile  = "/upload/file"
 	AdminUploadImage = "/upload/image"

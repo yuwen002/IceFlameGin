@@ -38,16 +38,8 @@ func NewSinglePageRepository() *rSinglePage {
 // @receiver r
 // @param data
 // @return error
-func (repo *rSinglePage) Insert(data dto.SinglePageInput) error {
-	err := db.NewGormCore().Insert(&model.SinglePage{
-		Title:       data.Title,
-		Description: data.Description,
-		Keyword:     data.Keyword,
-		Content:     data.Content,
-		Thumbnail:   data.Thumbnail,
-		Click:       data.Click,
-		Status:      data.Status,
-	})
+func (repo *rSinglePage) Insert(in *model.SinglePage) error {
+	err := db.NewGormCore().Insert(in)
 
 	if err != nil {
 		return err
@@ -119,4 +111,23 @@ func (repo *rSinglePage) CountRecords() (int64, error) {
 	}
 
 	return totalRecords, err
+}
+
+// UpdateByID
+//
+// @Title UpdateByID
+// @Description:  按ID修改单页信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-04 23:09:33
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *rSinglePage) UpdateByID(id uint32, in *model.SinglePage) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

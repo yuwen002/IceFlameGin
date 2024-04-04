@@ -40,9 +40,21 @@
                                 <label for="keyword">内容</label>
                                 <textarea id="summernote" name="content">{{ singlePage.Content }}</textarea>
                             </div>
+                            {% if singlePage.Thumbnail %}
+                            <div class="form-group" style="position: relative;">
+                                <label>已上传缩略图：</label>
+                                <div style="position: relative; display: inline-block;">
+                                    <img src="{{ singlePage.Thumbnail }}" style="max-width: 100px;">
+                                    <br> <!-- 添加换行 -->
+                                    <button type="button" class="close" data-thumbnail="{{ singlePage.Thumbnail }}">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                            </div>
+                            {% endif %}
                             <div class="form-group">
                                 <label for="keyword">缩略图</label>
-                                <input id="thumbnail" name="thumbnail" type="hidden">
+                                <input id="thumbnail" name="thumbnail" type="hidden" value="{{ singlePage.Thumbnail }}">
                                 <div class="row" id="actions">
                                     <div class="col-lg-6">
                                         <div class="btn-group w-100">
@@ -95,10 +107,6 @@
                                                     <i class="fas fa-times-circle"></i>
                                                     <span>Cancel</span>
                                                 </button>
-                                                <button class="btn btn-danger delete" data-dz-remove>
-                                                    <i class="fas fa-trash"></i>
-                                                    <span>Delete</span>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -135,13 +143,12 @@
 <script src="/static/admin/plugins/dropzone/min/dropzone.min.js"></script>
 <script>
     $(function () {
-        let defaultValue = "{{ singlePage.status }}"
+        let defaultValue = "{{ singlePage.Status }}"
         if (defaultValue == "") {
             $('input[name="status"][value="0"]').prop('checked', true)
         } else {
             $('input[name="status"][value="' + defaultValue + '"]').prop('checked', true)
         }
-
 
         $.validator.setDefaults({
             submitHandler: function (form) {
@@ -176,7 +183,7 @@
         $('#submit-btn').click(function () {
             if ($('#form-info').valid()) {
                 $.ajax({
-                    url: '/admin/master/ajax/edit?id={{ id }}',
+                    url: '/admin/single-page/ajax/edit?id={{ id }}',
                     type: 'POST',
                     data: $('#form-info').serialize(),
                     success: function (response) {
@@ -238,5 +245,78 @@
             }
         }
     });
+
+
+    // DropzoneJS Demo Code Start
+    Dropzone.autoDiscover = false
+
+    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+    var previewNode = document.querySelector("#template")
+    previewNode.id = ""
+    var previewTemplate = previewNode.parentNode.innerHTML
+    previewNode.parentNode.removeChild(previewNode)
+
+    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+        url: "/admin/upload/image", // Set the url
+        thumbnailWidth: 80,
+        thumbnailHeight: 80,
+        parallelUploads: 20,
+        maxFiles: 1,
+        previewTemplate: previewTemplate,
+        autoQueue: false, // Make sure the files aren't queued until manually added
+        previewsContainer: "#previews", // Define the container to display the previews
+        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+        acceptedFiles: ".jpg,.gif,.png,.jpeg",
+        dictInvalidFileType: "文件类型只能是*.jpg,*.gif,*.png,*.jpeg",
+        init: function () {
+            this.on("success", function (file, response) {
+                // 处理服务器返回的文件 URL
+                let fileUrl = response.url;
+                $("#thumbnail").val(fileUrl)
+                console.log("File URL:", fileUrl);
+            });
+            this.on("removedfile", function (file) {
+                // 清空已上传文件，确保每次只上传一个文件
+                myDropzone.removeAllFiles(true);
+                // 同时清空input元素的值
+                $("#thumbnail").val('');
+            });
+        },
+    })
+
+    myDropzone.on("addedfile", function (file) {
+        // Hookup the start button
+        file.previewElement.querySelector(".start").onclick = function () {
+            myDropzone.enqueueFile(file)
+        }
+    })
+
+    // Update the total progress bar
+    myDropzone.on("totaluploadprogress", function (progress) {
+        document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+    })
+
+    myDropzone.on("sending", function (file) {
+        // Show the total progress bar when upload starts
+        document.querySelector("#total-progress").style.opacity = "1"
+        // And disable the start button
+        file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+    })
+
+    // Hide the total progress bar when nothing'svc uploading anymore
+    myDropzone.on("queuecomplete", function (progress) {
+        document.querySelector("#total-progress").style.opacity = "0"
+    })
+
+    // Setup the buttons for all transfers
+    // The "add files" button doesn't need to be setup because the config
+    // `clickable` has already been specified.
+    document.querySelector("#actions .start").onclick = function () {
+        myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+    }
+    document.querySelector("#actions .cancel").onclick = function () {
+        $("#thumbnail").val("")
+        myDropzone.removeAllFiles(true)
+    }
 </script>
 {% endblock %}

@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -184,7 +183,7 @@ func (ctrl *cSinglePage) AjaxListSinglePage(c *gin.Context) {
 // EditSinglePage
 //
 // @Title EditSinglePage
-// @Description:
+// @Description: 渲染管单页信息页面
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-04-03 16:41:35
 // @receiver ctrl
@@ -213,7 +212,6 @@ func (ctrl *cSinglePage) EditSinglePage(c *gin.Context) {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
-	fmt.Println(singlePage)
 
 	// 渲染单页信息列表页面
 	system.Render(c, "admin/single_page/edit.html", pongo2.Context{
@@ -223,8 +221,75 @@ func (ctrl *cSinglePage) EditSinglePage(c *gin.Context) {
 	})
 }
 
-func (ctrl *cSinglePage) HandleEditSinglePage(c *gin.Context) {
+// HandleAjaxEditSinglePage
+//
+// @Title HandleAjaxEditSinglePage
+// @Description: Ajax处理编辑管单页信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-04 23:45:49
+// @receiver ctrl
+// @param c
+func (ctrl *cSinglePage) HandleAjaxEditSinglePage(c *gin.Context) {
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
 
+	var form validators.SinglePageForm
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+
+	click, errUInt32 := utils.ToUint32(form.Click)
+	if errUInt32 != nil {
+		click = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	// 根据 ID 更新单页信息
+	output := services.NewSinglePageService().ChangeSinglePageByID(uint32ID, dto.SinglePageInput{
+		Title:       form.Title,
+		Description: form.Description,
+		Keyword:     form.Keyword,
+		Content:     form.Content,
+		Thumbnail:   form.Thumbnail,
+		Click:       click,
+		Status:      status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑单页信息")
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }
 
 func (ctrl *cSinglePage) DeleteSinglePage(c *gin.Context) {
