@@ -292,6 +292,52 @@ func (ctrl *cSinglePage) HandleAjaxEditSinglePage(c *gin.Context) {
 	return
 }
 
+func (ctrl *cSinglePage) HandleAjaxEditStatusSinglePage(c *gin.Context) {
+	id := c.PostForm("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	status := c.PostForm("status")
+	uint32Status, err := utils.ToUint32(status)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	// 根据 ID 更新单页信息
+	output := services.NewSinglePageService().ChangeSinglePageByID(uint32ID, dto.SinglePageInput{
+		Status: uint32Status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑单页信息发布状态")
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
+}
+
 func (ctrl *cSinglePage) DeleteSinglePage(c *gin.Context) {
 
 }
