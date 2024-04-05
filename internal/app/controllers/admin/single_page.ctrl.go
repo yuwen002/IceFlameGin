@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -305,7 +306,9 @@ func (ctrl *cSinglePage) HandleAjaxEditStatusSinglePage(c *gin.Context) {
 	}
 
 	status := c.PostForm("status")
+	fmt.Println("status:", status)
 	uint32Status, err := utils.ToUint32(status)
+	fmt.Println("uint32Status:", uint32Status)
 	if err != nil {
 		c.JSON(http.StatusOK, &system.SysResponse{
 			Code:    1,

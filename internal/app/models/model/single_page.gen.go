@@ -19,7 +19,7 @@ type SinglePage struct {
 	Content     string    `gorm:"column:content;type:text;comment:页面内容" json:"content"`                         // 页面内容
 	Thumbnail   string    `gorm:"column:thumbnail;type:varchar(255);comment:缩略图" json:"thumbnail"`              // 缩略图
 	Click       uint32    `gorm:"column:click;type:int(10) unsigned;comment:点击量" json:"click"`                  // 点击量
-	Status      uint32    `gorm:"column:status;type:tinyint(3) unsigned;comment:显示状态（0=显示，1=隐藏）" json:"status"` // 显示状态（0=显示，1=隐藏）
+	Status      uint32    `gorm:"column:status;type:tinyint(3) unsigned;comment:显示状态（1=显示，2=隐藏）" json:"status"` // 显示状态（1=显示，2=隐藏）
 	CreatedAt   time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

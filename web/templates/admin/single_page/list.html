@@ -170,10 +170,10 @@
                     "data": null,
                     "render": function (data, type, row) {
                         let status = "取消"
-                        let fettle = 1
-                        if (data.status == 1) {
+                        let fettle = 2
+                        if (data.status == 2) {
                             status = "发布"
-                            fettle = 0
+                            fettle = 1
                         }
                         return `
                                 <div class="btn-group">

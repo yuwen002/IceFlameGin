@@ -54,7 +54,7 @@ type singlePage struct {
 	Content     field.String // 页面内容
 	Thumbnail   field.String // 缩略图
 	Click       field.Uint32 // 点击量
-	Status      field.Uint32 // 显示状态（0=显示，1=隐藏）
+	Status      field.Uint32 // 显示状态（1=显示，2=隐藏）
 	CreatedAt   field.Time
 	UpdatedAt   field.Time
 

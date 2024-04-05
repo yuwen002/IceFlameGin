@@ -147,11 +147,11 @@
                             <div class="form-group">
                                 <label for="click">显示状态</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="status" value="0">
+                                    <input class="form-check-input" type="radio" name="status" value="1">
                                     <label class="form-check-label">可见</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="status" value="1">
+                                    <input class="form-check-input" type="radio" name="status" value="2">
                                     <label class="form-check-label">隐藏</label>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
     $(function () {
         let defaultValue = "{{ ginContext|old:'status' }}"
         if (defaultValue == "") {
-            $('input[name="status"][value="0"]').prop('checked', true)
+            $('input[name="status"][value="1"]').prop('checked', true)
         } else {
             $('input[name="status"][value="' + defaultValue + '"]').prop('checked', true)
         }

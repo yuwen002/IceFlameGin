@@ -741,15 +741,15 @@ func (ctrl *cUcSystemMaster) AjaxListSystemMaster(c *gin.Context) {
 	return
 }
 
-// EditMaster
+// EditSystemMaster
 //
-// @Title EditMaster
+// @Title EditSystemMaster
 // @Description: 渲染编辑管理员页面
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-24 23:40:12
 // @receiver ctrl
 // @param c
-func (ctrl *cUcSystemMaster) EditMaster(c *gin.Context) {
+func (ctrl *cUcSystemMaster) EditSystemMaster(c *gin.Context) {
 	id, err := utils.ToInt(c.Query("id"))
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
@@ -781,15 +781,15 @@ func (ctrl *cUcSystemMaster) EditMaster(c *gin.Context) {
 	return
 }
 
-// HandleAjaxEditMaster
+// HandleAjaxEditSystemMaster
 //
-// @Title HandleAjaxEditMaster
+// @Title HandleAjaxEditSystemMaster
 // @Description:  Ajax处理编辑管理员请求
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-24 23:43:09
 // @receiver ctrl
 // @param c
-func (ctrl *cUcSystemMaster) HandleAjaxEditMaster(c *gin.Context) {
+func (ctrl *cUcSystemMaster) HandleAjaxEditSystemMaster(c *gin.Context) {
 	id := c.Query("id")
 	uint32ID, err := utils.ToUint32(id)
 	if err != nil {
@@ -839,4 +839,8 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditMaster(c *gin.Context) {
 		Data:    nil,
 	})
 	return
+}
+
+func (ctrl *cUcSystemMaster) HandleAjaxEditStatusSystemMaster(c *gin.Context) {
+
 }
