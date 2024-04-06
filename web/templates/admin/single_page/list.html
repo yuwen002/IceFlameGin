@@ -1,5 +1,9 @@
 {% extends "../layout/admin_base.html" %}
 
+{% block header_link %}
+<link rel="stylesheet" href="/static/admin/plugins/toastr/toastr.min.css">
+{% endblock %}
+
 {% block content_header %}
 <section class="content-header">
     <div class="container-fluid">
@@ -108,6 +112,7 @@
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="/static/admin/plugins/moment/moment.min.js"></script>
+<script src="/static/admin/plugins/toastr/toastr.min.js"></script>
 <script>
     let table
 
@@ -178,7 +183,8 @@
                         return `
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-primary btn-edit" data-id="${data.id}" data-toggle="modal" data-target="#edit-modal-content">编辑</button>&nbsp;
-                                    <button type="button" class="btn btn-sm btn-primary btn-edit-status" data-id="${data.id}" data-status="${fettle}">${status}</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-edit-status" data-id="${data.id}" data-status="${fettle}">${status}</button>&nbsp;
+                                    <button type="button" class="btn btn-sm btn-primary btn-delete" data-id="${data.id}">删除</button>
                                 </div>
                                `;
                     }
@@ -191,6 +197,20 @@
                 "dataSrc": "data"
             },
         });
+
+        let messageOpts = {
+            "closeButton": true,// 是否显示关闭按钮
+            "progressBar": true,// 是否显示进度条
+            "positionClass": "toast-top-center",// 弹出窗的位置
+            "showDuration": "1000",// 显示的动画时间
+            "hideDuration": "1000",// 消失的动画时间
+            "timeOut": "6000",// 弹窗展现时间
+            "showEasing": "swing",//显示时的动画缓冲方式
+            "hideEasing": "linear",//消失时的动画缓冲方式
+            "showMethod": "fadeIn",//显示时的动画方式
+            "hideMethod": "fadeOut", //消失时的动画方式
+        };
+        toastr.options = messageOpts;
 
         $('#data-list').on('click', '.btn-edit-status', function () {
             // 获取ID
@@ -208,11 +228,46 @@
                         status: status,
                     },
                     success: function(response) {
+                        if (response.code == 0) {
+                            setTimeout(function() {
+                                toastr.success("删除单页信息成功", "成功")
+                                table.draw(false);
+                            }, 500);
+                        } else {
+                            toastr.error(response.message, "错误")
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // 处理错误响应
+                        console.error('提交失败');
+                    }
+                });
+            }
+        });
+
+        $('#data-list').on('click', '.btn-delete', function () {
+            // 获取ID
+            let id = $(this).data('id');
+
+            // 弹出确认对话框
+            if (confirm("是否删除单页信息？")) {
+                // 用户点击确认，发起 Ajax 请求
+                $.ajax({
+                    url: '/admin/single-page/ajax/delete',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                    },
+                    success: function(response) {
                         // 处理成功响应
-                        console.log('提交成功');
-                        setTimeout(function() {
-                            table.draw(false);
-                        }, 500);
+                        if (response.code == 0) {
+                            toastr.success("修改单页信息发布状态成功", "成功")
+                            setTimeout(function() {
+                                table.draw(false);
+                            }, 500);
+                        } else {
+                            toastr.error(response.message, "错误")
+                        }
                     },
                     error: function(xhr, status, error) {
                         // 处理错误响应

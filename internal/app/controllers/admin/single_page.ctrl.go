@@ -346,6 +346,14 @@ func (ctrl *cSinglePage) HandleAjaxEditStatusSinglePage(c *gin.Context) {
 	return
 }
 
+// DeleteSinglePage
+//
+// @Title DeleteSinglePage
+// @Description: 删除单页信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-06 22:47:46
+// @receiver ctrl
+// @param c
 func (ctrl *cSinglePage) DeleteSinglePage(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
