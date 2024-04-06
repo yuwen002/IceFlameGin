@@ -158,3 +158,54 @@ func (svc *sSinglePage) ChangeSinglePageByID(id uint32, in dto.SinglePageInput) 
 		Data:    nil,
 	}
 }
+
+// DeleteSinglePageByID
+//
+// @Title DeleteSinglePageByID
+// @Description: 按ID删除单页信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-06 12:05:14
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sSinglePage) DeleteSinglePageByID(id uint32) *system.SysResponse {
+	out, err := repositories.NewSinglePageRepository().GetByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if out == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "空记录",
+			Data:    nil,
+		}
+	}
+
+	if out.Status == 1 {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "单页信息处于发布状态，不能删除",
+			Data:    nil,
+		}
+	}
+
+	err = repositories.NewSinglePageRepository().DeleteByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
+}

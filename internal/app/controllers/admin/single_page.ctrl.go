@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -293,6 +292,14 @@ func (ctrl *cSinglePage) HandleAjaxEditSinglePage(c *gin.Context) {
 	return
 }
 
+// HandleAjaxEditStatusSinglePage
+//
+// @Title HandleAjaxEditStatusSinglePage
+// @Description: Ajax处理编辑管单页状态信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-06 12:03:36
+// @receiver ctrl
+// @param c
 func (ctrl *cSinglePage) HandleAjaxEditStatusSinglePage(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -306,9 +313,7 @@ func (ctrl *cSinglePage) HandleAjaxEditStatusSinglePage(c *gin.Context) {
 	}
 
 	status := c.PostForm("status")
-	fmt.Println("status:", status)
 	uint32Status, err := utils.ToUint32(status)
-	fmt.Println("uint32Status:", uint32Status)
 	if err != nil {
 		c.JSON(http.StatusOK, &system.SysResponse{
 			Code:    1,
@@ -342,5 +347,33 @@ func (ctrl *cSinglePage) HandleAjaxEditStatusSinglePage(c *gin.Context) {
 }
 
 func (ctrl *cSinglePage) DeleteSinglePage(c *gin.Context) {
+	id := c.PostForm("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
 
+	output := services.NewSinglePageService().DeleteSinglePageByID(uint32ID)
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "删除单页信息")
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }

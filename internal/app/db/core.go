@@ -9,12 +9,21 @@ import (
 // DatabaseCore
 // @Description: 数据库核心类接口
 type DatabaseCore interface {
+	SetDefaultTable(tableName string) *GormCore
+	SetModel(model interface{}) *GormCore
 	Insert(data interface{}) error
-	InsertAndGetID(data interface{}) (uint, error)
+	InsertAndGetID(data interface{}) (uint32, error)
 	Update(condition string, data interface{}) error
-	Query(condition string) ([]interface{}, error)
-	GetByID(id int, out interface{}) error
+	UpdateByID(id uint32, data interface{}) error
+	Query(condition string, out interface{}) error
+	GetByID(id uint32, out interface{}) error
 	QueryOne(out interface{}, condition string, args ...interface{}) error
+	QueryListWithCondition(opts QueryOptions, out interface{}) error
+	Count() (int64, error)
+	CountWhere(condition string, args ...interface{}) (int64, error)
+	QueryWithHasOne(out interface{}, associations []string, condition string, args ...interface{}) error
+	GetAll(out interface{}) error
+	DeleteByID(model interface{}) error
 }
 
 // GormCore
@@ -31,13 +40,17 @@ type GormCore struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-02-05 17:50:14
 // @return *GormCore
-func NewGormCore() *GormCore {
+func NewGormCore() DatabaseCore {
 	// 默认链接default数据库
 	firstDB := DB["default"]
 	firstDB = firstDB.Debug() // 打开调试模式
-	return &GormCore{
-		db:  firstDB, // db.DB是初始化后的全局*gorm.DB实例
-		dbs: DB,
+	return &struct {
+		*GormCore
+	}{
+		GormCore: &GormCore{
+			db:  firstDB, // db.DB是初始化后的全局*gorm.DB实例
+			dbs: DB,
+		},
 	}
 }
 
@@ -53,6 +66,19 @@ func NewGormCore() *GormCore {
 func (g *GormCore) SetDefaultTable(tableName string) *GormCore {
 	// 设置默认表名并返回新的 GormCore 对象
 	g.db = g.db.Table(tableName)
+	return g
+}
+
+// SetModel
+//
+// @Title SetModel
+// @Description: 设置默认Model
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-06 14:06:48
+// @receiver g
+// @param model
+func (g *GormCore) SetModel(model interface{}) *GormCore {
+	g.db = g.db.Model(model)
 	return g
 }
 
@@ -375,6 +401,23 @@ func (g *GormCore) GetAll(out interface{}) error {
 			}
 			return nil
 		}
+		return err
+	}
+	return nil
+}
+
+// DeleteByID
+//
+// @Title DeleteByID
+// @Description: 按ID删除数据
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-06 14:11:58
+// @receiver g
+// @param model
+// @return error
+func (g *GormCore) DeleteByID(model interface{}) error {
+	err := g.db.Delete(model).Error
+	if err != nil {
 		return err
 	}
 	return nil

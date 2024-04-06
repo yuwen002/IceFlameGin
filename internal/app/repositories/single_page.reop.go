@@ -131,3 +131,21 @@ func (repo *rSinglePage) UpdateByID(id uint32, in *model.SinglePage) error {
 
 	return nil
 }
+
+// DeleteByID
+//
+// @Title DeleteByID
+// @Description: 按ID删除单页信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-06 14:48:24
+// @receiver repo
+// @param id
+// @return error
+func (repo *rSinglePage) DeleteByID(id uint32) error {
+	err := db.NewGormCore().DeleteByID(&model.SinglePage{ID: id})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
