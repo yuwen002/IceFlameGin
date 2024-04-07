@@ -17,8 +17,8 @@ type UcAccount struct {
 	Username       string    `gorm:"column:username;type:char(40);comment:用户名" json:"username"`                                                                     // 用户名
 	PasswordHash   string    `gorm:"column:password_hash;type:char(60);comment:用户密码" json:"password_hash"`                                                          // 用户密码
 	Tel            string    `gorm:"column:tel;type:char(20);comment:用户手机号码" json:"tel"`                                                                            // 用户手机号码
-	Status         bool      `gorm:"column:status;type:tinyint(1);comment:用户状态(0.启用1.停用)" json:"status"`                                                            // 用户状态(0.启用1.停用)
-	RealNameType   *bool     `gorm:"column:real_name_type;type:tinyint(1);default:1;comment:实名状态1=未实名2=已上传未审核3=审核驳回4=实名成功" json:"real_name_type"`                   // 实名状态1=未实名2=已上传未审核3=审核驳回4=实名成功
+	Status         uint32    `gorm:"column:status;type:tinyint(2) unsigned;comment:用户状态(0.启用1.停用)" json:"status"`                                                   // 用户状态(0.启用1.停用)
+	RealNameType   *uint32   `gorm:"column:real_name_type;type:tinyint(2) unsigned;default:1;comment:实名状态1=未实名2=已上传未审核3=审核驳回4=实名成功" json:"real_name_type"`          // 实名状态1=未实名2=已上传未审核3=审核驳回4=实名成功
 	CreatedAt      time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt      time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

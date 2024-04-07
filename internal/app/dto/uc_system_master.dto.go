@@ -1,6 +1,6 @@
 package dto
 
-import "ice_flame_gin/internal/app/models/model"
+import "ice_flame_gin/internal/app/models/association"
 
 //	LoginTelPasswordSystemMasterInput
 //	@Description: 用户电话密码登入
@@ -122,6 +122,6 @@ type ListSystemMasterInput struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-24 22:59:43
 type ListSystemMasterOutput struct {
-	List  []*model.UcSystemMaster
+	List  []*association.UcSystemMaster
 	Total int64
 }

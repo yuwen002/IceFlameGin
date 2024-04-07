@@ -21,3 +21,13 @@ type UcSystemVisitorLogs struct {
 	Master        model.UcSystemMaster              `gorm:"foreignKey:AccountID;references:AccountID"`
 	VisitCategory model.UcSystemMasterVisitCategory `gorm:"foreignKey:VisitCategory;references:ID"`
 }
+
+// UcSystemMaster
+//
+// @Description: 管理员关联用户中心表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-06 23:25:58
+type UcSystemMaster struct {
+	model.UcSystemMaster
+	Account model.UcAccount `gorm:"foreignKey:AccountID;references:ID"`
+}

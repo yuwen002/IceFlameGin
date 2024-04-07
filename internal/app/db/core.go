@@ -255,11 +255,23 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 		}
 	}
 
-	// 关联
-	for _, association := range opts.Preload {
-		db = db.Preload(association)
+	// has one 关联
+	if len(opts.PreloadMap) > 0 {
+		for association, fields := range opts.PreloadMap {
+			if len(fields) > 0 {
+				db = db.Preload(association, func(db *gorm.DB) *gorm.DB {
+					return db.Select(fields)
+				})
+			} else {
+				db = db.Preload(association)
+			}
+		}
+	} else {
+		// 关联
+		for _, association := range opts.Preload {
+			db = db.Preload(association)
+		}
 	}
-
 	// 分页类型判断
 	switch opts.PageType {
 	case 1:

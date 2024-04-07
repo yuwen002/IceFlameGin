@@ -5,6 +5,7 @@ import (
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	"ice_flame_gin/internal/app/dto"
+	"ice_flame_gin/internal/app/models/association"
 	"ice_flame_gin/internal/app/models/model"
 )
 
@@ -207,10 +208,14 @@ func (repo *rUcSystemMaster) GetAll() ([]*model.UcSystemMaster, error) {
 // @param data
 // @return []*model.UcSystemMaster
 // @return error
-func (repo *rUcSystemMaster) GetList(data dto.ListSystemMasterInput) ([]*model.UcSystemMaster, error) {
-	var systemMaster []*model.UcSystemMaster
+func (repo *rUcSystemMaster) GetList(data dto.ListSystemMasterInput) ([]*association.UcSystemMaster, error) {
+	var systemMaster []*association.UcSystemMaster
 	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
-		Order:    data.Order,
+		Order: data.Order,
+		//Preload: []string{"Account"},
+		PreloadMap: map[string]string{
+			"Account": "id, status",
+		},
 		PageType: 2,
 		Limit: db.Limit{
 			Length: data.Length,

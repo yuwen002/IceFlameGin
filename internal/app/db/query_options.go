@@ -1,5 +1,7 @@
 package db
 
+import "gorm.io/gorm"
+
 // Limit
 // @Description: 分页
 // @Author liuxingyu <yuwen002@163.com>
@@ -23,12 +25,14 @@ type Pagination struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-13 15:17:11
 type QueryOptions struct {
-	Field      string
-	Condition  string
-	Args       []interface{}
-	Order      string
-	Preload    []string
-	PageType   int8
-	Pagination // 分页，页码
-	Limit      // 分页，偏移量
+	Field       string
+	Condition   string
+	Args        []interface{}
+	Order       string
+	Preload     []string
+	PreloadMap  map[string]string
+	PreloadFunc func(db *gorm.DB) *gorm.DB
+	PageType    int8
+	Pagination  // 分页，页码
+	Limit       // 分页，偏移量
 }
