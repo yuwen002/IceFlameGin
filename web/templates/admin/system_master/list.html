@@ -87,7 +87,26 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="edit-modal-content-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-modal-password" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel-1" aria-hidden="true">
+    <div class="modal-dialog  w-100" style="max-width: none;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel-1">密码重置</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="edit-modal-password-body">
                 ...
             </div>
             <div class="modal-footer">
@@ -176,6 +195,7 @@
                         return `
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-primary btn-edit" data-id="${data.id}" data-toggle="modal" data-target="#edit-modal-content">编辑</button>&nbsp;
+                                    <button type="button" class="btn btn-sm btn-primary btn-edit-password" data-id="${data.id}" data-toggle="modal" data-target="#edit-modal-password">密码重置</button>&nbsp;
                                     <button type="button" class="btn btn-sm btn-primary btn-edit-status" data-id="${data.account_id}" data-status="${fettle}">${status}</button>
                                 </div>
                                `;
@@ -229,7 +249,19 @@
             let id = $(this).data('id');
 
             // 使用 AJAX 获取角色信息并填充表单
-            $('.modal-body').load('/admin/master/edit?id=' + id, function (response, status, xhr) {
+            $('#edit-modal-content-body').load('/admin/master/edit?id=' + id, function (response, status, xhr) {
+                if (status === 'error') {
+                    // 处理加载错误的情况
+                    $('.modal-body').html('<p>加载失败，请重试。</p>');
+                }
+            });
+        });
+
+        $('#data-list').on('click', '.btn-edit-password', function () {
+            // 获取ID
+            let id = $(this).data('id');
+            // 使用 AJAX 获取角色信息并填充表单
+            $('#edit-modal-password-body').load('/admin/master/edit/password?id=' + id, function (response, status, xhr) {
                 if (status === 'error') {
                     // 处理加载错误的情况
                     $('.modal-body').html('<p>加载失败，请重试。</p>');

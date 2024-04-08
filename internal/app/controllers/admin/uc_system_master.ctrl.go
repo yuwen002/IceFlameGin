@@ -302,6 +302,10 @@ func (ctrl *cUcSystemMaster) RecoverPassword(c *gin.Context) {
 	title := "重置密码"
 	// 获取URL参数的值
 	token := c.Query("token")
+	if token == "" {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 	output := services.NewUcSystemMasterService().DecryptToken(token)
 	if output.Code == 1 {
 		system.Render(c, "admin/password_recovery.html", pongo2.Context{
@@ -888,4 +892,41 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditStatusSystemMaster(c *gin.Context) {
 		Data:    nil,
 	})
 	return
+}
+
+// EditPasswordSystemMaster
+//
+// @Title EditPasswordSystemMaster
+// @Description: 渲染创建管理员页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-08 23:59:39
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) EditPasswordSystemMaster(c *gin.Context) {
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output := services.NewUcSystemMasterService().GetMasterInfoById(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/system_master/edit_password.html", pongo2.Context{
+		"title": "新建管理员",
+		"id":    uint32ID,
+	})
+}
+
+func (ctrl *cUcSystemMaster) HandleEditPasswordSystemMaster() {
+
 }
