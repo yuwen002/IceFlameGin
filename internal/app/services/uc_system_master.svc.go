@@ -708,3 +708,30 @@ func (svc *sUcSystemMaster) GetMasterInfoById(id uint32) *system.SysResponse {
 		Data:    master,
 	}
 }
+
+// ChangeMasterStatusByID
+//
+// @Title ChangeMasterStatusByID
+// @Description: 按ID修改用户状态
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-08 14:00:55
+// @receiver svc
+// @param id
+// @param status
+// @return *system.SysResponse
+func (svc *sUcSystemMaster) ChangeMasterStatusByID(id uint32, status uint32) *system.SysResponse {
+	err := repositories.NewUcAccountRepository().UpdateStatusById(id, status)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    nil,
+	}
+}

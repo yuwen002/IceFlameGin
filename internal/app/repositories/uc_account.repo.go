@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	"ice_flame_gin/internal/app/models/model"
@@ -82,6 +83,26 @@ func (repo *rUcAccount) GetAccountByTel(tel string) (*model.UcAccount, error) {
 func (repo *rUcAccount) UpdatePasswordById(id uint32, newPasswordHash string) error {
 	account := model.UcAccount{PasswordHash: newPasswordHash}
 	err := db.NewGormCore().UpdateByID(id, account)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// UpdateStatusById
+//
+// @Title UpdateStatusById
+// @Description: 按ID更改用户状态
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-08 11:39:22
+// @receiver repo
+// @param id
+// @param status
+// @return error
+func (repo *rUcAccount) UpdateStatusById(id uint32, status uint32) error {
+	account := model.UcAccount{Status: status}
+	fmt.Println("account:", account)
+	err := db.NewGormCore().UpdateColumnsByID(id, account)
 	if err != nil {
 		return err
 	}

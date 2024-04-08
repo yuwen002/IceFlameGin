@@ -29,5 +29,5 @@ type UcSystemVisitorLogs struct {
 // @Date 2024-04-06 23:25:58
 type UcSystemMaster struct {
 	model.UcSystemMaster
-	Account model.UcAccount `gorm:"foreignKey:AccountID;references:ID"`
+	Account model.UcAccount `gorm:"foreignKey:AccountID;references:ID" json:"account"`
 }

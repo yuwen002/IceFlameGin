@@ -212,9 +212,11 @@ func (repo *rUcSystemMaster) GetList(data dto.ListSystemMasterInput) ([]*associa
 	var systemMaster []*association.UcSystemMaster
 	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Order: data.Order,
-		//Preload: []string{"Account"},
-		PreloadMap: map[string]string{
-			"Account": "id, status",
+		PreloadFunc: map[string]func(db *gorm.DB) *gorm.DB{
+			"Account": func(db *gorm.DB) *gorm.DB {
+				// 自定义预加载逻辑
+				return db.Select("id, status")
+			},
 		},
 		PageType: 2,
 		Limit: db.Limit{

@@ -30,8 +30,7 @@ type QueryOptions struct {
 	Args        []interface{}
 	Order       string
 	Preload     []string
-	PreloadMap  map[string]string
-	PreloadFunc func(db *gorm.DB) *gorm.DB
+	PreloadFunc map[string]func(db *gorm.DB) *gorm.DB
 	PageType    int8
 	Pagination  // 分页，页码
 	Limit       // 分页，偏移量

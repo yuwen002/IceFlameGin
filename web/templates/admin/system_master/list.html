@@ -1,94 +1,100 @@
 {% extends "../layout/admin_base.html" %}
 
+{% block header_link %}
+<link rel="stylesheet" href="/static/admin/plugins/toastr/toastr.min.css">
+{% endblock %}
+
 {% block content_header %}
 <section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>管理员信息</h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-          <li class="breadcrumb-item active">管理员信息</li>
-        </ol>
-      </div>
-    </div>
-  </div><!-- /.container-fluid -->
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>管理员信息</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
+                    <li class="breadcrumb-item active">管理员信息</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
 </section>
 {% endblock %}
 
 {% block content %}
 <section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">管理员信息 列表</h3>
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" onclick="location.reload();">
-                <i class="fas fa-sync-alt"></i>
-              </button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">管理员信息 列表</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" onclick="location.reload();">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="data-list" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>姓名</th>
+                                <th>电话</th>
+                                <th>Email</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>姓名</th>
+                                <th>电话</th>
+                                <th>Email</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
             </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <table id="data-list" class="table table-bordered table-hover">
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>姓名</th>
-                <th>电话</th>
-                <th>Email</th>
-                <th>创建时间</th>
-                <th>更新时间</th>
-                <th>操作</th>
-              </tr>
-              </thead>
-              <tbody>
-              </tbody>
-              <tfoot>
-              <tr>
-                <th>ID</th>
-                <th>姓名</th>
-                <th>电话</th>
-                <th>Email</th>
-                <th>创建时间</th>
-                <th>更新时间</th>
-                <th>操作</th>
-              </tr>
-              </tfoot>
-            </table>
-          </div>
-          <!-- /.card-body -->
+            <!-- /.col -->
         </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col -->
+        <!-- /.row -->
     </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container-fluid -->
+    <!-- /.container-fluid -->
 </section>
 <!-- Modal -->
 <div class="modal fade" id="edit-modal-content" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog  w-100" style="max-width: none;" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">管理员信息</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+    <div class="modal-dialog  w-100" style="max-width: none;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">管理员信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
 
@@ -106,80 +112,130 @@
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="/static/admin/plugins/moment/moment.min.js"></script>
+<script src="/static/admin/plugins/toastr/toastr.min.js"></script>
 <script>
-  let table
+    let table
 
-  $(function () {
-    table = $('#data-list').DataTable({
-      "language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Chinese.json" // 引入中文语言包
-      },
-      "paging": true,
-      "lengthChange": false,
-      "ordering": true,
-      "autoWidth": false,
-      "responsive": true,
-      "pageLength": 10,
-      "searching": false,
-      "processing": true,
-      "serverSide": true,
-      "info": false,
-      "renderer": "bootstrap",
-      "pagingType": "simple_numbers",
-      "columns": [
-        {"data": "id"},
-        {"data": "name"},
-        {"data": "tel"},
-        {"data": "email"},
-        {
-          "data": "created_at",
-          "render": function (data, type, row) {
-            // 使用 Moment.js 格式化时间
-            return moment(data).format("YYYY-MM-DD HH:mm:ss");
-          }
-        },
-        {
-          "data": "updated_at",
-          "render": function (data, type, row) {
-            // 使用 Moment.js 格式化时间
-            return moment(data).format("YYYY-MM-DD HH:mm:ss");
-          }
-        },
-        {
-          "data": null,
-          "render": function (data, type, row) {
-            // if (data.)
+    $(function () {
+        table = $('#data-list').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Chinese.json" // 引入中文语言包
+            },
+            "paging": true,
+            "lengthChange": false,
+            "ordering": true,
+            "autoWidth": false,
+            "responsive": true,
+            "pageLength": 10,
+            "searching": false,
+            "processing": true,
+            "serverSide": true,
+            "info": false,
+            "renderer": "bootstrap",
+            "pagingType": "simple_numbers",
+            "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "tel"},
+                {"data": "email"},
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        if (data.account.status == 0) {
+                            return "启用"
+                        } else {
+                            return "停用"
+                        }
+                    }
+                },
+                {
+                    "data": "created_at",
+                    "render": function (data, type, row) {
+                        // 使用 Moment.js 格式化时间
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
+                {
+                    "data": "updated_at",
+                    "render": function (data, type, row) {
+                        // 使用 Moment.js 格式化时间
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        let status = "停用"
+                        let fettle = "1"
+                        if (data.account.status == 0) {
+                            status = "启用"
+                            fettle = "0"
+                        }
 
 
-            return `
+                        return `
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-primary btn-edit" data-id="${data.id}" data-toggle="modal" data-target="#edit-modal-content">编辑</button>
-                                    <button type="button" class="btn btn-sm btn-primary btn-edit" data-id="${data.id}" >编辑</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-edit" data-id="${data.id}" data-toggle="modal" data-target="#edit-modal-content">编辑</button>&nbsp;
+                                    <button type="button" class="btn btn-sm btn-primary btn-edit-status" data-id="${data.account_id}" data-status="${fettle}">${status}</button>
                                 </div>
                                `;
-          }
-        }
-      ],
-      "ajax": {
-        "url": "/admin/master/ajax/list/",
-        "type": "GET",
-        "cache": false,
-        "dataSrc": "data"
-      },
-    });
+                    }
+                }
+            ],
+            "ajax": {
+                "url": "/admin/master/ajax/list/",
+                "type": "GET",
+                "cache": false,
+                "dataSrc": "data"
+            },
+        });
 
-    $('#data-list').on('click', '.btn-edit', function () {
-      // 获取角色 ID
-      let roleId = $(this).data('id');
+        $('#data-list').on('click', '.btn-edit-status', function () {
+            // 获取ID
+            let account_id = $(this).data('id');
+            let status = $(this).data('status');
 
-      // 使用 AJAX 获取角色信息并填充表单
-      $('.modal-body').load('/admin/master/edit?id=' + roleId, function (response, status, xhr) {
-        if (status === 'error') {
-          // 处理加载错误的情况
-          $('.modal-body').html('<p>加载失败，请重试。</p>');
-        }
-      });
+            // 弹出确认对话框
+            if (confirm("是否更改管理员状态？")) {
+                // 用户点击确认，发起 Ajax 请求
+                $.ajax({
+                    url: '/admin/master/ajax/edit/status',
+                    type: 'POST',
+                    data: {
+                        account_id: account_id,
+                        status: status,
+                    },
+                    success: function(response) {
+                        if (response.code == 0) {
+                            setTimeout(function() {
+                                toastr.success("修改改管理员状态成功", "成功")
+                                table.draw(false);
+                            }, 500);
+                        } else {
+                            toastr.error(response.message, "错误")
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // 处理错误响应
+                        console.error('提交失败');
+                    }
+                });
+            }
+
+        });
+
+        $('#data-list').on('click', '.btn-edit', function () {
+            // 获取ID
+            let id = $(this).data('id');
+
+            // 使用 AJAX 获取角色信息并填充表单
+            $('.modal-body').load('/admin/master/edit?id=' + id, function (response, status, xhr) {
+                if (status === 'error') {
+                    // 处理加载错误的情况
+                    $('.modal-body').html('<p>加载失败，请重试。</p>');
+                }
+            });
+        });
     });
-  });
 </script>
 {% endblock %}

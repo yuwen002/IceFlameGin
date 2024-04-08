@@ -841,6 +841,51 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditSystemMaster(c *gin.Context) {
 	return
 }
 
+// HandleAjaxEditStatusSystemMaster
+//
+// @Title HandleAjaxEditStatusSystemMaster
+// @Description: Ajax处理更改管理员状态请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-08 14:06:41
+// @receiver ctrl
+// @param c
 func (ctrl *cUcSystemMaster) HandleAjaxEditStatusSystemMaster(c *gin.Context) {
+	accountId := c.PostForm("account_id")
+	uint32AccountId, err := utils.ToUint32(accountId)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
 
+	status := c.PostForm("status")
+	uint32Status, err := utils.ToUint32(status)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	output := services.NewUcSystemMasterService().ChangeMasterStatusByID(uint32AccountId, uint32Status)
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }

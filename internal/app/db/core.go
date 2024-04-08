@@ -15,6 +15,7 @@ type DatabaseCore interface {
 	InsertAndGetID(data interface{}) (uint32, error)
 	Update(condition string, data interface{}) error
 	UpdateByID(id uint32, data interface{}) error
+	UpdateColumnsByID(id uint32, data interface{}) error
 	Query(condition string, out interface{}) error
 	GetByID(id uint32, out interface{}) error
 	QueryOne(out interface{}, condition string, args ...interface{}) error
@@ -147,7 +148,7 @@ func (g *GormCore) Update(condition string, data interface{}) error {
 // UpdateByID
 //
 // @Title UpdateByID
-// @Description: 按ID修改数据
+// @Description: 按ID修改数据，会忽略那些零值字段。
 // @Author liuxingyu
 // @Date 2024-02-03 23:27:38
 // @receiver g
@@ -156,6 +157,20 @@ func (g *GormCore) Update(condition string, data interface{}) error {
 // @return error
 func (g *GormCore) UpdateByID(id uint32, data interface{}) error {
 	return g.db.Model(data).Where("id = ?", id).Updates(data).Error
+}
+
+// UpdateColumnsByID
+//
+// @Title UpdateColumnsByID
+// @Description: 按ID修改数据，包括零值字段。
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-08 15:30:09
+// @receiver g
+// @param id
+// @param data
+// @return error
+func (g *GormCore) UpdateColumnsByID(id uint32, data interface{}) error {
+	return g.db.Model(data).Where("id = ?", id).UpdateColumns(data).Error
 }
 
 // Query
@@ -256,22 +271,23 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 	}
 
 	// has one 关联
-	if len(opts.PreloadMap) > 0 {
-		for association, fields := range opts.PreloadMap {
-			if len(fields) > 0 {
-				db = db.Preload(association, func(db *gorm.DB) *gorm.DB {
-					return db.Select(fields)
-				})
-			} else {
-				db = db.Preload(association)
-			}
-		}
-	} else {
-		// 关联
+	if len(opts.Preload) > 0 {
 		for _, association := range opts.Preload {
 			db = db.Preload(association)
 		}
 	}
+
+	// PreloadFunc 处理预加载函数映射
+	if len(opts.PreloadFunc) > 0 {
+		for association, preloadFunc := range opts.PreloadFunc {
+			if preloadFunc != nil {
+				db = db.Preload(association, preloadFunc)
+			} else {
+				db = db.Preload(association)
+			}
+		}
+	}
+
 	// 分页类型判断
 	switch opts.PageType {
 	case 1:
