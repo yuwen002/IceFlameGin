@@ -9,6 +9,8 @@ import (
 // DatabaseCore
 // @Description: 数据库核心类接口
 type DatabaseCore interface {
+	Select(field string) *GormCore
+	Omit(field string) *GormCore
 	SetDefaultTable(tableName string) *GormCore
 	SetModel(model interface{}) *GormCore
 	Insert(data interface{}) error
@@ -53,6 +55,34 @@ func NewGormCore() DatabaseCore {
 			dbs: DB,
 		},
 	}
+}
+
+// Select
+//
+// @Title Select
+// @Description: Select选择某些字段
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-08 22:37:55
+// @receiver g
+// @param field
+// @return *GormCore
+func (g *GormCore) Select(field string) *GormCore {
+	g.db = g.db.Select(field)
+	return g
+}
+
+// Omit
+//
+// @Title Omit
+// @Description: Omit忽略某些字段
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-08 22:39:56
+// @receiver g
+// @param field
+// @return *GormCore
+func (g *GormCore) Omit(field string) *GormCore {
+	g.db = g.db.Omit(field)
+	return g
 }
 
 // SetDefaultTable

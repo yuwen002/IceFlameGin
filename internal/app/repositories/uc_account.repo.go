@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
 	"ice_flame_gin/internal/app/models/model"
@@ -101,8 +100,7 @@ func (repo *rUcAccount) UpdatePasswordById(id uint32, newPasswordHash string) er
 // @return error
 func (repo *rUcAccount) UpdateStatusById(id uint32, status uint32) error {
 	account := model.UcAccount{Status: status}
-	fmt.Println("account:", account)
-	err := db.NewGormCore().UpdateColumnsByID(id, account)
+	err := db.NewGormCore().Select("status").UpdateColumnsByID(id, account)
 	if err != nil {
 		return err
 	}
