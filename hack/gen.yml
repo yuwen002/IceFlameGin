@@ -6,6 +6,10 @@ database:
   db: "mysql"
   # enter the required data table or leave it blank.You can input : orders,users,goods
   tables:
+    - article_tag_orm
+    - article_tag
+    - article_channel
+    - article_category
     - single_page
     - uc_system_master_visitor_logs
     - uc_system_master_visit_category

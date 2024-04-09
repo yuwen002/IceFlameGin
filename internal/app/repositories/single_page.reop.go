@@ -38,8 +38,8 @@ func NewSinglePageRepository() *rSinglePage {
 // @receiver r
 // @param data
 // @return error
-func (repo *rSinglePage) Insert(in *model.SinglePage) error {
-	err := db.NewGormCore().Insert(in)
+func (repo *rSinglePage) Insert(data *model.SinglePage) error {
+	err := db.NewGormCore().Insert(data)
 
 	if err != nil {
 		return err

@@ -18,6 +18,10 @@ import (
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                          db,
+		ArticleCategory:             newArticleCategory(db, opts...),
+		ArticleChannel:              newArticleChannel(db, opts...),
+		ArticleTag:                  newArticleTag(db, opts...),
+		ArticleTagOrm:               newArticleTagOrm(db, opts...),
 		SinglePage:                  newSinglePage(db, opts...),
 		UcAccount:                   newUcAccount(db, opts...),
 		UcSystemMaster:              newUcSystemMaster(db, opts...),
@@ -31,6 +35,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
+	ArticleCategory             articleCategory
+	ArticleChannel              articleChannel
+	ArticleTag                  articleTag
+	ArticleTagOrm               articleTagOrm
 	SinglePage                  singlePage
 	UcAccount                   ucAccount
 	UcSystemMaster              ucSystemMaster
@@ -45,6 +53,10 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:                          db,
+		ArticleCategory:             q.ArticleCategory.clone(db),
+		ArticleChannel:              q.ArticleChannel.clone(db),
+		ArticleTag:                  q.ArticleTag.clone(db),
+		ArticleTagOrm:               q.ArticleTagOrm.clone(db),
 		SinglePage:                  q.SinglePage.clone(db),
 		UcAccount:                   q.UcAccount.clone(db),
 		UcSystemMaster:              q.UcSystemMaster.clone(db),
@@ -66,6 +78,10 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:                          db,
+		ArticleCategory:             q.ArticleCategory.replaceDB(db),
+		ArticleChannel:              q.ArticleChannel.replaceDB(db),
+		ArticleTag:                  q.ArticleTag.replaceDB(db),
+		ArticleTagOrm:               q.ArticleTagOrm.replaceDB(db),
 		SinglePage:                  q.SinglePage.replaceDB(db),
 		UcAccount:                   q.UcAccount.replaceDB(db),
 		UcSystemMaster:              q.UcSystemMaster.replaceDB(db),
@@ -77,6 +93,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 }
 
 type queryCtx struct {
+	ArticleCategory             *articleCategoryDo
+	ArticleChannel              *articleChannelDo
+	ArticleTag                  *articleTagDo
+	ArticleTagOrm               *articleTagOrmDo
 	SinglePage                  *singlePageDo
 	UcAccount                   *ucAccountDo
 	UcSystemMaster              *ucSystemMasterDo
@@ -88,6 +108,10 @@ type queryCtx struct {
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
+		ArticleCategory:             q.ArticleCategory.WithContext(ctx),
+		ArticleChannel:              q.ArticleChannel.WithContext(ctx),
+		ArticleTag:                  q.ArticleTag.WithContext(ctx),
+		ArticleTagOrm:               q.ArticleTagOrm.WithContext(ctx),
 		SinglePage:                  q.SinglePage.WithContext(ctx),
 		UcAccount:                   q.UcAccount.WithContext(ctx),
 		UcSystemMaster:              q.UcSystemMaster.WithContext(ctx),
