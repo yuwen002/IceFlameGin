@@ -897,7 +897,7 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditStatusSystemMaster(c *gin.Context) {
 // EditPasswordSystemMaster
 //
 // @Title EditPasswordSystemMaster
-// @Description: 渲染创建管理员页面
+// @Description: 渲染管理员重置密码页面
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-04-08 23:59:39
 // @receiver ctrl
@@ -927,6 +927,91 @@ func (ctrl *cUcSystemMaster) EditPasswordSystemMaster(c *gin.Context) {
 	})
 }
 
-func (ctrl *cUcSystemMaster) HandleEditPasswordSystemMaster() {
+// HandleAjaxEditPasswordSystemMaster
+//
+// @Title HandleAjaxEditPasswordSystemMaster
+// @Description: Ajax处理管理员重置密码请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-09 10:52:48
+// @receiver ctrl
+// @param c
+func (ctrl *cUcSystemMaster) HandleAjaxEditPasswordSystemMaster(c *gin.Context) {
+	newPassword := c.PostForm("new_password")
+	if newPassword == "" {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: "新密码不能为空",
+			Data:    nil,
+		})
+		return
+	}
 
+	retypeNewPassword := c.PostForm("retype_new_password")
+	if retypeNewPassword == "" {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: "确认新密码不能为空",
+			Data:    nil,
+		})
+		return
+	}
+
+	if newPassword != retypeNewPassword {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: "两次密码输入不一致",
+			Data:    nil,
+		})
+		return
+	}
+
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	output := services.NewUcSystemMasterService().GetMasterInfoById(uint32ID)
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	output = services.NewUcSystemMasterService().ChangePassword(dto.ChangePasswordInput{
+		ID:       uint32ID,
+		Password: newPassword,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    nil,
+	})
+	return
 }
