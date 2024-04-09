@@ -1008,6 +1008,7 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditPasswordSystemMaster(c *gin.Context) 
 		return
 	}
 
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "修改管理员密码信息")
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
 		Message: "success",

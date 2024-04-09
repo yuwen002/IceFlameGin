@@ -3,7 +3,10 @@ package admin
 import (
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
+	"ice_flame_gin/internal/app/dto"
+	"ice_flame_gin/internal/app/services"
 	"ice_flame_gin/internal/app/validators"
+	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
 	"ice_flame_gin/routers/paths"
 	"reflect"
@@ -82,4 +85,36 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 			system.SetOldInput(c, fieldName, fieldValue)
 		}
 	}
+
+	fid, errUInt32 := utils.ToUint32(form.Fid)
+	if errUInt32 != nil {
+		fid = 0
+	}
+
+	sort, errUInt32 := utils.ToUint32(form.Sort)
+	if errUInt32 != nil {
+		sort = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	output := services.NewArticleService().CreateArticleCategory(&dto.ArticleCategoryInput{
+		Fid:    fid,
+		Name:   form.Name,
+		Remark: form.Remark,
+		Sort:   sort,
+		Status: status,
+	})
+
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "fail")
+	} else {
+		system.AddFlashData(c, "添加单页信息成功", "success")
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加管理员信息")
+	return
 }

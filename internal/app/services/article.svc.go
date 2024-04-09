@@ -35,7 +35,7 @@ func NewArticleService() *sArticle {
 // @receiver svc
 // @param in
 // @return *system.SysResponse
-func (svc *sArticle) CreateArticleCategory(in dto.ArticleCategoryInput) *system.SysResponse {
+func (svc *sArticle) CreateArticleCategory(in *dto.ArticleCategoryInput) *system.SysResponse {
 	err := repositories.NewArticleCategoryRepository().Insert(&model.ArticleCategory{
 		Fid:    in.Fid,
 		Name:   in.Name,
