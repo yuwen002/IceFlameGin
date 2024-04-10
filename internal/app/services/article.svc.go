@@ -57,3 +57,7 @@ func (svc *sArticle) CreateArticleCategory(in *dto.ArticleCategoryInput) *system
 		Data:    nil,
 	}
 }
+
+func (svc *sArticle) GetArticleCategoryByFID(fid uint32) {
+	out, err := repositories.NewArticleCategoryRepository().GetByFID(fid)
+}
