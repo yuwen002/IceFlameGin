@@ -63,4 +63,7 @@ const (
 
 	AdminUploadFile  = "/upload/file"
 	AdminUploadImage = "/upload/image"
+
+	AdminCreateArticleCategory       = "article-category/create"
+	AdminHandleCreateArticleCategory = "article-category/create"
 )

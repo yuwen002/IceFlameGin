@@ -46,11 +46,24 @@ func (ctrl *cArticle) CreateArticleCategory(c *gin.Context) {
 		return
 	}
 
+	output := services.NewArticleService().ShowArticleCategoryByFID(0)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	fidSelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
 	system.Render(c, "admin/article_category/create.html", pongo2.Context{
-		"title":   "新建文章分类信息",
-		"success": success,
-		"fail":    fail,
-		"err_msg": errMsg,
+		"title":      "新建文章分类信息",
+		"success":    success,
+		"fail":       fail,
+		"err_msg":    errMsg,
+		"fid_select": fidSelect,
 	})
 	return
 }

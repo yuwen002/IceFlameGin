@@ -65,15 +65,31 @@ func (repo *rArticleCategory) GetByID(id uint32) (out *model.ArticleCategory, er
 	return out, nil
 }
 
-func (repo *rArticleCategory) GetByFID(fid uint32) (out *model.ArticleCategory, err error) {
+// GetListByFID
+//
+// @Title GetListByFID
+// @Description: 按FID获取文章分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-11 23:55:53
+// @receiver repo
+// @param fid
+// @return out
+// @return err
+func (repo *rArticleCategory) GetListByFID(fid uint32) (out []*model.ArticleCategory, err error) {
 	err = db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Field:     "id, fid, name",
 		Condition: "status = 0 and fid = ?",
 		Args:      []interface{}{fid},
 		Order:     "sort desc, id desc",
 		PageType:  2,
-		Limit: db.Limit{
-			Length: 1000,
-		},
+		//Limit: db.Limit{
+		//	Length: 1000,
+		//},
 	}, out)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }

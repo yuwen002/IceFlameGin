@@ -91,6 +91,9 @@ func setupAdminRoutes(router *gin.Engine) {
 			// 文件上传
 			r.POST(paths.AdminUploadFile, admin.SysUploadFile.UploadFile)
 			r.POST(paths.AdminUploadImage, admin.SysUploadFile.UploadImage)
+
+			r.GET(paths.AdminCreateVisitCategory, admin.Article.CreateArticleCategory)
+			r.POST(paths.AdminHandleCreateArticleCategory, admin.Article.HandleCreateArticleCategory)
 		}
 
 	}

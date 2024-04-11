@@ -58,6 +58,38 @@ func (svc *sArticle) CreateArticleCategory(in *dto.ArticleCategoryInput) *system
 	}
 }
 
-func (svc *sArticle) GetArticleCategoryByFID(fid uint32) {
-	out, err := repositories.NewArticleCategoryRepository().GetByFID(fid)
+// ShowArticleCategoryByFID
+//
+// @Title ShowArticleCategoryByFID
+// @Description: 按FID获取
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-12 00:05:02
+// @receiver svc
+// @param fid
+// @return *system.SysResponse
+func (svc *sArticle) ShowArticleCategoryByFID(fid uint32) *system.SysResponse {
+	output, err := repositories.NewArticleCategoryRepository().GetListByFID(fid)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	var data []*dto.SelectOptionOutput
+	for _, v := range output {
+		d := dto.SelectOptionOutput{
+			Key:   v.ID,
+			Value: v.Name,
+		}
+
+		data = append(data, &d)
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    data,
+	}
 }
