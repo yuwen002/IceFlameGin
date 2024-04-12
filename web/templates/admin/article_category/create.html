@@ -53,6 +53,18 @@
                     <form id="form-info" method="post" action="/admin/article-category/create">
                         <div class="card-body">
                             <div class="form-group">
+                                <label for="fid">上级分类</label>
+                                <select name="fid" class="form-control select2" style="width:100%;" id="fid">
+                                    <option value="0">顶级分类</option>
+                                    {% for master in masters %}
+                                    <option value="{{ fid_select.Key }}">{{ fid_select.Value }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if err_msg["AccountID"] %}
+                                <span class="text-danger">{{ err_msg["AccountID"] }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
                                 <label for="name">分类名称</label>
                                 <input type="text" name="name" class="form-control" id="name" placeholder="角色名称" value="{{ ginContext|old:'name' }}">
                                 {% if err_msg["Name"] %}
@@ -107,6 +119,13 @@
 {% block content_js %}
 <script>
     $(function () {
+        let defaultValue = "{{ ginContext|old:'status' }}"
+        if (defaultValue == "") {
+            $('input[name="status"][value="1"]').prop('checked', true)
+        } else {
+            $('input[name="status"][value="' + defaultValue + '"]').prop('checked', true)
+        }
+
         $.validator.setDefaults({
             submitHandler: function (form) {
                 form.submit();

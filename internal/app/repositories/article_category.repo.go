@@ -81,7 +81,7 @@ func (repo *rArticleCategory) GetListByFID(fid uint32) (out []*model.ArticleCate
 		Condition: "status = 0 and fid = ?",
 		Args:      []interface{}{fid},
 		Order:     "sort desc, id desc",
-		PageType:  2,
+		//PageType:  2,
 		//Limit: db.Limit{
 		//	Length: 1000,
 		//},
