@@ -3,6 +3,7 @@ package repositories
 import (
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
+	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
 )
 
@@ -81,15 +82,75 @@ func (repo *rArticleCategory) GetListByFID(fid uint32) (out []*model.ArticleCate
 		Condition: "status = 0 and fid = ?",
 		Args:      []interface{}{fid},
 		Order:     "sort desc, id desc",
-		//PageType:  2,
-		//Limit: db.Limit{
-		//	Length: 1000,
-		//},
-	}, out)
-
+	}, &out)
 	if err != nil {
 		return nil, err
 	}
 
 	return out, nil
+}
+
+// GetList
+//
+// @Title GetList
+// @Description: 文章分类列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-14 00:41:43
+// @receiver repo
+// @param data
+// @return out
+// @return err
+func (repo *rArticleCategory) GetList(data dto.ListArticleCategoryInput) (out []*model.ArticleCategory, err error) {
+	db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+		Order:       "sort desc, id desc",
+		Preload:     nil,
+		PreloadFunc: nil,
+		PageType:    2,
+		Limit: db.Limit{
+			Length: data.Length,
+			Offset: data.Start,
+		},
+	}, &out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+// CountRecords
+//
+// @Title CountRecords
+// @Description: 文章分类信息列表总条数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-14 00:44:20
+// @receiver repo
+// @return int64
+// @return error
+func (repo *rArticleCategory) CountRecords() (int64, error) {
+	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameArticleCategory).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return totalRecords, err
+}
+
+// UpdateByID
+//
+// @Title UpdateByID
+// @Description: 按ID修改文章分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-14 01:00:24
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *rArticleCategory) UpdateByID(id uint32, in *model.ArticleCategory) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

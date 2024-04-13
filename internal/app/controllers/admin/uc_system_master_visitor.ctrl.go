@@ -89,7 +89,7 @@ func (ctrl *cUcSystemMasterVisit) HandleCreateVisitCategory(c *gin.Context) {
 		}
 	}
 
-	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "添加访问类型分类信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 3, 0, "添加访问类型分类信息")
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateVisitCategory)
 }
 
@@ -230,7 +230,7 @@ func (ctrl *cUcSystemMasterVisit) AjaxEditVisitCategory(c *gin.Context) {
 		return
 	}
 
-	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 2, 0, "编辑访问类型分类信息")
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 3, 0, "编辑访问类型分类信息")
 	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,

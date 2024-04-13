@@ -93,3 +93,65 @@ func (svc *sArticle) ShowArticleCategoryByFID(fid uint32) *system.SysResponse {
 		Data:    data,
 	}
 }
+
+func (svc *sArticle) ShowArticleCategory(in dto.ListArticleCategoryInput) *system.SysResponse {
+	out, err := repositories.NewArticleCategoryRepository().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	totalRecords, err := repositories.NewArticleCategoryRepository().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data: dto.ListArticleCategoryOutput{
+			List:  out,
+			Total: totalRecords,
+		},
+	}
+}
+
+// ChangeArticleCategoryByID
+//
+// @Title ChangeArticleCategoryByID
+// @Description: 按ID更改文章分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-14 01:04:30
+// @receiver svc
+// @param id
+// @param in
+// @return *system.SysResponse
+func (svc *sArticle) ChangeArticleCategoryByID(id uint32, in dto.ArticleCategoryInput) *system.SysResponse {
+	err := repositories.NewArticleCategoryRepository().UpdateByID(id, &model.ArticleCategory{
+		Fid:    in.Fid,
+		Name:   in.Name,
+		Remark: in.Remark,
+		Sort:   in.Sort,
+		Status: in.Status,
+	})
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
+}

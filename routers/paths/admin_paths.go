@@ -64,6 +64,10 @@ const (
 	AdminUploadFile  = "/upload/file"
 	AdminUploadImage = "/upload/image"
 
-	AdminCreateArticleCategory       = "article-category/create"
-	AdminHandleCreateArticleCategory = "article-category/create"
+	AdminCreateArticleCategory         = "/article-category/create"
+	AdminHandleCreateArticleCategory   = "/article-category/create"
+	AdminListArticleCategory           = "/article-category/list"
+	AdminAjaxListArticleCategory       = "/article-category/ajax/list"
+	AdminEditArticleCategory           = "/article-category/edit"
+	AdminHandleAjaxEditArticleCategory = "/article-category/ajax/edit"
 )
