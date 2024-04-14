@@ -123,6 +123,32 @@ func (svc *sArticle) ShowArticleCategory(in dto.ListArticleCategoryInput) *syste
 	}
 }
 
+// GetArticleCategoryByID
+//
+// @Title GetArticleCategoryByID
+// @Description: 按ID查询文章分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-14 22:47:14
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sArticle) GetArticleCategoryByID(id uint32) *system.SysResponse {
+	out, err := repositories.NewArticleCategoryRepository().GetByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    out,
+	}
+}
+
 // ChangeArticleCategoryByID
 //
 // @Title ChangeArticleCategoryByID

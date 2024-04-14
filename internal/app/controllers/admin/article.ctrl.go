@@ -4,6 +4,7 @@ import (
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
+	"ice_flame_gin/internal/app/models/model"
 	"ice_flame_gin/internal/app/services"
 	"ice_flame_gin/internal/app/validators"
 	"ice_flame_gin/internal/pkg/utils"
@@ -188,9 +189,117 @@ func (ctrl *cArticle) AjaxListArticleCategory(c *gin.Context) {
 	})
 }
 
+// EditArticleCategory
+//
+// @Title EditArticleCategory
+// @Description: 渲染文章分类信息编辑页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-14 22:40:14
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) EditArticleCategory(c *gin.Context) {
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 查询分类信息
+	output := services.NewArticleService().GetArticleCategoryByID(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	category, ok := output.Data.(*model.ArticleCategory)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 渲染文章分类信息编辑页面
+	system.Render(c, "admin/article_category/edit.html", pongo2.Context{
+		"title":    "文章分类信息编辑",
+		"category": category,
+	})
 }
-func (ctrl *cArticle) HandleAjaxEditArticleCategory(c *gin.Context) {
 
+// HandleAjaxEditArticleCategory
+//
+// @Title HandleAjaxEditArticleCategory
+// @Description: Ajax处理编辑管文章分类信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-14 22:54:49
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) HandleAjaxEditArticleCategory(c *gin.Context) {
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	var form validators.ArticleCategoryForm
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+
+	fid, errUInt32 := utils.ToUint32(form.Fid)
+	if errUInt32 != nil {
+		fid = 0
+	}
+
+	sort, errUInt32 := utils.ToUint32(form.Sort)
+	if errUInt32 != nil {
+		sort = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	// 更新信息
+	output := services.NewArticleService().ChangeArticleCategoryByID(uint32ID, dto.ArticleCategoryInput{
+		Fid:    fid,
+		Name:   "",
+		Remark: "",
+		Sort:   sort,
+		Status: status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章分类信息")
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }
