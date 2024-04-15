@@ -17,14 +17,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="form-info" method="post" action="/admin/master-role/ajax/edit?id={{ id }}">
+                    <form id="form-info" method="post" action="/admin/article-category/ajax/edit?id={{ id }}">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="fid">上级分类</label>
                                 <select name="fid" class="form-control select2" style="width:100%;" id="fid">
                                     <option value="0">顶级分类</option>
-                                    {% for master in masters %}
-                                    <option value="{{ fid_select.Key }}">{{ fid_select.Value }}</option>
+                                    {% for fid in fid_select %}
+                                    <option value="{{ fid.Key }}">{{ fid.Value }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -86,7 +86,7 @@
         if (defaultStatusValue == "") {
             $('input[name="status"][value="1"]').prop('checked', true)
         } else {
-            $('input[name="status"][value="' + defaultValue + '"]').prop('checked', true)
+            $('input[name="status"][value="' + defaultStatusValue + '"]').prop('checked', true)
         }
 
         let defaultFidValue = "{{ category.Fid }}"

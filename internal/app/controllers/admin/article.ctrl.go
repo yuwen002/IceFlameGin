@@ -223,10 +223,24 @@ func (ctrl *cArticle) EditArticleCategory(c *gin.Context) {
 		return
 	}
 
+	output = services.NewArticleService().ShowArticleCategoryByFID(0)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	fidSelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
 	// 渲染文章分类信息编辑页面
 	system.Render(c, "admin/article_category/edit.html", pongo2.Context{
-		"title":    "文章分类信息编辑",
-		"category": category,
+		"title":      "文章分类信息编辑",
+		"category":   category,
+		"fid_select": fidSelect,
+		"id":         uint32ID,
 	})
 }
 

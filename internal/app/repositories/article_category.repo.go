@@ -79,7 +79,7 @@ func (repo *rArticleCategory) GetByID(id uint32) (out *model.ArticleCategory, er
 func (repo *rArticleCategory) GetListByFID(fid uint32) (out []*model.ArticleCategory, err error) {
 	err = db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Field:     "id, fid, name",
-		Condition: "status = 0 and fid = ?",
+		Condition: "status = 1 and fid = ?",
 		Args:      []interface{}{fid},
 		Order:     "sort desc, id desc",
 	}, &out)

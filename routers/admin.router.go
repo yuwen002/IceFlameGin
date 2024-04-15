@@ -98,7 +98,7 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.GET(paths.AdminListArticleCategory, admin.Article.ListArticleCategory)
 			r.GET(paths.AdminAjaxListArticleCategory, admin.Article.AjaxListArticleCategory)
 			r.GET(paths.AdminEditArticleCategory, admin.Article.EditArticleCategory)
-			r.GET(paths.AdminHandleAjaxEditArticleCategory, admin.Article.HandleAjaxEditArticleCategory)
+			r.POST(paths.AdminHandleAjaxEditArticleCategory, admin.Article.HandleAjaxEditArticleCategory)
 		}
 
 	}

@@ -56,8 +56,8 @@
                                 <label for="fid">上级分类</label>
                                 <select name="fid" class="form-control select2" style="width:100%;" id="fid">
                                     <option value="0">顶级分类</option>
-                                    {% for master in masters %}
-                                    <option value="{{ fid_select.Key }}">{{ fid_select.Value }}</option>
+                                    {% for fid in fid_select %}
+                                    <option value="{{ fid.Key }}">{{ fid.Value }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
