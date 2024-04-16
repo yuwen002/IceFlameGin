@@ -154,3 +154,21 @@ func (repo *rArticleCategory) UpdateByID(id uint32, in *model.ArticleCategory) e
 
 	return nil
 }
+
+// DeleteByID
+//
+// @Title DeleteByID
+// @Description: 按ID删除文章分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-16 23:51:44
+// @receiver repo
+// @param id
+// @return error
+func (repo *rArticleCategory) DeleteByID(id uint32) error {
+	err := db.NewGormCore().DeleteByID(&model.ArticleCategory{ID: id})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

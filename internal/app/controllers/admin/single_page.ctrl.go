@@ -337,7 +337,7 @@ func (ctrl *cSinglePage) HandleAjaxEditStatusSinglePage(c *gin.Context) {
 	}
 
 	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑单页信息发布状态")
-	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	// 更新成功后，可以跳转单页信息列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
 		Message: "Success",

@@ -294,8 +294,8 @@ func (ctrl *cArticle) HandleAjaxEditArticleCategory(c *gin.Context) {
 	// 更新信息
 	output := services.NewArticleService().ChangeArticleCategoryByID(uint32ID, dto.ArticleCategoryInput{
 		Fid:    fid,
-		Name:   "",
-		Remark: "",
+		Name:   form.Name,
+		Remark: form.Remark,
 		Sort:   sort,
 		Status: status,
 	})
@@ -309,6 +309,84 @@ func (ctrl *cArticle) HandleAjaxEditArticleCategory(c *gin.Context) {
 	}
 
 	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章分类信息")
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
+}
+
+func (ctrl *cArticle) HandleAjaxEditStatusArticleCategory(c *gin.Context) {
+	id := c.PostForm("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	status := c.PostForm("status")
+	uint32Status, err := utils.ToUint32(status)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	// 更新信息
+	output := services.NewArticleService().ChangeArticleCategoryByID(uint32ID, dto.ArticleCategoryInput{
+		Status: uint32Status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章分类信息状态")
+	// 更新成功后，可以跳转到文章分类列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
+}
+
+func (ctrl *cArticle) HandelAjaxDeleteArticleCategory(c *gin.Context) {
+	id := c.PostForm("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	output := services.NewArticleService().DeleteArticleCategoryByID(uint32ID)
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "删除文章分类信息")
 	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,

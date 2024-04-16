@@ -181,3 +181,56 @@ func (svc *sArticle) ChangeArticleCategoryByID(id uint32, in dto.ArticleCategory
 		Data:    nil,
 	}
 }
+
+// DeleteArticleCategoryByID
+//
+// @Title DeleteArticleCategoryByID
+// @Description: 按ID删除文章分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-16 23:54:56
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sArticle) DeleteArticleCategoryByID(id uint32) *system.SysResponse {
+	out, err := repositories.NewArticleCategoryRepository().GetByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if out == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "空记录",
+			Data:    nil,
+		}
+	}
+
+	if out.Status == 1 {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "单页信息处于发布状态，不能删除",
+			Data:    nil,
+		}
+	}
+
+	//@todo 检查文章分类
+
+	err = repositories.NewArticleCategoryRepository().DeleteByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
+}

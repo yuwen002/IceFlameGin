@@ -64,10 +64,12 @@ const (
 	AdminUploadFile  = "/upload/file"
 	AdminUploadImage = "/upload/image"
 
-	AdminCreateArticleCategory         = "/article-category/create"
-	AdminHandleCreateArticleCategory   = "/article-category/create"
-	AdminListArticleCategory           = "/article-category/list"
-	AdminAjaxListArticleCategory       = "/article-category/ajax/list"
-	AdminEditArticleCategory           = "/article-category/edit"
-	AdminHandleAjaxEditArticleCategory = "/article-category/ajax/edit"
+	AdminCreateArticleCategory               = "/article-category/create"
+	AdminHandleCreateArticleCategory         = "/article-category/create"
+	AdminListArticleCategory                 = "/article-category/list"
+	AdminAjaxListArticleCategory             = "/article-category/ajax/list"
+	AdminEditArticleCategory                 = "/article-category/edit"
+	AdminHandleAjaxEditArticleCategory       = "/article-category/ajax/edit"
+	AdminHandelAjaxEditStatusArticleCategory = "/article-category/ajax/edit/status"
+	AdminHandelAjaxDeleteArticleCategory     = "/article-category/ajax/delete"
 )
