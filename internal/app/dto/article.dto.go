@@ -35,3 +35,15 @@ type ListArticleCategoryOutput struct {
 	List  []*model.ArticleCategory
 	Total int64
 }
+
+// ArticleChannelInput
+//
+// @Description: 文章频道信息写入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-17 23:27:54
+type ArticleChannelInput struct {
+	Name   string
+	Remark string
+	Sort   uint32
+	Status uint32
+}

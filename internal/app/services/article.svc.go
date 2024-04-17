@@ -234,3 +234,25 @@ func (svc *sArticle) DeleteArticleCategoryByID(id uint32) *system.SysResponse {
 		Data:    nil,
 	}
 }
+
+func (svc *sArticle) CreateArticleChannel(in *dto.ArticleChannelInput) *system.SysResponse {
+	err := repositories.NewArticleChannelRepository().Insert(&model.ArticleChannel{
+		Name:   in.Name,
+		Remark: in.Remark,
+		Sort:   in.Sort,
+		Status: in.Status,
+	})
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    nil,
+	}
+}

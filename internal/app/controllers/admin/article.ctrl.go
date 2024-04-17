@@ -395,3 +395,91 @@ func (ctrl *cArticle) HandelAjaxDeleteArticleCategory(c *gin.Context) {
 	})
 	return
 }
+
+// CreateArticleChannel
+//
+// @Title CreateArticleChannel
+// @Description: 渲染新建文章频道页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-17 23:34:13
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) CreateArticleChannel(c *gin.Context) {
+	// 从会话中获取成功信息
+	success := system.GetFlashedData(c, "success")
+	// 从会话中获取错误信息
+	fail := system.GetFlashedData(c, "fail")
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/article_channel/create.html", pongo2.Context{
+		"title":   "新建文章频道信息",
+		"success": success,
+		"fail":    fail,
+		"err_msg": errMsg,
+	})
+	return
+}
+
+// HandelCreateArticleChannel
+//
+// @Title HandelCreateArticleChannel
+// @Description: 处理新建文章频道页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-17 23:40:37
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) HandelCreateArticleChannel(c *gin.Context) {
+	var form validators.ArticleChannelForm
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrorMsg(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		// 写入表单提交信息
+		v := reflect.ValueOf(form).Elem()
+		t := v.Type()
+		for i := 0; i < t.NumField(); i++ {
+			field := t.Field(i)
+			fieldName := field.Tag.Get("form")
+			fieldValue := v.Field(i).String()
+			system.SetOldInput(c, fieldName, fieldValue)
+		}
+	}
+
+	sort, errUInt32 := utils.ToUint32(form.Sort)
+	if errUInt32 != nil {
+		sort = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	output := services.NewArticleService().CreateArticleChannel(&dto.ArticleChannelInput{
+		Name:   form.Name,
+		Remark: form.Remark,
+		Sort:   sort,
+		Status: status,
+	})
+
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "fail")
+	} else {
+		system.AddFlashData(c, "添加文章分类频道成功", "success")
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "添加文章频道")
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticleCategory)
+	return
+}
