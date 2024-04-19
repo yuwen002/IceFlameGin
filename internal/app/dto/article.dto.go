@@ -47,3 +47,24 @@ type ArticleChannelInput struct {
 	Sort   uint32
 	Status uint32
 }
+
+// ListArticleChannelInput
+//
+// @Description: 文章频道信息列表输入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:01:28
+type ListArticleChannelInput struct {
+	Order  string
+	Start  int
+	Length int
+}
+
+// ListArticleChannelOutput
+//
+// @Description: 文章频道信息列表输出
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:02:08
+type ListArticleChannelOutput struct {
+	List  []*model.ArticleChannel
+	Total int64
+}

@@ -480,6 +480,60 @@ func (ctrl *cArticle) HandelCreateArticleChannel(c *gin.Context) {
 	}
 
 	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "添加文章频道")
-	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticleCategory)
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticleChannel)
 	return
+}
+
+// ListArticleChannel
+//
+// @Title ListArticleChannel
+// @Description: 渲染文章频道信息列表页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:03:30
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) ListArticleChannel(c *gin.Context) {
+	// 渲染文章频道信息列表页面
+	system.Render(c, "admin/article_channel/list.html", pongo2.Context{
+		"title": "文章频道息列表",
+	})
+}
+
+// AjaxListArticleChannel
+//
+// @Title AjaxListArticleChannel
+// @Description: Ajax获取文章分类信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:03:55
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) AjaxListArticleChannel(c *gin.Context) {
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
+	if err != nil {
+		start = 0
+	}
+
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
+	if err != nil {
+		length = 10
+	}
+
+	output := services.NewArticleService().ShowArticleCategory(dto.ListArticleCategoryInput{
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
+	})
+
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	data := output.Data.(dto.ListArticleCategoryOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
+	})
 }

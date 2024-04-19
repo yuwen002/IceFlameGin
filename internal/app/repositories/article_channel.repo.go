@@ -3,6 +3,7 @@ package repositories
 import (
 	"gorm.io/gorm"
 	"ice_flame_gin/internal/app/db"
+	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
 )
 
@@ -44,4 +45,50 @@ func (repo *rArticleChannel) Insert(data *model.ArticleChannel) error {
 	}
 
 	return nil
+}
+
+// GetList
+//
+// @Title GetList
+// @Description: 文章频道信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:15:30
+// @receiver repo
+// @param data
+// @return out
+// @return err
+func (repo *rArticleChannel) GetList(data dto.ListArticleChannelInput) (out []*model.ArticleChannel, err error) {
+	db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+		Order:       "sort desc, id desc",
+		Preload:     nil,
+		PreloadFunc: nil,
+		PageType:    2,
+		Limit: db.Limit{
+			Length: data.Length,
+			Offset: data.Start,
+		},
+	}, &out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+// CountRecords
+//
+// @Title CountRecords
+// @Description: 文章频道信息列表总条数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:17:11
+// @receiver repo
+// @return int64
+// @return error
+func (repo *rArticleChannel) CountRecords() (int64, error) {
+	totalRecords, err := db.NewGormCore().SetDefaultTable(model.TableNameArticleChannel).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return totalRecords, err
 }

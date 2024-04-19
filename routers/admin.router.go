@@ -101,6 +101,12 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.POST(paths.AdminHandleAjaxEditArticleCategory, admin.Article.HandleAjaxEditArticleCategory)
 			r.POST(paths.AdminHandelAjaxEditStatusArticleCategory, admin.Article.HandleAjaxEditStatusArticleCategory)
 			r.POST(paths.AdminHandelAjaxDeleteArticleCategory, admin.Article.HandelAjaxDeleteArticleCategory)
+
+			// 文章频道
+			r.GET(paths.AdminCreateArticleChannel, admin.Article.CreateArticleChannel)
+			r.POST(paths.AdminHandCreateArticleChannel, admin.Article.HandelCreateArticleChannel)
+			r.GET(paths.AdminListArticleChannel, admin.Article.ListArticleChannel)
+			r.GET(paths.AdminAjaxListArticleChannel, admin.Article.AjaxListArticleChannel)
 		}
 
 	}

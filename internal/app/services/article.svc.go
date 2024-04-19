@@ -61,7 +61,7 @@ func (svc *sArticle) CreateArticleCategory(in *dto.ArticleCategoryInput) *system
 // ShowArticleCategoryByFID
 //
 // @Title ShowArticleCategoryByFID
-// @Description: 按FID获取
+// @Description: 按FID获取文章分类信息
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-04-12 00:05:02
 // @receiver svc
@@ -94,6 +94,15 @@ func (svc *sArticle) ShowArticleCategoryByFID(fid uint32) *system.SysResponse {
 	}
 }
 
+// ShowArticleCategory
+//
+// @Title ShowArticleCategory
+// @Description: 文章分类列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:06:25
+// @receiver svc
+// @param in
+// @return *system.SysResponse
 func (svc *sArticle) ShowArticleCategory(in dto.ListArticleCategoryInput) *system.SysResponse {
 	out, err := repositories.NewArticleCategoryRepository().GetList(in)
 	if err != nil {
@@ -235,6 +244,15 @@ func (svc *sArticle) DeleteArticleCategoryByID(id uint32) *system.SysResponse {
 	}
 }
 
+// CreateArticleChannel
+//
+// @Title CreateArticleChannel
+// @Description: 新建文章频道信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:08:10
+// @receiver svc
+// @param in
+// @return *system.SysResponse
 func (svc *sArticle) CreateArticleChannel(in *dto.ArticleChannelInput) *system.SysResponse {
 	err := repositories.NewArticleChannelRepository().Insert(&model.ArticleChannel{
 		Name:   in.Name,
@@ -254,5 +272,43 @@ func (svc *sArticle) CreateArticleChannel(in *dto.ArticleChannelInput) *system.S
 		Code:    0,
 		Message: "success",
 		Data:    nil,
+	}
+}
+
+// ShowArticleChannel
+//
+// @Title ShowArticleChannel
+// @Description: 文章频道信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-20 01:20:54
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sArticle) ShowArticleChannel(in dto.ListArticleChannelInput) *system.SysResponse {
+	out, err := repositories.NewArticleChannelRepository().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	totalRecords, err := repositories.NewArticleChannelRepository().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data: dto.ListArticleChannelOutput{
+			List:  out,
+			Total: totalRecords,
+		},
 	}
 }
