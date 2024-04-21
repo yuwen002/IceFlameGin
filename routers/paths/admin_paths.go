@@ -73,9 +73,12 @@ const (
 	AdminHandelAjaxEditStatusArticleCategory = "/article-category/ajax/edit/status"
 	AdminHandelAjaxDeleteArticleCategory     = "/article-category/ajax/delete"
 
-	AdminCreateArticleChannel     = "/article-channel/create"
-	AdminHandCreateArticleChannel = "/article-channel/create"
-	AdminListArticleChannel       = "/article-channel/list"
-	AdminAjaxListArticleChannel   = "/article-channel/ajax/list"
-	AdminEditArticle
+	AdminCreateArticleChannel               = "/article-channel/create"
+	AdminHandCreateArticleChannel           = "/article-channel/create"
+	AdminListArticleChannel                 = "/article-channel/list"
+	AdminAjaxListArticleChannel             = "/article-channel/ajax/list"
+	AdminEditArticleChannel                 = "/article-channel/edit"
+	AdminHandelAjaxEditArticleChannel       = "/article-channel/ajax/edit"
+	AdminHandelAjaxEditStatusArticleChannel = "/article-channel/ajax/edit/status"
+	AdminHandelAjaxDeleteArticleChannel     = "/article-channel/ajax/delete"
 )

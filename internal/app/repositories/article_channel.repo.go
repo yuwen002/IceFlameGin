@@ -92,3 +92,58 @@ func (repo *rArticleChannel) CountRecords() (int64, error) {
 
 	return totalRecords, err
 }
+
+// GetByID
+//
+// @Title GetByID
+// @Description: 按ID获取文章频道信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 22:35:41
+// @receiver repo
+// @param id
+// @return out
+// @return err
+func (repo *rArticleChannel) GetByID(id uint32) (out *model.ArticleChannel, err error) {
+	err = db.NewGormCore().GetByID(id, &out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UpdateByID
+//
+// @Title UpdateByID
+// @Description: 按ID修改文章频道信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 17:04:11
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *rArticleChannel) UpdateByID(id uint32, in *model.ArticleChannel) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DeleteByID
+//
+// @Title DeleteByID
+// @Description: 按ID删除文章频道信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 22:44:18
+// @receiver repo
+// @param id
+// @return error
+func (repo *rArticleChannel) DeleteByID(id uint32) error {
+	err := db.NewGormCore().DeleteByID(&model.ArticleChannel{ID: id})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

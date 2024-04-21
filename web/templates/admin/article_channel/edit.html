@@ -13,38 +13,29 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">文章分类 <small>编辑</small></h3>
+                        <h3 class="card-title">文章频道 <small>编辑</small></h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="form-info" method="post" action="/admin/article-category/ajax/edit?id={{ id }}">
+                    <form id="form-info" method="post" action="/admin/article-channel/ajax/edit?id={{ id }}">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="fid">上级分类</label>
-                                <select name="fid" class="form-control select2" style="width:100%;" id="fid">
-                                    <option value="0">顶级分类</option>
-                                    {% for fid in fid_select %}
-                                    <option value="{{ fid.Key }}">{{ fid.Value }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">分类名称</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="分类名称" value="{{ category.Name }}">
+                                <label for="name">频道名称</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="分类名称" value="{{ channel.Name }}">
                                 {% if err_msg["Name"] %}
                                 <span class="text-danger">{{ err_msg["Name"] }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="remark">备注</label>
-                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ category.Remark }}">
+                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ channel.Remark }}">
                                 {% if err_msg["Remark"] %}
                                 <span class="text-danger">{{ err_msg["Remark"] }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="sort">排序顺序</label>
-                                <input type="text" name="sort" class="form-control" id="sort" placeholder="排序顺序" value="{{ category.Sort }}">
+                                <input type="text" name="sort" class="form-control" id="sort" placeholder="排序顺序" value="{{ channel.Sort }}">
                             </div>
                             <div class="form-group">
                                 <label for="name">显示状态</label>
@@ -82,18 +73,12 @@
 <script src="/static/admin/plugins/toastr/toastr.min.js"></script>
 <script>
     $(function () {
-        let defaultStatusValue = "{{ category.Status }}"
+        let defaultStatusValue = "{{ channel.Status }}"
         if (defaultStatusValue == "") {
             $('input[name="status"][value="1"]').prop('checked', true)
         } else {
             $('input[name="status"][value="' + defaultStatusValue + '"]').prop('checked', true)
         }
-
-        let defaultFidValue = "{{ category.Fid }}"
-        if (defaultFidValue > 0) {
-            $('#fid').val(defaultFidValue)
-        }
-
 
         $.validator.setDefaults({
             submitHandler: function (form) {
@@ -113,8 +98,8 @@
             messages: {
                 name: {
                     required: "请输入姓名",
-                    minlength: "分类名称长度不能小于2位",
-                    maxlength: "分类名称长度不能大于50位"
+                    minlength: "频道名称长度不能小于2位",
+                    maxlength: "频道名称长度不能大于50位"
                 },
                 sort: {
                     number: "请输入整数"
@@ -136,7 +121,7 @@
         $('#submit-btn').click(function () {
             if ($('#form-info').valid()) {
                 $.ajax({
-                    url: '/admin/article-category/ajax/edit?id={{ id }}',
+                    url: '/admin/article-channel/ajax/edit?id={{ id }}',
                     type: 'POST',
                     data: $('#form-info').serialize(),
                     success: function (response) {

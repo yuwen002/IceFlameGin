@@ -238,10 +238,10 @@
       let id = $(this).data('id');
 
       // 弹出确认对话框
-      if (confirm("是否删除单页信息？")) {
+      if (confirm("是否删除骗到信息？")) {
         // 用户点击确认，发起 Ajax 请求
         $.ajax({
-          url: '/admin/article-category/ajax/delete',
+          url: '/admin/article-channel/ajax/delete',
           type: 'POST',
           data: {
             id: id,
@@ -249,7 +249,7 @@
           success: function(response) {
             // 处理成功响应
             if (response.code == 0) {
-              toastr.success("修改单页信息发布状态成功", "成功")
+              toastr.success("删除频道信息发布状态成功", "成功")
               setTimeout(function() {
                 table.draw(false);
               }, 500);
@@ -270,7 +270,7 @@
       let id = $(this).data('id');
 
       // 使用 AJAX 获取填充表单
-      $('.modal-body').load('/admin/article-category/edit?id=' + id, function (response, status, xhr) {
+      $('.modal-body').load('/admin/article-channel/edit?id=' + id, function (response, status, xhr) {
         if (status === 'error') {
           // 处理加载错误的情况
           $('.modal-body').html('<p>加载失败，请重试。</p>');

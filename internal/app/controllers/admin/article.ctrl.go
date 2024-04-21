@@ -318,6 +318,14 @@ func (ctrl *cArticle) HandleAjaxEditArticleCategory(c *gin.Context) {
 	return
 }
 
+// HandleAjaxEditStatusArticleCategory
+//
+// @Title HandleAjaxEditStatusArticleCategory
+// @Description: Ajax处理编辑管文章分类状态信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 16:53:22
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) HandleAjaxEditStatusArticleCategory(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -364,6 +372,14 @@ func (ctrl *cArticle) HandleAjaxEditStatusArticleCategory(c *gin.Context) {
 	return
 }
 
+// HandelAjaxDeleteArticleCategory
+//
+// @Title HandelAjaxDeleteArticleCategory
+// @Description: Ajax处理删除管文章分类信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 16:52:13
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) HandelAjaxDeleteArticleCategory(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -387,7 +403,7 @@ func (ctrl *cArticle) HandelAjaxDeleteArticleCategory(c *gin.Context) {
 	}
 
 	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "删除文章分类信息")
-	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	// 更新成功后，可以跳转到文章分类列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
 		Message: "Success",
@@ -518,7 +534,7 @@ func (ctrl *cArticle) AjaxListArticleChannel(c *gin.Context) {
 		length = 10
 	}
 
-	output := services.NewArticleService().ShowArticleCategory(dto.ListArticleCategoryInput{
+	output := services.NewArticleService().ShowArticleChannel(dto.ListArticleChannelInput{
 		Order:  "id desc",
 		Start:  start,
 		Length: length,
@@ -529,11 +545,214 @@ func (ctrl *cArticle) AjaxListArticleChannel(c *gin.Context) {
 		return
 	}
 
-	data := output.Data.(dto.ListArticleCategoryOutput)
+	data := output.Data.(dto.ListArticleChannelOutput)
 	c.JSON(http.StatusOK, gin.H{
 		"draw":            c.Query("draw"),
 		"data":            data.List,
 		"recordsTotal":    data.Total,
 		"recordsFiltered": data.Total,
 	})
+}
+
+// EditArticleChannel
+//
+// @Title EditArticleChannel
+// @Description: 渲染编辑文章频道信息页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 21:34:28
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) EditArticleChannel(c *gin.Context) {
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 查询分类信息
+	output := services.NewArticleService().GetArticleChannelByID(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	channel, ok := output.Data.(*model.ArticleChannel)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 渲染文章分类信息编辑页面
+	system.Render(c, "admin/article_channel/edit.html", pongo2.Context{
+		"title":   "文章分类信息编辑",
+		"channel": channel,
+		"id":      uint32ID,
+	})
+}
+
+// HandleAjaxEditArticleChannel
+//
+// @Title HandleAjaxEditArticleChannel
+// @Description: Ajax处理编辑管文章频道信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 21:35:32
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) HandleAjaxEditArticleChannel(c *gin.Context) {
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	var form validators.ArticleCategoryForm
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+	sort, errUInt32 := utils.ToUint32(form.Sort)
+	if errUInt32 != nil {
+		sort = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	// 更新信息
+	output := services.NewArticleService().ChangeArticleChannelByID(uint32ID, &dto.ArticleChannelInput{
+		Name:   form.Name,
+		Remark: form.Remark,
+		Sort:   sort,
+		Status: status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章频道信息")
+	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
+}
+
+// HandleAjaxEditStatusArticleChannel
+//
+// @Title HandleAjaxEditStatusArticleChannel
+// @Description: Ajax处理编辑管文章频道状态信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 16:54:28
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) HandleAjaxEditStatusArticleChannel(c *gin.Context) {
+	id := c.PostForm("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	status := c.PostForm("status")
+	uint32Status, err := utils.ToUint32(status)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	// 更新信息
+	output := services.NewArticleService().ChangeArticleChannelByID(uint32ID, &dto.ArticleChannelInput{
+		Status: uint32Status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章频道信息状态")
+	// 更新成功后，可以跳转到文章频道列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
+}
+
+// HandleAjaxEditDeleteArticleChannel
+//
+// @Title HandleAjaxEditDeleteArticleChannel
+// @Description: Ajax处理删除管文章频道信息请求
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-21 21:35:51
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) HandleAjaxEditDeleteArticleChannel(c *gin.Context) {
+	id := c.PostForm("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	output := services.NewArticleService().DeleteArticleChannelByID(uint32ID)
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "删除文章频道信息")
+	// 更新成功后，可以跳转到文章频道列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }

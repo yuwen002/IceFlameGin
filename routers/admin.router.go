@@ -107,6 +107,10 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.POST(paths.AdminHandCreateArticleChannel, admin.Article.HandelCreateArticleChannel)
 			r.GET(paths.AdminListArticleChannel, admin.Article.ListArticleChannel)
 			r.GET(paths.AdminAjaxListArticleChannel, admin.Article.AjaxListArticleChannel)
+			r.GET(paths.AdminEditArticleChannel, admin.Article.EditArticleChannel)
+			r.POST(paths.AdminHandelAjaxEditArticleChannel, admin.Article.HandleAjaxEditArticleChannel)
+			r.POST(paths.AdminHandelAjaxEditStatusArticleChannel, admin.Article.HandleAjaxEditStatusArticleChannel)
+			r.POST(paths.AdminHandelAjaxDeleteArticleChannel, admin.Article.HandleAjaxEditDeleteArticleChannel)
 		}
 
 	}
