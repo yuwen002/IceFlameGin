@@ -81,4 +81,13 @@ const (
 	AdminHandelAjaxEditArticleChannel       = "/article-channel/ajax/edit"
 	AdminHandelAjaxEditStatusArticleChannel = "/article-channel/ajax/edit/status"
 	AdminHandelAjaxDeleteArticleChannel     = "/article-channel/ajax/delete"
+
+	AdminCreateArticleTag               = "/article-tag/create"
+	AdminHandelCreateArticleTag         = "/article-tag/create"
+	AdminListArticleTag                 = "/article-tag/list"
+	AdminAjaxListArticleTag             = "/article-tag/ajax/list"
+	AdminEditArticleTag                 = "/article-tag/edit"
+	AdminHandleAjaxEditArticleTag       = "/article-tag/ajax/edit"
+	AdminHandleAjaxEditStatusArticleTag = "/article-tag/ajax/edit/status"
+	AdminHandelAjaxDeleteArticleTag     = "/article-tag/ajax/delete"
 )

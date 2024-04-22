@@ -424,3 +424,35 @@ func (svc *sArticle) DeleteArticleChannelByID(id uint32) *system.SysResponse {
 		Data:    nil,
 	}
 }
+
+// CreateArticleTag
+//
+// @Title CreateArticleTag
+// @Description: 新建文章tag信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-22 23:57:11
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sArticle) CreateArticleTag(in *dto.ArticleTagInput) *system.SysResponse {
+	err := repositories.NewArticleTag().Insert(&model.ArticleTag{
+		Name:   in.Name,
+		Remark: in.Remark,
+		Sort:   in.Sort,
+		Status: in.Status,
+	})
+
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    nil,
+	}
+}

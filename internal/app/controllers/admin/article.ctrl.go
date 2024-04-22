@@ -756,3 +756,60 @@ func (ctrl *cArticle) HandleAjaxEditDeleteArticleChannel(c *gin.Context) {
 	})
 	return
 }
+
+// CreateArticleTag
+//
+// @Title CreateArticleTag
+// @Description: 渲染新建文章tag页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-22 23:58:01
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) CreateArticleTag(c *gin.Context) {
+	// 从会话中获取成功信息
+	success := system.GetFlashedData(c, "success")
+	// 从会话中获取错误信息
+	fail := system.GetFlashedData(c, "fail")
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/article_tag/create.html", pongo2.Context{
+		"title":   "新建文章频道信息",
+		"success": success,
+		"fail":    fail,
+		"err_msg": errMsg,
+	})
+	return
+}
+
+func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
+
+}
+
+func (ctrl *cArticle) ListArticleTag(c *gin.Context) {
+
+}
+
+func (ctrl *cArticle) AjaxListArticleTag(c *gin.Context) {
+
+}
+
+func (ctrl *cArticle) EditArticleTag(c *gin.Context) {
+
+}
+
+func (ctrl *cArticle) HandelAjaxEditArticleTag(c *gin.Context) {
+
+}
+
+func (ctrl *cArticle) HandelAjaxEditStatusArticleTag(c *gin.Context) {
+
+}
+
+func (ctrl *cArticle) HandelAjaxDeleteArticleTag(c *gin.Context) {
+
+}

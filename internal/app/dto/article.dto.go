@@ -68,3 +68,15 @@ type ListArticleChannelOutput struct {
 	List  []*model.ArticleChannel
 	Total int64
 }
+
+// ArticleTagInput
+//
+// @Description: 文章tag信息列表输入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-22 23:53:34
+type ArticleTagInput struct {
+	Name   string
+	Remark string
+	Sort   uint32
+	Status uint32
+}
