@@ -24,3 +24,15 @@ type ArticleChannelForm struct {
 	Sort   string `form:"sort"`
 	Status string `form:"status"`
 }
+
+// ArticleTagForm
+//
+// @Description: 文章标签验证
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-27 00:07:02
+type ArticleTagForm struct {
+	Name   string `form:"name" binding:"required,min=2,max=20" msg:"标签名称不能为空|标签名称长度不能小于2个字符|标签名称长度不能超过20个字符 "`
+	Remark string `form:"remark"`
+	Sort   string `form:"sort"`
+	Status string `form:"status"`
+}

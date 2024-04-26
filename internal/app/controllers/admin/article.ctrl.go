@@ -778,7 +778,7 @@ func (ctrl *cArticle) CreateArticleTag(c *gin.Context) {
 	}
 
 	system.Render(c, "admin/article_tag/create.html", pongo2.Context{
-		"title":   "新建文章频道信息",
+		"title":   "新建文章标签信息",
 		"success": success,
 		"fail":    fail,
 		"err_msg": errMsg,
@@ -787,7 +787,54 @@ func (ctrl *cArticle) CreateArticleTag(c *gin.Context) {
 }
 
 func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
+	var form validators.ArticleTagForm
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrorMsg(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
 
+		// 写入表单提交信息
+		v := reflect.ValueOf(form).Elem()
+		t := v.Type()
+		for i := 0; i < t.NumField(); i++ {
+			field := t.Field(i)
+			fieldName := field.Tag.Get("form")
+			fieldValue := v.Field(i).String()
+			system.SetOldInput(c, fieldName, fieldValue)
+		}
+	}
+
+	sort, errUInt32 := utils.ToUint32(form.Sort)
+	if errUInt32 != nil {
+		sort = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	output := services.NewArticleService().CreateArticleTag(&dto.ArticleTagInput{
+		Name:   form.Name,
+		Remark: form.Remark,
+		Sort:   sort,
+		Status: status,
+	})
+
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "fail")
+	} else {
+		system.AddFlashData(c, "添加文章标签信息成功", "success")
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "添加文章标签")
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticleTag)
+	return
 }
 
 func (ctrl *cArticle) ListArticleTag(c *gin.Context) {
