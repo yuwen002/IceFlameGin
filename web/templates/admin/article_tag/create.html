@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>文章频道</h1>
+                <h1>文章标签</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
-                    <li class="breadcrumb-item active">创建文章频道</li>
+                    <li class="breadcrumb-item active">创建文章标签</li>
                 </ol>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">文章频道 <small>创建</small></h3>
+                        <h3 class="card-title">文章标签 <small>创建</small></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" onclick="location.reload();">
                                 <i class="fas fa-sync-alt"></i>
@@ -53,8 +53,8 @@
                     <form id="form-info" method="post" action="/admin/article-channel/create">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">分类名称</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="分类名称" value="{{ ginContext|old:'name' }}">
+                                <label for="name">标签名称</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="标签名称" value="{{ ginContext|old:'name' }}">
                                 {% if err_msg["Name"] %}
                                 <span class="text-danger">{{ err_msg["Name"] }}</span>
                                 {% endif %}

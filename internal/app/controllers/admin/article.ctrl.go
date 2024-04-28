@@ -786,6 +786,14 @@ func (ctrl *cArticle) CreateArticleTag(c *gin.Context) {
 	return
 }
 
+// HandelCreateArticleTag
+//
+// @Title HandelCreateArticleTag
+// @Description: 处理新建文章tag页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-28 23:12:18
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
 	var form validators.ArticleTagForm
 	if err := c.ShouldBind(&form); err != nil {
