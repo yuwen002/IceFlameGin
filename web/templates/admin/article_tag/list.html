@@ -29,7 +29,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">文章频道信息 列表</h3>
+            <h3 class="card-title">文章标签信息 列表</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" onclick="location.reload();">
                 <i class="fas fa-sync-alt"></i>
@@ -42,7 +42,7 @@
               <thead>
               <tr>
                 <th>ID</th>
-                <th>频道名称</th>
+                <th>标签名称</th>
                 <th>备注</th>
                 <th>显示状态</th>
                 <th>创建时间</th>
@@ -55,7 +55,7 @@
               <tfoot>
               <tr>
                 <th>ID</th>
-                <th>频道名称</th>
+                <th>标签名称</th>
                 <th>备注</th>
                 <th>显示状态</th>
                 <th>创建时间</th>
@@ -80,7 +80,7 @@
   <div class="modal-dialog  w-100" style="max-width: none;" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">文章频道信息</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">文章标签信息</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -179,7 +179,7 @@
         }
       ],
       "ajax": {
-        "url": "/admin/article-channel/ajax/list/",
+        "url": "/admin/article-tag/ajax/list/",
         "type": "GET",
         "cache": false,
         "dataSrc": "data"
@@ -209,7 +209,7 @@
       if (confirm("是否更改发布状态？")) {
         // 用户点击确认，发起 Ajax 请求
         $.ajax({
-          url: '/admin/article-channel/ajax/edit/status',
+          url: '/admin/article-tag/ajax/edit/status',
           type: 'POST',
           data: {
             id: id,

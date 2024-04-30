@@ -435,7 +435,7 @@ func (svc *sArticle) DeleteArticleChannelByID(id uint32) *system.SysResponse {
 // @param in
 // @return *system.SysResponse
 func (svc *sArticle) CreateArticleTag(in *dto.ArticleTagInput) *system.SysResponse {
-	err := repositories.NewArticleTag().Insert(&model.ArticleTag{
+	err := repositories.NewArticleTagRepository().Insert(&model.ArticleTag{
 		Name:   in.Name,
 		Remark: in.Remark,
 		Sort:   in.Sort,
@@ -454,5 +454,43 @@ func (svc *sArticle) CreateArticleTag(in *dto.ArticleTagInput) *system.SysRespon
 		Code:    0,
 		Message: "success",
 		Data:    nil,
+	}
+}
+
+// ShowArticleTag
+//
+// @Title ShowArticleTag
+// @Description: 文章tag信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-30 23:52:13
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sArticle) ShowArticleTag(in dto.ListArticleTagInput) *system.SysResponse {
+	out, err := repositories.NewArticleTagRepository().GetList(in)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	totalRecords, err := repositories.NewArticleTagRepository().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data: dto.ListArticleTagOutput{
+			List:  out,
+			Total: totalRecords,
+		},
 	}
 }

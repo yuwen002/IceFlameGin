@@ -71,7 +71,7 @@ type ListArticleChannelOutput struct {
 
 // ArticleTagInput
 //
-// @Description: 文章tag信息列表输入
+// @Description: 文章tag信息输入
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-04-22 23:53:34
 type ArticleTagInput struct {
@@ -79,4 +79,25 @@ type ArticleTagInput struct {
 	Remark string
 	Sort   uint32
 	Status uint32
+}
+
+// ListArticleTagInput
+//
+// @Description: 文章tag信息列表输入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-30 23:44:09
+type ListArticleTagInput struct {
+	Order  string
+	Start  int
+	Length int
+}
+
+// ListArticleTagOutput
+//
+// @Description: 文章tag信息列表输出
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-30 23:51:47
+type ListArticleTagOutput struct {
+	List  []*model.ArticleTag
+	Total int64
 }

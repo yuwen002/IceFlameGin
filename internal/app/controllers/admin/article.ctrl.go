@@ -146,7 +146,7 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 func (ctrl *cArticle) ListArticleCategory(c *gin.Context) {
 	// 渲染文章分类信息列表页面
 	system.Render(c, "admin/article_category/list.html", pongo2.Context{
-		"title": "文章分类息列表",
+		"title": "文章分类信息列表",
 	})
 }
 
@@ -845,12 +845,57 @@ func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
 	return
 }
 
+// ListArticleTag
+//
+// @Title ListArticleTag
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-04-30 23:57:56
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) ListArticleTag(c *gin.Context) {
-
+	// 渲染文章标签信息列表页面
+	system.Render(c, "admin/article_tag/list.html", pongo2.Context{
+		"title": "文章标签息信列表",
+	})
 }
 
+// AjaxListArticleTag
+//
+// @Title AjaxListArticleTag
+// @Description: Ajax获取文章标签信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-01 00:00:20
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) AjaxListArticleTag(c *gin.Context) {
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
+	if err != nil {
+		start = 0
+	}
 
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
+	if err != nil {
+		length = 10
+	}
+
+	output := services.NewArticleService().ShowArticleTag(dto.ListArticleTagInput{
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
+	})
+
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	data := output.Data.(dto.ListArticleTagOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
+	})
 }
 
 func (ctrl *cArticle) EditArticleTag(c *gin.Context) {
