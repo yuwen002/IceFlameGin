@@ -92,3 +92,40 @@ func (repo *rArticleTag) CountRecords() (int64, error) {
 
 	return totalRecords, err
 }
+
+// GetByID
+//
+// @Title GetByID
+// @Description: 按ID获取文章标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-01 23:59:05
+// @receiver repo
+// @param id
+// @return out
+// @return err
+func (repo *rArticleTag) GetByID(id uint32) (out *model.ArticleTag, err error) {
+	err = db.NewGormCore().GetByID(id, &out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UpdateByID
+//
+// @Title UpdateByID
+// @Description: 按ID更新文章标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-02 00:15:21
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *rArticleTag) UpdateByID(id uint32, in *model.ArticleTag) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -654,7 +654,7 @@ func (ctrl *cArticle) HandleAjaxEditArticleChannel(c *gin.Context) {
 	}
 
 	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章频道信息")
-	// 更新成功后，可以跳转到用户角色列表页面或显示成功信息
+	// 更新成功后，可以跳转到文章频道列表页面或显示成功信息
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
 		Message: "Success",
@@ -898,12 +898,113 @@ func (ctrl *cArticle) AjaxListArticleTag(c *gin.Context) {
 	})
 }
 
+// EditArticleTag
+//
+// @Title EditArticleTag
+// @Description: 渲染文章标签信息编辑页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-02 00:05:18
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) EditArticleTag(c *gin.Context) {
+	id, err := utils.ToInt(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
 
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 查询分类信息
+	output := services.NewArticleService().GetArticleTagByID(uint32ID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	tag, ok := output.Data.(*model.ArticleTag)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 渲染文章标签信息编辑页面
+	system.Render(c, "admin/article_tag/edit.html", pongo2.Context{
+		"title": "文章标签信息编辑",
+		"tag":   tag,
+		"id":    uint32ID,
+	})
 }
 
+// HandelAjaxEditArticleTag
+//
+// @Title HandelAjaxEditArticleTag
+// @Description: 处理新建文章标签页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-02 00:17:50
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) HandelAjaxEditArticleTag(c *gin.Context) {
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
 
+	var form validators.ArticleTagForm
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+	sort, errUInt32 := utils.ToUint32(form.Sort)
+	if errUInt32 != nil {
+		sort = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	// 更新信息
+	output := services.NewArticleService().ChangeArticleTagByID(uint32ID, &dto.ArticleTagInput{
+		Name:   form.Name,
+		Remark: form.Remark,
+		Sort:   sort,
+		Status: status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章标签信息")
+	// 更新成功后，可以跳转到文章标签列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }
 
 func (ctrl *cArticle) HandelAjaxEditStatusArticleTag(c *gin.Context) {

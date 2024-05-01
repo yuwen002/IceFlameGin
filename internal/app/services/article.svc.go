@@ -342,7 +342,7 @@ func (svc *sArticle) GetArticleChannelByID(id uint32) *system.SysResponse {
 // ChangeArticleChannelByID
 //
 // @Title ChangeArticleChannelByID
-// @Description: 按ID修改文频道类信息
+// @Description: 按ID修改文章频道信息
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-04-21 17:07:24
 // @receiver svc
@@ -492,5 +492,64 @@ func (svc *sArticle) ShowArticleTag(in dto.ListArticleTagInput) *system.SysRespo
 			List:  out,
 			Total: totalRecords,
 		},
+	}
+}
+
+// GetArticleTagByID
+//
+// @Title GetArticleTagByID
+// @Description: 按ID获取文章标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-02 00:03:08
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sArticle) GetArticleTagByID(id uint32) *system.SysResponse {
+	out, err := repositories.NewArticleTagRepository().GetByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    out,
+	}
+}
+
+// ChangeArticleTagByID
+//
+// @Title ChangeArticleTagByID
+// @Description: 按ID修改文章标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-02 00:15:45
+// @receiver svc
+// @param id
+// @param in
+// @return *system.SysResponse
+func (svc *sArticle) ChangeArticleTagByID(id uint32, in *dto.ArticleTagInput) *system.SysResponse {
+	err := repositories.NewArticleTagRepository().UpdateByID(id, &model.ArticleTag{
+		Name:   in.Name,
+		Remark: in.Remark,
+		Sort:   in.Sort,
+		Status: in.Status,
+	})
+
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    nil,
 	}
 }

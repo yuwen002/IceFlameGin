@@ -270,7 +270,7 @@
       let id = $(this).data('id');
 
       // 使用 AJAX 获取填充表单
-      $('.modal-body').load('/admin/article-channel/edit?id=' + id, function (response, status, xhr) {
+      $('.modal-body').load('/admin/article-tag/edit?id=' + id, function (response, status, xhr) {
         if (status === 'error') {
           // 处理加载错误的情况
           $('.modal-body').html('<p>加载失败，请重试。</p>');

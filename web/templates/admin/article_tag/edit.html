@@ -1,0 +1,166 @@
+{% extends "../layout/admin_base.html" %}
+
+{% block header_link %}
+<link rel="stylesheet" href="/static/admin/plugins/toastr/toastr.min.css">
+{% endblock %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- jquery validation -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">文章标签 <small>编辑</small></h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form id="form-info" method="post" action="/admin/article-tag/ajax/edit?id={{ id }}">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="name">标签名称</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="标签名称" value="{{ tag.Name }}">
+                                {% if err_msg["Name"] %}
+                                <span class="text-danger">{{ err_msg["Name"] }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="remark">备注</label>
+                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ tag.Remark }}">
+                                {% if err_msg["Remark"] %}
+                                <span class="text-danger">{{ err_msg["Remark"] }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="sort">排序顺序</label>
+                                <input type="text" name="sort" class="form-control" id="sort" placeholder="排序顺序" value="{{ tag.Sort }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">显示状态</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="1">
+                                    <label class="form-check-label">可见</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="2">
+                                    <label class="form-check-label">隐藏</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" id="submit-btn" class="btn btn-primary">提交信息</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!--/.col (left) -->
+            <!-- right column -->
+            <div class="col-md-6">
+
+            </div>
+            <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+{% endblock %}
+{% block content_js %}
+<!-- Toastr -->
+<script src="/static/admin/plugins/toastr/toastr.min.js"></script>
+<script>
+    $(function () {
+        let defaultStatusValue = "{{ tag.Status }}"
+        if (defaultStatusValue == "") {
+            $('input[name="status"][value="1"]').prop('checked', true)
+        } else {
+            $('input[name="status"][value="' + defaultStatusValue + '"]').prop('checked', true)
+        }
+
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+            }
+        });
+        $('#form-info').validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 20
+                },
+                sort: {
+                    number: true
+                }
+            },
+            messages: {
+                name: {
+                    required: "请输入姓名",
+                    minlength: "频道名称长度不能小于2位",
+                    maxlength: "频道名称长度不能大于50位"
+                },
+                sort: {
+                    number: "请输入整数"
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+
+        $('#submit-btn').click(function () {
+            if ($('#form-info').valid()) {
+                $.ajax({
+                    url: '/admin/article-tag/ajax/edit?id={{ id }}',
+                    type: 'POST',
+                    data: $('#form-info').serialize(),
+                    success: function (response) {
+                        let messageOpts = {
+                            "closeButton": true,// 是否显示关闭按钮
+                            "progressBar":true,// 是否显示进度条
+                            "positionClass": "toast-top-center",// 弹出窗的位置
+                            "showDuration": "1000",// 显示的动画时间
+                            "hideDuration": "1000",// 消失的动画时间
+                            "timeOut": "6000",// 弹窗展现时间
+                            "showEasing": "swing",//显示时的动画缓冲方式
+                            "hideEasing": "linear",//消失时的动画缓冲方式
+                            "showMethod": "fadeIn",//显示时的动画方式
+                            "hideMethod": "fadeOut", //消失时的动画方式
+                        };
+                        toastr.options = messageOpts;
+                        if (response.code === 0) {
+                            // 修改成功时的处理逻辑
+                            toastr.success("恭喜，修改角色信息成功！", "成功")
+                            hideModalAndRefreshData();
+                        } else {
+                            // 失败时的处理逻辑
+                            // 可以显示错误消息等
+                            if (response.code === 2) {
+                                for (let key in response.data) {
+                                    toastr.error(response.data[key], "错误")
+                                    break;
+                                }
+                            } else {
+                                toastr.error(response.message, "错误")
+                                hideModalAndRefreshData();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>
+{% endblock %}
