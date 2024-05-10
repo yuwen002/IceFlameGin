@@ -1008,9 +1008,93 @@ func (ctrl *cArticle) HandelAjaxEditArticleTag(c *gin.Context) {
 }
 
 func (ctrl *cArticle) HandelAjaxEditStatusArticleTag(c *gin.Context) {
+	id := c.Query("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	var form validators.ArticleTagForm
+	if err := c.ShouldBind(&form); err != nil {
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrors(err, form)
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    2,
+			Message: "验证错误",
+			Data:    errMsg,
+		})
+		return
+	}
+	sort, errUInt32 := utils.ToUint32(form.Sort)
+	if errUInt32 != nil {
+		sort = 0
+	}
+
+	status, errUInt32 := utils.ToUint32(form.Status)
+	if errUInt32 != nil {
+		status = 0
+	}
+
+	// 更新信息
+	output := services.NewArticleService().ChangeArticleTagByID(uint32ID, &dto.ArticleTagInput{
+		Name:   form.Name,
+		Remark: form.Remark,
+		Sort:   sort,
+		Status: status,
+	})
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "编辑文章标签信息")
+	// 更新成功后，可以跳转到文章标签列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 
 }
 
 func (ctrl *cArticle) HandelAjaxDeleteArticleTag(c *gin.Context) {
+	id := c.PostForm("id")
+	uint32ID, err := utils.ToUint32(id)
+	if err != nil {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
 
+	output := services.NewArticleService().DeleteArticleTagByID(uint32ID)
+	if output.Code == 1 {
+		c.JSON(http.StatusOK, &system.SysResponse{
+			Code:    1,
+			Message: output.Message,
+			Data:    nil,
+		})
+		return
+	}
+
+	_ = services.NewUcSystemMasterVisitService().WriteSystemMasterVisitorLogs(c, 1, 5, 0, "删除文章标签信息")
+	// 更新成功后，可以跳转到文章频道列表页面或显示成功信息
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	})
+	return
 }

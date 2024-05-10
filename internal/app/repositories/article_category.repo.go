@@ -101,7 +101,7 @@ func (repo *rArticleCategory) GetListByFID(fid uint32) (out []*model.ArticleCate
 // @return out
 // @return err
 func (repo *rArticleCategory) GetList(data dto.ListArticleCategoryInput) (out []*model.ArticleCategory, err error) {
-	db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+	err = db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Order:       "sort desc, id desc",
 		Preload:     nil,
 		PreloadFunc: nil,

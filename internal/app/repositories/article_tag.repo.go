@@ -58,7 +58,7 @@ func (repo *rArticleTag) Insert(data *model.ArticleTag) error {
 // @return out
 // @return err
 func (repo *rArticleTag) GetList(data dto.ListArticleTagInput) (out []*model.ArticleTag, err error) {
-	db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+	err = db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Order:       "sort desc, id desc",
 		Preload:     nil,
 		PreloadFunc: nil,
@@ -123,6 +123,24 @@ func (repo *rArticleTag) GetByID(id uint32) (out *model.ArticleTag, err error) {
 // @return error
 func (repo *rArticleTag) UpdateByID(id uint32, in *model.ArticleTag) error {
 	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DeleteByID
+//
+// @Title DeleteByID
+// @Description: 按ID删除文章标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-10 13:58:24
+// @receiver repo
+// @param id
+// @return error
+func (repo *rArticleTag) DeleteByID(id uint32) error {
+	err := db.NewGormCore().DeleteByID(&model.ArticleTag{ID: id})
 	if err != nil {
 		return err
 	}

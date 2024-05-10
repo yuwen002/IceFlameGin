@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+	"github.com/joho/godotenv"
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"
@@ -77,8 +79,20 @@ type SessionInfo struct {
 // @Author liuxingyu
 // @Date 2024-02-16 17:50:24
 func ParseConfig() {
+
+	err := godotenv.Load("./.env")
+	if err != nil {
+		log.Fatalf(".env文件无法打开：%v", err)
+	}
+
+	openPath := "./config/config.yaml"
+	if os.Getenv("ENV") == "development" {
+		openPath = "./config/config.development.yaml"
+	}
+	fmt.Println(openPath)
+
 	// 打开文件
-	file, err := os.Open("./config/config.yaml")
+	file, err := os.Open(openPath)
 	if err != nil {
 		log.Fatalf("无法打开配置文件：%v", err)
 	}

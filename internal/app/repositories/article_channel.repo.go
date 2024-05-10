@@ -58,7 +58,7 @@ func (repo *rArticleChannel) Insert(data *model.ArticleChannel) error {
 // @return out
 // @return err
 func (repo *rArticleChannel) GetList(data dto.ListArticleChannelInput) (out []*model.ArticleChannel, err error) {
-	db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+	err = db.NewGormCore().QueryListWithCondition(db.QueryOptions{
 		Order:       "sort desc, id desc",
 		Preload:     nil,
 		PreloadFunc: nil,
@@ -68,6 +68,7 @@ func (repo *rArticleChannel) GetList(data dto.ListArticleChannelInput) (out []*m
 			Offset: data.Start,
 		},
 	}, &out)
+
 	if err != nil {
 		return nil, err
 	}

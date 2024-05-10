@@ -553,3 +553,48 @@ func (svc *sArticle) ChangeArticleTagByID(id uint32, in *dto.ArticleTagInput) *s
 		Data:    nil,
 	}
 }
+
+func (svc *sArticle) DeleteArticleTagByID(id uint32) *system.SysResponse {
+	out, err := repositories.NewArticleTagRepository().GetByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	if out == nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "空记录",
+			Data:    nil,
+		}
+	}
+
+	if out.Status == 1 {
+		return &system.SysResponse{
+			Code:    1,
+			Message: "标签信息处于发布状态，不能删除",
+			Data:    nil,
+		}
+	}
+
+	//@todo 检查文章标签
+
+	err = repositories.NewArticleTagRepository().DeleteByID(id)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    nil,
+	}
+
+}
