@@ -40,11 +40,11 @@
                             <div class="form-group">
                                 <label for="name">显示状态</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="status" value="1">
+                                    <input class="form-check-input" type="radio" name="status" value="0">
                                     <label class="form-check-label">可见</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="status" value="2">
+                                    <input class="form-check-input" type="radio" name="status" value="1">
                                     <label class="form-check-label">隐藏</label>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                         toastr.options = messageOpts;
                         if (response.code === 0) {
                             // 修改成功时的处理逻辑
-                            toastr.success("恭喜，修改角色信息成功！", "成功")
+                            toastr.success("恭喜，修改文章标签成功！", "成功")
                             hideModalAndRefreshData();
                         } else {
                             // 失败时的处理逻辑

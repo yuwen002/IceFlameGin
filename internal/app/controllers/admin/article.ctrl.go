@@ -978,7 +978,7 @@ func (ctrl *cArticle) HandelAjaxEditArticleTag(c *gin.Context) {
 
 	status, errUInt32 := utils.ToUint32(form.Status)
 	if errUInt32 != nil {
-		status = 0
+		status = 1
 	}
 
 	// 更新信息
