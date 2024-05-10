@@ -123,7 +123,7 @@ func (repo *rArticleChannel) GetByID(id uint32) (out *model.ArticleChannel, err 
 // @param in
 // @return error
 func (repo *rArticleChannel) UpdateByID(id uint32, in *model.ArticleChannel) error {
-	err := db.NewGormCore().UpdateByID(id, in)
+	err := db.NewGormCore().SetModel(&model.ArticleChannel{}).UpdateByID(id, in)
 	if err != nil {
 		return err
 	}
