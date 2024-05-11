@@ -1007,6 +1007,14 @@ func (ctrl *cArticle) HandelAjaxEditArticleTag(c *gin.Context) {
 	return
 }
 
+// HandelAjaxEditStatusArticleTag
+//
+// @Title HandelAjaxEditStatusArticleTag
+// @Description: Ajax处理文章标签状态
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-11 10:45:55
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) HandelAjaxEditStatusArticleTag(c *gin.Context) {
 	id := c.Query("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -1067,6 +1075,14 @@ func (ctrl *cArticle) HandelAjaxEditStatusArticleTag(c *gin.Context) {
 
 }
 
+// HandelAjaxDeleteArticleTag
+//
+// @Title HandelAjaxDeleteArticleTag
+// @Description: Ajax删除文章标签
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-11 10:47:26
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) HandelAjaxDeleteArticleTag(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)

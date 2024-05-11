@@ -554,6 +554,15 @@ func (svc *sArticle) ChangeArticleTagByID(id uint32, in *dto.ArticleTagInput) *s
 	}
 }
 
+// DeleteArticleTagByID
+//
+// @Title DeleteArticleTagByID
+// @Description: 按ID删除文章标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-11 17:55:14
+// @receiver svc
+// @param id
+// @return *system.SysResponse
 func (svc *sArticle) DeleteArticleTagByID(id uint32) *system.SysResponse {
 	out, err := repositories.NewArticleTagRepository().GetByID(id)
 	if err != nil {
