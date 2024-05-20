@@ -1,0 +1,51 @@
+// Code generated repository by gen.
+// Date {{.date}}
+
+package {{.package_name}}
+
+import (
+	"gorm.io/gorm"
+	"ice_flame_gin/internal/app/db"
+	"ice_flame_gin/internal/app/models/{{.import_model_name}}"
+)
+
+// r{{.struct_name}}
+//
+// @Description: {{.struct_description}}
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+type r{{.struct_name}} struct {
+	DB *gorm.DB
+}
+
+// New{{.struct_name}}
+//
+// @Title New{{.struct_name}}
+// @Description:  创建一个新的 r{{.struct_name}} 仓库实例
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+// @return *r{{.struct_name}}
+func New{{.struct_name}}() *r{{.struct_name}} {
+	return &r{{.struct_name}}{
+		DB: db.DB["default"],
+	}
+}
+
+// Insert
+//
+// @Title Insert
+// @Description: 数据信息写入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+// @receiver repo
+// @param in
+// @return error
+func (repo *r{{.struct_name}}) Insert(data *{{.model_name}}) error {
+	err := db.NewGormCore().Insert(data)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
