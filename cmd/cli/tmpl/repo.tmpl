@@ -25,7 +25,7 @@ type r{{.struct_name}} struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date {{.date}}
 // @return *r{{.struct_name}}
-func New{{.struct_name}}() *r{{.struct_name}} {
+func New{{.struct_name}}() interface{} {
 	return &r{{.struct_name}}{
 		DB: db.DB["default"],
 	}
@@ -48,4 +48,108 @@ func (repo *r{{.struct_name}}) Insert(data *{{.model_name}}) error {
 	}
 
 	return nil
+}
+
+// InsertAndGetID
+//
+// @Title InsertAndGetID
+// @Description: 数据信息写入，并返回写入ID
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+// @receiver repo
+// @param data
+// @return uint32
+// @return error
+func (repo *r{{.struct_name}}) InsertAndGetID(data *{{.model_name}}) (uint32, error) {
+	id, err := db.NewGormCore().InsertAndGetID(data)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
+
+
+// UpdateByID
+//
+// @Title UpdateByID
+// @Description: 按ID修改数据信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+// @receiver repo
+// @param id
+// @param in
+// @return error
+func (repo *r{{.struct_name}}) UpdateByID(id uint32, in *{{.model_name}}) error {
+	err := db.NewGormCore().UpdateByID(id, in)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DeleteByID
+//
+// @Title DeleteByID
+// @Description: 按ID删除数据信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+// @receiver repo
+// @param id
+// @return error
+func (repo *r{{.struct_name}}) DeleteByID(id uint32) error {
+	err := db.NewGormCore().DeleteByID(&{{.model_name}}{ID: id})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// CountRecords
+//
+// @Title CountRecords
+// @Description: 数据信息列表总条数
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+// @receiver repo
+// @return int64
+// @return error
+func (repo *r{{.struct_name}}) CountRecords() (int64, error) {
+	totalRecords, err := db.NewGormCore().SetModel(&{{.model_name}}{}).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return totalRecords, err
+}
+
+// GetList
+//
+// @Title GetList
+// @Description: 数据信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date {{.date}}
+// @receiver repo
+// @param data
+// @return out
+// @return err
+func (repo *r{{.struct_name}}) GetList(data db.GetListOptions) ([]*{{.model_name}}, error) {
+    var out []*{{.model_name}}
+	err := db.NewGormCore().QueryListWithCondition(db.QueryOptions{
+		Order:       data.Order,
+		Preload:     nil,
+		PreloadFunc: nil,
+		PageType:    2,
+		Limit: db.Limit{
+			Length: data.Length,
+			Offset: data.Start,
+		},
+	}, &out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }

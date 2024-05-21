@@ -300,6 +300,10 @@ func (g *GormCore) QueryListWithCondition(opts QueryOptions, out interface{}) er
 		}
 	}
 
+	if opts.Omit != "" {
+		db = db.Omit(opts.Omit)
+	}
+
 	// has one 关联
 	if len(opts.Preload) > 0 {
 		for _, association := range opts.Preload {

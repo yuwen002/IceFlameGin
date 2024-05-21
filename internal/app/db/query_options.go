@@ -29,9 +29,16 @@ type QueryOptions struct {
 	Condition   string
 	Args        []interface{}
 	Order       string
+	Omit        string
 	Preload     []string
 	PreloadFunc map[string]func(db *gorm.DB) *gorm.DB
 	PageType    int8
 	Pagination  // 分页，页码
 	Limit       // 分页，偏移量
+}
+
+type GetListOptions struct {
+	Order  string
+	Start  int
+	Length int
 }
