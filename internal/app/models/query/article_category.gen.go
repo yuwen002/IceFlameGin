@@ -51,7 +51,7 @@ type articleCategory struct {
 	Name      field.String // 分类名称
 	Remark    field.String // 备注信息
 	Sort      field.Uint32 // 排序顺序
-	Status    field.Uint32 // 显示状态（0=显示，1=隐藏）
+	Status    field.Uint32 // 显示状态（1=显示，2=隐藏）
 	CreatedAt field.Time
 	UpdatedAt field.Time
 

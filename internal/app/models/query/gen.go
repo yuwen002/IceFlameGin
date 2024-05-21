@@ -18,6 +18,7 @@ import (
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                          db,
+		Article:                     newArticle(db, opts...),
 		ArticleCategory:             newArticleCategory(db, opts...),
 		ArticleChannel:              newArticleChannel(db, opts...),
 		ArticleTag:                  newArticleTag(db, opts...),
@@ -35,6 +36,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
+	Article                     article
 	ArticleCategory             articleCategory
 	ArticleChannel              articleChannel
 	ArticleTag                  articleTag
@@ -53,6 +55,7 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:                          db,
+		Article:                     q.Article.clone(db),
 		ArticleCategory:             q.ArticleCategory.clone(db),
 		ArticleChannel:              q.ArticleChannel.clone(db),
 		ArticleTag:                  q.ArticleTag.clone(db),
@@ -78,6 +81,7 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:                          db,
+		Article:                     q.Article.replaceDB(db),
 		ArticleCategory:             q.ArticleCategory.replaceDB(db),
 		ArticleChannel:              q.ArticleChannel.replaceDB(db),
 		ArticleTag:                  q.ArticleTag.replaceDB(db),
@@ -93,6 +97,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 }
 
 type queryCtx struct {
+	Article                     *articleDo
 	ArticleCategory             *articleCategoryDo
 	ArticleChannel              *articleChannelDo
 	ArticleTag                  *articleTagDo
@@ -108,6 +113,7 @@ type queryCtx struct {
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
+		Article:                     q.Article.WithContext(ctx),
 		ArticleCategory:             q.ArticleCategory.WithContext(ctx),
 		ArticleChannel:              q.ArticleChannel.WithContext(ctx),
 		ArticleTag:                  q.ArticleTag.WithContext(ctx),
