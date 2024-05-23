@@ -147,3 +147,22 @@ func (repo *rArticleTag) DeleteByID(id uint32) error {
 
 	return nil
 }
+
+// GetAll
+//
+// @Title GetAll
+// @Description: 获取全部文章标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-23 14:47:05
+// @receiver repo
+// @return *model.ArticleTag
+// @return error
+func (repo *rArticleTag) GetAll() ([]*model.ArticleTag, error) {
+	var out []*model.ArticleTag
+	err := db.NewGormCore().GetAll(&out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

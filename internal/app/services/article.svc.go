@@ -41,7 +41,7 @@ func (svc *sArticle) CreateArticleCategory(in *dto.ArticleCategoryInput) *system
 		Name:   in.Name,
 		Remark: in.Remark,
 		Sort:   in.Sort,
-		Status: in.Status,
+		Status: &in.Status,
 	})
 	if err != nil {
 		return &system.SysResponse{
@@ -174,7 +174,7 @@ func (svc *sArticle) ChangeArticleCategoryByID(id uint32, in dto.ArticleCategory
 		Name:   in.Name,
 		Remark: in.Remark,
 		Sort:   in.Sort,
-		Status: in.Status,
+		Status: &in.Status,
 	})
 	if err != nil {
 		return &system.SysResponse{
@@ -218,7 +218,7 @@ func (svc *sArticle) DeleteArticleCategoryByID(id uint32) *system.SysResponse {
 		}
 	}
 
-	if out.Status == 1 {
+	if *out.Status == 1 {
 		return &system.SysResponse{
 			Code:    1,
 			Message: "单页信息处于发布状态，不能删除",
@@ -425,6 +425,40 @@ func (svc *sArticle) DeleteArticleChannelByID(id uint32) *system.SysResponse {
 	}
 }
 
+// GetArticleChannelAll
+//
+// @Title GetArticleChannelAll
+// @Description: 获取所有频道信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-23 10:51:02
+// @receiver svc
+// @return *system.SysResponse
+func (svc *sArticle) GetArticleChannelAll() *system.SysResponse {
+	out, err := repositories.NewArticleChannelRepository().GetAll()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	var data []*dto.SelectOptionOutput
+	for _, v := range out {
+		d := dto.SelectOptionOutput{
+			Key:   v.ID,
+			Value: v.Name,
+		}
+		data = append(data, &d)
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    out,
+	}
+}
+
 // CreateArticleTag
 //
 // @Title CreateArticleTag
@@ -606,4 +640,38 @@ func (svc *sArticle) DeleteArticleTagByID(id uint32) *system.SysResponse {
 		Data:    nil,
 	}
 
+}
+
+// GetArticleTagAll
+//
+// @Title GetArticleTagAll
+// @Description: 获取所有标签信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-23 14:50:41
+// @receiver svc
+// @return *system.SysResponse
+func (svc *sArticle) GetArticleTagAll() *system.SysResponse {
+	out, err := repositories.NewArticleTagRepository().GetAll()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	var data []*dto.SelectOptionOutput
+	for _, v := range out {
+		d := dto.SelectOptionOutput{
+			Key:   v.ID,
+			Value: v.Name,
+		}
+		data = append(data, &d)
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    out,
+	}
 }

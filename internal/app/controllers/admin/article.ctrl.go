@@ -1114,3 +1114,77 @@ func (ctrl *cArticle) HandelAjaxDeleteArticleTag(c *gin.Context) {
 	})
 	return
 }
+
+// CreateArticle
+//
+// @Title CreateArticle
+// @Description: 新建文章
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-22 18:24:55
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) CreateArticle(c *gin.Context) {
+	// 从会话中获取成功信息
+	success := system.GetFlashedData(c, "success")
+	// 从会话中获取错误信息
+	fail := system.GetFlashedData(c, "fail")
+	var errMsg map[string]interface{}
+	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 分类信息
+	output := services.NewArticleService().ShowArticleCategoryByFID(0)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	categorySelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 频道信息
+	output = services.NewArticleService().GetArticleChannelAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	channelSelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 标签信息
+	output = services.NewArticleService().GetArticleTagAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	tagSelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	system.Render(c, "admin/article/create.html", pongo2.Context{
+		"title":           "新建文章信息",
+		"success":         success,
+		"fail":            fail,
+		"err_msg":         errMsg,
+		"channel_select":  channelSelect,
+		"category_select": categorySelect,
+		"tag_select":      tagSelect,
+	})
+}
+
+func (ctrl *cArticle) HandelCreateArticle(c *gin.Context)   {}
+func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
+func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}
+func (ctrl *cArticle) EditArticle(c *gin.Context)           {}
+func (ctrl *cArticle) HandleAjaxEditArticle(c *gin.Context) {}

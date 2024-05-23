@@ -148,3 +148,22 @@ func (repo *rArticleChannel) DeleteByID(id uint32) error {
 
 	return nil
 }
+
+// GetAll
+//
+// @Title GetAll
+// @Description: 获取频道全部信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-05-22 18:31:52
+// @receiver repo
+// @return []*model.ArticleChannel
+// @return error
+func (repo *rArticleChannel) GetAll() ([]*model.ArticleChannel, error) {
+	var out []*model.ArticleChannel
+	err := db.NewGormCore().GetAll(&out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
