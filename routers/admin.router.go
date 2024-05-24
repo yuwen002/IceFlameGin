@@ -121,6 +121,9 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.POST(paths.AdminHandleAjaxEditArticleTag, admin.Article.HandelAjaxEditArticleTag)
 			r.POST(paths.AdminHandleAjaxEditStatusArticleTag, admin.Article.HandelAjaxEditStatusArticleTag)
 			r.POST(paths.AdminHandelAjaxDeleteArticleTag, admin.Article.HandelAjaxDeleteArticleTag)
+
+			// 文章
+			r.GET(paths.AdminCreateArticle, admin.Article.CreateArticle)
 		}
 
 	}

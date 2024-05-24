@@ -662,16 +662,18 @@ func (svc *sArticle) GetArticleTagAll() *system.SysResponse {
 
 	var data []*dto.SelectOptionOutput
 	for _, v := range out {
-		d := dto.SelectOptionOutput{
-			Key:   v.ID,
-			Value: v.Name,
+		if v.Status == 0 {
+			d := dto.SelectOptionOutput{
+				Key:   v.ID,
+				Value: v.Name,
+			}
+			data = append(data, &d)
 		}
-		data = append(data, &d)
 	}
 
 	return &system.SysResponse{
 		Code:    0,
 		Message: "success",
-		Data:    out,
+		Data:    data,
 	}
 }
