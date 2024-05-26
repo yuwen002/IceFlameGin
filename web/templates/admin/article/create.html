@@ -60,24 +60,37 @@
                                 <label for="channel">文章频道</label>
                                 <select name="channel" class="form-control select2" style="width:100%;" id="channel">
                                     <option value="0">请选择频道</option>
-                                    {% for fid in channel_select %}
-                                    <option value="{{ fid.Key }}">{{ fid.Value }}</option>
+                                    {% for channel in channel_select %}
+                                    <option value="{{ channel.Key }}">{{ channel.Value }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="category">文章分类</label>
-                                <select name="category"class="form-control select2" style="width:100%;" id="category">
-                                    <option value="0">一级分类</option>
-                                    {% for fid in category_select %}
-                                    <option value="{{ fid.Key }}">{{ fid.Value }}</option>
-                                    {% endfor %}
-                                </select>
+                                <label for="category" class="col-md-2 control-label">文章分类</label>
+                                <div class="col-md-10">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <select name="category" class="form-control select2" style="width:100%;" id="category">
+                                                <option value="0">一级分类</option>
+                                                {% for category in category_select %}
+                                                <option value="{{ category.Key }}">{{ category.Value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select name="category2" class="form-control select2" style="width:100%;" id="category2">
+                                                <option value="0">二级分类</option>
+                                                {% for category in category_select %}
+                                                <option value="{{ category.Key }}">{{ category.Value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="tag">文章标签</label>
-                                <select name="tag" multiple="multiple"  class="form-control select2"  data-placeholder="Select a State" style="width:100%;" id="tag">
-                                    <option value="0">请选择标签</option>
+                                <select name="tag" multiple="multiple"  class="form-control select2"  data-placeholder="请选择文章标签" style="width:100%;" id="tag">
                                     {% for tag in tag_select %}
                                     <option value="{{ tag.Key }}">{{ tag.Value }}</option>
                                     {% endfor %}
