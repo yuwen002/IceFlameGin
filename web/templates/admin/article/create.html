@@ -77,13 +77,8 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <div class="col-md-6">
-                                            <select name="category2" class="form-control select2" style="width:100%;" id="category2">
-                                                <option value="0">二级分类</option>
-                                                {% for category in category_select %}
-                                                <option value="{{ category.Key }}">{{ category.Value }}</option>
-                                                {% endfor %}
-                                            </select>
+                                        <div class="col-md-6" >
+
                                         </div>
                                     </div>
                                 </div>
@@ -151,6 +146,9 @@
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2()
+        $('#category').change(function () {
+
+        })
 
         let defaultValue = "{{ ginContext|old:'status' }}"
         if (defaultValue == "") {
