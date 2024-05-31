@@ -1185,6 +1185,10 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 	})
 }
 
+func (ctrl *cArticle) AjaxListArticleCategoryJson(c *gin.Context) {
+	c.Query("")
+	services.NewArticleService().GetArticleCategoryByID()
+}
 func (ctrl *cArticle) HandelCreateArticle(c *gin.Context)   {}
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
 func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}
