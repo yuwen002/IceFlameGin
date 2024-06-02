@@ -136,6 +136,19 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 	return
 }
 
+// AjaxListArticleCategoryJson
+//
+// @Title AjaxListArticleCategoryJson
+// @Description: Ajax 通过一级分类 ID 查询对应的二级分类
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-06-01 00:34:56
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) AjaxListArticleCategoryJson(c *gin.Context) {
+	firstCategory := c.Query("first_category")
+	services.NewArticleService().GetArticleCategoryByID(utils.ToUint32()Int(firstCategory))
+}
+
 // ListArticleCategory
 //
 // @Title ListArticleCategory
@@ -1185,10 +1198,6 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 	})
 }
 
-func (ctrl *cArticle) AjaxListArticleCategoryJson(c *gin.Context) {
-	c.Query("")
-	services.NewArticleService().GetArticleCategoryByID()
-}
 func (ctrl *cArticle) HandelCreateArticle(c *gin.Context)   {}
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
 func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}
