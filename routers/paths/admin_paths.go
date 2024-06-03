@@ -72,6 +72,7 @@ const (
 	AdminHandleAjaxEditArticleCategory       = "/article-category/ajax/edit"
 	AdminHandelAjaxEditStatusArticleCategory = "/article-category/ajax/edit/status"
 	AdminHandelAjaxDeleteArticleCategory     = "/article-category/ajax/delete"
+	AdminAjaxArticleCategorySecondary        = "/article-category/ajax/secondary"
 
 	AdminCreateArticleChannel               = "/article-channel/create"
 	AdminHandCreateArticleChannel           = "/article-channel/create"

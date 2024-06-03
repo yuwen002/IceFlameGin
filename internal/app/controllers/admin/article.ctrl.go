@@ -146,7 +146,21 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 // @param c
 func (ctrl *cArticle) AjaxListArticleCategoryJson(c *gin.Context) {
 	firstCategory := c.Query("first_category")
-	services.NewArticleService().GetArticleCategoryByID(utils.ToUint32()Int(firstCategory))
+	toFirstCategory, err := utils.ToUint32(firstCategory)
+	if err != nil {
+		return
+	}
+	output := services.NewArticleService().GetArticleCategoryByID(toFirstCategory)
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	c.JSON(http.StatusOK, &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data:    output.Data,
+	})
 }
 
 // ListArticleCategory

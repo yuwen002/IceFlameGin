@@ -79,10 +79,9 @@ type SessionInfo struct {
 // @Author liuxingyu
 // @Date 2024-02-16 17:50:24
 func ParseConfig() {
-
 	err := godotenv.Load("./.env")
 	if err != nil {
-		log.Fatalf(".env文件无法打开：%v", err)
+		log.Printf(".env文件无法打开：%v", err)
 	}
 
 	openPath := "./config/config.yaml"
