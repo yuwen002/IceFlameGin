@@ -145,21 +145,29 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 // @receiver ctrl
 // @param c
 func (ctrl *cArticle) AjaxListArticleCategoryJson(c *gin.Context) {
-	firstCategory := c.Query("first_category")
+	firstCategory := c.Query("category_id")
 	toFirstCategory, err := utils.ToUint32(firstCategory)
 	if err != nil {
+		system.EmptyJSON(c)
 		return
 	}
-	output := services.NewArticleService().GetArticleCategoryByID(toFirstCategory)
+	// 查询分类信息
+	output := services.NewArticleService().ShowArticleCategoryByFID(toFirstCategory)
 	if output.Code == 1 {
-		system.EmptyJSON(c)
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	fidSelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
 
 	c.JSON(http.StatusOK, &system.SysResponse{
 		Code:    0,
 		Message: "success",
-		Data:    output.Data,
+		Data:    fidSelect,
 	})
 }
 

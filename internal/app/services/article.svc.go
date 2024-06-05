@@ -158,6 +158,32 @@ func (svc *sArticle) GetArticleCategoryByID(id uint32) *system.SysResponse {
 	}
 }
 
+// GetArticleCategoryByFID
+//
+// @Title GetArticleCategoryByFID
+// @Description: 按FID获取分类信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-06-04 14:12:18
+// @receiver svc
+// @param fid
+// @return *system.SysResponse
+func (svc *sArticle) GetArticleCategoryByFID(fid uint32) *system.SysResponse {
+	out, err := repositories.NewArticleCategoryRepository().GetListByFID(fid)
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	return &system.SysResponse{
+		Code:    0,
+		Message: "Success",
+		Data:    out,
+	}
+}
+
 // ChangeArticleCategoryByID
 //
 // @Title ChangeArticleCategoryByID

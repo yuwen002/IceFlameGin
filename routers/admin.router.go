@@ -101,6 +101,7 @@ func setupAdminRoutes(router *gin.Engine) {
 			r.POST(paths.AdminHandleAjaxEditArticleCategory, admin.Article.HandleAjaxEditArticleCategory)
 			r.POST(paths.AdminHandelAjaxEditStatusArticleCategory, admin.Article.HandleAjaxEditStatusArticleCategory)
 			r.POST(paths.AdminHandelAjaxDeleteArticleCategory, admin.Article.HandelAjaxDeleteArticleCategory)
+			r.GET(paths.AdminAjaxArticleCategorySecondary, admin.Article.AjaxListArticleCategoryJson)
 
 			// 文章频道
 			r.GET(paths.AdminCreateArticleChannel, admin.Article.CreateArticleChannel)

@@ -71,14 +71,16 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <select name="first_category" class="form-control select2" style="width:100%;" id="first_category">
-                                                <option value="0">一级分类</option>
+                                                <option value="0">请选择一级分类</option>
                                                 {% for category in category_select %}
                                                 <option value="{{ category.Key }}">{{ category.Value }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <div class="col-md-6" >
-
+                                        <div class="col-md-6" id="second_category_container" style="display: none;">
+                                            <select name="second_category" class="form-control select2" style="width:100%;" id="second_category">
+                                                <option value="0">请选择二级分类</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -92,22 +94,22 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="name">文章标签</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="分类名称" value="{{ ginContext|old:'name' }}">
+                                <label for="title">文章标题</label>
+                                <input type="text" name="title" class="form-control" id="title" placeholder="文章标题" value="{{ ginContext|old:'title' }}">
                                 {% if err_msg["Name"] %}
                                 <span class="text-danger">{{ err_msg["Name"] }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
-                                <label for="remark">备注</label>
-                                <input type="text" name="remark" class="form-control" id="remark" placeholder="备注" value="{{ ginContext|old:'remark' }}">
+                                <label for="keyword">关键字</label>
+                                <input type="text" name="keyword" class="form-control" id="keyword" placeholder="关键字" value="{{ ginContext|old:'keyword' }}">
                                 {% if err_msg["Remark"] %}
                                 <span class="text-danger">{{ err_msg["Remark"] }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
-                                <label for="sort">排序顺序</label>
-                                <input type="text" name="sort" class="form-control" id="sort" placeholder="排序顺序" value="{{ ginContext|old:'sort' }}">
+                                <label for="description">描述</label>
+                                <input type="text" name="description" class="form-control" id="description" placeholder="描述" value="{{ ginContext|old:'description' }}">
                             </div>
                             <div class="form-group">
                                 <label for="name">显示状态</label>
@@ -147,13 +149,30 @@
         //Initialize Select2 Elements
         $('.select2').select2()
         $('#first_category').change(function () {
-            $.getJSON("/admin/article-category/ajax/secondary", {"category_id": $(this).val()}, function (data) {
-                console.log(data)
-            });
+            const categoryId = $(this).val();
+            const $secondCategoryContainer = $('#second_category_container');
+            const $secondCategory = $('#second_category');
+
+            if (categoryId === 0) {
+                $secondCategoryContainer.hide(); // 如果选择的值为0，隐藏二级分类
+            } else {
+                $.getJSON("/admin/article-category/ajax/secondary", {"category_id": categoryId}, function(data) {
+                    if (data.code === 0) {
+                        $secondCategory.empty(); // 清除之前的选项
+                        $secondCategory.append('<option value="0">二级分类</option>'); // 添加默认选项
+
+                        data.data.forEach(item => {
+                            $secondCategory.append(`<option value="${item.Key}">${item.Value}</option>`);
+                        });
+
+                        $secondCategoryContainer.show(); // 成功加载数据后显示二级分类
+                    }
+                });
+            }
         });
 
         let defaultValue = "{{ ginContext|old:'status' }}"
-        if (defaultValue == "") {
+        if (defaultValue === "") {
             $('input[name="status"][value="1"]').prop('checked', true)
         } else {
             $('input[name="status"][value="' + defaultValue + '"]').prop('checked', true)
