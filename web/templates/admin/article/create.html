@@ -112,6 +112,23 @@
                                 <input type="text" name="description" class="form-control" id="description" placeholder="描述" value="{{ ginContext|old:'description' }}">
                             </div>
                             <div class="form-group">
+                                <label for="link">文章链接</label>
+                                <input type="text" name="link" class="form-control" id="link" placeholder="文章链接" value="{{ ginContext|old:'link' }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="author">作者</label>
+                                <input type="text" name="author" class="form-control" id="author" placeholder="作者" value="{{ ginContext|old:'author' }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="pub_date">作者</label>
+                                <input type="text" name="pub_date" class="form-control" id="pub_date" placeholder="发布时间" value="{{ ginContext|old:'pub_date' }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="summary">摘要</label>
+                                <input type="text" name="summary" class="form-control" id="summary" placeholder="摘要" value="{{ ginContext|old:'summary' }}">
+                            </div>
+
+                            <div class="form-group">
                                 <label for="name">显示状态</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="status" value="1">
