@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -1207,7 +1206,6 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
-	fmt.Println(tagSelect)
 
 	system.Render(c, "admin/article/create.html", pongo2.Context{
 		"title":           "新建文章信息",
