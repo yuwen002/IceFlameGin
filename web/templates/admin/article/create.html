@@ -88,8 +88,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="tag">文章标签</label>
-                                <select name="tag" multiple="multiple"  class="form-control select2"  data-placeholder="请选择文章标签" style="width:100%;" id="tag">
+                                <label for="tags">文章标签</label>
+                                <select name="tags" multiple="multiple"  class="form-control select2"  data-placeholder="请选择文章标签" style="width:100%;" id="tags">
                                     {% for tag in tag_select %}
                                     <option value="{{ tag.Key }}">{{ tag.Value }}</option>
                                     {% endfor %}
@@ -122,7 +122,7 @@
                                 <input type="text" name="author" class="form-control" id="author" placeholder="作者" value="{{ ginContext|old:'author' }}">
                             </div>
                             <div class="form-group">
-                                <label for="pub_date">作者</label>
+                                <label for="pub_date">日期</label>
                                 <input type="date" name="pub_date" class="form-control" id="pub_date" placeholder="发布时间" value="{{ ginContext|old:'pub_date' }}">
                             </div>
                             <div class="form-group">

@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -1218,7 +1219,12 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 	})
 }
 
-func (ctrl *cArticle) HandelCreateArticle(c *gin.Context)   {}
+func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
+	var form validators.ArticleForm
+	if err := c.ShouldBind(&form); err != nil {
+		fmt.Println("form:", form.Tags)
+	}
+}
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
 func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}
 func (ctrl *cArticle) EditArticle(c *gin.Context)           {}

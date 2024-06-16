@@ -125,6 +125,7 @@ func setupAdminRoutes(router *gin.Engine) {
 
 			// 文章
 			r.GET(paths.AdminCreateArticle, admin.Article.CreateArticle)
+			r.POST(paths.AdminHandleCreateArticle, admin.Article.HandelCreateArticle)
 		}
 
 	}

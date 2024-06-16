@@ -481,7 +481,7 @@ func (svc *sArticle) GetArticleChannelAll() *system.SysResponse {
 	return &system.SysResponse{
 		Code:    0,
 		Message: "success",
-		Data:    out,
+		Data:    data,
 	}
 }
 
