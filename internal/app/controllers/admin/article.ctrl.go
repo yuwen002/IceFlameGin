@@ -100,6 +100,8 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 			fieldValue := v.Field(i).String()
 			system.SetOldInput(c, fieldName, fieldValue)
 		}
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticleCategory)
+		return
 	}
 
 	fid, errUInt32 := utils.ToUint32(form.Fid)
@@ -506,6 +508,8 @@ func (ctrl *cArticle) HandelCreateArticleChannel(c *gin.Context) {
 			fieldValue := v.Field(i).String()
 			system.SetOldInput(c, fieldName, fieldValue)
 		}
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticleChannel)
+		return
 	}
 
 	sort, errUInt32 := utils.ToUint32(form.Sort)
@@ -851,6 +855,9 @@ func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
 			fieldValue := v.Field(i).String()
 			system.SetOldInput(c, fieldName, fieldValue)
 		}
+
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticleTag)
+		return
 	}
 
 	sort, errUInt32 := utils.ToUint32(form.Sort)
@@ -1166,6 +1173,7 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 	fail := system.GetFlashedData(c, "fail")
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
+	fmt.Println(err)
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -1222,7 +1230,27 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 	var form validators.ArticleForm
 	if err := c.ShouldBind(&form); err != nil {
-		fmt.Println("form:", form.Tags)
+		// 获取验证错误信息
+		errMsg := system.GetValidationErrorMsg(err, form)
+		// 将错误信息存储到会话中
+		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
+		if errFlash != nil {
+			system.RedirectGet(c, ctrl.pageNotFound)
+			return
+		}
+
+		// 写入表单提交信息
+		v := reflect.ValueOf(form).Elem()
+		t := v.Type()
+		for i := 0; i < t.NumField(); i++ {
+			field := t.Field(i)
+			fieldName := field.Tag.Get("form")
+			fieldValue := v.Field(i).String()
+			system.SetOldInput(c, fieldName, fieldValue)
+		}
+
+		//system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticle)
+		//return
 	}
 }
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
