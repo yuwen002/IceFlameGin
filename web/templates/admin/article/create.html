@@ -86,6 +86,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% if err_msg["SecondCategory"] %}
+                                <span class="text-danger">{{ err_msg["SecondCategory"] }}</span>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="tags">文章标签</label>
@@ -98,16 +101,13 @@
                             <div class="form-group">
                                 <label for="title">文章标题</label>
                                 <input type="text" name="title" class="form-control" id="title" placeholder="文章标题" value="{{ ginContext|old:'title' }}">
-                                {% if err_msg["Name"] %}
-                                <span class="text-danger">{{ err_msg["Name"] }}</span>
+                                {% if err_msg["Title"] %}
+                                <span class="text-danger">{{ err_msg["Title"] }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="keyword">关键字</label>
                                 <input type="text" name="keyword" class="form-control" id="keyword" placeholder="关键字" value="{{ ginContext|old:'keyword' }}">
-                                {% if err_msg["Remark"] %}
-                                <span class="text-danger">{{ err_msg["Remark"] }}</span>
-                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="description">描述</label>

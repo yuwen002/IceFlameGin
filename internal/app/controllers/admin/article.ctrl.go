@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -83,7 +82,7 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 	var form validators.ArticleCategoryForm
 	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
-		errMsg := system.GetValidationErrorMsg(err, form)
+		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
 		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
 		if errFlash != nil {
@@ -92,7 +91,7 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 		}
 
 		// 写入表单提交信息
-		v := reflect.ValueOf(form).Elem()
+		v := reflect.ValueOf(&form).Elem()
 		t := v.Type()
 		for i := 0; i < t.NumField(); i++ {
 			field := t.Field(i)
@@ -491,7 +490,7 @@ func (ctrl *cArticle) HandelCreateArticleChannel(c *gin.Context) {
 	var form validators.ArticleChannelForm
 	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
-		errMsg := system.GetValidationErrorMsg(err, form)
+		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
 		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
 		if errFlash != nil {
@@ -500,7 +499,7 @@ func (ctrl *cArticle) HandelCreateArticleChannel(c *gin.Context) {
 		}
 
 		// 写入表单提交信息
-		v := reflect.ValueOf(form).Elem()
+		v := reflect.ValueOf(&form).Elem()
 		t := v.Type()
 		for i := 0; i < t.NumField(); i++ {
 			field := t.Field(i)
@@ -838,7 +837,7 @@ func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
 	var form validators.ArticleTagForm
 	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
-		errMsg := system.GetValidationErrorMsg(err, form)
+		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
 		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
 		if errFlash != nil {
@@ -847,7 +846,7 @@ func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
 		}
 
 		// 写入表单提交信息
-		v := reflect.ValueOf(form).Elem()
+		v := reflect.ValueOf(&form).Elem()
 		t := v.Type()
 		for i := 0; i < t.NumField(); i++ {
 			field := t.Field(i)
@@ -1171,9 +1170,9 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 	success := system.GetFlashedData(c, "success")
 	// 从会话中获取错误信息
 	fail := system.GetFlashedData(c, "fail")
+
 	var errMsg map[string]interface{}
 	err := system.GetDataFromFlash(c, "err_msg", &errMsg)
-	fmt.Println(err)
 	if err != nil {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -1227,20 +1226,28 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 	})
 }
 
+// HandelCreateArticle
+//
+// @Title HandelCreateArticle
+// @Description: 处理新建文章g页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2024-06-25 11:04:46
+// @receiver ctrl
+// @param c
 func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 	var form validators.ArticleForm
 	if err := c.ShouldBind(&form); err != nil {
 		// 获取验证错误信息
-		errMsg := system.GetValidationErrorMsg(err, form)
+		errMsg := system.GetValidationErrors(err, form)
 		// 将错误信息存储到会话中
-		errFlash := system.AddDataToFlash(c, errMsg, "err_msg")
-		if errFlash != nil {
+		err := system.AddDataToFlash(c, errMsg, "err_msg")
+		if err != nil {
 			system.RedirectGet(c, ctrl.pageNotFound)
 			return
 		}
 
 		// 写入表单提交信息
-		v := reflect.ValueOf(form).Elem()
+		v := reflect.ValueOf(&form).Elem()
 		t := v.Type()
 		for i := 0; i < t.NumField(); i++ {
 			field := t.Field(i)
@@ -1249,8 +1256,8 @@ func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 			system.SetOldInput(c, fieldName, fieldValue)
 		}
 
-		//system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticle)
-		//return
+		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticle)
+		return
 	}
 }
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
