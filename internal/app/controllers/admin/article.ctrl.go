@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -1259,6 +1260,8 @@ func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 		system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticle)
 		return
 	}
+
+	fmt.Println(form.Tags)
 }
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
 func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}

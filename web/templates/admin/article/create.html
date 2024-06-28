@@ -73,7 +73,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <select name="first_category" class="form-control select2" style="width:100%;" id="first_category">
-                                                <option value="0">请选择一级分类</option>
+                                                <option value="">请选择一级分类</option>
                                                 {% for category in category_select %}
                                                 <option value="{{ category.Key }}">{{ category.Value }}</option>
                                                 {% endfor %}
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="col-md-6" id="second_category_container" style="display: none;">
                                             <select name="second_category" class="form-control select2" style="width:100%;" id="second_category">
-                                                <option value="0">请选择二级分类</option>
+                                                <option value="">请选择二级分类</option>
                                             </select>
                                         </div>
                                     </div>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="title">文章标题</label>
-                                <input type="text" name="title" class="form-control" id="title" placeholder="文章标题" value="{{ ginContext|old:'title' }}">
+                                <input type="text" name="title" class="form-control" id="title" placeholder="文章标题" value="{{ ginContext|old:'title' }}||{{ ginContext|old:'tags' }}">
                                 {% if err_msg["Title"] %}
                                 <span class="text-danger">{{ err_msg["Title"] }}</span>
                                 {% endif %}
@@ -236,6 +236,8 @@
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2()
+        $('#channel').val("{{ ginContext|old:'channel_id' }}");
+
         // 分类
         $('#first_category').change(function () {
             const categoryId = $(this).val();
@@ -273,27 +275,38 @@
             }
         });
 
+
         $('#form-info').validate({
             rules: {
-                name: {
+                title: {
                     required: true,
                     minlength: 2,
                     maxlength: 20
+                },
+                first_category: {
+                    required: true,
+                },
+                second_category: {
+                    //required: true
                 },
                 sort: {
                     number: true
                 }
             },
             messages: {
-                name: {
-                    required: "请输入姓名",
+                title: {
+                    required: "请输入文章标题",
                     minlength: "分类名称长度不能小于2位",
                     maxlength: "分类名称长度不能大于50位"
                 },
-                sort: {
-                    number: "请输入整数"
-                }
+                first_category: {
+                    required: "请选择一级文章分类不能为空",
+                },
+                second_category: {
+                    required: "请选择二级文章分类不能为空"
+                },
             },
+            ignore:":hidden:not(select)",
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
