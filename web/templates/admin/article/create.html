@@ -100,7 +100,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="title">文章标题</label>
-                                <input type="text" name="title" class="form-control" id="title" placeholder="文章标题" value="{{ ginContext|old:'title' }}||{{ ginContext|old:'tags' }}">
+                                <input type="text" name="title" class="form-control" id="title" placeholder="文章标题" value="{{ ginContext|old:'title' }}">
                                 {% if err_msg["Title"] %}
                                 <span class="text-danger">{{ err_msg["Title"] }}</span>
                                 {% endif %}
@@ -278,16 +278,10 @@
 
         $('#form-info').validate({
             rules: {
-                title: {
+                name: {
                     required: true,
                     minlength: 2,
-                    maxlength: 20
-                },
-                first_category: {
-                    required: true,
-                },
-                second_category: {
-                    //required: true
+                    maxlength: 120
                 },
                 sort: {
                     number: true
