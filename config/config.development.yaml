@@ -1,0 +1,8 @@
+# 数据库配置信息
+database:
+  default:
+    host: localhost
+    port: 3306
+    username: root
+    password: 123456789
+    name: ice_flame

@@ -15,7 +15,7 @@ import (
 
 // cUcSystemMasterRole
 //
-// @Description: 用户角色控制器
+// @Description: 用户角色控制器¶
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-03-08 00:54:06
 type cUcSystemMasterRole struct {

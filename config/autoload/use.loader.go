@@ -38,6 +38,7 @@ func UseLoader(r *gin.Engine) {
 			session.Redis.PrefixLength,
 			session.Redis.Network,
 			session.Redis.Address,
+			session.Redis.Username,
 			session.Redis.Password,
 			session.Redis.DB,
 			secret,

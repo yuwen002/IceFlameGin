@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"github.com/joho/godotenv"
 	"gopkg.in/yaml.v3"
 	"log"
@@ -63,8 +62,10 @@ type SessionInfo struct {
 		Address      string `yaml:"address"`
 		DB           string `yaml:"db"`
 		Password     string `yaml:"password"`
+		Username     string `yaml:"username"`
 		PrefixLength int    `yaml:"prefix_length"`
 		Network      string `yaml:"network"`
+		TLS          bool   `yaml:"tls"`
 	} `yaml:"redis"`
 	Memcached struct {
 		Name    string `yaml:"name"`
@@ -88,7 +89,6 @@ func ParseConfig() {
 	if os.Getenv("ENV") == "development" {
 		openPath = "./config/config.development.yaml"
 	}
-	fmt.Println(openPath)
 
 	// 打开文件
 	file, err := os.Open(openPath)
