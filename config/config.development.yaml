@@ -6,3 +6,23 @@ database:
     username: root
     password: 123456789
     name: ice_flame
+
+
+# session配置信息
+session:
+  type: cookie
+  secret: 1234567890
+  # session 过期时间
+  max_age: 72000
+  cookie:
+    name: ice_flame
+  redis:
+    name: ice_flame
+    address: localhost:6379
+    db: 0
+    password: ""
+    prefix_length: 10
+    network: "tcp"
+  memcached:
+    name: ice_flame
+    address: localhost:11211
