@@ -703,3 +703,13 @@ func (svc *sArticle) GetArticleTagAll() *system.SysResponse {
 		Data:    data,
 	}
 }
+
+// CreateArticle
+//
+// @Title CreateArticle
+// @Description:
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2025-06-11 18:36:51
+// @receiver svc
+// @return *system.SysResponse
+func (svc *sArticle) CreateArticle() *system.SysResponse {}

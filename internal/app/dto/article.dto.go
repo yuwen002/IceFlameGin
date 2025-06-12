@@ -101,3 +101,16 @@ type ListArticleTagOutput struct {
 	List  []*model.ArticleTag
 	Total int64
 }
+
+type ArticleInput struct {
+	CategoryId uint32
+	ChannelId  uint32
+	Title      string
+	Content    string
+	Sort       uint32
+	Status     uint32
+	Remark     string
+	Tags       []uint32
+	Thumbnail  string
+	Click      uint32
+}
