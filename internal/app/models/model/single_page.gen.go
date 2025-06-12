@@ -12,14 +12,14 @@ const TableNameSinglePage = "single_page"
 
 // SinglePage mapped from table <single_page>
 type SinglePage struct {
-	ID          uint32    `gorm:"column:id;type:int(10) unsigned;primaryKey;autoIncrement:true" json:"id"`
-	Title       string    `gorm:"column:title;type:varchar(80);comment:页面标题" json:"title"`                      // 页面标题
-	Description string    `gorm:"column:description;type:varchar(255);comment:页面描述" json:"description"`         // 页面描述
-	Keyword     string    `gorm:"column:keyword;type:varchar(255);comment:页面关键字" json:"keyword"`                // 页面关键字
-	Content     string    `gorm:"column:content;type:text;comment:页面内容" json:"content"`                         // 页面内容
-	Thumbnail   string    `gorm:"column:thumbnail;type:varchar(255);comment:缩略图" json:"thumbnail"`              // 缩略图
-	Click       uint32    `gorm:"column:click;type:int(10) unsigned;comment:点击量" json:"click"`                  // 点击量
-	Status      uint32    `gorm:"column:status;type:tinyint(3) unsigned;comment:显示状态（1=显示，2=隐藏）" json:"status"` // 显示状态（1=显示，2=隐藏）
+	ID          uint32    `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true" json:"id"`
+	Title       string    `gorm:"column:title;type:varchar(80);comment:页面标题" json:"title"`                             // 页面标题
+	Description string    `gorm:"column:description;type:varchar(255);comment:页面描述" json:"description"`                // 页面描述
+	Keyword     string    `gorm:"column:keyword;type:varchar(255);comment:页面关键字" json:"keyword"`                       // 页面关键字
+	Content     string    `gorm:"column:content;type:text;comment:页面内容" json:"content"`                                // 页面内容
+	Thumbnail   string    `gorm:"column:thumbnail;type:varchar(255);comment:缩略图" json:"thumbnail"`                     // 缩略图
+	Click       uint32    `gorm:"column:click;type:int unsigned;comment:点击量" json:"click"`                             // 点击量
+	Status      *uint32   `gorm:"column:status;type:tinyint unsigned;default:1;comment:显示状态（1=显示，2=隐藏）" json:"status"` // 显示状态（1=显示，2=隐藏）
 	CreatedAt   time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

@@ -12,11 +12,11 @@ const TableNameArticleChannel = "article_channel"
 
 // ArticleChannel 频道分类
 type ArticleChannel struct {
-	ID        uint32    `gorm:"column:id;type:int(10) unsigned;primaryKey;autoIncrement:true" json:"id"`
-	Name      string    `gorm:"column:name;type:varchar(80);comment:栏目名称" json:"name"`                        // 栏目名称
-	Remark    string    `gorm:"column:remark;type:varchar(100);comment:备注信息" json:"remark"`                   // 备注信息
-	Sort      uint32    `gorm:"column:sort;type:int(10) unsigned;comment:排序顺序" json:"sort"`                   // 排序顺序
-	Status    uint32    `gorm:"column:status;type:tinyint(3) unsigned;comment:显示状态（0=显示，1=隐藏）" json:"status"` // 显示状态（0=显示，1=隐藏）
+	ID        uint32    `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true" json:"id"`
+	Name      string    `gorm:"column:name;type:varchar(80);comment:栏目名称" json:"name"`                     // 栏目名称
+	Remark    string    `gorm:"column:remark;type:varchar(100);comment:备注信息" json:"remark"`                // 备注信息
+	Sort      uint32    `gorm:"column:sort;type:int unsigned;comment:排序顺序" json:"sort"`                    // 排序顺序
+	Status    uint32    `gorm:"column:status;type:tinyint unsigned;comment:显示状态（0=显示，1=隐藏）" json:"status"` // 显示状态（0=显示，1=隐藏）
 	CreatedAt time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

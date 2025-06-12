@@ -28,20 +28,20 @@ func newArticle(db *gorm.DB, opts ...gen.DOOption) article {
 	tableName := _article.articleDo.TableName()
 	_article.ALL = field.NewAsterisk(tableName)
 	_article.ID = field.NewUint32(tableName, "id")
-	_article.CategoryID = field.NewUint32(tableName, "category_id")
 	_article.ChannelID = field.NewUint32(tableName, "channel_id")
+	_article.CategoryID = field.NewUint32(tableName, "category_id")
 	_article.Title = field.NewString(tableName, "title")
 	_article.Keyword = field.NewString(tableName, "keyword")
 	_article.Description = field.NewString(tableName, "description")
+	_article.Content = field.NewString(tableName, "content")
 	_article.Link = field.NewString(tableName, "link")
 	_article.Author = field.NewString(tableName, "author")
 	_article.Tags = field.NewString(tableName, "tags")
 	_article.PubDate = field.NewTime(tableName, "pub_date")
-	_article.Summary = field.NewString(tableName, "summary")
-	_article.Content = field.NewString(tableName, "content")
 	_article.Thumbnail = field.NewString(tableName, "thumbnail")
-	_article.Click = field.NewUint32(tableName, "click")
+	_article.Summary = field.NewString(tableName, "summary")
 	_article.Status = field.NewInt32(tableName, "status")
+	_article.Click = field.NewInt32(tableName, "click")
 	_article.CreatedAt = field.NewTime(tableName, "created_at")
 	_article.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -50,26 +50,25 @@ func newArticle(db *gorm.DB, opts ...gen.DOOption) article {
 	return _article
 }
 
-// article 文章表
 type article struct {
 	articleDo articleDo
 
 	ALL         field.Asterisk
 	ID          field.Uint32
-	CategoryID  field.Uint32 // 分类ID
-	ChannelID   field.Uint32 // 栏目ID
-	Title       field.String // 标题
-	Keyword     field.String // 关键字
-	Description field.String // 描述
-	Link        field.String // 文章链接
+	ChannelID   field.Uint32
+	CategoryID  field.Uint32
+	Title       field.String // 文章标题
+	Keyword     field.String // 文章关键字
+	Description field.String // 文章说明
+	Content     field.String // 文章内容
+	Link        field.String // 跳转地址
 	Author      field.String // 作者
-	Tags        field.String // Tag标签
-	PubDate     field.Time   // 发布时间
-	Summary     field.String // 摘要
-	Content     field.String // 内容
+	Tags        field.String
+	PubDate     field.Time   // 发布日期
 	Thumbnail   field.String // 缩略图
-	Click       field.Uint32 // 点击量
-	Status      field.Int32  // 显示状态（0=显示，1=隐藏）
+	Summary     field.String // 文章摘要
+	Status      field.Int32  // 状态（0=发布，1=草稿）
+	Click       field.Int32  // 点击量
 	CreatedAt   field.Time
 	UpdatedAt   field.Time
 
@@ -89,20 +88,20 @@ func (a article) As(alias string) *article {
 func (a *article) updateTableName(table string) *article {
 	a.ALL = field.NewAsterisk(table)
 	a.ID = field.NewUint32(table, "id")
-	a.CategoryID = field.NewUint32(table, "category_id")
 	a.ChannelID = field.NewUint32(table, "channel_id")
+	a.CategoryID = field.NewUint32(table, "category_id")
 	a.Title = field.NewString(table, "title")
 	a.Keyword = field.NewString(table, "keyword")
 	a.Description = field.NewString(table, "description")
+	a.Content = field.NewString(table, "content")
 	a.Link = field.NewString(table, "link")
 	a.Author = field.NewString(table, "author")
 	a.Tags = field.NewString(table, "tags")
 	a.PubDate = field.NewTime(table, "pub_date")
-	a.Summary = field.NewString(table, "summary")
-	a.Content = field.NewString(table, "content")
 	a.Thumbnail = field.NewString(table, "thumbnail")
-	a.Click = field.NewUint32(table, "click")
+	a.Summary = field.NewString(table, "summary")
 	a.Status = field.NewInt32(table, "status")
+	a.Click = field.NewInt32(table, "click")
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -131,20 +130,20 @@ func (a *article) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 func (a *article) fillFieldMap() {
 	a.fieldMap = make(map[string]field.Expr, 17)
 	a.fieldMap["id"] = a.ID
-	a.fieldMap["category_id"] = a.CategoryID
 	a.fieldMap["channel_id"] = a.ChannelID
+	a.fieldMap["category_id"] = a.CategoryID
 	a.fieldMap["title"] = a.Title
 	a.fieldMap["keyword"] = a.Keyword
 	a.fieldMap["description"] = a.Description
+	a.fieldMap["content"] = a.Content
 	a.fieldMap["link"] = a.Link
 	a.fieldMap["author"] = a.Author
 	a.fieldMap["tags"] = a.Tags
 	a.fieldMap["pub_date"] = a.PubDate
-	a.fieldMap["summary"] = a.Summary
-	a.fieldMap["content"] = a.Content
 	a.fieldMap["thumbnail"] = a.Thumbnail
-	a.fieldMap["click"] = a.Click
+	a.fieldMap["summary"] = a.Summary
 	a.fieldMap["status"] = a.Status
+	a.fieldMap["click"] = a.Click
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 }

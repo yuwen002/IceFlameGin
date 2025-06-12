@@ -12,9 +12,9 @@ const TableNameArticleTagOrm = "article_tag_orm"
 
 // ArticleTagOrm 文章tags
 type ArticleTagOrm struct {
-	ID        uint32    `gorm:"column:id;type:int(10) unsigned;primaryKey;autoIncrement:true" json:"id"`
-	TagID     int32     `gorm:"column:tag_id;type:int(10);comment:tag ID" json:"tag_id"`     // tag ID
-	ArticleID int32     `gorm:"column:article_id;type:int(10);comment:备注" json:"article_id"` // 备注
+	ID        uint32    `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true" json:"id"`
+	TagID     int32     `gorm:"column:tag_id;type:int;comment:tag ID" json:"tag_id"`     // tag ID
+	ArticleID int32     `gorm:"column:article_id;type:int;comment:备注" json:"article_id"` // 备注
 	CreatedAt time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

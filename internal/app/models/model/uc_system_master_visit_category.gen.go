@@ -12,8 +12,8 @@ const TableNameUcSystemMasterVisitCategory = "uc_system_master_visit_category"
 
 // UcSystemMasterVisitCategory 访问类型
 type UcSystemMasterVisitCategory struct {
-	ID        uint32    `gorm:"column:id;type:int(10) unsigned;primaryKey;autoIncrement:true;comment:自增ID" json:"id"` // 自增ID
-	Title     string    `gorm:"column:title;type:varchar(255);comment:访问类型标题" json:"title"`                           // 访问类型标题
+	ID        uint32    `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:自增ID" json:"id"` // 自增ID
+	Title     string    `gorm:"column:title;type:varchar(255);comment:访问类型标题" json:"title"`                       // 访问类型标题
 	CreatedAt time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

@@ -25,7 +25,7 @@ type r{{.struct_name}} struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date {{.date}}
 // @return *r{{.struct_name}}
-func New{{.struct_name}}() interface{} {
+func New{{.struct_name}}() *r{{.struct_name}} {
 	return &r{{.struct_name}}{
 		DB: db.DB["default"],
 	}

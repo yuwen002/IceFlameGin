@@ -103,14 +103,18 @@ type ListArticleTagOutput struct {
 }
 
 type ArticleInput struct {
-	CategoryId uint32
-	ChannelId  uint32
-	Title      string
-	Content    string
-	Sort       uint32
-	Status     uint32
-	Remark     string
-	Tags       []uint32
-	Thumbnail  string
-	Click      uint32
+	CategoryId  uint32
+	ChannelId   uint32
+	Title       string
+	Keywords    string
+	Description string
+	Content     string
+	Link        string
+	Author      string
+	Tags        string
+	PubDate     string
+	Thumbnail   string
+	Summary     string
+	Status      int
+	Click       int
 }

@@ -12,11 +12,11 @@ const TableNameArticleTag = "article_tag"
 
 // ArticleTag 文章tags
 type ArticleTag struct {
-	ID        uint32    `gorm:"column:id;type:int(10) unsigned;primaryKey;autoIncrement:true" json:"id"`
-	Name      string    `gorm:"column:name;type:varchar(20);comment:tag内容" json:"name"`                       // tag内容
-	Remark    string    `gorm:"column:remark;type:varchar(100);comment:备注" json:"remark"`                     // 备注
-	Sort      uint32    `gorm:"column:sort;type:int(10) unsigned;comment:排序" json:"sort"`                     // 排序
-	Status    uint32    `gorm:"column:status;type:tinyint(4) unsigned;comment:显示状态（0=显示，1=隐藏）" json:"status"` // 显示状态（0=显示，1=隐藏）
+	ID        uint32    `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true" json:"id"`
+	Name      string    `gorm:"column:name;type:varchar(20);comment:tag内容" json:"name"`                    // tag内容
+	Remark    string    `gorm:"column:remark;type:varchar(100);comment:备注" json:"remark"`                  // 备注
+	Sort      uint32    `gorm:"column:sort;type:int unsigned;comment:排序" json:"sort"`                      // 排序
+	Status    uint32    `gorm:"column:status;type:tinyint unsigned;comment:显示状态（0=显示，1=隐藏）" json:"status"` // 显示状态（0=显示，1=隐藏）
 	CreatedAt time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
 }

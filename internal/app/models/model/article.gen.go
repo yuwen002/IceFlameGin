@@ -10,25 +10,25 @@ import (
 
 const TableNameArticle = "article"
 
-// Article 文章表
+// Article mapped from table <article>
 type Article struct {
-	ID          uint32    `gorm:"column:id;type:int(10) unsigned;primaryKey;autoIncrement:true" json:"id"`
-	CategoryID  uint32    `gorm:"column:category_id;type:int(10) unsigned;comment:分类ID" json:"category_id"` // 分类ID
-	ChannelID   uint32    `gorm:"column:channel_id;type:int(10) unsigned;comment:栏目ID" json:"channel_id"`   // 栏目ID
-	Title       string    `gorm:"column:title;type:varchar(80);comment:标题" json:"title"`                    // 标题
-	Keyword     string    `gorm:"column:keyword;type:varchar(255);comment:关键字" json:"keyword"`              // 关键字
-	Description string    `gorm:"column:description;type:varchar(255);comment:描述" json:"description"`       // 描述
-	Link        string    `gorm:"column:link;type:varchar(255);comment:文章链接" json:"link"`                   // 文章链接
-	Author      string    `gorm:"column:author;type:varchar(20);comment:作者" json:"author"`                  // 作者
-	Tags        string    `gorm:"column:tags;type:varchar(255);comment:Tag标签" json:"tags"`                  // Tag标签
-	PubDate     time.Time `gorm:"column:pub_date;type:datetime;comment:发布时间" json:"pub_date"`               // 发布时间
-	Summary     string    `gorm:"column:summary;type:varchar(255);comment:摘要" json:"summary"`               // 摘要
-	Content     string    `gorm:"column:content;type:text;comment:内容" json:"content"`                       // 内容
-	Thumbnail   string    `gorm:"column:thumbnail;type:varchar(255);comment:缩略图" json:"thumbnail"`          // 缩略图
-	Click       uint32    `gorm:"column:click;type:int(10) unsigned;comment:点击量" json:"click"`              // 点击量
-	Status      int32     `gorm:"column:status;type:tinyint(4);comment:显示状态（0=显示，1=隐藏）" json:"status"`      // 显示状态（0=显示，1=隐藏）
-	CreatedAt   time.Time `gorm:"column:created_at;type:datetime" json:"created_at"`
-	UpdatedAt   time.Time `gorm:"column:updated_at;type:datetime" json:"updated_at"`
+	ID          uint32     `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true" json:"id"`
+	ChannelID   uint32     `gorm:"column:channel_id;type:int unsigned;not null" json:"channel_id"`
+	CategoryID  uint32     `gorm:"column:category_id;type:int unsigned;not null" json:"category_id"`
+	Title       string     `gorm:"column:title;type:varchar(255);not null;comment:文章标题" json:"title"`    // 文章标题
+	Keyword     string     `gorm:"column:keyword;type:varchar(500);comment:文章关键字" json:"keyword"`        // 文章关键字
+	Description string     `gorm:"column:description;type:varchar(500);comment:文章说明" json:"description"` // 文章说明
+	Content     string     `gorm:"column:content;type:text;comment:文章内容" json:"content"`                 // 文章内容
+	Link        string     `gorm:"column:link;type:varchar(600);comment:跳转地址" json:"link"`               // 跳转地址
+	Author      string     `gorm:"column:author;type:varchar(20);comment:作者" json:"author"`              // 作者
+	Tags        string     `gorm:"column:tags;type:varchar(300)" json:"tags"`
+	PubDate     time.Time  `gorm:"column:pub_date;type:date;comment:发布日期" json:"pub_date"`               // 发布日期
+	Thumbnail   string     `gorm:"column:thumbnail;type:varchar(255);comment:缩略图" json:"thumbnail"`      // 缩略图
+	Summary     string     `gorm:"column:summary;type:varchar(300);comment:文章摘要" json:"summary"`         // 文章摘要
+	Status      *int32     `gorm:"column:status;type:int;default:1;comment:状态（0=发布，1=草稿）" json:"status"` // 状态（0=发布，1=草稿）
+	Click       int32      `gorm:"column:click;type:int;comment:点击量" json:"click"`                       // 点击量
+	CreatedAt   *time.Time `gorm:"column:created_at;type:datetime;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt   *time.Time `gorm:"column:updated_at;type:datetime;default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 // TableName Article's table name

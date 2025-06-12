@@ -32,8 +32,8 @@ func newUcAccount(db *gorm.DB, opts ...gen.DOOption) ucAccount {
 	_ucAccount.Username = field.NewString(tableName, "username")
 	_ucAccount.PasswordHash = field.NewString(tableName, "password_hash")
 	_ucAccount.Tel = field.NewString(tableName, "tel")
-	_ucAccount.Status = field.NewUint32(tableName, "status")
-	_ucAccount.RealNameType = field.NewUint32(tableName, "real_name_type")
+	_ucAccount.Status = field.NewBool(tableName, "status")
+	_ucAccount.RealNameType = field.NewBool(tableName, "real_name_type")
 	_ucAccount.CreatedAt = field.NewTime(tableName, "created_at")
 	_ucAccount.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -52,8 +52,8 @@ type ucAccount struct {
 	Username       field.String // 用户名
 	PasswordHash   field.String // 用户密码
 	Tel            field.String // 用户手机号码
-	Status         field.Uint32 // 用户状态(0.启用1.停用)
-	RealNameType   field.Uint32 // 实名状态1=未实名2=已上传未审核3=审核驳回4=实名成功
+	Status         field.Bool   // 用户状态(0.启用1.停用)
+	RealNameType   field.Bool   // 实名状态1=未实名2=已上传未审核3=审核驳回4=实名成功
 	CreatedAt      field.Time
 	UpdatedAt      field.Time
 
@@ -77,8 +77,8 @@ func (u *ucAccount) updateTableName(table string) *ucAccount {
 	u.Username = field.NewString(table, "username")
 	u.PasswordHash = field.NewString(table, "password_hash")
 	u.Tel = field.NewString(table, "tel")
-	u.Status = field.NewUint32(table, "status")
-	u.RealNameType = field.NewUint32(table, "real_name_type")
+	u.Status = field.NewBool(table, "status")
+	u.RealNameType = field.NewBool(table, "real_name_type")
 	u.CreatedAt = field.NewTime(table, "created_at")
 	u.UpdatedAt = field.NewTime(table, "updated_at")
 

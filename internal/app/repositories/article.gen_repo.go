@@ -1,5 +1,5 @@
 // Code generated repository by gen.
-// Date 2024-05-21 23:59:31
+// Date 2025-06-12 16:37:53
 
 package repositories
 
@@ -13,7 +13,7 @@ import (
 //
 // @Description:
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 type rArticle struct {
 	DB *gorm.DB
 }
@@ -23,9 +23,9 @@ type rArticle struct {
 // @Title NewArticle
 // @Description:  创建一个新的 rArticle 仓库实例
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 // @return *rArticle
-func NewArticle() interface{} {
+func NewArticle() *rArticle {
 	return &rArticle{
 		DB: db.DB["default"],
 	}
@@ -36,7 +36,7 @@ func NewArticle() interface{} {
 // @Title Insert
 // @Description: 数据信息写入
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 // @receiver repo
 // @param in
 // @return error
@@ -55,7 +55,7 @@ func (repo *rArticle) Insert(data *model.Article) error {
 // @Title InsertAndGetID
 // @Description: 数据信息写入，并返回写入ID
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 // @receiver repo
 // @param data
 // @return uint32
@@ -74,7 +74,7 @@ func (repo *rArticle) InsertAndGetID(data *model.Article) (uint32, error) {
 // @Title UpdateByID
 // @Description: 按ID修改数据信息
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 // @receiver repo
 // @param id
 // @param in
@@ -93,7 +93,7 @@ func (repo *rArticle) UpdateByID(id uint32, in *model.Article) error {
 // @Title DeleteByID
 // @Description: 按ID删除数据信息
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 // @receiver repo
 // @param id
 // @return error
@@ -111,7 +111,7 @@ func (repo *rArticle) DeleteByID(id uint32) error {
 // @Title CountRecords
 // @Description: 数据信息列表总条数
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 // @receiver repo
 // @return int64
 // @return error
@@ -129,7 +129,7 @@ func (repo *rArticle) CountRecords() (int64, error) {
 // @Title GetList
 // @Description: 数据信息列表
 // @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-21 23:59:31
+// @Date 2025-06-12 16:37:53
 // @receiver repo
 // @param data
 // @return out
