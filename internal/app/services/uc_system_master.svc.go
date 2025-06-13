@@ -719,7 +719,7 @@ func (svc *sUcSystemMaster) GetMasterInfoById(id uint32) *system.SysResponse {
 // @param id
 // @param status
 // @return *system.SysResponse
-func (svc *sUcSystemMaster) ChangeMasterStatusByID(id uint32, status uint32) *system.SysResponse {
+func (svc *sUcSystemMaster) ChangeMasterStatusByID(id uint32, status bool) *system.SysResponse {
 	err := repositories.NewUcAccountRepository().UpdateStatusById(id, status)
 	if err != nil {
 		return &system.SysResponse{

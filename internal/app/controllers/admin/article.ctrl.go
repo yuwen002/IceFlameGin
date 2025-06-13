@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -13,7 +12,6 @@ import (
 	"ice_flame_gin/routers/paths"
 	"net/http"
 	"reflect"
-	"strconv"
 	"strings"
 )
 
@@ -1280,22 +1278,23 @@ func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 		Link:        form.Link,
 		Author:      form.Author,
 		Tags:        tagIDs,
-		PubDate:     form.PubDate.Format("2006-01-02 15:04:05"),
+		PubDate:     form.PubDate,
 		Thumbnail:   form.Thumbnail,
 		Summary:     form.Summary,
 		Status:      form.Status,
 		Click:       form.Click,
 	}
 
-	resp := services.NewArticleService().CreateArticle(&input)
-	if resp.Code != 0 {
-		// 处理失败逻辑
-		// ...
+	output := services.NewArticleService().CreateArticle(&input)
+	if output.Code == 1 {
+		system.AddFlashData(c, output.Message, "fail")
+	} else {
+		system.AddFlashData(c, "添加文章标签信息成功", "success")
 	}
-	// 处理成功逻辑
-	// ...
-}
 
+	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticle)
+	return
+}
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
 func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}
 func (ctrl *cArticle) EditArticle(c *gin.Context)           {}

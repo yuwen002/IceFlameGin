@@ -43,7 +43,7 @@ func (svc *sSinglePage) CreateSinglePage(in dto.SinglePageInput) *system.SysResp
 		Content:     in.Content,
 		Thumbnail:   in.Thumbnail,
 		Click:       in.Click,
-		Status:      in.Status,
+		Status:      &in.Status,
 	})
 	if err != nil {
 		return &system.SysResponse{
@@ -142,7 +142,7 @@ func (svc *sSinglePage) ChangeSinglePageByID(id uint32, in dto.SinglePageInput) 
 		Content:     in.Content,
 		Thumbnail:   in.Thumbnail,
 		Click:       in.Click,
-		Status:      in.Status,
+		Status:      &in.Status,
 	})
 	if err != nil {
 		return &system.SysResponse{
@@ -186,7 +186,7 @@ func (svc *sSinglePage) DeleteSinglePageByID(id uint32) *system.SysResponse {
 		}
 	}
 
-	if out.Status == 1 {
+	if out.Status != nil && *out.Status == 1 {
 		return &system.SysResponse{
 			Code:    1,
 			Message: "单页信息处于发布状态，不能删除",

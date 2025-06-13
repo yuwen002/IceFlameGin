@@ -98,7 +98,7 @@ func (repo *rUcAccount) UpdatePasswordById(id uint32, newPasswordHash string) er
 // @param id
 // @param status
 // @return error
-func (repo *rUcAccount) UpdateStatusById(id uint32, status uint32) error {
+func (repo *rUcAccount) UpdateStatusById(id uint32, status bool) error {
 	account := model.UcAccount{Status: status}
 	err := db.NewGormCore().Select("status").UpdateColumnsByID(id, account)
 	if err != nil {

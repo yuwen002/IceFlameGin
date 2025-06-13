@@ -866,7 +866,7 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditStatusSystemMaster(c *gin.Context) {
 	}
 
 	status := c.PostForm("status")
-	uint32Status, err := utils.ToUint32(status)
+	boolStatus, err := utils.ToBool(status)
 	if err != nil {
 		c.JSON(http.StatusOK, &system.SysResponse{
 			Code:    1,
@@ -876,7 +876,7 @@ func (ctrl *cUcSystemMaster) HandleAjaxEditStatusSystemMaster(c *gin.Context) {
 		return
 	}
 
-	output := services.NewUcSystemMasterService().ChangeMasterStatusByID(uint32AccountId, uint32Status)
+	output := services.NewUcSystemMasterService().ChangeMasterStatusByID(uint32AccountId, boolStatus)
 	if output.Code == 1 {
 		c.JSON(http.StatusOK, &system.SysResponse{
 			Code:    1,

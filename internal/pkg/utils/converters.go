@@ -845,3 +845,15 @@ func ToFloat64(value interface{}) (float64, error) {
 		return 0, errors.New("不支持的类型")
 	}
 }
+
+// ToBool 将字符串或数字转换为 bool
+func ToBool(val string) (bool, error) {
+	switch val {
+	case "1", "true", "True", "TRUE":
+		return true, nil
+	case "0", "false", "False", "FALSE":
+		return false, nil
+	default:
+		return false, fmt.Errorf("无法将 %s 转换为 bool", val)
+	}
+}
