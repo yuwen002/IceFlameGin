@@ -1,6 +1,9 @@
 package dto
 
-import "ice_flame_gin/internal/app/models/model"
+import (
+	"ice_flame_gin/internal/app/models/model"
+	"time"
+)
 
 // ArticleCategoryInput
 //
@@ -112,7 +115,7 @@ type ArticleInput struct {
 	Link        string
 	Author      string
 	Tags        string
-	PubDate     string
+	PubDate     time.Time
 	Thumbnail   string
 	Summary     string
 	Status      int

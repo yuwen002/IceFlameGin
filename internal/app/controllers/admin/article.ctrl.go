@@ -13,6 +13,8 @@ import (
 	"ice_flame_gin/routers/paths"
 	"net/http"
 	"reflect"
+	"strconv"
+	"strings"
 )
 
 // cArticle
@@ -1225,6 +1227,7 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 		"category_select": categorySelect,
 		"tag_select":      tagSelect,
 	})
+	return
 }
 
 // HandelCreateArticle
@@ -1261,8 +1264,38 @@ func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(form.Tags)
+	// 处理 tags 字段，将 []string 转为 "1,2,3" 格式
+	tagIDs := ""
+	if len(form.Tags) > 0 {
+		tagIDs = strings.Join(form.Tags, ",")
+	}
+
+	input := dto.ArticleInput{
+		CategoryId:  uint32(form.SecondCategory),
+		ChannelId:   uint32(form.ChannelID),
+		Title:       form.Title,
+		Keywords:    form.Keyword,
+		Description: form.Description,
+		Content:     form.Content,
+		Link:        form.Link,
+		Author:      form.Author,
+		Tags:        tagIDs,
+		PubDate:     form.PubDate.Format("2006-01-02 15:04:05"),
+		Thumbnail:   form.Thumbnail,
+		Summary:     form.Summary,
+		Status:      form.Status,
+		Click:       form.Click,
+	}
+
+	resp := services.NewArticleService().CreateArticle(&input)
+	if resp.Code != 0 {
+		// 处理失败逻辑
+		// ...
+	}
+	// 处理成功逻辑
+	// ...
 }
+
 func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
 func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}
 func (ctrl *cArticle) EditArticle(c *gin.Context)           {}

@@ -6,7 +6,6 @@ import (
 	"ice_flame_gin/internal/app/repositories"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
-	"time"
 )
 
 // sArticle
@@ -715,18 +714,9 @@ func (svc *sArticle) GetArticleTagAll() *system.SysResponse {
 // @receiver svc
 // @return *system.SysResponse
 func (svc *sArticle) CreateArticle(in *dto.ArticleInput) *system.SysResponse {
-	pubDate, err := time.Parse("2006-01-02 15:04:05", in.PubDate)
-	if err != nil {
-		return &system.SysResponse{
-			Code:    1,
-			Message: "日期格式错误",
-			Data:    nil,
-		}
-	}
-
 	status, _ := utils.ToInt32(in.Status)
 
-	err = repositories.NewArticle().Insert(&model.Article{
+	err := repositories.NewArticle().Insert(&model.Article{
 		ChannelID:   in.ChannelId,
 		CategoryID:  in.CategoryId,
 		Title:       in.Title,
@@ -735,13 +725,20 @@ func (svc *sArticle) CreateArticle(in *dto.ArticleInput) *system.SysResponse {
 		Content:     in.Content,
 		Link:        in.Link,
 		Author:      in.Author,
-		PubDate:     pubDate,
+		PubDate:     in.PubDate,
 		Thumbnail:   in.Thumbnail,
 		Summary:     in.Summary,
 		Status:      &status,
 		Click:       int32(in.Click),
 		Tags:        in.Tags,
 	})
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
 
 	return &system.SysResponse{
 		Code:    0,
