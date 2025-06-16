@@ -60,7 +60,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="channel">文章频道</label>
-                                <select name="channel" class="form-control select2" style="width:100%;" id="channel">
+                                <select name="channel_id" class="form-control select2" style="width:100%;" id="channel">
                                     <option value="0">请选择频道</option>
                                     {% for channel in channel_select %}
                                     <option value="{{ channel.Key }}">{{ channel.Value }}</option>
@@ -204,11 +204,11 @@
                             <div class="form-group">
                                 <label>显示状态</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="visible" name="status" value="1">
+                                    <input class="form-check-input" type="radio" id="visible" name="status" value="0">
                                     <label class="form-check-label" for="visible">可见</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="hidden" name="status" value="2">
+                                    <input class="form-check-input" type="radio" id="hidden" name="status" value="1">
                                     <label class="form-check-label" for="hidden">隐藏</label>
                                 </div>
                             </div>

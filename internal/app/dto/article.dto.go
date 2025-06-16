@@ -121,3 +121,27 @@ type ArticleInput struct {
 	Status      int
 	Click       int
 }
+
+// ListArticleInput
+//
+// @Description: 文章信息列表输入
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2025-06-16 09:30:00
+type ListArticleInput struct {
+	Order    string
+	Start    int
+	Length   int
+	Title    string // 支持按标题模糊搜索
+	Category uint32 // 分类筛选
+	Status   *int32 // 状态筛选，可为空
+}
+
+// ListArticleOutput
+//
+// @Description: 文章信息列表输出
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2025-06-16 09:30:00
+type ListArticleOutput struct {
+	List  []*model.Article
+	Total int64
+}

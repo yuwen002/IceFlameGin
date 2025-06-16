@@ -92,6 +92,11 @@ const (
 	AdminHandleAjaxEditStatusArticleTag = "/article-tag/ajax/edit/status"
 	AdminHandelAjaxDeleteArticleTag     = "/article-tag/ajax/delete"
 
-	AdminCreateArticle       = "/article/create"
-	AdminHandleCreateArticle = "/article/create"
+	AdminCreateArticle           = "/article/create"
+	AdminHandleCreateArticle     = "/article/create"
+	AdminListArticle             = "/article/list"
+	AdminAjaxListArticle         = "/article/ajax/list"
+	AdminEditArticle             = "/article/edit"
+	AdminHandleAjaxEditArticle   = "/article/ajax/edit"
+	AdminHandleAjaxDeleteArticle = "/article/ajax/delete"
 )

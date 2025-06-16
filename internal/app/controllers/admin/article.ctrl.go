@@ -1295,7 +1295,59 @@ func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticle)
 	return
 }
-func (ctrl *cArticle) ListArticle(c *gin.Context)           {}
-func (ctrl *cArticle) AjaxListArticle(c *gin.Context)       {}
+
+// ListArticle
+//
+// @Title ListArticle
+// @Description: 渲染文章信息列表页面
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2025-06-16 09:20:00
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) ListArticle(c *gin.Context) {
+	system.Render(c, "admin/article/list.html", pongo2.Context{
+		"title": "文章信息列表",
+	})
+}
+
+// AjaxListArticle
+//
+// @Title AjaxListArticle
+// @Description: Ajax获取文章信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2025-06-16 09:20:00
+// @receiver ctrl
+// @param c
+func (ctrl *cArticle) AjaxListArticle(c *gin.Context) {
+	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
+	if err != nil {
+		start = 0
+	}
+
+	length, err := utils.ToInt(c.DefaultQuery("length", "10"))
+	if err != nil {
+		length = 10
+	}
+
+	output := services.NewArticleService().ShowArticle(dto.ListArticleInput{
+		Order:  "id desc",
+		Start:  start,
+		Length: length,
+	})
+
+	if output.Code == 1 {
+		system.EmptyJSON(c)
+		return
+	}
+
+	data := output.Data.(dto.ListArticleOutput)
+	c.JSON(http.StatusOK, gin.H{
+		"draw":            c.Query("draw"),
+		"data":            data.List,
+		"recordsTotal":    data.Total,
+		"recordsFiltered": data.Total,
+	})
+}
+
 func (ctrl *cArticle) EditArticle(c *gin.Context)           {}
 func (ctrl *cArticle) HandleAjaxEditArticle(c *gin.Context) {}

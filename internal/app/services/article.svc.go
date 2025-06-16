@@ -1,6 +1,7 @@
 package services
 
 import (
+	"ice_flame_gin/internal/app/db"
 	"ice_flame_gin/internal/app/dto"
 	"ice_flame_gin/internal/app/models/model"
 	"ice_flame_gin/internal/app/repositories"
@@ -749,5 +750,47 @@ func (svc *sArticle) CreateArticle(in *dto.ArticleInput) *system.SysResponse {
 		Code:    0,
 		Message: "success",
 		Data:    nil,
+	}
+}
+
+// ShowArticle
+//
+// @Title ShowArticle
+// @Description: 文章信息列表
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2025-06-16 09:35:00
+// @receiver svc
+// @param in
+// @return *system.SysResponse
+func (svc *sArticle) ShowArticle(in dto.ListArticleInput) *system.SysResponse {
+	list, err := repositories.NewArticle().GetList(db.GetListOptions{
+		Order:  in.Order,
+		Start:  in.Start,
+		Length: in.Length,
+	})
+
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+
+	totalRecords, err := repositories.NewArticle().CountRecords()
+	if err != nil {
+		return &system.SysResponse{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+	return &system.SysResponse{
+		Code:    0,
+		Message: "success",
+		Data: dto.ListArticleOutput{
+			List:  list,
+			Total: totalRecords,
+		},
 	}
 }
