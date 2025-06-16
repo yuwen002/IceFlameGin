@@ -1289,7 +1289,7 @@ func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 	if output.Code == 1 {
 		system.AddFlashData(c, output.Message, "fail")
 	} else {
-		system.AddFlashData(c, "添加文章标签信息成功", "success")
+		system.AddFlashData(c, "添加文章信息成功", "success")
 	}
 
 	system.RedirectGet(c, paths.AdminRoot+paths.AdminCreateArticle)

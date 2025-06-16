@@ -6,6 +6,7 @@ import (
 	"ice_flame_gin/internal/app/repositories"
 	"ice_flame_gin/internal/pkg/utils"
 	"ice_flame_gin/internal/system"
+	"time"
 )
 
 // sArticle
@@ -715,6 +716,10 @@ func (svc *sArticle) GetArticleTagAll() *system.SysResponse {
 // @return *system.SysResponse
 func (svc *sArticle) CreateArticle(in *dto.ArticleInput) *system.SysResponse {
 	status, _ := utils.ToInt32(in.Status)
+
+	if in.PubDate.IsZero() {
+		in.PubDate = time.Now()
+	}
 
 	err := repositories.NewArticle().Insert(&model.Article{
 		ChannelID:   in.ChannelId,
