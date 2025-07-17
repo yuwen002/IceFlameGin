@@ -15,28 +15,33 @@ import (
 	"strings"
 )
 
-// cArticle
-//
-// @Description: 文章管理
+// cArticle 文章管理控制器
+// @Description: 文章管理相关的控制器，处理文章、分类、频道和标签相关的操作
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2024-04-10 00:13:44
 type cArticle struct {
 	pageNotFound string
 }
 
-// Article 初始化文章管理控制器
+// Article 文章管理控制器实例
+// @Description: 文章管理控制器的全局实例
 var Article = &cArticle{
 	pageNotFound: paths.AdminRoot + paths.Admin404,
 }
 
 // CreateArticleCategory
-//
-// @Title CreateArticleCategory
-// @Description: 渲染新建文章分类页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-10 00:17:11
-// @receiver ctrl
-// @param c
+// @Summary         创建文章分类页面
+// @Description     渲染新建文章分类的页面，提供分类创建表单
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-category/create [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-10 00:17:11
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) CreateArticleCategory(c *gin.Context) {
 	// 从会话中获取成功信息
 	success := system.GetFlashedData(c, "success")
@@ -72,13 +77,20 @@ func (ctrl *cArticle) CreateArticleCategory(c *gin.Context) {
 }
 
 // HandleCreateArticleCategory
-//
-// @Title HandleCreateArticleCategory
-// @Description: 处理新建文章分类页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-10 00:18:49
-// @receiver ctrl
-// @param c
+// @Summary         处理文章分类创建请求
+// @Description     处理新建文章分类的表单提交，验证数据并保存分类信息
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           form body validators.ArticleCategoryForm true "分类表单数据"
+// @Success         200 {object} system.SysResponse "成功响应"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-category/create [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-10 00:18:49
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 	var form validators.ArticleCategoryForm
 	if err := c.ShouldBind(&form); err != nil {
@@ -139,13 +151,20 @@ func (ctrl *cArticle) HandleCreateArticleCategory(c *gin.Context) {
 }
 
 // AjaxListArticleCategoryJson
-//
-// @Title AjaxListArticleCategoryJson
-// @Description: Ajax 通过一级分类 ID 查询对应的二级分类
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-06-01 00:34:56
-// @receiver ctrl
-// @param c
+// @Summary         查询二级分类
+// @Description     Ajax请求，通过一级分类ID查询对应的二级分类
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           fid formData string true "一级分类ID"
+// @Success         200 {object} system.SysResponse "成功响应"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-category/list-json [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-06-01 00:34:56
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) AjaxListArticleCategoryJson(c *gin.Context) {
 	firstCategory := c.Query("category_id")
 	toFirstCategory, err := utils.ToUint32(firstCategory)
@@ -174,13 +193,18 @@ func (ctrl *cArticle) AjaxListArticleCategoryJson(c *gin.Context) {
 }
 
 // ListArticleCategory
-//
-// @Title ListArticleCategory
-// @Description: 渲染文章分类信息列表页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-14 00:58:17
-// @receiver ctrl
-// @param c
+// @Summary         文章分类列表
+// @Description     渲染文章分类信息列表页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-category [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-14 00:58:17
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) ListArticleCategory(c *gin.Context) {
 	// 渲染文章分类信息列表页面
 	system.Render(c, "admin/article_category/list.html", pongo2.Context{
@@ -189,13 +213,19 @@ func (ctrl *cArticle) ListArticleCategory(c *gin.Context) {
 }
 
 // AjaxListArticleCategory
-//
-// @Title AjaxListArticleCategory
-// @Description: Ajax获取文章分类信息列表
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-14 00:57:55
-// @receiver ctrl
-// @param c
+// @Summary         获取分类列表
+// @Description     Ajax请求获取文章分类信息列表
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Success         200 {object} system.SysResponse "成功响应"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-category/list [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-14 00:57:55
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) AjaxListArticleCategory(c *gin.Context) {
 	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
 	if err != nil {
@@ -228,13 +258,18 @@ func (ctrl *cArticle) AjaxListArticleCategory(c *gin.Context) {
 }
 
 // EditArticleCategory
-//
-// @Title EditArticleCategory
-// @Description: 渲染文章分类信息编辑页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-14 22:40:14
-// @receiver ctrl
-// @param c
+// @Summary         编辑文章分类
+// @Description     渲染文章分类信息编辑页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-category/edit [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-14 22:40:14
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) EditArticleCategory(c *gin.Context) {
 	id, err := utils.ToInt(c.Query("id"))
 	if err != nil {
@@ -283,13 +318,20 @@ func (ctrl *cArticle) EditArticleCategory(c *gin.Context) {
 }
 
 // HandleAjaxEditArticleCategory
-//
-// @Title HandleAjaxEditArticleCategory
-// @Description: Ajax处理编辑管文章分类信息请求
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-14 22:54:49
-// @receiver ctrl
-// @param c
+// @Summary         处理分类编辑
+// @Description     Ajax处理文章分类信息编辑请求
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           form body validators.ArticleCategoryForm true "分类表单数据"
+// @Success         200 {object} system.SysResponse "编辑成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-category/edit [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-14 22:54:49
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandleAjaxEditArticleCategory(c *gin.Context) {
 	id := c.Query("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -357,13 +399,21 @@ func (ctrl *cArticle) HandleAjaxEditArticleCategory(c *gin.Context) {
 }
 
 // HandleAjaxEditStatusArticleCategory
-//
-// @Title HandleAjaxEditStatusArticleCategory
-// @Description: Ajax处理编辑管文章分类状态信息请求
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-21 16:53:22
-// @receiver ctrl
-// @param c
+// @Summary         修改分类状态
+// @Description     Ajax处理文章分类状态修改请求
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           id formData string true "分类ID"
+// @Param           status formData uint32 true "状态值"
+// @Success         200 {object} system.SysResponse "修改成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-category/status [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-21 16:53:22
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandleAjaxEditStatusArticleCategory(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -411,13 +461,20 @@ func (ctrl *cArticle) HandleAjaxEditStatusArticleCategory(c *gin.Context) {
 }
 
 // HandelAjaxDeleteArticleCategory
-//
-// @Title HandelAjaxDeleteArticleCategory
-// @Description: Ajax处理删除管文章分类信息请求
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-21 16:52:13
-// @receiver ctrl
-// @param c
+// @Summary         删除文章分类
+// @Description     Ajax请求处理，删除指定的文章分类
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           id formData string true "分类ID"
+// @Success         200 {object} system.SysResponse "删除成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-category/delete [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-21 16:52:13
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandelAjaxDeleteArticleCategory(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -451,13 +508,18 @@ func (ctrl *cArticle) HandelAjaxDeleteArticleCategory(c *gin.Context) {
 }
 
 // CreateArticleChannel
-//
-// @Title CreateArticleChannel
-// @Description: 渲染新建文章频道页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-17 23:34:13
-// @receiver ctrl
-// @param c
+// @Summary         创建文章频道页面
+// @Description     渲染新建文章频道页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-channel/create [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-17 23:34:13
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) CreateArticleChannel(c *gin.Context) {
 	// 从会话中获取成功信息
 	success := system.GetFlashedData(c, "success")
@@ -480,13 +542,20 @@ func (ctrl *cArticle) CreateArticleChannel(c *gin.Context) {
 }
 
 // HandelCreateArticleChannel
-//
-// @Title HandelCreateArticleChannel
-// @Description: 处理新建文章频道页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-17 23:40:37
-// @receiver ctrl
-// @param c
+// @Summary         创建文章频道
+// @Description     处理新建文章频道的表单提交，验证数据并保存频道信息
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           form body validators.ArticleChannelForm true "频道表单数据"
+// @Success         200 {object} system.SysResponse "创建成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-channel/create [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-17 23:40:37
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandelCreateArticleChannel(c *gin.Context) {
 	var form validators.ArticleChannelForm
 	if err := c.ShouldBind(&form); err != nil {
@@ -541,13 +610,18 @@ func (ctrl *cArticle) HandelCreateArticleChannel(c *gin.Context) {
 }
 
 // ListArticleChannel
-//
-// @Title ListArticleChannel
-// @Description: 渲染文章频道信息列表页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-20 01:03:30
-// @receiver ctrl
-// @param c
+// @Summary         频道列表
+// @Description     渲染文章频道信息列表页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-channel [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-20 01:03:30
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) ListArticleChannel(c *gin.Context) {
 	// 渲染文章频道信息列表页面
 	system.Render(c, "admin/article_channel/list.html", pongo2.Context{
@@ -556,13 +630,19 @@ func (ctrl *cArticle) ListArticleChannel(c *gin.Context) {
 }
 
 // AjaxListArticleChannel
-//
-// @Title AjaxListArticleChannel
-// @Description: Ajax获取文章分类信息列表
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-20 01:03:55
-// @receiver ctrl
-// @param c
+// @Summary         获取频道列表
+// @Description     Ajax请求获取文章频道信息列表
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Success         200 {object} system.SysResponse "成功响应"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-channel/list [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-20 01:03:55
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) AjaxListArticleChannel(c *gin.Context) {
 	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
 	if err != nil {
@@ -595,13 +675,18 @@ func (ctrl *cArticle) AjaxListArticleChannel(c *gin.Context) {
 }
 
 // EditArticleChannel
-//
-// @Title EditArticleChannel
-// @Description: 渲染编辑文章频道信息页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-21 21:34:28
-// @receiver ctrl
-// @param c
+// @Summary         编辑频道
+// @Description     渲染文章频道信息编辑页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-channel/edit [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-21 21:34:28
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) EditArticleChannel(c *gin.Context) {
 	id, err := utils.ToInt(c.Query("id"))
 	if err != nil {
@@ -637,13 +722,20 @@ func (ctrl *cArticle) EditArticleChannel(c *gin.Context) {
 }
 
 // HandleAjaxEditArticleChannel
-//
-// @Title HandleAjaxEditArticleChannel
-// @Description: Ajax处理编辑管文章频道信息请求
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-21 21:35:32
-// @receiver ctrl
-// @param c
+// @Summary         处理频道编辑
+// @Description     Ajax处理文章频道信息编辑请求
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           form body validators.ArticleChannelForm true "频道表单数据"
+// @Success         200 {object} system.SysResponse "编辑成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-channel/edit [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-21 21:35:32
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandleAjaxEditArticleChannel(c *gin.Context) {
 	id := c.Query("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -704,13 +796,21 @@ func (ctrl *cArticle) HandleAjaxEditArticleChannel(c *gin.Context) {
 }
 
 // HandleAjaxEditStatusArticleChannel
-//
-// @Title HandleAjaxEditStatusArticleChannel
-// @Description: Ajax处理编辑管文章频道状态信息请求
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-21 16:54:28
-// @receiver ctrl
-// @param c
+// @Summary         修改频道状态
+// @Description     Ajax处理文章频道状态修改请求
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           id formData string true "频道ID"
+// @Param           status formData uint32 true "状态值"
+// @Success         200 {object} system.SysResponse "修改成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-channel/status [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-21 16:54:28
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandleAjaxEditStatusArticleChannel(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -758,13 +858,20 @@ func (ctrl *cArticle) HandleAjaxEditStatusArticleChannel(c *gin.Context) {
 }
 
 // HandleAjaxEditDeleteArticleChannel
-//
-// @Title HandleAjaxEditDeleteArticleChannel
-// @Description: Ajax处理删除管文章频道信息请求
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-21 21:35:51
-// @receiver ctrl
-// @param c
+// @Summary         删除频道
+// @Description     Ajax请求处理，删除指定的文章频道
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           id formData string true "频道ID"
+// @Success         200 {object} system.SysResponse "删除成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-channel/delete [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-21 21:35:51
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandleAjaxEditDeleteArticleChannel(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -798,13 +905,18 @@ func (ctrl *cArticle) HandleAjaxEditDeleteArticleChannel(c *gin.Context) {
 }
 
 // CreateArticleTag
-//
-// @Title CreateArticleTag
-// @Description: 渲染新建文章tag页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-22 23:58:01
-// @receiver ctrl
-// @param c
+// @Summary         创建文章标签页面
+// @Description     渲染新建文章标签页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-tag/create [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-22 23:58:01
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) CreateArticleTag(c *gin.Context) {
 	// 从会话中获取成功信息
 	success := system.GetFlashedData(c, "success")
@@ -827,13 +939,20 @@ func (ctrl *cArticle) CreateArticleTag(c *gin.Context) {
 }
 
 // HandelCreateArticleTag
-//
-// @Title HandelCreateArticleTag
-// @Description: 处理新建文章tag页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-28 23:12:18
-// @receiver ctrl
-// @param c
+// @Summary         创建文章标签
+// @Description     处理新建文章标签的表单提交
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           form body validators.ArticleTagForm true "标签表单数据"
+// @Success         200 {object} system.SysResponse "创建成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-tag/create [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-28 23:12:18
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
 	var form validators.ArticleTagForm
 	if err := c.ShouldBind(&form); err != nil {
@@ -889,12 +1008,18 @@ func (ctrl *cArticle) HandelCreateArticleTag(c *gin.Context) {
 }
 
 // ListArticleTag
-//
-// @Title ListArticleTag
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-04-30 23:57:56
-// @receiver ctrl
-// @param c
+// @Summary         标签列表
+// @Description     渲染文章标签信息列表页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-tag [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-04-30 23:57:56
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) ListArticleTag(c *gin.Context) {
 	// 渲染文章标签信息列表页面
 	system.Render(c, "admin/article_tag/list.html", pongo2.Context{
@@ -942,13 +1067,18 @@ func (ctrl *cArticle) AjaxListArticleTag(c *gin.Context) {
 }
 
 // EditArticleTag
-//
-// @Title EditArticleTag
-// @Description: 渲染文章标签信息编辑页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-02 00:05:18
-// @receiver ctrl
-// @param c
+// @Summary         编辑标签
+// @Description     渲染文章标签信息编辑页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article-tag/edit [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-05-02 00:05:18
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) EditArticleTag(c *gin.Context) {
 	id, err := utils.ToInt(c.Query("id"))
 	if err != nil {
@@ -1051,13 +1181,21 @@ func (ctrl *cArticle) HandelAjaxEditArticleTag(c *gin.Context) {
 }
 
 // HandelAjaxEditStatusArticleTag
-//
-// @Title HandelAjaxEditStatusArticleTag
-// @Description: Ajax处理文章标签状态
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-11 10:45:55
-// @receiver ctrl
-// @param c
+// @Summary         修改标签状态
+// @Description     Ajax处理文章标签状态修改请求
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           id formData string true "标签ID"
+// @Param           status formData uint32 true "状态值"
+// @Success         200 {object} system.SysResponse "修改成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-tag/status [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-05-11 10:45:55
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandelAjaxEditStatusArticleTag(c *gin.Context) {
 	id := c.Query("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -1119,13 +1257,20 @@ func (ctrl *cArticle) HandelAjaxEditStatusArticleTag(c *gin.Context) {
 }
 
 // HandelAjaxDeleteArticleTag
-//
-// @Title HandelAjaxDeleteArticleTag
-// @Description: Ajax删除文章标签
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-05-11 10:47:26
-// @receiver ctrl
-// @param c
+// @Summary         删除标签
+// @Description     Ajax请求处理，删除指定的文章标签
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           id formData string true "标签ID"
+// @Success         200 {object} system.SysResponse "删除成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article-tag/delete [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-05-11 10:47:26
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandelAjaxDeleteArticleTag(c *gin.Context) {
 	id := c.PostForm("id")
 	uint32ID, err := utils.ToUint32(id)
@@ -1229,13 +1374,20 @@ func (ctrl *cArticle) CreateArticle(c *gin.Context) {
 }
 
 // HandelCreateArticle
-//
-// @Title HandelCreateArticle
-// @Description: 处理新建文章g页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2024-06-25 11:04:46
-// @receiver ctrl
-// @param c
+// @Summary         创建文章
+// @Description     处理新建文章的表单提交
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Param           form body validators.ArticleForm true "文章表单数据"
+// @Success         200 {object} system.SysResponse "创建成功"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article/create [POST]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-06-25 11:04:46
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 	var form validators.ArticleForm
 	if err := c.ShouldBind(&form); err != nil {
@@ -1297,13 +1449,18 @@ func (ctrl *cArticle) HandelCreateArticle(c *gin.Context) {
 }
 
 // ListArticle
-//
-// @Title ListArticle
-// @Description: 渲染文章信息列表页面
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2025-06-16 09:20:00
-// @receiver ctrl
-// @param c
+// @Summary         文章列表
+// @Description     渲染文章信息列表页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Router          /admin/article [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2025-06-16 09:20:00
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) ListArticle(c *gin.Context) {
 	system.Render(c, "admin/article/list.html", pongo2.Context{
 		"title": "文章信息列表",
@@ -1311,13 +1468,19 @@ func (ctrl *cArticle) ListArticle(c *gin.Context) {
 }
 
 // AjaxListArticle
-//
-// @Title AjaxListArticle
-// @Description: Ajax获取文章信息列表
-// @Author liuxingyu <yuwen002@163.com>
-// @Date 2025-06-16 09:20:00
-// @receiver ctrl
-// @param c
+// @Summary         获取文章列表
+// @Description     Ajax请求获取文章信息列表
+// @Tags            文章管理
+// @Accept          json
+// @Produce         json
+// @Success         200 {object} system.SysResponse "成功响应"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article/list [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2025-06-16 09:20:00
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
 func (ctrl *cArticle) AjaxListArticle(c *gin.Context) {
 	start, err := utils.ToInt(c.DefaultQuery("start", "0"))
 	if err != nil {
