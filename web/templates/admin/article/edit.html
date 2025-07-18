@@ -1,0 +1,424 @@
+{% extends "../layout/admin_base.html" %}
+{% block header_link %}
+<link rel="stylesheet" href="/static/admin/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/static/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link href="/static/admin/plugins/summernote/summernote-bs4.min.css" rel="stylesheet">
+<link href="/static/admin/plugins/dropzone/min/dropzone.min.css" rel="stylesheet">
+{% endblock %}
+{% block content_header %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>文章</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="jumpToHome()">Home</a></li>
+          <li class="breadcrumb-item active">编辑文章</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+{% endblock %}
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- jquery validation -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">文章 <small>编辑</small></h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" onclick="location.reload();">
+                <i class="fas fa-sync-alt"></i>
+              </button>
+            </div>
+          </div>
+          {% if fail %}
+          <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
+            <div class="color-palette-set">
+              <div class="bg-danger color-palette text-center" style="width: 200px;">
+                <span>{{ fail }}</span></div>
+            </div>
+          </div>
+          {% endif %}
+          {% if success %}
+          <div class="col-sm-12 col-md-12 d-flex justify-content-center align-items-center">
+            <div class="color-palette-set">
+              <div class="bg-success color-palette text-center" style="width: 200px;">
+                <span>{{ success }}</span></div>
+            </div>
+          </div>
+          {% endif %}
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form id="form-info" method="post" action="/admin/article/create">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="channel">文章频道</label>
+                <select name="channel_id" class="form-control select2" style="width:100%;" id="channel">
+                  <option value="0">请选择频道</option>
+                  {% for channel in channel_select %}
+                  <option value="{{ channel.Key }}">{{ channel.Value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="first_category" class="col-md-2 control-label">文章分类</label>
+                <div class="col-md-10">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select name="first_category" class="form-control select2" style="width:100%;" id="first_category">
+                        <option value="">请选择一级分类</option>
+                        {% for category in category_select %}
+                        <option value="{{ category.Key }}">{{ category.Value }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-md-6" id="second_category_container" style="display: none;">
+                      <select name="second_category" class="form-control select2" style="width:100%;" id="second_category">
+                        <option value="">请选择二级分类</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                {% if err_msg["SecondCategory"] %}
+                <span class="text-danger">{{ err_msg["SecondCategory"] }}</span>
+                {% endif %}
+              </div>
+              <div class="form-group">
+                <label for="tags">文章标签</label>
+                <select name="tags" multiple="multiple"  class="form-control select2"  data-placeholder="请选择文章标签" style="width:100%;" id="tags">
+                  {% for tag in tag_select %}
+                  <option value="{{ tag.Key }}">{{ tag.Value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="title">文章标题</label>
+                <input type="text" name="title" class="form-control" id="title" placeholder="文章标题" value="{{ article.Title }}">
+                {% if err_msg["Title"] %}
+                <span class="text-danger">{{ err_msg["Title"] }}</span>
+                {% endif %}
+              </div>
+              <div class="form-group">
+                <label for="keyword">关键字</label>
+                <input type="text" name="keyword" class="form-control" id="keyword" placeholder="关键字" value="{{ article.Keyword }}">
+              </div>
+              <div class="form-group">
+                <label for="description">描述</label>
+                <input type="text" name="description" class="form-control" id="description" placeholder="描述" value="{{ article.Description }}">
+              </div>
+              <div class="form-group">
+                <label for="link">文章链接</label>
+                <input type="url" name="link" class="form-control" id="link" placeholder="文章链接" value="{{ article.Link }}">
+              </div>
+              <div class="form-group">
+                <label for="author">作者</label>
+                <input type="text" name="author" class="form-control" id="author" placeholder="作者" value="{{ article.Author }}">
+              </div>
+              <div class="form-group">
+                <label for="pub_date">日期</label>
+                <input type="date" name="pub_date" class="form-control" id="pub_date" placeholder="发布时间" value="{{ article.PubDate }}">
+              </div>
+              <div class="form-group">
+                <label for="keyword">缩略图</label>
+                <input id="thumbnail" name="thumbnail" type="hidden">
+                <div class="row" id="actions">
+                  <div class="col-lg-6">
+                    <div class="btn-group w-100">
+                                              <span class="btn btn-success col fileinput-button">
+                                                <i class="fas fa-plus"></i>
+                                                <span>Add files</span>
+                                              </span>
+                      <button class="btn btn-primary col start" type="button">
+                        <i class="fas fa-upload"></i>
+                        <span>Start upload</span>
+                      </button>
+                      <button class="btn btn-warning col cancel" type="reset">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Cancel upload</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 d-flex align-items-center">
+                    <div class="fileupload-process w-100">
+                      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="progress progress-striped active" id="total-progress" role="progressbar">
+                        <div class="progress-bar progress-bar-success" data-dz-uploadprogress style="width:0%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table table-striped files" id="previews">
+                  <div class="row mt-2" id="template">
+                    <div class="col-auto">
+                      <span class="preview"><img alt="" data-dz-thumbnail src="data:,"/></span>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                      <p class="mb-0">
+                        <span class="lead" data-dz-name></span>
+                        (<span data-dz-size></span>)
+                      </p>
+                      <strong class="error text-danger" data-dz-errormessage></strong>
+                    </div>
+                    <div class="col-4 d-flex align-items-center">
+                      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="progress progress-striped active w-100" role="progressbar">
+                        <div class="progress-bar progress-bar-success" data-dz-uploadprogress style="width:0%;"></div>
+                      </div>
+                    </div>
+                    <div class="col-auto d-flex align-items-center">
+                      <div class="btn-group">
+                        <button class="btn btn-primary start" type="button">
+                          <i class="fas fa-upload"></i>
+                          <span>Start</span>
+                        </button>
+                        <button class="btn btn-warning cancel" data-dz-remove>
+                          <i class="fas fa-times-circle"></i>
+                          <span>Cancel</span>
+                        </button>
+                        <button class="btn btn-danger delete" data-dz-remove>
+                          <i class="fas fa-trash"></i>
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="summary">摘要</label>
+                <textarea name="summary" id="summary"  class="form-control" rows="3" placeholder="摘要 ...">{{ article.Summary }}</textarea>
+              </div>
+              <div class="form-group">
+                <label for="content">内容</label>
+                <textarea id="content" name="content">{{ article.Content }}</textarea>
+              </div>
+              <div class="form-group">
+                <label for="click">点击量</label>
+                <input class="form-control" id="click" name="click" placeholder="点击量" type="text" value="{{ article.Click }}">
+              </div>
+              <div class="form-group">
+                <label>显示状态</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" id="visible" name="status" value="0">
+                  <label class="form-check-label" for="visible">可见</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" id="hidden" name="status" value="1">
+                  <label class="form-check-label" for="hidden">隐藏</label>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">提交信息</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-6">
+
+      </div>
+      <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+{% endblock %}
+{% block content_js %}
+<script src="/static/admin/plugins/select2/js/select2.full.min.js"></script>
+<script src="/static/admin/plugins/summernote/summernote-bs4.min.js"></script>
+<script src="/static/admin/plugins/dropzone/min/dropzone.min.js"></script>
+<script>
+  $(function () {
+    let statusDefaultValue = "{{ article.Status }}";
+    if (statusDefaultValue === "1") {
+      $('input[name="status"][value="1"]').prop('checked', true);
+    } else {
+      $('input[name="status"][value="0"]').prop('checked', true);
+    }
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    $('#channel').val("{{ ginContext|old:'channel_id' }}");
+
+    // 分类
+    $('#first_category').change(function () {
+      const categoryId = $(this).val();
+      const $secondCategoryContainer = $('#second_category_container');
+      const $secondCategory = $('#second_category');
+
+      if (categoryId === 0) {
+        $secondCategoryContainer.hide(); // 如果选择的值为0，隐藏二级分类
+      } else {
+        $.getJSON("/admin/article-category/ajax/secondary", {"category_id": categoryId}, function(data) {
+          if (data.code === 0) {
+            $secondCategory.empty(); // 清除之前的选项
+            $secondCategory.append('<option value="0">二级分类</option>'); // 添加默认选项
+
+            data.data.forEach(item => {
+              $secondCategory.append(`<option value="${item.Key}">${item.Value}</option>`);
+            });
+
+            $secondCategoryContainer.show(); // 成功加载数据后显示二级分类
+          }
+        });
+      }
+    });
+
+    let defaultValue = "{{ ginContext|old:'status' }}"
+    if (defaultValue === "") {
+      $('input[name="status"][value="1"]').prop('checked', true)
+    } else {
+      $('input[name="status"][value="' + defaultValue + '"]').prop('checked', true)
+    }
+
+    $.validator.setDefaults({
+      submitHandler: function (form) {
+        form.submit();
+      }
+    });
+
+
+    $('#form-info').validate({
+      rules: {
+        name: {
+          required: true,
+          minlength: 2,
+          maxlength: 120
+        },
+        sort: {
+          number: true
+        }
+      },
+      messages: {
+        title: {
+          required: "请输入文章标题",
+          minlength: "分类名称长度不能小于2位",
+          maxlength: "分类名称长度不能大于50位"
+        },
+        first_category: {
+          required: "请选择一级文章分类不能为空",
+        },
+        second_category: {
+          required: "请选择二级文章分类不能为空"
+        },
+      },
+      ignore:":hidden:not(select)",
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+      }
+    });
+  });
+
+  $('#content').summernote({
+    height: 500,
+    callbacks: {
+      onImageUpload: function (files) {
+        // 创建表单数据对象
+        let formData = new FormData();
+        formData.append('file', files[0]);
+
+        // 发送文件到服务器
+        fetch('/admin/upload/file', {
+          method: 'POST',
+          body: formData
+        })
+                .then(response => response.json())
+                .then(data => {
+                  // 在编辑器中插入图片
+                  $('#content').summernote('insertImage', data.url);
+                })
+                .catch(error => console.error('Error uploading file:', error));
+      }
+    }
+  });
+
+  // DropzoneJS Demo Code Start
+  Dropzone.autoDiscover = false
+
+  // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+  var previewNode = document.querySelector("#template")
+  previewNode.id = ""
+  var previewTemplate = previewNode.parentNode.innerHTML
+  previewNode.parentNode.removeChild(previewNode)
+
+  var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+    url: "/admin/upload/image", // Set the url
+    thumbnailWidth: 80,
+    thumbnailHeight: 80,
+    parallelUploads: 20,
+    maxFiles: 1,
+    previewTemplate: previewTemplate,
+    autoQueue: false, // Make sure the files aren't queued until manually added
+    previewsContainer: "#previews", // Define the container to display the previews
+    clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+    acceptedFiles: ".jpg,.gif,.png,.jpeg",
+    dictInvalidFileType: "文件类型只能是*.jpg,*.gif,*.png,*.jpeg",
+    init: function () {
+      this.on("success", function (file, response) {
+        // 处理服务器返回的文件 URL
+        let fileUrl = response.url;
+        $("#thumbnail").val(fileUrl)
+        console.log("File URL:", fileUrl);
+      });
+      this.on("removedfile", function (file) {
+        // 清空已上传文件，确保每次只上传一个文件
+        myDropzone.removeAllFiles(true);
+        // 同时清空input元素的值
+        $("#thumbnail").val('');
+      });
+    },
+  })
+
+  myDropzone.on("addedfile", function (file) {
+    // Hookup the start button
+    file.previewElement.querySelector(".start").onclick = function () {
+      myDropzone.enqueueFile(file)
+    }
+  })
+
+  // Update the total progress bar
+  myDropzone.on("totaluploadprogress", function (progress) {
+    document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+  })
+
+  myDropzone.on("sending", function (file) {
+    // Show the total progress bar when upload starts
+    document.querySelector("#total-progress").style.opacity = "1"
+    // And disable the start button
+    file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+  })
+
+  // Hide the total progress bar when nothing'svc uploading anymore
+  myDropzone.on("queuecomplete", function (progress) {
+    document.querySelector("#total-progress").style.opacity = "0"
+  })
+
+  // Setup the buttons for all transfers
+  // The "add files" button doesn't need to be setup because the config
+  // `clickable` has already been specified.
+  document.querySelector("#actions .start").onclick = function () {
+    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+  }
+  document.querySelector("#actions .cancel").onclick = function () {
+    $("#thumbnail").val("")
+    myDropzone.removeAllFiles(true)
+  }
+</script>
+{% endblock %}

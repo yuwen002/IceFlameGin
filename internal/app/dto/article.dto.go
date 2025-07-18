@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"ice_flame_gin/internal/app/models/association"
 	"ice_flame_gin/internal/app/models/model"
 	"time"
 )
@@ -142,6 +143,6 @@ type ListArticleInput struct {
 // @Author liuxingyu <yuwen002@163.com>
 // @Date 2025-06-16 09:30:00
 type ListArticleOutput struct {
-	List  []*model.Article
+	List  []*association.Article
 	Total int64
 }

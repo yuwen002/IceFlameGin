@@ -794,3 +794,31 @@ func (svc *sArticle) ShowArticle(in dto.ListArticleInput) *system.SysResponse {
 		},
 	}
 }
+
+// GetArticleByID
+//
+// @Title GetArticleByID
+// @Description: 按ID获取文章信息
+// @Author liuxingyu <yuwen002@163.com>
+// @Date 2025-06-16 09:35:00
+// @receiver svc
+// @param id
+// @return *system.SysResponse
+func (svc *sArticle) GetArticleByID(id uint32) *system.SysResponse {
+	// 根据ID获取文章信息
+	article, err := repositories.NewArticle().GetByID(id)
+	if err != nil {
+		// 获取失败时返回错误响应
+		return &system.SysResponse{
+			Code:    1,
+			Message: "获取文章信息失败: " + err.Error(),
+			Data:    nil,
+		}
+	}
+	// 返回成功响应及文章数据
+	return &system.SysResponse{
+		Code:    0,
+		Message: "获取文章信息成功",
+		Data:    article,
+	}
+}

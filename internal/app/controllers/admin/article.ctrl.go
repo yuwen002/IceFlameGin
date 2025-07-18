@@ -1512,5 +1512,84 @@ func (ctrl *cArticle) AjaxListArticle(c *gin.Context) {
 	})
 }
 
-func (ctrl *cArticle) EditArticle(c *gin.Context)           {}
+// EditArticle
+// @Summary         编辑文章
+// @Description     渲染文章信息编辑页面
+// @Tags            文章管理
+// @Accept          html
+// @Produce         html
+// @Param           id query string true "文章ID"
+// @Success         200 {object} pongo2.Context "成功渲染页面"
+// @Failure         400 {object} system.SysResponse "参数错误"
+// @Router          /admin/article/edit [GET]
+// @Security        JWT
+// @Author          liuxingyu <yuwen002@163.com>
+// @Date            2024-06-25 11:04:46
+// @receiver        ctrl
+// @param           c gin.Context 上下文对象
+func (ctrl *cArticle) EditArticle(c *gin.Context) {
+	id, err := utils.ToUint32(c.Query("id"))
+	if err != nil {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	output := services.NewArticleService().GetArticleByID(id)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	article, ok := output.Data.(*model.Article)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 分类信息
+	output = services.NewArticleService().ShowArticleCategoryByFID(0)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	categorySelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 频道信息
+	output = services.NewArticleService().GetArticleChannelAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	channelSelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 标签信息
+	output = services.NewArticleService().GetArticleTagAll()
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	tagSelect, ok := output.Data.([]*dto.SelectOptionOutput)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	// 渲染文章标签信息列表页面
+	system.Render(c, "admin/article/edit.html", pongo2.Context{
+		"title":           "编辑文章信息",
+		"article":         article,
+		"channel_select":  channelSelect,
+		"category_select": categorySelect,
+		"tag_select":      tagSelect,
+	})
+}
 func (ctrl *cArticle) HandleAjaxEditArticle(c *gin.Context) {}
