@@ -79,9 +79,12 @@
                         {% endfor %}
                       </select>
                     </div>
-                    <div class="col-md-6" id="second_category_container" style="display: none;">
+                    <div class="col-md-6" id="second_category_container">
                       <select name="second_category" class="form-control select2" style="width:100%;" id="second_category">
                         <option value="">请选择二级分类</option>
+                        {% for category in sub_category %}
+                        <option value="{{ category.Key }}">{{ category.Value }}</option>
+                        {% endfor %}
                       </select>
                     </div>
                   </div>
@@ -246,8 +249,17 @@
     }
 
     //Initialize Select2 Elements
-    $('.select2').select2()
-    $('#channel').val("{{ ginContext|old:'channel_id' }}");
+    // 初始化 Select2
+    $('.select2').select2();
+    
+    // 设置频道的默认值
+    $('#channel').val("{{ article.ChannelId }}").trigger('change.select2');
+
+    // 设置一级分类的默认值
+    $('#first_category').val("{{ category_current.Fid }}").trigger('change.select2');
+    
+    // 设置二级分类的默认值
+    $('#second_category').val("{{ article.CategoryID }}").trigger('change.select2');
 
     // 分类
     $('#first_category').change(function () {

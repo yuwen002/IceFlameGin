@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/flosch/pongo2/v6"
 	"github.com/gin-gonic/gin"
 	"ice_flame_gin/internal/app/dto"
@@ -1559,6 +1560,31 @@ func (ctrl *cArticle) EditArticle(c *gin.Context) {
 		return
 	}
 
+	// 一级分类选择信息
+	output = services.NewArticleService().GetArticleCategoryByID(article.CategoryID)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
+	categoryCurrent, ok := output.Data.(*model.ArticleCategory)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	// 二级分类选择信息
+	output = services.NewArticleService().ShowArticleCategoryByFID(categoryCurrent.Fid)
+	if output.Code == 1 {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+	subCategory, ok := output.Data.([]*dto.SelectOptionOutput)
+	fmt.Println("formatfff", subCategory)
+	if !ok {
+		system.RedirectGet(c, ctrl.pageNotFound)
+		return
+	}
+
 	// 频道信息
 	output = services.NewArticleService().GetArticleChannelAll()
 	if output.Code == 1 {
@@ -1585,11 +1611,13 @@ func (ctrl *cArticle) EditArticle(c *gin.Context) {
 
 	// 渲染文章标签信息列表页面
 	system.Render(c, "admin/article/edit.html", pongo2.Context{
-		"title":           "编辑文章信息",
-		"article":         article,
-		"channel_select":  channelSelect,
-		"category_select": categorySelect,
-		"tag_select":      tagSelect,
+		"title":            "编辑文章信息",
+		"article":          article,
+		"channel_select":   channelSelect,
+		"category_select":  categorySelect,
+		"category_current": categoryCurrent,
+		"sub_category":     subCategory,
+		"tag_select":       tagSelect,
 	})
 }
 func (ctrl *cArticle) HandleAjaxEditArticle(c *gin.Context) {}
