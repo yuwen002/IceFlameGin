@@ -1579,7 +1579,6 @@ func (ctrl *cArticle) EditArticle(c *gin.Context) {
 		return
 	}
 	subCategory, ok := output.Data.([]*dto.SelectOptionOutput)
-	fmt.Println("formatfff", subCategory)
 	if !ok {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
@@ -1608,7 +1607,7 @@ func (ctrl *cArticle) EditArticle(c *gin.Context) {
 		system.RedirectGet(c, ctrl.pageNotFound)
 		return
 	}
-
+	fmt.Println(article)
 	// 渲染文章标签信息列表页面
 	system.Render(c, "admin/article/edit.html", pongo2.Context{
 		"title":            "编辑文章信息",

@@ -253,7 +253,13 @@
     $('.select2').select2();
     
     // 设置频道的默认值
-    $('#channel').val("{{ article.ChannelId }}").trigger('change.select2');
+    $('#channel').val("{{ article.ChannelID }}").trigger('change.select2');
+
+    let selectedTagIds = [{{ article.Tags }}];
+    $('#tags').val(selectedTagIds);
+    if ($.fn.select2) {
+      $('#tags').trigger('change');
+    }
 
     // 设置一级分类的默认值
     $('#first_category').val("{{ category_current.Fid }}").trigger('change.select2');
